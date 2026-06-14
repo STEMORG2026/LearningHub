@@ -49,7 +49,7 @@
     .icon-green{background:rgba(0,232,162,.15)}
     .icon-purple{background:rgba(168,85,247,.15)}
     .class-header-info .grade-badge{display:inline-block;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);border-radius:50px;padding:.2rem .8rem;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
-    .class-header-info h2{font-size:1.5rem;margin-bottom:.3rem}
+    .class-header-info h2{font-size:1.5rem;margin-bottom:.3rem;margin-top:0}
     .class-header-info p{color:var(--muted);font-size:.95rem;line-height:1.6;max-width:500px}
     .class-detail-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;padding:0}
     .detail-block{padding:1.6rem 2rem;border-right:1px solid var(--border)}
@@ -58,6 +58,17 @@
     .detail-items{display:flex;flex-wrap:wrap;gap:.4rem}
     .detail-pill{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.3rem .7rem;font-size:.85rem;color:var(--white)}
     .detail-pill.highlight{background:rgba(26,111,255,.12);border-color:rgba(26,111,255,.3);color:var(--cyan)}
+
+    /* CLASS RESOURCES */
+    .class-resources{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-top:2rem}
+    .resources-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:1rem;color:var(--green)}
+    .resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+    .resource-item{background:rgba(0,232,162,.08);border:1px solid rgba(0,232,162,.25);border-radius:12px;padding:1rem;text-align:center;transition:border-color .2s}
+    .resource-item:hover{border-color:var(--green)}
+    .resource-icon{font-size:1.8rem;margin-bottom:.4rem}
+    .resource-label{color:var(--muted);font-size:.85rem;margin-bottom:.6rem}
+    .resource-link{display:inline-flex;align-items:center;gap:.4rem;color:var(--green);text-decoration:none;font-weight:600;font-size:.9rem;transition:color .2s}
+    .resource-link:hover{color:var(--cyan)}
 
     /* TIMINGS TABLE */
     #timings{background:var(--navy2)}
@@ -78,8 +89,16 @@
     .cta-strip{background:linear-gradient(135deg,rgba(26,111,255,.15),rgba(0,212,255,.08));border:1px solid rgba(26,111,255,.25);border-radius:24px;padding:3rem 2.5rem;text-align:center;margin-top:2rem}
     .cta-strip h2{margin-bottom:.6rem}
     .cta-strip p{color:var(--muted);margin-bottom:1.8rem}
-    .btn-primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.85rem 2.2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(26,111,255,.4);display:inline-block}
+    .btn-primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.85rem 2.2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(26,111,255,.4);display:inline-block;border:none;cursor:pointer}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(26,111,255,.6)}
+
+    /* SOCIAL LINKS */
+    .social-links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;justify-content:center}
+    .social-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.2rem;border-radius:50px;text-decoration:none;font-weight:600;font-size:.9rem;transition:transform .2s;border:none;cursor:pointer}
+    .social-youtube{background:#ff0000;color:#fff}
+    .social-youtube:hover{transform:translateY(-2px)}
+    .social-facebook{background:#1877F2;color:#fff}
+    .social-facebook:hover{transform:translateY(-2px)}
 
     /* FOOTER */
     footer{background:rgba(0,0,0,.3);border-top:1px solid var(--border);padding:2.5rem 6%}
@@ -111,7 +130,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="classes.html" class="active">Classes</a></li>
-      <li><a href="videos.html">Videos</a></li>
+      <li><a href="videos.html">Videos & Notes</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
     <div style="display:flex;gap:1rem;align-items:center;">
@@ -125,20 +144,20 @@
   <div class="page-hero">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
-    <span class="section-tag">📚 Our Classes</span>
-    <h1>Every Grade.<br><span class="accent">Every Subject.</span></h1>
-    <p class="page-sub">Structured tution for all grades — up to Grade 8 all subjects, Grade 9–10 SEE prep, Grade 11–12 NEB prep.</p>
+    <span class="section-tag">🎓 Detailed Class Info</span>
+    <h1>Explore Our <span class="accent">Classes & Programs</span></h1>
+    <p class="page-sub">Comprehensive details about each class, subjects covered, batch timings, and downloadable resources. Choose the right class for your grade and goals.</p>
   </div>
 
+  <!-- CLASS 1: FOUNDATION (1-8) -->
   <section>
-    <!-- CLASS 1: Up to Grade 8 -->
     <div class="class-detail reveal">
       <div class="class-detail-header blue">
-        <div class="class-icon icon-blue">📚</div>
+        <div class="class-icon icon-blue">🔢</div>
         <div class="class-header-info">
-          <span class="grade-badge">Up to Grade 8</span>
-          <h2>All Subjects</h2>
-          <p>Complete academic support covering all subjects — Mathematics, Science, English, Nepali, Social Studies and everything else your child needs.</p>
+          <span class="grade-badge">Grade 1 – 8</span>
+          <h2>Foundation STEM</h2>
+          <p>Building strong STEM foundations — All subjects including Mathematics, Science, English, Nepali, and Social Studies with interactive, concept-based learning.</p>
         </div>
       </div>
       <div class="class-detail-body">
@@ -150,36 +169,64 @@
             <span class="detail-pill">English</span>
             <span class="detail-pill">Nepali</span>
             <span class="detail-pill">Social Studies</span>
-            <span class="detail-pill">All Subjects</span>
+          </div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Focus Areas</div>
+          <div class="detail-items">
+            <span class="detail-pill highlight">Core Concepts</span>
+            <span class="detail-pill highlight">Problem Solving</span>
+            <span class="detail-pill">Critical Thinking</span>
+            <span class="detail-pill">Language Skills</span>
           </div>
         </div>
         <div class="detail-block">
           <div class="detail-label">Learning Modes</div>
           <div class="detail-items">
-            <span class="detail-pill highlight">🏠 Home Tution</span>
-            <span class="detail-pill highlight">👥 Group Tution</span>
-            <span class="detail-pill highlight">💻 Online</span>
+            <span class="detail-pill">🏠 Home Tution</span>
+            <span class="detail-pill">👥 Group Tution</span>
+            <span class="detail-pill">💻 Online</span>
+            <span class="detail-pill">📝 Notes</span>
           </div>
         </div>
-        <div class="detail-block">
-          <div class="detail-label">Resources</div>
-          <div class="detail-items">
-            <span class="detail-pill">📝 Study Notes</span>
-            <span class="detail-pill">Practice Sheets</span>
-            <span class="detail-pill">Unit Tests</span>
+      </div>
+
+      <!-- RESOURCES FOR GRADE 1-8 -->
+      <div class="class-resources reveal">
+        <div class="resources-title">📚 Class Resources</div>
+        <div class="resources-grid">
+          <div class="resource-item">
+            <div class="resource-icon">📋</div>
+            <div class="resource-label">Syllabus PDF</div>
+            <a href="https://drive.google.com/file/placeholder-syllabus-1-8" target="_blank" class="resource-link">Download →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">📖</div>
+            <div class="resource-label">Chapter Notes</div>
+            <a href="https://drive.google.com/folder/placeholder-notes-1-8" target="_blank" class="resource-link">Access Drive →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">✍️</div>
+            <div class="resource-label">Practice Sheets</div>
+            <a href="https://drive.google.com/folder/placeholder-practice-1-8" target="_blank" class="resource-link">Download →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">🎥</div>
+            <div class="resource-label">Video Lessons</div>
+            <a href="videos.html" class="resource-link">Watch Now →</a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CLASS 2: Grade 9-10 -->
+    <!-- CLASS 2: SEE PREP (9-10) -->
     <div class="class-detail reveal">
       <div class="class-detail-header green">
-        <div class="class-icon icon-green">🎯</div>
+        <div class="class-icon icon-green">⚙️</div>
         <div class="class-header-info">
           <span class="grade-badge">Grade 9 – 10</span>
-          <h2>SEE Preparation</h2>
-          <p>Targeted SEE board exam coaching — Science, Mathematics, and Language subjects (English & Nepali) with past paper practice and mock tests.</p>
+          <h2>SEE Board Preparation</h2>
+          <p>Complete Secondary Education Exam (SEE) preparation — Science, Mathematics, and Language subjects with practice tests, past papers, and exam-focused strategies.</p>
         </div>
       </div>
       <div class="class-detail-body">
@@ -190,6 +237,7 @@
             <span class="detail-pill">Mathematics</span>
             <span class="detail-pill">English</span>
             <span class="detail-pill">Nepali</span>
+            <span class="detail-pill">Social Studies</span>
           </div>
         </div>
         <div class="detail-block">
@@ -198,6 +246,7 @@
             <span class="detail-pill highlight">SEE Board</span>
             <span class="detail-pill">Mock Tests</span>
             <span class="detail-pill">Past Papers</span>
+            <span class="detail-pill">Exam Strategy</span>
           </div>
         </div>
         <div class="detail-block">
@@ -210,16 +259,43 @@
           </div>
         </div>
       </div>
+
+      <!-- RESOURCES FOR GRADE 9-10 -->
+      <div class="class-resources reveal">
+        <div class="resources-title">📚 Class Resources</div>
+        <div class="resources-grid">
+          <div class="resource-item">
+            <div class="resource-icon">📋</div>
+            <div class="resource-label">SEE Syllabus</div>
+            <a href="https://drive.google.com/file/placeholder-syllabus-910" target="_blank" class="resource-link">Download →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">📖</div>
+            <div class="resource-label">Complete Notes</div>
+            <a href="https://drive.google.com/folder/placeholder-notes-910" target="_blank" class="resource-link">Access Drive →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">📄</div>
+            <div class="resource-label">Past Papers</div>
+            <a href="https://drive.google.com/folder/placeholder-pastpapers-910" target="_blank" class="resource-link">Download →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">🎯</div>
+            <div class="resource-label">Mock Tests</div>
+            <a href="https://drive.google.com/folder/placeholder-mocktests-910" target="_blank" class="resource-link">Access →</a>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- CLASS 3: Grade 11-12 -->
+    <!-- CLASS 3: NEB PREP (11-12) -->
     <div class="class-detail reveal">
       <div class="class-detail-header purple">
         <div class="class-icon icon-purple">⚗️</div>
         <div class="class-header-info">
           <span class="grade-badge">Grade 11 – 12</span>
           <h2>NEB Science Stream</h2>
-          <p>Advanced NEB board preparation — Physics, Chemistry, Mathematics, and Language subjects with deep concept building, derivations and numerical problem solving.</p>
+          <p>Advanced NEB board preparation — Physics, Chemistry, Mathematics, and Language subjects with deep concept building, derivations and numerical problem solving for entrance exams.</p>
         </div>
       </div>
       <div class="class-detail-body">
@@ -239,6 +315,7 @@
             <span class="detail-pill highlight">NEB Board</span>
             <span class="detail-pill">IOE Entrance</span>
             <span class="detail-pill">IOM Entrance</span>
+            <span class="detail-pill">Derivations</span>
           </div>
         </div>
         <div class="detail-block">
@@ -251,48 +328,79 @@
           </div>
         </div>
       </div>
+
+      <!-- RESOURCES FOR GRADE 11-12 -->
+      <div class="class-resources reveal">
+        <div class="resources-title">📚 Class Resources</div>
+        <div class="resources-grid">
+          <div class="resource-item">
+            <div class="resource-icon">📋</div>
+            <div class="resource-label">NEB Syllabus</div>
+            <a href="https://drive.google.com/file/placeholder-syllabus-1112" target="_blank" class="resource-link">Download →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">📖</div>
+            <div class="resource-label">Complete Notes</div>
+            <a href="https://drive.google.com/folder/placeholder-notes-1112" target="_blank" class="resource-link">Access Drive →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">📐</div>
+            <div class="resource-label">Derivations</div>
+            <a href="https://drive.google.com/folder/placeholder-derivations" target="_blank" class="resource-link">Download →</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">💯</div>
+            <div class="resource-label">Entrance Prep</div>
+            <a href="https://drive.google.com/folder/placeholder-entrance" target="_blank" class="resource-link">Access →</a>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
   <section id="timings">
     <div class="reveal">
       <span class="section-tag">⏰ Batch Timings</span>
       <h2>Choose Your Slot</h2>
-      <p style="color:var(--muted);margin-top:.6rem;">Contact us to confirm available slots — batches fill up quickly!</p>
+      <p style="color:var(--muted);margin-top:.6rem;">Available batches for all grades. Contact us to confirm your preferred slot — batches fill up quickly!</p>
     </div>
     <div class="timings-grid">
       <div class="timing-card reveal">
         <div class="timing-time">6:00 AM – 8:00 AM</div>
         <div class="timing-label">☀️ Early Morning Batch</div>
-        <div class="timing-desc">Perfect for students who prefer learning before school hours.</div>
+        <div class="timing-desc">Perfect for students who prefer learning before school hours. Good for focus and fresh minds.</div>
       </div>
       <div class="timing-card reveal">
         <div class="timing-time">4:00 PM – 6:00 PM</div>
         <div class="timing-label">🌆 After-School Batch</div>
-        <div class="timing-desc">Most popular slot — ideal for school-going students.</div>
+        <div class="timing-desc">Most popular slot — ideal for school-going students. Perfect transition after school.</div>
       </div>
       <div class="timing-card reveal">
         <div class="timing-time">6:00 PM – 8:00 PM</div>
         <div class="timing-label">🌙 Evening Batch</div>
-        <div class="timing-desc">Great for Grade 11–12 students with busier daytime schedules.</div>
+        <div class="timing-desc">Great for Grade 11–12 students with busier daytime schedules and exam prep focus.</div>
       </div>
     </div>
 
     <div class="fees-note reveal">
       <div class="fees-note-icon">💡</div>
-      <p><strong>Note on Fees:</strong> Fees vary by grade and subject. Contact us directly at <strong>+977 9768021317</strong> or <strong>gurungsajan0228@gmail.com</strong> for the current fee structure. We believe quality education should be accessible — ask us about any available discounts.</p>
+      <p><strong>Note on Fees:</strong> Fees vary by grade and subject. Contact us directly at <strong>+977 9768021317</strong> or <strong>gurungsajan0228@gmail.com</strong> for the current fee structure. We believe quality education should be accessible — ask us about any available discounts or flexible payment options.</p>
     </div>
   </section>
 
+  <!-- LEARNINGHUB STEM BANNER -->
   <section>
-    <!-- LEARNINGHUB STEM BANNER -->
     <div style="background:linear-gradient(135deg,rgba(26,111,255,.12),rgba(0,232,162,.06));border:1px solid rgba(0,232,162,.25);border-radius:24px;padding:2.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;" class="reveal">
       <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;">🚀</div>
       <div style="flex:1;min-width:200px;">
         <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.3rem;">Free Resource</div>
         <div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.4rem;">LearningHub STEM</div>
-        <p style="color:var(--muted);font-size:.95rem;line-height:1.6;">Want to go deeper? Follow our free social page for in-depth STEM concept explanations, advanced topic breakdowns, and detailed lessons — completely free for everyone.</p>
+        <p style="color:var(--muted);font-size:.95rem;line-height:1.6;">Want to go deeper? Follow our free social pages for in-depth STEM concept explanations, advanced topic breakdowns, and detailed lessons — completely free for everyone.</p>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="social-btn social-youtube">▶️ YouTube</a>
+          <a href="https://www.facebook.com/LearningHubSTEM" target="_blank" class="social-btn social-facebook">📘 Facebook</a>
+        </div>
       </div>
-      <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" style="background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.75rem 1.8rem;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none;white-space:nowrap;flex-shrink:0;">▶️ Follow Free →</a>
     </div>
 
     <div class="cta-strip reveal">
@@ -313,7 +421,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="classes.html">Classes</a></li>
-          <li><a href="videos.html">Videos</a></li>
+          <li><a href="videos.html">Videos & Notes</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
@@ -322,8 +430,8 @@
         <ul>
           <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
           <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube – LearningHub STEM</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">🚀 Free STEM Content</a></li>
+          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube Channel</a></li>
+          <li><a href="https://www.facebook.com/LearningHubSTEM" target="_blank">📘 Facebook Page</a></li>
         </ul>
       </div>
     </div>

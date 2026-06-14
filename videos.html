@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Videos – STEM Tution Pokhara</title>
+  <title>Videos & Notes – STEM Tution Pokhara</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -32,30 +32,38 @@
     .accent{background:linear-gradient(135deg,var(--cyan),var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .page-sub{color:var(--muted);font-size:1.05rem;max-width:500px;margin:.8rem auto 0;line-height:1.7}
 
-    /* CHANNEL BANNER */
+    /* CONTENT */
     section{padding:4rem 6%;position:relative}
-    .channel-banner{background:linear-gradient(135deg,rgba(255,0,0,.1),rgba(255,0,0,.04));border:1px solid rgba(255,80,80,.25);border-radius:24px;padding:2.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
-    .channel-icon{width:80px;height:80px;background:linear-gradient(135deg,#ff0000,#cc0000);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0}
-    .channel-info h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
-    .channel-info p{color:var(--muted);font-size:.95rem;line-height:1.6;max-width:480px}
-    .btn-youtube{display:inline-flex;align-items:center;gap:.5rem;background:#ff0000;color:#fff;padding:.7rem 1.6rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:.95rem;margin-top:1rem;transition:transform .2s,box-shadow .2s;box-shadow:0 0 20px rgba(255,0,0,.3)}
-    .btn-youtube:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(255,0,0,.5)}
+    h2{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800}
+    h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.8rem;margin-top:2rem}
 
-    /* FILTER TABS */
-    .filter-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem}
-    .tab{background:var(--card);border:1px solid var(--border);border-radius:50px;padding:.4rem 1.1rem;font-size:.88rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s}
-    .tab:hover,.tab.active{background:rgba(26,111,255,.15);border-color:var(--blue);color:var(--white)}
+    /* CHANNEL BANNER */
+    .channel-banner{background:linear-gradient(135deg,rgba(26,111,255,.12),rgba(0,212,255,.08));border:1px solid rgba(0,212,255,.25);border-radius:24px;padding:2.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+    .channel-icon{width:80px;height:80px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0}
+    .channel-info h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.3rem;margin-top:0}
+    .channel-info p{color:var(--muted);font-size:.95rem;line-height:1.6;max-width:480px}
+    .btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.7rem 1.6rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:.95rem;margin-top:1rem;transition:transform .2s,box-shadow .2s;box-shadow:0 0 20px rgba(26,111,255,.3)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(26,111,255,.5)}
+
+    /* TABS */
+    .tabs-container{margin-bottom:2rem}
+    .tab-buttons{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem;border-bottom:1px solid var(--border);padding-bottom:1rem}
+    .tab-btn{background:transparent;border:none;color:var(--muted);padding:.5rem 1rem;font-size:.95rem;font-weight:600;cursor:pointer;transition:color .25s;border-bottom:2px solid transparent;position:relative;bottom:-1rem}
+    .tab-btn.active{color:var(--white);border-bottom-color:var(--blue)}
+    .tab-btn:hover{color:var(--white)}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
 
     /* VIDEO GRID */
-    .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-bottom:2rem}
     .video-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .3s,border-color .3s}
     .video-card:hover{transform:translateY(-4px);border-color:rgba(0,212,255,.3)}
 
-    /* REAL EMBED */
+    /* VIDEO EMBED */
     .video-embed{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
     .video-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
 
-    /* PLACEHOLDER for videos not yet added */
+    /* PLACEHOLDER */
     .video-placeholder{background:rgba(255,255,255,.03);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;cursor:pointer;position:relative;overflow:hidden}
     .video-placeholder::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,111,255,.08),rgba(0,212,255,.04))}
     .play-btn{width:56px;height:56px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);transition:background .2s}
@@ -66,19 +74,58 @@
     .video-subject{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--cyan);margin-bottom:.3rem}
     .video-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;line-height:1.3;margin-bottom:.4rem}
     .video-desc{color:var(--muted);font-size:.85rem;line-height:1.5}
-    .video-meta{display:flex;gap:.8rem;margin-top:.8rem}
+    .video-meta{display:flex;gap:.8rem;margin-top:.8rem;flex-wrap:wrap}
     .video-tag{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;padding:.2rem .6rem;font-size:.75rem;color:var(--muted)}
 
-    /* HOW TO ADD */
-    .how-to-add{background:rgba(0,232,162,.05);border:1px solid rgba(0,232,162,.2);border-radius:16px;padding:1.5rem 2rem;margin-top:3rem}
-    .how-to-add h3{font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.6rem;color:var(--green)}
-    .how-to-add p{color:var(--muted);font-size:.9rem;line-height:1.7}
-    .how-to-add code{background:rgba(255,255,255,.08);padding:.15rem .4rem;border-radius:4px;font-family:monospace;font-size:.85rem;color:var(--cyan)}
+    /* NOTES SECTION */
+    .notes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem}
+    .notes-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.6rem;transition:border-color .3s,transform .3s}
+    .notes-card:hover{border-color:var(--green);transform:translateY(-2px)}
+    .notes-icon{width:48px;height:48px;background:rgba(0,232,162,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+    .notes-grade{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:.3rem}
+    .notes-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.4rem}
+    .notes-desc{color:var(--muted);font-size:.9rem;line-height:1.5;margin-bottom:1rem}
+    .notes-link{display:inline-flex;align-items:center;gap:.4rem;color:var(--cyan);text-decoration:none;font-weight:600;font-size:.9rem;transition:color .2s}
+    .notes-link:hover{color:var(--green)}
 
-    /* SUBSCRIBE STRIP */
-    .subscribe-strip{background:linear-gradient(135deg,rgba(255,0,0,.1),rgba(255,50,50,.04));border:1px solid rgba(255,80,80,.2);border-radius:24px;padding:3rem;text-align:center;margin-top:2rem}
-    h2{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800}
-    .subscribe-strip p{color:var(--muted);margin:.6rem 0 1.8rem}
+    /* SYLLABUS SECTION */
+    #syllabus{background:var(--navy2)}
+    .syllabus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem}
+    .syllabus-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;text-align:center;transition:border-color .3s}
+    .syllabus-card:hover{border-color:var(--cyan)}
+    .syllabus-grade{font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem}
+    .syllabus-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:1rem}
+    .syllabus-subjects{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+    .subject-item{color:var(--muted);font-size:.9rem}
+    .download-btn{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.3);color:var(--cyan);padding:.5rem 1rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:background .2s,border-color .2s}
+    .download-btn:hover{background:rgba(0,212,255,.2);border-color:var(--cyan)}
+
+    /* REVIEWS SECTION */
+    #reviews{background:var(--navy)}
+    .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:2rem}
+    .review-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.6rem}
+    .review-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem}
+    .review-avatar{width:48px;height:48px;background:linear-gradient(135deg,var(--cyan),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:1.1rem}
+    .review-info{}
+    .review-name{font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.2rem}
+    .review-meta{font-size:.8rem;color:var(--muted)}
+    .review-stars{color:#ffc107;font-size:.9rem;margin-bottom:.6rem;letter-spacing:.2em}
+    .review-text{color:var(--muted);font-size:.9rem;line-height:1.6}
+
+    /* REVIEW FORM */
+    .review-form{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-top:2rem}
+    .review-form h3{margin-top:0}
+    .form-group{margin-bottom:1.5rem}
+    .form-label{display:block;font-weight:600;margin-bottom:.5rem;font-size:.95rem}
+    .form-input,.form-textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:.8rem;color:var(--white);font-family:inherit;font-size:.95rem;transition:border-color .2s}
+    .form-input:focus,.form-textarea:focus{outline:none;border-color:var(--cyan)}
+    .form-textarea{resize:vertical;min-height:120px}
+    .star-rating{display:flex;gap:.5rem}
+    .star-btn{background:none;border:none;font-size:2rem;cursor:pointer;color:var(--muted);transition:color .2s}
+    .star-btn:hover{color:#ffc107}
+    .star-btn.active{color:#ffc107}
+    .submit-btn{background:linear-gradient(135deg,var(--green),var(--cyan));color:var(--navy);padding:.75rem 1.8rem;border:none;border-radius:50px;font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .2s}
+    .submit-btn:hover{transform:translateY(-2px)}
 
     footer{background:rgba(0,0,0,.3);border-top:1px solid var(--border);padding:2.5rem 6%}
     .footer-inner{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start;margin-bottom:2rem}
@@ -98,6 +145,9 @@
       .hamburger{display:flex}
       .channel-banner{flex-direction:column}
       .video-grid{grid-template-columns:1fr}
+      .reviews-grid{grid-template-columns:1fr}
+      .syllabus-grid{grid-template-columns:1fr}
+      .tab-buttons{overflow-x:auto}
     }
   </style>
 </head>
@@ -108,7 +158,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="classes.html">Classes</a></li>
-      <li><a href="videos.html" class="active">Videos</a></li>
+      <li><a href="videos.html" class="active">Videos & Notes</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
     <div style="display:flex;gap:1rem;align-items:center;">
@@ -122,117 +172,386 @@
   <div class="page-hero">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
-    <span class="section-tag">▶️ Free Video Lessons</span>
-    <h1>Learn at Your<br><span class="accent">Own Pace</span></h1>
-    <p class="page-sub">Free supplementary video lessons on our YouTube channel — watch, revise, and stay ahead.</p>
+    <span class="section-tag">📚 Learning Resources</span>
+    <h1>Videos, Notes & <span class="accent">Study Materials</span></h1>
+    <p class="page-sub">Free sample videos from our classes, downloadable notes, syllabi, and learning resources. Plus, follow our YouTube channel for unlimited STEM content!</p>
   </div>
 
+  <!-- LEARNINGHUB STEM CHANNEL BANNER -->
   <section>
-    <!-- CHANNEL BANNER -->
     <div class="channel-banner reveal">
-      <div class="channel-icon">▶</div>
+      <div class="channel-icon">🎓</div>
       <div class="channel-info">
-        <h2>LearningHub STEM</h2>
-        <p>Our YouTube channel with free lessons on Mathematics, Physics, and Chemistry. Subscribe to get notified when new videos drop — great for revision and catching up on missed topics.</p>
-        <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="btn-youtube">▶️ Visit Our Channel</a>
+        <h2>Free Content on LearningHub STEM</h2>
+        <p>Access 100+ free videos on our YouTube channel covering advanced STEM concepts, problem-solving techniques, and deep-dive explanations — completely free for everyone!</p>
+        <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="btn-primary">▶️ Watch on YouTube →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLE VIDEOS -->
+  <section>
+    <div class="reveal">
+      <span class="section-tag">🎬 Sample Videos</span>
+      <h2>Watch Sample Classes</h2>
+      <p style="color:var(--muted);margin-top:.6rem;">Here are some sample videos from our teaching. Click to watch on YouTube or use the embedded players below.</p>
+    </div>
+
+    <div class="tabs-container">
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('grade9')">Grade 9-10</button>
+        <button class="tab-btn" onclick="switchTab('grade11')">Grade 11-12</button>
+        <button class="tab-btn" onclick="switchTab('concepts')">Advanced Concepts</button>
+      </div>
+
+      <!-- GRADE 9-10 VIDEOS -->
+      <div id="grade9" class="tab-content active">
+        <div class="video-grid">
+          <!-- Video 1 - YouTube Embed -->
+          <div class="video-card reveal">
+            <div class="video-embed">
+              <iframe src="https://www.youtube.com/embed/placeholder1" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Mathematics</div>
+              <div class="video-title">Quadratic Equations Explained</div>
+              <div class="video-desc">Complete understanding of quadratic equations with real-world examples and problem-solving tricks.</div>
+              <div class="video-meta">
+                <span class="video-tag">Grade 9-10</span>
+                <span class="video-tag">30 mins</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video 2 - Placeholder -->
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Click to watch</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Science</div>
+              <div class="video-title">Chemical Reactions Basics</div>
+              <div class="video-desc">Introduction to chemical reactions, balancing equations, and types of reactions explained simply.</div>
+              <div class="video-meta">
+                <span class="video-tag">Grade 9-10</span>
+                <span class="video-tag">25 mins</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video 3 - Placeholder -->
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Coming Soon</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">English</div>
+              <div class="video-title">Essay Writing Guide</div>
+              <div class="video-desc">Master the art of essay writing with structure, flow, and grammar tips for board exams.</div>
+              <div class="video-meta">
+                <span class="video-tag">Grade 9-10</span>
+                <span class="video-tag">20 mins</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRADE 11-12 VIDEOS -->
+      <div id="grade11" class="tab-content">
+        <div class="video-grid">
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Watch on YouTube</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Physics</div>
+              <div class="video-title">Circular Motion & Gravitation</div>
+              <div class="video-desc">Advanced concepts in circular motion, gravitational force, and orbital mechanics explained with derivations.</div>
+              <div class="video-meta">
+                <span class="video-tag">Grade 11-12</span>
+                <span class="video-tag">45 mins</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Click to watch</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Chemistry</div>
+              <div class="video-title">Organic Chemistry Fundamentals</div>
+              <div class="video-desc">IUPAC naming, functional groups, and reaction mechanisms for NEB board preparation.</div>
+              <div class="video-meta">
+                <span class="video-tag">Grade 11-12</span>
+                <span class="video-tag">50 mins</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Watch on YouTube</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Mathematics</div>
+              <div class="video-title">Calculus: Limits & Derivatives</div>
+              <div class="video-desc">Complete derivation of limits, continuity, and derivatives with applications and solved problems.</div>
+              <div class="video-meta">
+                <span class="video-tag">Grade 11-12</span>
+                <span class="video-tag">60 mins</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADVANCED CONCEPTS -->
+      <div id="concepts" class="tab-content">
+        <div class="video-grid">
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Advanced Content</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Concepts</div>
+              <div class="video-title">Quantum Physics Basics</div>
+              <div class="video-desc">Introduction to quantum mechanics, wave-particle duality, and Schrödinger equation explained intuitively.</div>
+              <div class="video-meta">
+                <span class="video-tag">Advanced</span>
+                <span class="video-tag">40 mins</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Watch on YouTube</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Concepts</div>
+              <div class="video-title">Relativity & Space-Time</div>
+              <div class="video-desc">Einstein's theory of relativity, time dilation, and the nature of gravity - made simple.</div>
+              <div class="video-meta">
+                <span class="video-tag">Advanced</span>
+                <span class="video-tag">35 mins</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-card reveal">
+            <div class="video-placeholder">
+              <div class="play-btn">▶️</div>
+              <div class="placeholder-label">Coming Soon</div>
+            </div>
+            <div class="video-info">
+              <div class="video-subject">Concepts</div>
+              <div class="video-title">AI & Machine Learning Intro</div>
+              <div class="video-desc">Understanding artificial intelligence, neural networks, and machine learning fundamentals.</div>
+              <div class="video-meta">
+                <span class="video-tag">Advanced</span>
+                <span class="video-tag">50 mins</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTES SECTION -->
+  <section style="background:var(--navy2);">
+    <div class="reveal">
+      <span class="section-tag">📝 Study Notes</span>
+      <h2>Downloadable Notes & Study Materials</h2>
+      <p style="color:var(--muted);margin-top:.6rem;">Complete study notes, practice worksheets, and revision materials for all subjects and grades. Download from our Google Drive.</p>
+    </div>
+
+    <div class="notes-grid">
+      <div class="notes-card reveal">
+        <div class="notes-icon">📐</div>
+        <div class="notes-grade">Grade 9-10</div>
+        <div class="notes-title">Mathematics Notes</div>
+        <div class="notes-desc">Complete chapter-wise notes covering Algebra, Geometry, Trigonometry, and Statistics with solved examples.</div>
+        <a href="https://drive.google.com/folder/placeholder-math-910" target="_blank" class="notes-link">📥 Download Notes →</a>
+      </div>
+
+      <div class="notes-card reveal">
+        <div class="notes-icon">🧪</div>
+        <div class="notes-grade">Grade 9-10</div>
+        <div class="notes-title">Science Notes</div>
+        <div class="notes-desc">Physics, Chemistry, and Biology notes with diagrams, formulas, and important questions for SEE preparation.</div>
+        <a href="https://drive.google.com/folder/placeholder-science-910" target="_blank" class="notes-link">📥 Download Notes →</a>
+      </div>
+
+      <div class="notes-card reveal">
+        <div class="notes-icon">📚</div>
+        <div class="notes-grade">Grade 11-12</div>
+        <div class="notes-title">Physics (NEB)</div>
+        <div class="notes-desc">Advanced Physics notes covering Mechanics, Waves, Optics, Electromagnetism, Modern Physics with all derivations.</div>
+        <a href="https://drive.google.com/folder/placeholder-physics-1112" target="_blank" class="notes-link">📥 Download Notes →</a>
+      </div>
+
+      <div class="notes-card reveal">
+        <div class="notes-icon">⚗️</div>
+        <div class="notes-grade">Grade 11-12</div>
+        <div class="notes-title">Chemistry (NEB)</div>
+        <div class="notes-desc">Organic Chemistry, Inorganic Chemistry, and Physical Chemistry notes with reaction mechanisms and IUPAC naming.</div>
+        <a href="https://drive.google.com/folder/placeholder-chemistry-1112" target="_blank" class="notes-link">📥 Download Notes →</a>
+      </div>
+
+      <div class="notes-card reveal">
+        <div class="notes-icon">∑</div>
+        <div class="notes-grade">Grade 11-12</div>
+        <div class="notes-title">Mathematics (NEB)</div>
+        <div class="notes-desc">Calculus, Algebra, Vectors, and 3D Geometry notes with proof methods and problem-solving strategies.</div>
+        <a href="https://drive.google.com/folder/placeholder-math-1112" target="_blank" class="notes-link">📥 Download Notes →</a>
+      </div>
+
+      <div class="notes-card reveal">
+        <div class="notes-icon">✍️</div>
+        <div class="notes-grade">All Grades</div>
+        <div class="notes-title">Practice Worksheets</div>
+        <div class="notes-desc">Subject-wise practice sheets, MCQ collections, and assignment papers for regular practice and revision.</div>
+        <a href="https://drive.google.com/folder/placeholder-worksheets" target="_blank" class="notes-link">📥 Download Worksheets →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYLLABUS SECTION -->
+  <section id="syllabus">
+    <div class="reveal">
+      <span class="section-tag">📋 Syllabus Documents</span>
+      <h2>Download Syllabus & Curriculum</h2>
+      <p style="color:var(--muted);margin-top:.6rem;">Complete syllabus documents for all grades aligned with Nepal's national curriculum (NEB & SEE).</p>
+    </div>
+
+    <div class="syllabus-grid">
+      <div class="syllabus-card reveal">
+        <div class="syllabus-grade">Grade 1-8</div>
+        <div class="syllabus-title">Foundation STEM</div>
+        <div class="syllabus-subjects">
+          <div class="subject-item">✓ Mathematics</div>
+          <div class="subject-item">✓ Science</div>
+          <div class="subject-item">✓ English</div>
+          <div class="subject-item">✓ Nepali</div>
+          <div class="subject-item">✓ Social Studies</div>
+        </div>
+        <a href="https://drive.google.com/file/placeholder-syllabus-1-8" target="_blank" class="download-btn">📥 Download</a>
+      </div>
+
+      <div class="syllabus-card reveal">
+        <div class="syllabus-grade">Grade 9-10 (SEE)</div>
+        <div class="syllabus-title">SEE Board Prep</div>
+        <div class="syllabus-subjects">
+          <div class="subject-item">✓ Science</div>
+          <div class="subject-item">✓ Mathematics</div>
+          <div class="subject-item">✓ English</div>
+          <div class="subject-item">✓ Nepali</div>
+          <div class="subject-item">✓ Social Studies</div>
+        </div>
+        <a href="https://drive.google.com/file/placeholder-syllabus-910" target="_blank" class="download-btn">📥 Download</a>
+      </div>
+
+      <div class="syllabus-card reveal">
+        <div class="syllabus-grade">Grade 11-12 (NEB)</div>
+        <div class="syllabus-title">NEB Science Stream</div>
+        <div class="syllabus-subjects">
+          <div class="subject-item">✓ Physics</div>
+          <div class="subject-item">✓ Chemistry</div>
+          <div class="subject-item">✓ Mathematics</div>
+          <div class="subject-item">✓ English</div>
+          <div class="subject-item">✓ Nepali</div>
+        </div>
+        <a href="https://drive.google.com/file/placeholder-syllabus-1112" target="_blank" class="download-btn">📥 Download</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS SECTION -->
+  <section id="reviews">
+    <div class="reveal">
+      <span class="section-tag">⭐ Student Reviews</span>
+      <h2>What Students Say</h2>
+      <p style="color:var(--muted);margin-top:.6rem;">Anonymous reviews from our students. Share your experience below!</p>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-header">
+          <div class="review-avatar">A</div>
+          <div class="review-info">
+            <div class="review-name">Anonymous Student</div>
+            <div class="review-meta">Grade 10 • Mathematics</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"The concept-based teaching approach really helped me understand mathematics instead of just memorizing. My grades improved significantly!"</div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-header">
+          <div class="review-avatar">S</div>
+          <div class="review-info">
+            <div class="review-name">Anonymous Student</div>
+            <div class="review-meta">Grade 11 • Physics</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"The notes provided are comprehensive and well-organized. The doubt sessions every week were very helpful for clearing my concepts."</div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-header">
+          <div class="review-avatar">P</div>
+          <div class="review-info">
+            <div class="review-name">Anonymous Student</div>
+            <div class="review-meta">Grade 9 • Science</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★☆</div>
+        <div class="review-text">"Small class sizes mean individual attention. The tutor is very patient and explains difficult concepts in simple ways. Highly recommended!"</div>
       </div>
     </div>
 
-    <!-- FILTER TABS -->
-    <div class="filter-tabs reveal">
-      <div class="tab active" onclick="filterVideos('all',this)">All Videos</div>
-      <div class="tab" onclick="filterVideos('math',this)">Mathematics</div>
-      <div class="tab" onclick="filterVideos('physics',this)">Physics</div>
-      <div class="tab" onclick="filterVideos('chemistry',this)">Chemistry</div>
-      <div class="tab" onclick="filterVideos('science',this)">Science (1–10)</div>
-    </div>
-
-    <!-- VIDEO GRID -->
-    <!-- 
-      HOW TO ADD YOUR OWN VIDEOS:
-      1. Go to your YouTube video
-      2. Click Share → Embed → Copy the video ID from the URL
-         e.g. https://www.youtube.com/watch?v=VIDEO_ID_HERE
-      3. Replace PLACEHOLDER_ID below with your actual video ID
-      4. Update the title, subject and description
-    -->
-    <div class="video-grid" id="videoGrid">
-
-      <!-- PLACEHOLDER CARD 1 — Replace with your real video -->
-      <div class="video-card reveal" data-subject="math">
-        <div class="video-placeholder" onclick="window.open('https://www.youtube.com/@LearningHubSTEM','_blank')">
-          <div class="play-btn">▶</div>
-          <div class="placeholder-label">Watch on YouTube</div>
+    <!-- REVIEW FORM -->
+    <div class="review-form reveal">
+      <h3>Share Your Experience (Anonymous)</h3>
+      <p style="color:var(--muted);margin-bottom:1.5rem;">Help other students by sharing your honest feedback. Your review will be posted anonymously.</p>
+      
+      <form onsubmit="submitReview(event)">
+        <div class="form-group">
+          <label class="form-label">Your Grade/Subject</label>
+          <input type="text" class="form-input" placeholder="e.g., Grade 10 • Mathematics" required>
         </div>
-        <div class="video-info">
-          <div class="video-subject">Mathematics</div>
-          <div class="video-title">Your Video Title Here</div>
-          <div class="video-desc">Replace this placeholder with your real YouTube video embed. See instructions below.</div>
-          <div class="video-meta"><span class="video-tag">Grade 9–10</span><span class="video-tag">Algebra</span></div>
-        </div>
-      </div>
 
-      <!-- PLACEHOLDER CARD 2 -->
-      <div class="video-card reveal" data-subject="physics">
-        <div class="video-placeholder" onclick="window.open('https://www.youtube.com/@LearningHubSTEM','_blank')">
-          <div class="play-btn">▶</div>
-          <div class="placeholder-label">Watch on YouTube</div>
+        <div class="form-group">
+          <label class="form-label">Rating</label>
+          <div class="star-rating" id="starRating">
+            <button type="button" class="star-btn" onclick="setRating(1)">★</button>
+            <button type="button" class="star-btn" onclick="setRating(2)">★</button>
+            <button type="button" class="star-btn" onclick="setRating(3)">★</button>
+            <button type="button" class="star-btn" onclick="setRating(4)">★</button>
+            <button type="button" class="star-btn" onclick="setRating(5)">★</button>
+          </div>
+          <input type="hidden" id="ratingValue" value="5">
         </div>
-        <div class="video-info">
-          <div class="video-subject">Physics</div>
-          <div class="video-title">Your Video Title Here</div>
-          <div class="video-desc">Replace this placeholder with your real YouTube video embed. See instructions below.</div>
-          <div class="video-meta"><span class="video-tag">Grade 11–12</span><span class="video-tag">Mechanics</span></div>
-        </div>
-      </div>
 
-      <!-- PLACEHOLDER CARD 3 -->
-      <div class="video-card reveal" data-subject="chemistry">
-        <div class="video-placeholder" onclick="window.open('https://www.youtube.com/@LearningHubSTEM','_blank')">
-          <div class="play-btn">▶</div>
-          <div class="placeholder-label">Watch on YouTube</div>
+        <div class="form-group">
+          <label class="form-label">Your Review</label>
+          <textarea class="form-textarea" placeholder="Share your honest feedback about your learning experience..." required></textarea>
         </div>
-        <div class="video-info">
-          <div class="video-subject">Chemistry</div>
-          <div class="video-title">Your Video Title Here</div>
-          <div class="video-desc">Replace this placeholder with your real YouTube video embed. See instructions below.</div>
-          <div class="video-meta"><span class="video-tag">Grade 11–12</span><span class="video-tag">Organic</span></div>
-        </div>
-      </div>
 
-      <!-- PLACEHOLDER CARD 4 -->
-      <div class="video-card reveal" data-subject="science">
-        <div class="video-placeholder" onclick="window.open('https://www.youtube.com/@LearningHubSTEM','_blank')">
-          <div class="play-btn">▶</div>
-          <div class="placeholder-label">Watch on YouTube</div>
-        </div>
-        <div class="video-info">
-          <div class="video-subject">Science</div>
-          <div class="video-title">Your Video Title Here</div>
-          <div class="video-desc">Replace this placeholder with your real YouTube video embed. See instructions below.</div>
-          <div class="video-meta"><span class="video-tag">Grade 7–8</span><span class="video-tag">Matter</span></div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- HOW TO ADD REAL VIDEOS -->
-    <div class="how-to-add reveal">
-      <h3>📝 How to Add Your YouTube Videos Here</h3>
-      <p>
-        1. Go to any video on your YouTube channel.<br>
-        2. Click <strong>Share → Embed</strong> and copy the <code>src</code> URL — it looks like <code>https://www.youtube.com/embed/VIDEO_ID</code><br>
-        3. In this file (<code>videos.html</code>), find a placeholder card and replace the <code>&lt;div class="video-placeholder"&gt;</code> block with:<br><br>
-        <code>&lt;div class="video-embed"&gt;&lt;iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;</code><br><br>
-        4. Update the title, subject, description and tags. Save the file and re-upload to Netlify. Done! 🎉
-      </p>
-    </div>
-
-    <!-- SUBSCRIBE -->
-    <div class="subscribe-strip reveal">
-      <h2>Don't Miss a Video</h2>
-      <p>Subscribe to our channel and get free lesson notifications straight to your feed.</p>
-      <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="btn-youtube">▶️ Subscribe on YouTube</a>
+        <button type="submit" class="submit-btn">✓ Post Review</button>
+      </form>
     </div>
   </section>
 
@@ -247,17 +566,17 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="classes.html">Classes</a></li>
-          <li><a href="videos.html">Videos</a></li>
+          <li><a href="videos.html">Videos & Notes</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-links">
-        <h4>Contact & Links</h4>
+        <h4>Connect</h4>
         <ul>
           <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
           <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube – LearningHub STEM</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">🚀 Free STEM Content</a></li>
+          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube</a></li>
+          <li><a href="https://www.facebook.com/LearningHubSTEM" target="_blank">📘 Facebook</a></li>
         </ul>
       </div>
     </div>
@@ -265,18 +584,48 @@
   </footer>
 
   <script>
-    // Filter tabs
-    function filterVideos(subject, tabEl) {
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      tabEl.classList.add('active');
-      document.querySelectorAll('.video-card').forEach(card=>{
-        card.style.display = (subject==='all'||card.dataset.subject===subject) ? 'block' : 'none';
+    // Tab switching
+    function switchTab(tabName) {
+      const contents = document.querySelectorAll('.tab-content');
+      const buttons = document.querySelectorAll('.tab-btn');
+      
+      contents.forEach(c => c.classList.remove('active'));
+      buttons.forEach(b => b.classList.remove('active'));
+      
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Star rating
+    function setRating(rating) {
+      document.getElementById('ratingValue').value = rating;
+      const stars = document.querySelectorAll('.star-btn');
+      stars.forEach((star, i) => {
+        if (i < rating) star.classList.add('active');
+        else star.classList.remove('active');
       });
     }
-    // Scroll reveal
-    const reveals=document.querySelectorAll('.reveal');
-    const observer=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);observer.unobserve(e.target)}})},{threshold:.1});
-    reveals.forEach(el=>observer.observe(el));
+
+    // Review submission
+    function submitReview(e) {
+      e.preventDefault();
+      alert('Thank you for your review! It will be posted shortly.');
+      e.target.reset();
+      document.querySelectorAll('.star-btn').forEach(s => s.classList.remove('active'));
+      document.getElementById('ratingValue').value = 5;
+    }
+
+    // Reveal animations
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .1 });
+    reveals.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>

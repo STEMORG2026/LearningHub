@@ -47,7 +47,6 @@
     .ci-green{background:rgba(0,232,162,.15)}
     .ci-red{background:rgba(255,50,50,.12)}
     .ci-cyan{background:rgba(0,212,255,.12)}
-    .contact-card-info{}
     .contact-card-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.3rem}
     .contact-card-val{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem}
     .contact-card-sub{color:var(--muted);font-size:.85rem;margin-top:.2rem}
@@ -61,6 +60,15 @@
     .info-label{font-size:.8rem;color:var(--muted);margin-bottom:.15rem;text-transform:uppercase;letter-spacing:.07em}
     .info-val{font-size:.95rem;font-weight:500}
 
+    /* SOCIAL LINKS */
+    .social-panel{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-top:1.5rem}
+    .social-panel h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:1rem;color:var(--cyan)}
+    .social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:1rem}
+    .social-link{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:16px;padding:1rem;text-align:center;text-decoration:none;color:var(--white);transition:border-color .2s,background .2s}
+    .social-link:hover{border-color:var(--cyan);background:rgba(0,212,255,.08)}
+    .social-icon-large{font-size:2rem;margin-bottom:.6rem}
+    .social-label{font-size:.85rem;font-weight:600}
+
     /* AVAILABILITY */
     .avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-top:1.5rem}
     .avail-day{text-align:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.5rem .3rem}
@@ -71,26 +79,29 @@
     .avail-day.open .avail-dot{background:var(--green)}
     .avail-day.closed .avail-dot{background:var(--muted)}
 
+    /* ENQUIRY FORM */
+    #enquiry{background:var(--navy2)}
+    .form-container{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:3rem;max-width:500px;margin:2rem auto}
+    .form-group{margin-bottom:1.5rem}
+    .form-label{display:block;font-weight:600;margin-bottom:.5rem;font-size:.95rem}
+    .form-input,.form-textarea,.form-select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:.8rem;color:var(--white);font-family:inherit;font-size:.95rem;transition:border-color .2s}
+    .form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--cyan);background:rgba(0,212,255,.05)}
+    .form-textarea{resize:vertical;min-height:120px}
+    .form-select{cursor:pointer}
+    .submit-btn{width:100%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.85rem;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(26,111,255,.3)}
+    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(26,111,255,.5)}
+
     /* FAQ */
-    #faq{background:var(--navy2)}
+    #faq{background:var(--navy)}
     .faq-list{margin-top:2rem;display:flex;flex-direction:column;gap:1rem}
     .faq-item{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
     .faq-q{padding:1.2rem 1.5rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
     .faq-q:hover{background:rgba(255,255,255,.03)}
     .faq-q .arrow{font-size:.8rem;transition:transform .3s;color:var(--cyan)}
-    .faq-item.open .faq-q .arrow{transform:rotate(180deg)}
-    .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s}
-    .faq-item.open .faq-a{max-height:200px}
-    .faq-a-inner{padding:0 1.5rem 1.2rem;color:var(--muted);font-size:.95rem;line-height:1.7}
-
-    /* LOCATION */
-    .location-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-top:2rem;display:flex;align-items:flex-start;gap:1.2rem}
-    .location-icon{font-size:2rem;flex-shrink:0}
-    .location-card h3{font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.4rem}
-    .location-card p{color:var(--muted);font-size:.95rem;line-height:1.6}
-
-    .btn-primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.85rem 2.2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;display:inline-block;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(26,111,255,.4)}
-    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(26,111,255,.6)}
+    .faq-a{padding:0 1.5rem;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s}
+    .faq-item.active .faq-a{max-height:500px;padding:1.2rem 1.5rem;border-top:1px solid var(--border)}
+    .faq-item.active .arrow{transform:rotate(180deg)}
+    .faq-a p{color:var(--muted);font-size:.9rem;line-height:1.7;font-weight:400}
 
     footer{background:rgba(0,0,0,.3);border-top:1px solid var(--border);padding:2.5rem 6%}
     .footer-inner{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start;margin-bottom:2rem}
@@ -109,7 +120,8 @@
       .nav-links.open{display:flex}
       .hamburger{display:flex}
       .contact-layout{grid-template-columns:1fr}
-      .avail-grid{grid-template-columns:repeat(4,1fr)}
+      .form-container{padding:2rem}
+      .social-grid{grid-template-columns:repeat(2,1fr)}
     }
   </style>
 </head>
@@ -120,11 +132,11 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="classes.html">Classes</a></li>
-      <li><a href="videos.html">Videos</a></li>
+      <li><a href="videos.html">Videos & Notes</a></li>
       <li><a href="contact.html" class="active">Contact</a></li>
     </ul>
     <div style="display:flex;gap:1rem;align-items:center;">
-      <a href="tel:9768021317" class="nav-cta">📞 Call Now</a>
+      <a href="https://wa.me/9768021317?text=Hello!%20I'm%20interested%20in%20STEM%20Tution" target="_blank" class="nav-cta">WhatsApp Us</a>
       <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
         <span></span><span></span><span></span>
       </div>
@@ -134,171 +146,311 @@
   <div class="page-hero">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
-    <span class="section-tag">📬 Get In Touch</span>
-    <h1>We'd Love to<br><span class="accent">Hear From You</span></h1>
-    <p class="page-sub">Questions about classes, fees, or enrollment? Reach out — we respond quickly and are happy to help.</p>
+    <span class="section-tag">📞 Get In Touch</span>
+    <h1>Contact <span class="accent">STEM Tution</span></h1>
+    <p class="page-sub">Have questions about classes, fees, or enrollment? Reach out to us! We're here to help and respond to all inquiries within 24 hours.</p>
   </div>
 
+  <!-- CONTACT SECTION -->
   <section>
     <div class="contact-layout">
-
       <!-- LEFT: CONTACT CARDS -->
       <div class="contact-cards">
         <div class="reveal">
-          <span class="section-tag">📲 Contact Methods</span>
-          <h2 style="margin-bottom:1.2rem">Reach Out Directly</h2>
+          <a href="tel:+9768021317" class="contact-card">
+            <div class="contact-card-icon ci-blue">📞</div>
+            <div>
+              <div class="contact-card-label">Phone</div>
+              <div class="contact-card-val">+977 9768021317</div>
+              <div class="contact-card-sub">Available 9 AM – 8 PM daily</div>
+            </div>
+          </a>
         </div>
 
-        <a href="tel:9768021317" class="contact-card reveal">
-          <div class="contact-card-icon ci-blue">📞</div>
-          <div class="contact-card-info">
-            <div class="contact-card-label">Phone & WhatsApp</div>
-            <div class="contact-card-val">+977 9768021317</div>
-            <div class="contact-card-sub">Call or WhatsApp anytime — quickest response</div>
-          </div>
-        </a>
+        <div class="reveal">
+          <a href="mailto:gurungsajan0228@gmail.com" class="contact-card">
+            <div class="contact-card-icon ci-cyan">✉️</div>
+            <div>
+              <div class="contact-card-label">Email</div>
+              <div class="contact-card-val">gurungsajan0228@gmail.com</div>
+              <div class="contact-card-sub">Response within 24 hours</div>
+            </div>
+          </a>
+        </div>
 
-        <a href="mailto:gurungsajan0228@gmail.com" class="contact-card reveal">
-          <div class="contact-card-icon ci-green">✉️</div>
-          <div class="contact-card-info">
-            <div class="contact-card-label">Email</div>
-            <div class="contact-card-val">gurungsajan0228@gmail.com</div>
-            <div class="contact-card-sub">For detailed enquiries — we reply within 24 hours</div>
-          </div>
-        </a>
+        <div class="reveal">
+          <a href="https://wa.me/9768021317?text=Hello!%20I'm%20interested%20in%20STEM%20Tution" target="_blank" class="contact-card">
+            <div class="contact-card-icon ci-green">💬</div>
+            <div>
+              <div class="contact-card-label">WhatsApp</div>
+              <div class="contact-card-val">Quick Messaging</div>
+              <div class="contact-card-sub">Click to message us directly</div>
+            </div>
+          </a>
+        </div>
 
-        <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="contact-card reveal">
-          <div class="contact-card-icon ci-red">▶️</div>
-          <div class="contact-card-info">
-            <div class="contact-card-label">YouTube</div>
-            <div class="contact-card-val">@LearningHubSTEM</div>
-            <div class="contact-card-sub">Free lessons, revision videos and tips</div>
-          </div>
-        </a>
-
-        <div class="contact-card reveal" style="cursor:default;">
-          <div class="contact-card-icon ci-cyan">📍</div>
-          <div class="contact-card-info">
-            <div class="contact-card-label">Location</div>
-            <div class="contact-card-val">Pokhara, Nepal</div>
-            <div class="contact-card-sub">Exact address shared after enrollment confirmation</div>
-          </div>
+        <div class="reveal">
+          <a href="https://www.google.com/maps/search/Pokhara+Nepal" target="_blank" class="contact-card">
+            <div class="contact-card-icon ci-red">📍</div>
+            <div>
+              <div class="contact-card-label">Location</div>
+              <div class="contact-card-val">Pokhara, Nepal</div>
+              <div class="contact-card-sub">Home tution & group classes available</div>
+            </div>
+          </a>
         </div>
       </div>
 
       <!-- RIGHT: INFO PANEL -->
-      <div class="info-panel reveal">
-        <h3>📅 Class Schedule & Info</h3>
-        <div class="info-row">
-          <div class="info-icon">⏰</div>
-          <div>
-            <div class="info-label">Batch Timings</div>
-            <div class="info-val">6–8 AM · 4–6 PM · 6–8 PM</div>
+      <div class="reveal">
+        <div class="info-panel">
+          <h3>Quick Info</h3>
+          <div class="info-row">
+            <div class="info-icon">🕐</div>
+            <div>
+              <div class="info-label">Response Time</div>
+              <div class="info-val">Within 24 hours</div>
+            </div>
           </div>
-        </div>
-        <div class="info-row">
-          <div class="info-icon">📚</div>
-          <div>
-            <div class="info-label">Grades</div>
-            <div class="info-val">Up to Grade 8 · Grade 9–10 · Grade 11–12</div>
+          <div class="info-row">
+            <div class="info-icon">📅</div>
+            <div>
+              <div class="info-label">Free Consultation</div>
+              <div class="info-val">Schedule anytime</div>
+            </div>
           </div>
-        </div>
-        <div class="info-row">
-          <div class="info-icon">🔬</div>
-          <div>
-            <div class="info-label">Subjects</div>
-            <div class="info-val">All subjects (≤8) · Sci, Math, Lang (9–10) · Phy, Chem, Math, Lang (11–12)</div>
+          <div class="info-row">
+            <div class="info-icon">👥</div>
+            <div>
+              <div class="info-label">Batch Size</div>
+              <div class="info-val">Max 5-6 students/group</div>
+            </div>
           </div>
-        </div>
-        <div class="info-row">
-          <div class="info-icon">📖</div>
-          <div>
-            <div class="info-label">Learning Modes</div>
-            <div class="info-val">🏠 Home Tution · 👥 Group Classes · 💻 Online Sessions</div>
+          <div class="info-row">
+            <div class="info-icon">⏰</div>
+            <div>
+              <div class="info-label">Class Duration</div>
+              <div class="info-val">2 hours per session</div>
+            </div>
           </div>
-        </div>
-        <div class="info-row">
-          <div class="info-icon">👥</div>
-          <div>
-            <div class="info-label">Batch Size</div>
-            <div class="info-val">Small groups for personal attention</div>
+          <div class="info-row">
+            <div class="info-icon">📚</div>
+            <div>
+              <div class="info-label">Curriculum</div>
+              <div class="info-val">Nepal National Standard</div>
+            </div>
           </div>
-        </div>
-        <div class="info-row">
-          <div class="info-icon">💰</div>
-          <div>
-            <div class="info-label">Fees</div>
-            <div class="info-val">Contact us for current fee structure</div>
+          <div class="info-row">
+            <div class="info-icon">🎯</div>
+            <div>
+              <div class="info-label">Our Goal</div>
+              <div class="info-val">Deep concept learning</div>
+            </div>
           </div>
-        </div>
 
-        <p style="color:var(--muted);font-size:.8rem;margin-top:1.2rem;">🟢 Available Days</p>
-        <div class="avail-grid">
-          <div class="avail-day open"><div class="avail-day-name">Sun</div><div class="avail-dot"></div></div>
-          <div class="avail-day open"><div class="avail-day-name">Mon</div><div class="avail-dot"></div></div>
-          <div class="avail-day open"><div class="avail-day-name">Tue</div><div class="avail-dot"></div></div>
-          <div class="avail-day open"><div class="avail-day-name">Wed</div><div class="avail-dot"></div></div>
-          <div class="avail-day open"><div class="avail-day-name">Thu</div><div class="avail-dot"></div></div>
-          <div class="avail-day open"><div class="avail-day-name">Fri</div><div class="avail-dot"></div></div>
-          <div class="avail-day closed"><div class="avail-day-name">Sat</div><div class="avail-dot"></div></div>
+          <!-- AVAILABILITY -->
+          <h3 style="margin-top:1.8rem;margin-bottom:.8rem;">Availability</h3>
+          <div class="avail-grid">
+            <div class="avail-day open">
+              <div class="avail-day-name">Mon</div>
+              <div class="avail-dot"></div>
+            </div>
+            <div class="avail-day open">
+              <div class="avail-day-name">Tue</div>
+              <div class="avail-dot"></div>
+            </div>
+            <div class="avail-day open">
+              <div class="avail-day-name">Wed</div>
+              <div class="avail-dot"></div>
+            </div>
+            <div class="avail-day open">
+              <div class="avail-day-name">Thu</div>
+              <div class="avail-dot"></div>
+            </div>
+            <div class="avail-day open">
+              <div class="avail-day-name">Fri</div>
+              <div class="avail-dot"></div>
+            </div>
+            <div class="avail-day open">
+              <div class="avail-day-name">Sat</div>
+              <div class="avail-dot"></div>
+            </div>
+            <div class="avail-day closed">
+              <div class="avail-day-name">Sun</div>
+              <div class="avail-dot"></div>
+            </div>
+          </div>
+
+          <!-- SOCIAL LINKS -->
+          <div class="social-panel">
+            <h3>Follow Us</h3>
+            <div class="social-grid">
+              <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="social-link">
+                <div class="social-icon-large">▶️</div>
+                <div class="social-label">YouTube</div>
+              </a>
+              <a href="https://www.facebook.com/LearningHubSTEM" target="_blank" class="social-link">
+                <div class="social-icon-large">📘</div>
+                <div class="social-label">Facebook</div>
+              </a>
+              <a href="https://www.instagram.com/learninghubstem" target="_blank" class="social-link">
+                <div class="social-icon-large">📸</div>
+                <div class="social-label">Instagram</div>
+              </a>
+              <a href="https://wa.me/9768021317" target="_blank" class="social-link">
+                <div class="social-icon-large">💬</div>
+                <div class="social-label">WhatsApp</div>
+              </a>
+            </div>
+          </div>
         </div>
-        <p style="color:var(--muted);font-size:.78rem;margin-top:.6rem;">* Saturday: Holiday. Schedule may vary — confirm via call.</p>
-
-        <div style="margin-top:1.8rem;text-align:center;">
-          <a href="tel:9768021317" class="btn-primary">📞 Call to Enroll</a>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- LOCATION NOTE -->
-    <div class="location-card reveal">
-      <div class="location-icon">🗺️</div>
-      <div>
-        <h3>Finding Us in Pokhara</h3>
-        <p>We are based in Pokhara, Gandaki Pradesh, Nepal. The exact classroom address is shared with enrolled students after confirmation. Call or WhatsApp us at <strong>+977 9768021317</strong> and we'll guide you to the location.</p>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- ENQUIRY FORM SECTION -->
+  <section id="enquiry">
+    <div class="reveal">
+      <h2 style="text-align:center;">Send an Enquiry</h2>
+      <p style="color:var(--muted);text-align:center;margin-top:.8rem;max-width:500px;margin-left:auto;margin-right:auto;">Fill out the form below and we'll get back to you with available batches and more information.</p>
+    </div>
+
+    <form class="form-container reveal" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">Your Name *</label>
+        <input type="text" class="form-input" placeholder="Full name" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number *</label>
+        <input type="tel" class="form-input" placeholder="+977 98..." required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="your@email.com">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Interested Grade/Subject *</label>
+        <select class="form-select" required>
+          <option value="">Select Grade & Subject</option>
+          <option value="gr1-8-all">Grade 1-8 (All subjects)</option>
+          <option value="gr9-10-math">Grade 9-10 (Mathematics)</option>
+          <option value="gr9-10-science">Grade 9-10 (Science)</option>
+          <option value="gr9-10-english">Grade 9-10 (English)</option>
+          <option value="gr11-12-physics">Grade 11-12 (Physics)</option>
+          <option value="gr11-12-chemistry">Grade 11-12 (Chemistry)</option>
+          <option value="gr11-12-math">Grade 11-12 (Mathematics)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Preferred Mode *</label>
+        <select class="form-select" required>
+          <option value="">Select Mode</option>
+          <option value="home">Home Tution (One-on-One)</option>
+          <option value="group">Group Tution</option>
+          <option value="online">Online Classes</option>
+          <option value="flexible">Flexible/Mix</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Any specific questions or requirements..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Send Enquiry</button>
+    </form>
+  </section>
+
+  <!-- FAQ SECTION -->
   <section id="faq">
     <div class="reveal">
-      <span class="section-tag">❓ Common Questions</span>
       <h2>Frequently Asked Questions</h2>
+      <p style="color:var(--muted);margin-top:.8rem;">Find answers to common questions about our classes, fees, and enrollment.</p>
     </div>
+
     <div class="faq-list">
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">What subjects do you teach? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Up to Grade 8: All subjects including Math, Science, English, Nepali, Social Studies and more. Grade 9–10: Science, Mathematics, English and Nepali (SEE prep). Grade 11–12: Physics, Chemistry, Mathematics, English and Nepali (NEB prep).</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How do I enroll in a class?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Simply contact us via phone, email, or WhatsApp with your preferred grade and subject. We'll arrange a free consultation to assess your level, discuss your goals, and find the best batch timing for you.</p>
+        </div>
       </div>
+
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">What learning modes do you offer? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">We offer three flexible modes: 🏠 Home Tution (one-on-one at your home), 👥 Group Tution (small batches), and 💻 Online Sessions (via Zoom/Google Meet). You can choose the one that suits you best!</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What are the current fees?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Fees vary based on grade, subject, and learning mode (home, group, or online). Please contact us directly for exact pricing. We offer flexible payment options and discounts for bulk enrollments.</p>
+        </div>
       </div>
+
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">How do I enroll my child? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Simply call or WhatsApp us at +977 9768021317 or email us. We'll discuss your child's grade and needs, then assign them to the right batch. There's no complicated process!</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Do you provide notes and study materials?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes! Comprehensive chapter-wise notes, practice sheets, mock tests, and revision materials are provided with all classes. These are available both in printed and digital formats.</p>
+        </div>
       </div>
+
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">What are the batch timings? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">We currently run three batches: Early Morning (6–8 AM), After-School (4–6 PM), and Evening (6–8 PM). Contact us to confirm which slots are available for your grade.</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Can I switch from one batch to another?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes, batch transfers are usually possible depending on availability. Please discuss with us if you need to change your timing after enrollment. We're flexible and want to accommodate your needs.</p>
+        </div>
       </div>
+
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">Are study notes provided? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Yes! Comprehensive study notes, practice sheets, and past exam papers are provided for all classes. We want students to have everything they need to succeed.</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Do you offer online classes?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes! We conduct live online classes via Zoom or Google Meet with the same quality and interaction as in-person sessions. You get all materials, recordings, and support just like home/group tution.</p>
+        </div>
       </div>
+
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">What is the fee structure? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Fees vary by grade, subject, and learning mode. Please contact us directly for the latest fee structure. We believe education should be accessible and are open to discussing options.</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How often are classes held?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Classes are typically held 2-3 times per week for 2 hours each session. The frequency can be adjusted based on your needs and exam schedule. Peak season (pre-board exams) may have more frequent sessions.</p>
+        </div>
       </div>
+
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">What is LearningHub STEM? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">LearningHub STEM is our free YouTube/social page where we post in-depth STEM concept explanations, advanced topic breakdowns, and detailed lessons — completely free for everyone! Great for students who want to go beyond the curriculum. Find us at youtube.com/@LearningHubSTEM.</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Is there a free trial class?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>We offer a free consultation and assessment session. You can discuss your needs, ask questions, and understand our teaching approach before making any commitment.</p>
+        </div>
       </div>
+
       <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">How many students are in each batch? <span class="arrow">▼</span></div>
-        <div class="faq-a"><div class="faq-a-inner">We keep batches small on purpose — so every student gets personal attention, can ask questions freely, and doesn't get left behind.</div></div>
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What is your class size?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>We keep group classes small (maximum 5-6 students) to ensure personal attention and quality interaction. Home tution is one-on-one, and online classes are also small-batch for better engagement.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -314,17 +466,17 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="classes.html">Classes</a></li>
-          <li><a href="videos.html">Videos</a></li>
+          <li><a href="videos.html">Videos & Notes</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-links">
-        <h4>Contact & Links</h4>
+        <h4>Connect</h4>
         <ul>
           <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
           <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube – LearningHub STEM</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">🚀 Free STEM Content</a></li>
+          <li><a href="https://wa.me/9768021317">💬 WhatsApp</a></li>
+          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube</a></li>
         </ul>
       </div>
     </div>
@@ -332,15 +484,30 @@
   </footer>
 
   <script>
-    function toggleFaq(el){
-      const item=el.parentElement;
-      const isOpen=item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-      if(!isOpen) item.classList.add('open');
+    // FAQ Toggle
+    function toggleFaq(element) {
+      const item = element.parentElement;
+      item.classList.toggle('active');
     }
-    const reveals=document.querySelectorAll('.reveal');
-    const observer=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);observer.unobserve(e.target)}})},{threshold:.1});
-    reveals.forEach(el=>observer.observe(el));
+
+    // Form Submit
+    function handleSubmit(e) {
+      e.preventDefault();
+      alert('Thank you for your enquiry! We will contact you within 24 hours.');
+      e.target.reset();
+    }
+
+    // Reveal animations
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .1 });
+    reveals.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>

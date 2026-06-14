@@ -125,32 +125,59 @@
     #how { background:var(--navy2); }
     .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-top:3rem; }
     .step { text-align:center; }
-    .step-num { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--cyan)); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin:0 auto 1.2rem; color:var(--navy); box-shadow:0 0 24px rgba(26,111,255,.4); }
-    .step-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; margin-bottom:.4rem; }
-    .step-text { color:var(--muted); font-size:.88rem; line-height:1.6; }
+    .step-num { width:60px; height:60px; background:linear-gradient(135deg,var(--cyan),var(--blue)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:800; margin:0 auto 1rem; }
+    .step-title { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:.4rem; }
+    .step-text { color:var(--muted); font-size:.9rem; line-height:1.6; }
+
+    /* SOCIAL BANNER */
+    .social-banner { 
+      background:linear-gradient(135deg,rgba(0,212,255,.12),rgba(0,232,162,.08)); 
+      border:1px solid rgba(0,212,255,.25); border-radius:24px; 
+      padding:2.5rem; display:flex; align-items:center; gap:2rem; 
+      flex-wrap:wrap; margin:3rem 0; 
+    }
+    .social-icon { width:64px; height:64px; background:linear-gradient(135deg,var(--blue),var(--cyan)); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
+    .social-info { flex:1; min-width:200px; }
+    .social-tag { font-size:.78rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--green); margin-bottom:.3rem; }
+    .social-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:.4rem; }
+    .social-text { color:var(--muted); font-size:.95rem; line-height:1.6; }
+    .social-links { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem; }
+    .social-btn { display:inline-flex; align-items:center; gap:.4rem; padding:.55rem 1.2rem; border-radius:50px; text-decoration:none; font-weight:600; font-size:.9rem; transition:transform .2s; }
+    .social-youtube { background:#ff0000; color:#fff; }
+    .social-youtube:hover { transform:translateY(-2px); }
+    .social-instagram { background:#E1306C; color:#fff; }
+    .social-instagram:hover { transform:translateY(-2px); }
+    .social-facebook { background:#1877F2; color:#fff; }
+    .social-facebook:hover { transform:translateY(-2px); }
+
+    /* REVEAL ANIMATION */
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
 
     /* FOOTER */
-    footer { background:rgba(0,0,0,.3); border-top:1px solid var(--border); padding:2.5rem 6%; }
-    .footer-inner { display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; }
-    .footer-brand .nav-logo { font-size:1.2rem; display:inline-block; margin-bottom:.6rem; }
-    .footer-brand p { color:var(--muted); font-size:.88rem; line-height:1.6; max-width:260px; }
+    footer {
+      background:rgba(0,0,0,.3); border-top:1px solid var(--border);
+      padding:2.5rem 6%;
+    }
+    .footer-inner {
+      display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between;
+      align-items:flex-start; margin-bottom:2rem;
+    }
+    .footer-brand { }
+    .footer-brand p { color:var(--muted); font-size:.88rem; line-height:1.6; max-width:260px; margin-top:.4rem; }
+    .footer-links { }
     .footer-links h4 { font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; margin-bottom:.8rem; }
     .footer-links ul { list-style:none; display:flex; flex-direction:column; gap:.5rem; }
     .footer-links a { color:var(--muted); text-decoration:none; font-size:.88rem; transition:color .2s; }
     .footer-links a:hover { color:var(--cyan); }
     .footer-bottom { border-top:1px solid var(--border); padding-top:1.2rem; text-align:center; color:var(--muted); font-size:.82rem; }
 
-    /* REVEAL */
-    .reveal { opacity:0; transform:translateY(30px); transition:opacity .65s ease, transform .65s ease; }
-    .reveal.visible { opacity:1; transform:translateY(0); }
-
-    /* RESPONSIVE */
-    @media (max-width:768px) {
+    @media(max-width:768px) {
       .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:rgba(10,15,46,.97); padding:1.5rem 6%; gap:1rem; border-bottom:1px solid var(--border); }
       .nav-links.open { display:flex; }
       .hamburger { display:flex; }
-      .hero-stats { gap:1.8rem; }
-      .footer-inner { flex-direction:column; }
+      .social-banner { flex-direction:column; }
+      .social-links { justify-content:center; }
     }
   </style>
 </head>
@@ -161,7 +188,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="classes.html">Classes</a></li>
-      <li><a href="videos.html">Videos</a></li>
+      <li><a href="videos.html">Videos & Notes</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
     <div style="display:flex;gap:1rem;align-items:center;">
@@ -172,50 +199,57 @@
     </div>
   </nav>
 
-  <section class="hero">
+  <div class="hero">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
     <div class="blob blob3"></div>
-    <div class="hero-tag">📍 Pokhara, Nepal · 💻 Online Sessions Available</div>
-    <h1>Build Strong<br>Foundations in<br><span class="accent">Science & Math</span></h1>
-    <p class="hero-sub">Expert tution for students up to Grade 12. Home tution, group classes & online sessions — with notes provided. Focused on conceptual clarity and exam excellence.</p>
+    <span class="hero-tag">🎓 Quality STEM Education in Pokhara</span>
+    <h1>Master <span class="accent">Science & Math</span> with Expert Guidance</h1>
+    <p class="hero-sub">Home tution, group classes & online sessions. Aligned with Nepal's national curriculum (NEB & SEE). Small batches, personal attention, proven results.</p>
     <div class="hero-btns">
-      <a href="contact.html" class="btn-primary">🎯 Enroll Today</a>
-      <a href="classes.html" class="btn-secondary">View Classes →</a>
+      <a href="#classes" class="btn-primary">Explore Classes</a>
+      <a href="videos.html" class="btn-secondary">Watch Free Content →</a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Subjects</div></div>
-      <div class="stat"><div class="stat-num">≤8–12</div><div class="stat-label">Grades</div></div>
-      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Learning Modes</div></div>
+      <div class="stat">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">Students Taught</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">95%</div>
+        <div class="stat-label">Pass Rate</div>
+      </div>
     </div>
-  </section>
+  </div>
 
   <section id="classes">
     <div class="reveal">
       <span class="section-tag">📚 Our Classes</span>
-      <h2>What We Teach</h2>
-      <p class="section-intro">Comprehensive tution designed for the Nepali curriculum — from foundational concepts to advanced exam prep.</p>
+      <h2>Choose Your Grade & Subject</h2>
+      <p class="section-intro">Comprehensive STEM classes for all grades — from foundations to board exam preparation.</p>
     </div>
     <div class="classes-grid">
       <div class="class-card card-blue reveal">
-        <div class="class-icon icon-blue">📚</div>
-        <div class="class-grade">Up to Grade 8</div>
-        <div class="class-title">All Subjects</div>
-        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">Complete academic support — Math, Science, English, Nepali, Social Studies and all other subjects for younger students.</p>
+        <div class="class-icon icon-blue">🔢</div>
+        <div class="class-grade">Grade 1 – 8</div>
+        <div class="class-title">Foundation STEM</div>
+        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">All subjects including Math, Science, English, Nepali, and Social Studies. Build strong fundamentals for higher grades.</p>
         <div class="class-subjects">
           <span class="subject-pill">Mathematics</span>
           <span class="subject-pill">Science</span>
           <span class="subject-pill">English</span>
           <span class="subject-pill">Nepali</span>
-          <span class="subject-pill">Social Studies</span>
-          <span class="subject-pill">All Subjects</span>
         </div>
       </div>
       <div class="class-card card-green reveal">
-        <div class="class-icon icon-green">🎯</div>
+        <div class="class-icon icon-green">⚙️</div>
         <div class="class-grade">Grade 9 – 10</div>
-        <div class="class-title">SEE Preparation</div>
-        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">Focused SEE board preparation in Science, Mathematics, and Language subjects (English & Nepali) for exam excellence.</p>
+        <div class="class-title">SEE Board Prep</div>
+        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">Complete SEE preparation — Science, Mathematics, and Language subjects with practice tests and past papers.</p>
         <div class="class-subjects">
           <span class="subject-pill">Science</span>
           <span class="subject-pill">Mathematics</span>
@@ -243,8 +277,7 @@
     </div>
   </section>
 
-  <!-- LEARNING MODES -->
-  <section style="background:var(--navy);">
+  <section style="background:var(--navy2);">
     <div class="reveal">
       <span class="section-tag">📖 How You Learn</span>
       <h2>Flexible Learning Modes</h2>
@@ -290,6 +323,23 @@
     </div>
   </section>
 
+  <!-- LEARNINGHUB STEM SOCIAL BANNER -->
+  <section>
+    <div class="social-banner reveal">
+      <div class="social-icon">🚀</div>
+      <div class="social-info">
+        <div class="social-tag">Free STEM Content</div>
+        <div class="social-title">Follow LearningHub STEM</div>
+        <p class="social-text">Want deeper STEM knowledge? Follow our free social channels for in-depth concept explanations, advanced topic breakdowns, and detailed lessons — completely free for everyone!</p>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="social-btn social-youtube">▶️ YouTube</a>
+          <a href="https://www.facebook.com/LearningHubSTEM" target="_blank" class="social-btn social-facebook">📘 Facebook</a>
+          <a href="https://www.instagram.com/learninghubstem" target="_blank" class="social-btn social-instagram">📸 Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="how">
     <div class="reveal">
       <span class="section-tag">🚀 Getting Started</span>
@@ -318,17 +368,17 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="classes.html">Classes</a></li>
-          <li><a href="videos.html">Videos</a></li>
+          <li><a href="videos.html">Videos & Notes</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-links">
-        <h4>Contact</h4>
+        <h4>Connect</h4>
         <ul>
           <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
           <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube – LearningHub STEM</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">🚀 LearningHub STEM (Free STEM)</a></li>
+          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube Channel</a></li>
+          <li><a href="https://www.facebook.com/LearningHubSTEM" target="_blank">📘 Facebook Page</a></li>
         </ul>
       </div>
     </div>
