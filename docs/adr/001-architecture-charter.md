@@ -4,7 +4,7 @@
 **Accepted**
 
 ## Date
-2025-06-18
+2026-07-29
 
 ## Context
 
@@ -136,5 +136,5 @@ All technology adoptions require a **Technology Decision Record (TDR)** document
 ---
 
 *Approved by:* Chief Software Architect  
-*Review Date:* 2025-06-18  
-*Next Review:* 2025-09-18 (Quarterly)
+*Review Date:* 2026-07-29  
+*Next Review:* 2026-10-29 (Quarterly)
