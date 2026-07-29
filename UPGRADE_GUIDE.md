@@ -1,4 +1,4 @@
-# STEM Tution Website - Upgraded Version
+# STEM Tuition Website - Upgraded Version
 
 ## 🎉 What's New - Complete Upgrade Summary
 
@@ -148,7 +148,7 @@ Each grade (1-8, 9-10, 11-12) now has a "Class Resources" box with 4 download li
 
 ---
 
-### 5. **stem-tution.html** - Comprehensive Hub
+### 5. **stem-tuition.html** - Comprehensive Hub
 ✅ **New Content:**
 
 #### 📚 **Classes Highlight Section**
@@ -294,7 +294,7 @@ In contact.html, edit the grade/subject dropdown:
 - videos.html: ~42 KB (includes tab system + reviews form)
 - classes.html: ~28 KB (with resource cards)
 - contact.html: ~30 KB (with FAQ system)
-- stem-tution.html: ~20 KB (comprehensive hub)
+- stem-tuition.html: ~20 KB (comprehensive hub)
 
 All files optimized for fast loading with minimal dependencies (pure HTML/CSS/JS).
 

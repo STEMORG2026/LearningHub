@@ -1,538 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact – STEM Tution Pokhara</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – STEM Tuition Pokhara</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/main.css?v=13.0" />
+  <link rel="stylesheet" href="css/stem-theme.css?v=13.0" />
+
   <style>
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--navy:#0a0f2e;--navy2:#111740;--blue:#1a6fff;--cyan:#00d4ff;--green:#00e8a2;--white:#f0f4ff;--muted:#8892b8;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08)}
-    html{scroll-behavior:smooth}
-    body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+    :root {
+      --bg-dark: #070a14;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --cyan: #38bdf8;
+      --green: #34d399;
+      --purple: #c084fc;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+    }
 
-    nav{position:fixed;top:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 6%;background:rgba(10,15,46,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-    .nav-logo{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
-    .nav-links{display:flex;gap:2rem;list-style:none}
-    .nav-links a{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:500;transition:color .25s}
-    .nav-links a:hover,.nav-links a.active{color:var(--white)}
-    .nav-cta{background:var(--blue);color:#fff;padding:.55rem 1.4rem;border-radius:50px;text-decoration:none;font-weight:600;font-size:.9rem;transition:background .25s,transform .2s}
-    .nav-cta:hover{background:var(--cyan);color:var(--navy);transform:translateY(-1px)}
-    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
-    .hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
 
-    .page-hero{padding:10rem 6% 5rem;text-align:center;position:relative;overflow:hidden}
-    .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.2;pointer-events:none;animation:drift 10s ease-in-out infinite alternate}
-    .blob1{width:400px;height:400px;background:var(--green);top:-100px;left:-100px}
-    .blob2{width:300px;height:300px;background:var(--blue);bottom:-60px;right:-80px;animation-delay:-4s}
-    @keyframes drift{from{transform:translate(0,0)}to{transform:translate(25px,35px)}}
-    .section-tag{display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem}
-    h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.1}
-    .accent{background:linear-gradient(135deg,var(--cyan),var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .page-sub{color:var(--muted);font-size:1.05rem;max-width:500px;margin:.8rem auto 0;line-height:1.7}
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
 
-    section{padding:4rem 6%;position:relative}
-    h2{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800}
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 10, 20, 0.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0.9rem 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    /* MAIN CONTACT LAYOUT */
-    .contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem}
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
 
-    /* CONTACT CARDS */
-    .contact-cards{display:flex;flex-direction:column;gap:1.2rem}
-    .contact-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.8rem;display:flex;align-items:center;gap:1.4rem;text-decoration:none;color:var(--white);transition:border-color .25s,transform .2s}
-    .contact-card:hover{border-color:var(--cyan);transform:translateX(5px)}
-    .contact-card-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
-    .ci-blue{background:rgba(26,111,255,.15)}
-    .ci-green{background:rgba(0,232,162,.15)}
-    .ci-red{background:rgba(255,50,50,.12)}
-    .ci-cyan{background:rgba(0,212,255,.12)}
-    .contact-card-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.3rem}
-    .contact-card-val{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem}
-    .contact-card-sub{color:var(--muted);font-size:.85rem;margin-top:.2rem}
+    .nav-logo span {
+      color: var(--cyan);
+    }
 
-    /* INFO PANEL */
-    .info-panel{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;height:fit-content}
-    .info-panel h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:1.2rem}
-    .info-row{display:flex;align-items:flex-start;gap:.8rem;padding:.8rem 0;border-bottom:1px solid var(--border)}
-    .info-row:last-child{border-bottom:none}
-    .info-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
-    .info-label{font-size:.8rem;color:var(--muted);margin-bottom:.15rem;text-transform:uppercase;letter-spacing:.07em}
-    .info-val{font-size:.95rem;font-weight:500}
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+      align-items: center;
+    }
 
-    /* SOCIAL LINKS */
-    .social-panel{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-top:1.5rem}
-    .social-panel h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:1rem;color:var(--cyan)}
-    .social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:1rem}
-    .social-link{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:16px;padding:1rem;text-align:center;text-decoration:none;color:var(--white);transition:border-color .2s,background .2s}
-    .social-link:hover{border-color:var(--cyan);background:rgba(0,212,255,.08)}
-    .social-icon-large{font-size:2rem;margin-bottom:.6rem}
-    .social-label{font-size:.85rem;font-weight:600}
-    .social-youtube{background:#ff0000;color:#fff}
-    .social-facebook{background:#1877F2;color:#fff}
-    .social-instagram{background:#E1306C;color:#fff}
-    .social-tiktok{background:#000;color:#fff}
-    .social-twitter{background:#1DA1F2;color:#fff}
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.25s;
+    }
 
-    /* AVAILABILITY */
-    .avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-top:1.5rem}
-    .avail-day{text-align:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.5rem .3rem}
-    .avail-day.open{background:rgba(0,232,162,.08);border-color:rgba(0,232,162,.25)}
-    .avail-day.closed{opacity:.4}
-    .avail-day-name{font-size:.7rem;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
-    .avail-dot{width:10px;height:10px;border-radius:50%;margin:0 auto}
-    .avail-day.open .avail-dot{background:var(--green)}
-    .avail-day.closed .avail-dot{background:var(--muted)}
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--cyan);
+    }
 
-    /* ENQUIRY FORM */
-    #enquiry{background:var(--navy2)}
-    .form-container{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:3rem;max-width:500px;margin:2rem auto}
-    .form-group{margin-bottom:1.5rem}
-    .form-label{display:block;font-weight:600;margin-bottom:.5rem;font-size:.95rem}
-    .form-input,.form-textarea,.form-select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:.8rem;color:var(--white);font-family:inherit;font-size:.95rem;transition:border-color .2s}
-    .form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--cyan);background:rgba(0,212,255,.05)}
-    .form-textarea{resize:vertical;min-height:120px}
-    .form-select{cursor:pointer}
-    .submit-btn{width:100%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.85rem;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(26,111,255,.3)}
-    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(26,111,255,.5)}
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-    /* FAQ */
-    #faq{background:var(--navy)}
-    .faq-list{margin-top:2rem;display:flex;flex-direction:column;gap:1rem}
-    .faq-item{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-    .faq-q{padding:1.2rem 1.5rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
-    .faq-q:hover{background:rgba(255,255,255,.03)}
-    .faq-q .arrow{font-size:.8rem;transition:transform .3s;color:var(--cyan)}
-    .faq-a{padding:0 1.5rem;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s}
-    .faq-item.active .faq-a{max-height:500px;padding:1.2rem 1.5rem;border-top:1px solid var(--border)}
-    .faq-item.active .arrow{transform:rotate(180deg)}
-    .faq-a p{color:var(--muted);font-size:.9rem;line-height:1.7;font-weight:400}
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
 
-    footer{background:rgba(0,0,0,.3);border-top:1px solid var(--border);padding:2.5rem 6%}
-    .footer-inner{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start;margin-bottom:2rem}
-    .footer-brand p{color:var(--muted);font-size:.88rem;line-height:1.6;max-width:260px;margin-top:.4rem}
-    .footer-links h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.8rem}
-    .footer-links ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-    .footer-links a{color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .2s}
-    .footer-links a:hover{color:var(--cyan)}
-    .footer-bottom{border-top:1px solid var(--border);padding-top:1.2rem;text-align:center;color:var(--muted);font-size:.82rem}
+    .page-hero {
+      padding: 4rem 6% 2rem;
+      text-align: center;
+    }
 
-    .reveal{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s ease}
-    .reveal.visible{opacity:1;transform:translateY(0)}
+    .page-hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 0.8rem;
+    }
 
-    @media(max-width:768px){
-      .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(10,15,46,.97);padding:1.5rem 6%;gap:1rem;border-bottom:1px solid var(--border)}
-      .nav-links.open{display:flex}
-      .hamburger{display:flex}
-      .contact-layout{grid-template-columns:1fr}
-      .form-container{padding:2rem}
-      .social-grid{grid-template-columns:repeat(2,1fr)}
+    .accent {
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 3rem 6%;
+    }
+
+    /* Contact Grid Layout */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 850px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .soft-card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.8rem;
+      backdrop-filter: blur(12px);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text-main);
+      margin-bottom: 1.2rem;
+    }
+
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--cyan);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--cyan);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0284c7);
+      color: #000;
+      padding: 0.8rem 1.6rem;
+      border-radius: 30px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.35);
+    }
+
+    /* FAQ List */
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      margin-bottom: 0.8rem;
+      cursor: pointer;
+    }
+
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .faq-a {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-top: 0.6rem;
+      display: none;
+    }
+
+    .faq-item.open .faq-a {
+      display: block;
+    }
+
+    footer {
+      background: #04060c;
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem 6% 2rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      text-align: center;
     }
   </style>
 </head>
+
 <body>
 
   <nav>
-    <a href="index.html" class="nav-logo">STEM Tution</a>
-    <ul class="nav-links" id="navLinks">
+    <a href="index.html" class="nav-logo"><span>⚡</span> STEM Tuition</a>
+    <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="classes.html">Classes</a></li>
       <li><a href="videos.html">Videos & Notes</a></li>
       <li><a href="contact.html" class="active">Contact</a></li>
     </ul>
-    <div style="display:flex;gap:1rem;align-items:center;">
-      <a href="https://wa.me/9768021317?text=Hello!%20I'm%20interested%20in%20STEM%20Tution" target="_blank" class="nav-cta">WhatsApp Us</a>
-      <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+    <a href="contact.html" class="nav-cta">Enroll Now</a>
   </nav>
 
-  <div class="page-hero">
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
-    <span class="section-tag">📞 Get In Touch</span>
-    <h1>Contact <span class="accent">STEM Tution</span></h1>
-    <p class="page-sub">Have questions about classes, fees, or enrollment? Reach out to us! We're here to help and respond to all inquiries within 24 hours.</p>
+  <div class="page-hero reveal-on-scroll">
+    <span style="color:var(--green);font-weight:700;font-size:0.8rem;text-transform:uppercase;">📞 Direct Admissions &
+      Inquiry</span>
+    <h1>Get in Touch with <span class="accent">STEM Tuition</span></h1>
+    <p class="page-sub">Have questions regarding batch timings, fee structures, or home tuition in Pokhara? We respond
+      within 24 hours.</p>
   </div>
 
-  <!-- CONTACT SECTION -->
   <section>
     <div class="contact-layout">
-      <!-- LEFT: CONTACT CARDS -->
-      <div class="contact-cards">
-        <div class="reveal">
-          <a href="tel:+9768021317" class="contact-card">
-            <div class="contact-card-icon ci-blue">📞</div>
+
+      <!-- Left: Contact Methods -->
+      <div class="reveal-on-scroll">
+        <div class="soft-card" style="margin-bottom:1.5rem;">
+          <h3 style="font-size:1.2rem;margin-bottom:1.2rem;">Contact Channels</h3>
+
+          <a href="tel:+9779768021317" class="contact-item">
+            <div class="contact-icon">📞</div>
             <div>
-              <div class="contact-card-label">Phone</div>
-              <div class="contact-card-val">+977 9768021317</div>
-              <div class="contact-card-sub">Available 9 AM – 8 PM daily</div>
+              <div style="font-weight:700;">Phone Call</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">+977 9768021317</div>
             </div>
           </a>
-        </div>
 
-        <div class="reveal">
-          <a href="mailto:gurungsajan0228@gmail.com" class="contact-card">
-            <div class="contact-card-icon ci-cyan">✉️</div>
+          <a href="https://wa.me/9779768021317" target="_blank" class="contact-item">
+            <div class="contact-icon" style="background:rgba(52,211,153,0.12);color:var(--green);">💬</div>
             <div>
-              <div class="contact-card-label">Email</div>
-              <div class="contact-card-val">gurungsajan0228@gmail.com</div>
-              <div class="contact-card-sub">Response within 24 hours</div>
+              <div style="font-weight:700;">WhatsApp Direct</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">Instant Messaging Chat</div>
             </div>
           </a>
-        </div>
 
-        <div class="reveal">
-          <a href="https://wa.me/9768021317?text=Hello!%20I'm%20interested%20in%20STEM%20Tution" target="_blank" class="contact-card">
-            <div class="contact-card-icon ci-green">💬</div>
+          <a href="mailto:gurungsajan0228@gmail.com" class="contact-item">
+            <div class="contact-icon" style="background:rgba(192,132,252,0.12);color:var(--purple);">✉️</div>
             <div>
-              <div class="contact-card-label">WhatsApp</div>
-              <div class="contact-card-val">Quick Messaging</div>
-              <div class="contact-card-sub">Click to message us directly</div>
+              <div style="font-weight:700;">Email Address</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">gurungsajan0228@gmail.com</div>
             </div>
           </a>
-        </div>
 
-        <div class="reveal">
-          <a href="https://www.google.com/maps/search/Pokhara+Nepal" target="_blank" class="contact-card">
-            <div class="contact-card-icon ci-red">📍</div>
+          <div class="contact-item" style="margin-bottom:0;">
+            <div class="contact-icon">📍</div>
             <div>
-              <div class="contact-card-label">Location</div>
-              <div class="contact-card-val">Pokhara, Nepal</div>
-              <div class="contact-card-sub">Home tution & group classes available</div>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <!-- RIGHT: INFO PANEL -->
-      <div class="reveal">
-        <div class="info-panel">
-          <h3>Quick Info</h3>
-          <div class="info-row">
-            <div class="info-icon">🕐</div>
-            <div>
-              <div class="info-label">Response Time</div>
-              <div class="info-val">Within 24 hours</div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">📅</div>
-            <div>
-              <div class="info-label">Free Consultation</div>
-              <div class="info-val">Schedule anytime</div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">👥</div>
-            <div>
-              <div class="info-label">Batch Size</div>
-              <div class="info-val">Max 5-6 students/group</div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">⏰</div>
-            <div>
-              <div class="info-label">Class Duration</div>
-              <div class="info-val">2 hours per session</div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">📚</div>
-            <div>
-              <div class="info-label">Curriculum</div>
-              <div class="info-val">Nepal National Standard</div>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">🎯</div>
-            <div>
-              <div class="info-label">Our Goal</div>
-              <div class="info-val">Deep concept learning</div>
-            </div>
-          </div>
-
-          <!-- AVAILABILITY -->
-          <h3 style="margin-top:1.8rem;margin-bottom:.8rem;">Availability</h3>
-          <div class="avail-grid">
-            <div class="avail-day open">
-              <div class="avail-day-name">Mon</div>
-              <div class="avail-dot"></div>
-            </div>
-            <div class="avail-day open">
-              <div class="avail-day-name">Tue</div>
-              <div class="avail-dot"></div>
-            </div>
-            <div class="avail-day open">
-              <div class="avail-day-name">Wed</div>
-              <div class="avail-dot"></div>
-            </div>
-            <div class="avail-day open">
-              <div class="avail-day-name">Thu</div>
-              <div class="avail-dot"></div>
-            </div>
-            <div class="avail-day open">
-              <div class="avail-day-name">Fri</div>
-              <div class="avail-dot"></div>
-            </div>
-            <div class="avail-day open">
-              <div class="avail-day-name">Sat</div>
-              <div class="avail-dot"></div>
-            </div>
-            <div class="avail-day closed">
-              <div class="avail-day-name">Sun</div>
-              <div class="avail-dot"></div>
-            </div>
-          </div>
-
-          <!-- SOCIAL LINKS -->
-          <div class="social-panel">
-            <h3>Follow Us</h3>
-            <div class="social-grid">
-              <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="social-link">
-                <div class="social-icon-large">▶️</div>
-                <div class="social-label">YouTube</div>
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61586052460441" target="_blank" class="social-link">
-                <div class="social-icon-large">📘</div>
-                <div class="social-label">Facebook</div>
-              </a>
-              <a href="https://www.instagram.com/stem.tuition/" target="_blank" class="social-link">
-                <div class="social-icon-large">📸</div>
-                <div class="social-label">Instagram</div>
-              </a>
-              <a href="https://www.tiktok.com/@learninghubstem" target="_blank" class="social-link">
-                <div class="social-icon-large">🎵</div>
-                <div class="social-label">TikTok</div>
-              </a>
-              <a href="https://x.com/LearningHubSTEM" target="_blank" class="social-link">
-                <div class="social-icon-large">𝕏</div>
-                <div class="social-label">Twitter</div>
-              </a>
-              <a href="https://wa.me/9768021317" target="_blank" class="social-link">
-                <div class="social-icon-large">💬</div>
-                <div class="social-label">WhatsApp</div>
-              </a>
+              <div style="font-weight:700;">Pokhara, Nepal</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">Home Tuition & Group Batches</div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Right: Form -->
+      <div class="reveal-on-scroll">
+        <div class="soft-card">
+          <h3 style="font-size:1.2rem;margin-bottom:1.2rem;">Send Direct Inquiry</h3>
+          <form onsubmit="handleFormSubmit(event)">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="cName" required class="form-input" placeholder="e.g. Aarav Sharma">
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp *</label>
+              <input type="tel" id="cPhone" required class="form-input" placeholder="+977 98XXXXXXXX">
+            </div>
+            <div class="form-group">
+              <label>Interested Program *</label>
+              <select id="cGrade" class="form-select" required>
+                <option value="Grade 1-8">Grade 1-8 (Foundation)</option>
+                <option value="SEE Board">Grade 9-10 (SEE Board)</option>
+                <option value="NEB Science">Grade 11-12 (NEB Science)</option>
+                <option value="Cambridge A-Level">Cambridge A-Level</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message / Specific Requirements</label>
+              <textarea id="cMsg" class="form-textarea" rows="3"
+                placeholder="Tell us your preferred mode (Home/Group/Online)..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Send Inquiry Message 🚀</button>
+          </form>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ENQUIRY FORM SECTION -->
-  <section id="enquiry">
-    <div class="reveal">
-      <h2 style="text-align:center;">Send an Enquiry</h2>
-      <p style="color:var(--muted);text-align:center;margin-top:.8rem;max-width:500px;margin-left:auto;margin-right:auto;">Fill out the form below and we'll get back to you with available batches and more information.</p>
-    </div>
+  <!-- FAQ Accordion -->
+  <section>
+    <div style="max-width:800px;margin:0 auto;" class="reveal-on-scroll">
+      <h2 style="font-size:1.6rem;text-align:center;margin-bottom:1.5rem;">Frequently Asked Questions</h2>
 
-    <form class="form-container reveal" onsubmit="handleSubmit(event)">
-      <div class="form-group">
-        <label class="form-label">Your Name *</label>
-        <input type="text" class="form-input" placeholder="Full name" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Phone Number *</label>
-        <input type="tel" class="form-input" placeholder="+977 98..." required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Email Address</label>
-        <input type="email" class="form-input" placeholder="your@email.com">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Interested Grade/Subject *</label>
-        <select class="form-select" required>
-          <option value="">Select Grade & Subject</option>
-          <option value="gr1-8-all">Grade 1-8 (All subjects)</option>
-          <option value="gr9-10-math">Grade 9-10 (Mathematics)</option>
-          <option value="gr9-10-science">Grade 9-10 (Science - Physics, Chemistry, Biology)</option>
-          <option value="gr9-10-computer">Grade 9-10 (Computer Science)</option>
-          <option value="gr9-10-english">Grade 9-10 (English/Language)</option>
-          <option value="gr11-12-physics">Grade 11-12 (Physics)</option>
-          <option value="gr11-12-chemistry">Grade 11-12 (Chemistry)</option>
-          <option value="gr11-12-biology">Grade 11-12 (Biology)</option>
-          <option value="gr11-12-math">Grade 11-12 (Mathematics)</option>
-          <option value="gr11-12-computer">Grade 11-12 (Computer Science)</option>
-          <option value="alevel-math">A-Level (Mathematics)</option>
-          <option value="alevel-physics">A-Level (Physics)</option>
-          <option value="alevel-chemistry">A-Level (Chemistry)</option>
-          <option value="alevel-biology">A-Level (Biology)</option>
-          <option value="alevel-computer">A-Level (Computer Science)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Preferred Mode *</label>
-        <select class="form-select" required>
-          <option value="">Select Mode</option>
-          <option value="home">Home Tution (One-on-One)</option>
-          <option value="group">Group Tution</option>
-          <option value="online">Online Classes</option>
-          <option value="flexible">Flexible/Mix</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Message</label>
-        <textarea class="form-textarea" placeholder="Any specific questions or requirements..."></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn">Send Enquiry</button>
-    </form>
-  </section>
-
-  <!-- FAQ SECTION -->
-  <section id="faq">
-    <div class="reveal">
-      <h2>Frequently Asked Questions</h2>
-      <p style="color:var(--muted);margin-top:.8rem;">Find answers to common questions about our classes, fees, and enrollment.</p>
-    </div>
-
-    <div class="faq-list">
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>How do I enroll in a class?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>Simply contact us via phone, email, or WhatsApp with your preferred grade and subject. We'll arrange a free consultation to assess your level, discuss your goals, and find the best batch timing for you.</p>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>How do I enroll in a class?</span> <span>▼</span></div>
+        <div class="faq-a">Contact us via WhatsApp or Phone to arrange a free consultation and level assessment session.
         </div>
       </div>
 
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>What are the current fees?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>Fees vary based on grade, subject, and learning mode (home, group, or online). Please contact us directly for exact pricing. We offer flexible payment options and discounts for bulk enrollments.</p>
-        </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>Are notes and practice papers provided?</span> <span>▼</span></div>
+        <div class="faq-a">Yes, full chapter revision notes, mock tests, and past paper solutions are provided to all
+          enrolled students.</div>
       </div>
 
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>Do you provide notes and study materials?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>Yes! Comprehensive chapter-wise notes, practice sheets, mock tests, and revision materials are provided with all classes. These are available both in printed and digital formats.</p>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>Can I switch from one batch to another?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>Yes, batch transfers are usually possible depending on availability. Please discuss with us if you need to change your timing after enrollment. We're flexible and want to accommodate your needs.</p>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>Do you offer online classes?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>Yes! We conduct live online classes via Zoom or Google Meet with the same quality and interaction as in-person sessions. You get all materials, recordings, and support just like home/group tution.</p>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>How often are classes held?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>Classes are typically held 2-3 times per week for 2 hours each session. The frequency can be adjusted based on your needs and exam schedule. Peak season (pre-board exams) may have more frequent sessions.</p>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>Is there a free trial class?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>We offer a free consultation and assessment session. You can discuss your needs, ask questions, and understand our teaching approach before making any commitment.</p>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>What is your class size?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">
-          <p>We keep group classes small (maximum 5-6 students) to ensure personal attention and quality interaction. Home tution is one-on-one, and online classes are also small-batch for better engagement.</p>
-        </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>What are the class sizes for group batches?</span> <span>▼</span></div>
+        <div class="faq-a">We restrict group sizes to a maximum of 5–8 students to ensure every student receives
+          personalized attention.</div>
       </div>
     </div>
   </section>
 
   <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="index.html" class="nav-logo">STEM Tution</a>
-        <p>All subjects (≤Gr.8) · Science, Math & Language (Gr.9–10) · Physics, Chemistry, Math & Language (Gr.11–12). Home, group & online tution in Pokhara.</p>
-      </div>
-      <div class="footer-links">
-        <h4>Pages</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="classes.html">Classes</a></li>
-          <li><a href="videos.html">Videos & Notes</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
-          <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
-          <li><a href="https://wa.me/9768021317?text=Hello!%20I'm%20interested%20in%20STEM%20Tution" target="_blank">💬 WhatsApp</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube</a></li>
-          <li><a href="https://www.facebook.com/profile.php?id=61586052460441" target="_blank">📘 Facebook</a></li>
-          <li><a href="https://www.instagram.com/stem.tuition/" target="_blank">📸 Instagram</a></li>
-          <li><a href="https://www.tiktok.com/@learninghubstem" target="_blank">🎵 TikTok</a></li>
-          <li><a href="https://x.com/LearningHubSTEM" target="_blank">𝕏 Twitter</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">© 2025 STEM Tution · Pokhara, Nepal · All rights reserved.</div>
-  </footer>
+    <div style="margin-bottom:0.5rem;font-weight:700;color:#fff;">STEM Tuition · Pokhara, Nepal</div>
+    <div>© 2026 STEM Tuition · All rights reserved.</div>
+  <!-- External JS Engines -->
+  <script src="js/main.js?v=13.0"></script>
+  <script src="js/stem-pioneers.js?v=13.0" defer></script>
+  <script src="js/stem-quiz.js?v=13.0" defer></script>
+  <script src="js/stem-effects.js?v=13.0" defer></script>
 
   <script>
-    // FAQ Toggle
-    function toggleFaq(element) {
-      const item = element.parentElement;
-      item.classList.toggle('active');
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
 
-    // Form Submit
-    function handleSubmit(e) {
-      e.preventDefault();
-      alert('Thank you for your enquiry! We will contact you within 24 hours.');
-      e.target.reset();
-    }
+      // Horizontal Mouse Wheel Scroll (Non-Locking Rule)
+      document.querySelectorAll('.h-scroll-container').forEach(container => {
+        container.addEventListener('wheel', (evt) => {
+          const atRightEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+          const atLeftEnd = container.scrollLeft <= 0;
 
-    // Reveal animations
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
+          if ((evt.deltaY > 0 && !atRightEnd) || (evt.deltaY < 0 && !atLeftEnd)) {
+            evt.preventDefault();
+            container.scrollBy({ left: evt.deltaY * 1.5, behavior: 'smooth' });
+          }
+        }, { passive: false });
       });
-    }, { threshold: .1 });
-    reveals.forEach(el => observer.observe(el));
+    });
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert(`Thank you ${document.getElementById('cName').value}! Your inquiry has been received. We will call you shortly.`);
+    }
   </script>
 </body>
+
 </html>

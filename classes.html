@@ -1,502 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Classes – STEM Tution Pokhara</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classes – STEM Tuition Pokhara</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/main.css?v=13.0" />
+  <link rel="stylesheet" href="css/stem-theme.css?v=13.0" />
+
   <style>
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--navy:#0a0f2e;--navy2:#111740;--blue:#1a6fff;--cyan:#00d4ff;--green:#00e8a2;--white:#f0f4ff;--muted:#8892b8;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08)}
-    html{scroll-behavior:smooth}
-    body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
-    nav{position:fixed;top:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 6%;background:rgba(10,15,46,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-    .nav-logo{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
-    .nav-links{display:flex;gap:2rem;list-style:none}
-    .nav-links a{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:500;transition:color .25s}
-    .nav-links a:hover,.nav-links a.active{color:var(--white)}
-    .nav-cta{background:var(--blue);color:#fff;padding:.55rem 1.4rem;border-radius:50px;text-decoration:none;font-weight:600;font-size:.9rem;transition:background .25s,transform .2s}
-    .nav-cta:hover{background:var(--cyan);color:var(--navy);transform:translateY(-1px)}
-    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
-    .hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px}
+    :root {
+      --bg-dark: #070a14;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --bg-card-hover: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --cyan: #38bdf8;
+      --green: #34d399;
+      --purple: #c084fc;
+      --amber: #fbbf24;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
 
-    /* PAGE HERO */
-    .page-hero{padding:10rem 6% 5rem;text-align:center;position:relative;overflow:hidden}
-    .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.2;pointer-events:none;animation:drift 10s ease-in-out infinite alternate}
-    .blob1{width:400px;height:400px;background:var(--blue);top:-100px;left:-100px}
-    .blob2{width:300px;height:300px;background:var(--cyan);bottom:-60px;right:-80px;animation-delay:-4s}
-    @keyframes drift{from{transform:translate(0,0)}to{transform:translate(25px,35px)}}
-    .section-tag{display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem}
-    h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.1}
-    .accent{background:linear-gradient(135deg,var(--cyan),var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .page-sub{color:var(--muted);font-size:1.05rem;max-width:500px;margin:.8rem auto 0;line-height:1.7}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
 
-    /* CONTENT */
-    section{padding:5rem 6%;position:relative}
-    h2{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;margin-bottom:1rem}
-    h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.4rem}
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
 
-    /* CLASS DETAIL CARDS */
-    .class-detail{background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;margin-bottom:2rem;transition:border-color .3s}
-    .class-detail:hover{border-color:rgba(0,212,255,.3)}
-    .class-detail-header{padding:2rem;display:flex;align-items:flex-start;gap:1.5rem;border-bottom:1px solid var(--border)}
-    .class-detail-header.blue{border-left:4px solid var(--blue)}
-    .class-detail-header.green{border-left:4px solid var(--green)}
-    .class-detail-header.purple{border-left:4px solid #a855f7}
-    .class-icon{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
-    .icon-blue{background:rgba(26,111,255,.15)}
-    .icon-green{background:rgba(0,232,162,.15)}
-    .icon-purple{background:rgba(168,85,247,.15)}
-    .class-header-info .grade-badge{display:inline-block;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);border-radius:50px;padding:.2rem .8rem;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
-    .class-header-info h2{font-size:1.5rem;margin-bottom:.3rem;margin-top:0}
-    .class-header-info p{color:var(--muted);font-size:.95rem;line-height:1.6;max-width:500px}
-    .class-detail-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;padding:0}
-    .detail-block{padding:1.6rem 2rem;border-right:1px solid var(--border)}
-    .detail-block:last-child{border-right:none}
-    .detail-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.6rem}
-    .detail-items{display:flex;flex-wrap:wrap;gap:.4rem}
-    .detail-pill{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.3rem .7rem;font-size:.85rem;color:var(--white)}
-    .detail-pill.highlight{background:rgba(26,111,255,.12);border-color:rgba(26,111,255,.3);color:var(--cyan)}
+    ::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
 
-    /* CLASS RESOURCES */
-    .class-resources{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-top:2rem}
-    .resources-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:1rem;color:var(--green)}
-    .resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-    .resource-item{background:rgba(0,232,162,.08);border:1px solid rgba(0,232,162,.25);border-radius:12px;padding:1rem;text-align:center;transition:border-color .2s}
-    .resource-item:hover{border-color:var(--green)}
-    .resource-icon{font-size:1.8rem;margin-bottom:.4rem}
-    .resource-label{color:var(--muted);font-size:.85rem;margin-bottom:.6rem}
-    .resource-link{display:inline-flex;align-items:center;gap:.4rem;color:var(--green);text-decoration:none;font-weight:600;font-size:.9rem;transition:color .2s}
-    .resource-link:hover{color:var(--cyan)}
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
 
-    /* TIMINGS TABLE */
-    #timings{background:var(--navy2)}
-    .timings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;margin-top:2rem}
-    .timing-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:border-color .25s}
-    .timing-card:hover{border-color:var(--blue)}
-    .timing-time{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem}
-    .timing-label{font-weight:600;margin-bottom:.3rem}
-    .timing-desc{color:var(--muted);font-size:.88rem}
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
 
-    /* FEES */
-    .fees-note{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:16px;padding:1.5rem 2rem;margin-top:2rem;display:flex;align-items:flex-start;gap:1rem}
-    .fees-note-icon{font-size:1.5rem;flex-shrink:0}
-    .fees-note p{color:var(--muted);font-size:.95rem;line-height:1.7}
-    .fees-note strong{color:var(--white)}
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--cyan);
+    }
 
-    /* CTA STRIP */
-    .cta-strip{background:linear-gradient(135deg,rgba(26,111,255,.15),rgba(0,212,255,.08));border:1px solid rgba(26,111,255,.25);border-radius:24px;padding:3rem 2.5rem;text-align:center;margin-top:2rem}
-    .cta-strip h2{margin-bottom:.6rem}
-    .cta-strip p{color:var(--muted);margin-bottom:1.8rem}
-    .btn-primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:var(--navy);padding:.85rem 2.2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(26,111,255,.4);display:inline-block;border:none;cursor:pointer}
-    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(26,111,255,.6)}
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--green), var(--purple));
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
 
-    /* SOCIAL LINKS */
-    .social-links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;justify-content:center}
-    .social-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.2rem;border-radius:50px;text-decoration:none;font-weight:600;font-size:.9rem;transition:transform .2s;border:none;cursor:pointer}
-    .social-youtube{background:#ff0000;color:#fff}
-    .social-youtube:hover{transform:translateY(-2px)}
-    .social-facebook{background:#1877F2;color:#fff}
-    .social-facebook:hover{transform:translateY(-2px)}
-    .social-instagram{background:#E1306C;color:#fff}
-    .social-instagram:hover{transform:translateY(-2px)}
-    .social-tiktok{background:#000;color:#fff}
-    .social-tiktok:hover{transform:translateY(-2px)}
-    .social-twitter{background:#1DA1F2;color:#fff}
-    .social-twitter:hover{transform:translateY(-2px)}
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 10, 20, 0.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0.9rem 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    /* FOOTER */
-    footer{background:rgba(0,0,0,.3);border-top:1px solid var(--border);padding:2.5rem 6%}
-    .footer-inner{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start;margin-bottom:2rem}
-    .footer-brand p{color:var(--muted);font-size:.88rem;line-height:1.6;max-width:260px;margin-top:.4rem}
-    .footer-links h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.8rem}
-    .footer-links ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-    .footer-links a{color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .2s}
-    .footer-links a:hover{color:var(--cyan)}
-    .footer-bottom{border-top:1px solid var(--border);padding-top:1.2rem;text-align:center;color:var(--muted);font-size:.82rem}
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
 
-    .reveal{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s ease}
-    .reveal.visible{opacity:1;transform:translateY(0)}
+    .nav-logo span {
+      color: var(--cyan);
+    }
 
-    @media(max-width:768px){
-      .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(10,15,46,.97);padding:1.5rem 6%;gap:1rem;border-bottom:1px solid var(--border)}
-      .nav-links.open{display:flex}
-      .hamburger{display:flex}
-      .class-detail-header{flex-direction:column;gap:1rem}
-      .detail-block{border-right:none;border-bottom:1px solid var(--border)}
-      .detail-block:last-child{border-bottom:none}
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--cyan);
+    }
+
+    .nav-cta {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .nav-cta:hover {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .page-hero {
+      padding: 4rem 6% 2rem;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 0.8rem;
+    }
+
+    .accent {
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 3rem 6%;
+      position: relative;
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .section-tag {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .h-scroll-wrapper {
+      position: relative;
+      margin: 0 -6%;
+      padding: 12px 6% 1.5rem;
+    }
+
+    .h-scroll-container {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding-top: 14px;
+      margin-top: -14px;
+      padding-bottom: 0.5rem;
+    }
+
+    .h-scroll-container::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .soft-card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.6rem;
+      backdrop-filter: blur(12px);
+      height: 100%;
+    }
+
+    .class-detail-card {
+      flex: 0 0 380px;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .detail-pill {
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 8px;
+      color: var(--text-muted);
+      display: inline-block;
+      margin: 0.2rem;
+    }
+
+    .detail-pill.highlight {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--cyan);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0284c7);
+      color: #000;
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-size: 0.88rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      border: 1px solid var(--glass-border);
+      padding: 0.75rem 1.4rem;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-size: 0.88rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--cyan);
+    }
+
+    .scroll-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+    }
+
+    footer {
+      background: #04060c;
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem 6% 2rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--cyan);
     }
   </style>
 </head>
+
 <body>
 
+  <div id="scroll-progress"></div>
+
   <nav>
-    <a href="index.html" class="nav-logo">STEM Tution</a>
-    <ul class="nav-links" id="navLinks">
+    <a href="index.html" class="nav-logo"><span>⚡</span> STEM Tuition</a>
+    <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="classes.html" class="active">Classes</a></li>
       <li><a href="videos.html">Videos & Notes</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-    <div style="display:flex;gap:1rem;align-items:center;">
-      <a href="contact.html" class="nav-cta">Enroll Now</a>
-      <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+    <a href="contact.html" class="nav-cta">Enroll Now</a>
   </nav>
 
-  <div class="page-hero">
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
+  <div class="page-hero reveal-on-scroll">
     <span class="section-tag">🎓 Detailed Class Info</span>
-    <h1>Explore Our <span class="accent">Classes & Programs</span></h1>
-    <p class="page-sub">Comprehensive details about each class, subjects covered, batch timings, and downloadable resources. Choose the right class for your grade and goals.</p>
+    <h1>Explore Our <span class="accent">Classes & Syllabi</span></h1>
+    <p class="page-sub">Comprehensive program breakdowns across Foundation, SEE, NEB Science, and Cambridge A-Levels
+      with direct curriculum resources.</p>
   </div>
 
-  <!-- CLASS 1: FOUNDATION (1-8) -->
   <section>
-    <div class="class-detail reveal">
-      <div class="class-detail-header blue">
-        <div class="class-icon icon-blue">🔢</div>
-        <div class="class-header-info">
-          <span class="grade-badge">Grade 1 – 8</span>
-          <h2>Foundation STEM</h2>
-          <p>Building strong STEM foundations — All subjects including Mathematics, Science, English, Nepali, and Social Studies with interactive, concept-based learning.</p>
-        </div>
+    <div class="section-header-row reveal-on-scroll">
+      <div>
+        <span class="section-tag">📚 Class Curriculum</span>
+        <h2 style="font-size:1.8rem;">All Class Offerings</h2>
       </div>
-      <div class="class-detail-body">
-        <div class="detail-block">
-          <div class="detail-label">Subjects Covered</div>
-          <div class="detail-items">
-            <span class="detail-pill">Mathematics</span>
-            <span class="detail-pill">Science (Physics, Chemistry, Biology)</span>
-            <span class="detail-pill">English</span>
-            <span class="detail-pill">Nepali</span>
-            <span class="detail-pill">Social Studies</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Focus Areas</div>
-          <div class="detail-items">
-            <span class="detail-pill highlight">Core Concepts</span>
-            <span class="detail-pill highlight">Problem Solving</span>
-            <span class="detail-pill">Critical Thinking</span>
-            <span class="detail-pill">Language Skills</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Learning Modes</div>
-          <div class="detail-items">
-            <span class="detail-pill">🏠 Home Tution</span>
-            <span class="detail-pill">👥 Group Tution</span>
-            <span class="detail-pill">💻 Online</span>
-            <span class="detail-pill">📝 Notes</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- RESOURCES FOR GRADE 1-8 -->
-      <div class="class-resources reveal">
-        <div class="resources-title">📚 Class Resources</div>
-        <div class="resources-grid">
-          <div class="resource-item">
-            <div class="resource-icon">📋</div>
-            <div class="resource-label">Official Syllabus</div>
-            <a href="https://moecdc.gov.np/category/course--g-/?page=1#" target="_blank" class="resource-link">Nepal Curriculum →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">📖</div>
-            <div class="resource-label">Chapter Notes</div>
-            <a href="https://drive.google.com/folder/placeholder-notes-1-8" target="_blank" class="resource-link">Access Drive →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">✍️</div>
-            <div class="resource-label">Practice Sheets</div>
-            <a href="https://drive.google.com/folder/placeholder-practice-1-8" target="_blank" class="resource-link">Download →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">🎥</div>
-            <div class="resource-label">Video Lessons</div>
-            <a href="videos.html" class="resource-link">Watch Now →</a>
-          </div>
-        </div>
-      </div>
+      <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
     </div>
 
-    <!-- CLASS 2: SEE PREP (9-10) -->
-    <div class="class-detail reveal">
-      <div class="class-detail-header green">
-        <div class="class-icon icon-green">⚙️</div>
-        <div class="class-header-info">
-          <span class="grade-badge">Grade 9 – 10</span>
-          <h2>SEE Board Preparation</h2>
-          <p>Complete Secondary Education Exam (SEE) preparation — Science, Mathematics, and Language subjects with practice tests, past papers, and exam-focused strategies.</p>
-        </div>
-      </div>
-      <div class="class-detail-body">
-        <div class="detail-block">
-          <div class="detail-label">Subjects Covered</div>
-          <div class="detail-items">
-            <span class="detail-pill">Mathematics</span>
-            <span class="detail-pill">Physics & Chemistry</span>
-            <span class="detail-pill">Biology</span>
-            <span class="detail-pill">Computer Science</span>
-            <span class="detail-pill">English & Nepali</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Exam Focus</div>
-          <div class="detail-items">
-            <span class="detail-pill highlight">SEE Board</span>
-            <span class="detail-pill">Mock Tests</span>
-            <span class="detail-pill">Past Papers</span>
-            <span class="detail-pill">Exam Strategy</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Learning Modes</div>
-          <div class="detail-items">
-            <span class="detail-pill">🏠 Home Tution</span>
-            <span class="detail-pill">👥 Group Tution</span>
-            <span class="detail-pill">💻 Online</span>
-            <span class="detail-pill">📝 Notes Provided</span>
-          </div>
-        </div>
-      </div>
+    <!-- Horizontal Carousel Track for Class Details -->
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container">
 
-      <!-- RESOURCES FOR GRADE 9-10 -->
-      <div class="class-resources reveal">
-        <div class="resources-title">📚 Class Resources</div>
-        <div class="resources-grid">
-          <div class="resource-item">
-            <div class="resource-icon">📋</div>
-            <div class="resource-label">Official Syllabus</div>
-            <a href="https://moecdc.gov.np/category/course--g-/?page=1#" target="_blank" class="resource-link">Nepal Curriculum →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">📖</div>
-            <div class="resource-label">Complete Notes</div>
-            <a href="https://drive.google.com/folder/placeholder-notes-910" target="_blank" class="resource-link">Access Drive →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">📄</div>
-            <div class="resource-label">Past Papers</div>
-            <a href="https://drive.google.com/folder/placeholder-pastpapers-910" target="_blank" class="resource-link">Download →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">🎯</div>
-            <div class="resource-label">Mock Tests</div>
-            <a href="https://drive.google.com/folder/placeholder-mocktests-910" target="_blank" class="resource-link">Access →</a>
-          </div>
-        </div>
-      </div>
-    </div>
+        <!-- Grade 1 - 8 -->
+        <div class="class-detail-card soft-card">
+          <div>
+            <div style="font-size:2rem;margin-bottom:0.5rem;">🔢</div>
+            <span class="detail-pill highlight">Grade 1 – 8</span>
+            <h3 style="font-size:1.3rem;margin:0.4rem 0;">Foundation STEM</h3>
+            <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1rem;">Building fundamental
+              problem-solving concepts across Science, Mathematics, English, and Nepali.</p>
 
-    <!-- CLASS 3: NEB PREP (11-12) -->
-    <div class="class-detail reveal">
-      <div class="class-detail-header purple">
-        <div class="class-icon icon-purple">⚗️</div>
-        <div class="class-header-info">
-          <span class="grade-badge">Grade 11 – 12</span>
-          <h2>NEB Science Stream</h2>
-          <p>Advanced NEB board preparation — Physics, Chemistry, Mathematics, and Language subjects with deep concept building, derivations and numerical problem solving for entrance exams.</p>
-        </div>
-      </div>
-      <div class="class-detail-body">
-        <div class="detail-block">
-          <div class="detail-label">Subjects Covered</div>
-          <div class="detail-items">
-            <span class="detail-pill">Physics</span>
-            <span class="detail-pill">Chemistry</span>
-            <span class="detail-pill">Mathematics</span>
-            <span class="detail-pill">Biology</span>
-            <span class="detail-pill">Computer Science</span>
-            <span class="detail-pill">English & Nepali</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Exam Focus</div>
-          <div class="detail-items">
-            <span class="detail-pill highlight">NEB Board</span>
-            <span class="detail-pill">IOE Entrance</span>
-            <span class="detail-pill">IOM Entrance</span>
-            <span class="detail-pill">Derivations</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Learning Modes</div>
-          <div class="detail-items">
-            <span class="detail-pill">🏠 Home Tution</span>
-            <span class="detail-pill">👥 Group Tution</span>
-            <span class="detail-pill">💻 Online</span>
-            <span class="detail-pill">📝 Notes Provided</span>
-          </div>
-        </div>
-      </div>
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:0.78rem;color:var(--cyan);font-weight:700;margin-bottom:0.3rem;">SUBJECTS</div>
+              <span class="detail-pill">Mathematics</span>
+              <span class="detail-pill">Physics & Chem</span>
+              <span class="detail-pill">Biology</span>
+              <span class="detail-pill">English</span>
+            </div>
 
-      <!-- RESOURCES FOR GRADE 11-12 -->
-      <div class="class-resources reveal">
-        <div class="resources-title">📚 Class Resources</div>
-        <div class="resources-grid">
-          <div class="resource-item">
-            <div class="resource-icon">📋</div>
-            <div class="resource-label">Official Syllabus</div>
-            <a href="https://moecdc.gov.np/category/course--g-/?page=1#" target="_blank" class="resource-link">Nepal Curriculum →</a>
+            <div>
+              <div style="font-size:0.78rem;color:var(--green);font-weight:700;margin-bottom:0.3rem;">RESOURCES</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;font-size:0.8rem;">
+                <a href="https://moecdc.gov.np" target="_blank" style="color:var(--text-muted);text-decoration:none;">📋
+                  Official Syllabus</a>
+                <a href="videos.html" style="color:var(--cyan);text-decoration:none;">🎥 Video Lessons</a>
+              </div>
+            </div>
           </div>
-          <div class="resource-item">
-            <div class="resource-icon">📖</div>
-            <div class="resource-label">Complete Notes</div>
-            <a href="https://drive.google.com/folder/placeholder-notes-1112" target="_blank" class="resource-link">Access Drive →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">📐</div>
-            <div class="resource-label">Derivations</div>
-            <a href="https://drive.google.com/folder/placeholder-derivations" target="_blank" class="resource-link">Download →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">💯</div>
-            <div class="resource-label">Entrance Prep</div>
-            <a href="https://drive.google.com/folder/placeholder-entrance" target="_blank" class="resource-link">Access →</a>
-          </div>
+          <a href="contact.html" class="btn-primary"
+            style="margin-top:1.5rem;text-align:center;text-decoration:none;">Enroll Grade 1-8 →</a>
         </div>
-      </div>
-    </div>
 
-    <!-- CLASS 4: A-LEVEL PROGRAMME -->
-    <div class="class-detail reveal">
-      <div class="class-detail-header blue">
-        <div class="class-icon icon-blue">🎓</div>
-        <div class="class-header-info">
-          <span class="grade-badge">Advanced Level</span>
-          <h2>Cambridge A-Level Programme</h2>
-          <p>Our A-Level programme provides comprehensive instruction in Mathematics, Physics, Chemistry, Computer Science, and other STEM subjects. Focus on building strong conceptual understanding, analytical thinking, and problem-solving skills while preparing for Cambridge International AS & A Level examinations.</p>
-        </div>
-      </div>
-      <div class="class-detail-body">
-        <div class="detail-block">
-          <div class="detail-label">Subjects Covered</div>
-          <div class="detail-items">
-            <span class="detail-pill">Mathematics</span>
-            <span class="detail-pill">Physics</span>
-            <span class="detail-pill">Chemistry</span>
-            <span class="detail-pill">Biology</span>
-            <span class="detail-pill">Computer Science</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Programme Focus</div>
-          <div class="detail-items">
-            <span class="detail-pill highlight">Cambridge Int'l</span>
-            <span class="detail-pill">Deep Concept Building</span>
-            <span class="detail-pill">University Prep</span>
-            <span class="detail-pill">AS & A Levels</span>
-          </div>
-        </div>
-        <div class="detail-block">
-          <div class="detail-label">Learning Modes</div>
-          <div class="detail-items">
-            <span class="detail-pill">🏠 Home Tution</span>
-            <span class="detail-pill">👥 Group Tution</span>
-            <span class="detail-pill">💻 Online</span>
-            <span class="detail-pill">📝 Notes Provided</span>
-          </div>
-        </div>
-      </div>
+        <!-- Grade 9 - 10 SEE -->
+        <div class="class-detail-card soft-card">
+          <div>
+            <div style="font-size:2rem;margin-bottom:0.5rem;">⚙️</div>
+            <span class="detail-pill highlight">Grade 9 – 10</span>
+            <h3 style="font-size:1.3rem;margin:0.4rem 0;">SEE Board Preparation</h3>
+            <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1rem;">Targeted board preparation for
+              Science, C.Math, Opt. Math, and Computer Science with past paper drills.</p>
 
-      <!-- RESOURCES FOR A-LEVEL -->
-      <div class="class-resources reveal">
-        <div class="resources-title">📚 Class Resources</div>
-        <div class="resources-grid">
-          <div class="resource-item">
-            <div class="resource-icon">📋</div>
-            <div class="resource-label">Cambridge Curriculum</div>
-            <a href="https://moecdc.gov.np/category/course--g-/?page=1#" target="_blank" class="resource-link">View Syllabus →</a>
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:0.78rem;color:var(--cyan);font-weight:700;margin-bottom:0.3rem;">SUBJECTS</div>
+              <span class="detail-pill">C. Math</span>
+              <span class="detail-pill">Opt. Math</span>
+              <span class="detail-pill">Science</span>
+              <span class="detail-pill">Computer</span>
+            </div>
+
+            <div>
+              <div style="font-size:0.78rem;color:var(--green);font-weight:700;margin-bottom:0.3rem;">RESOURCES</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;font-size:0.8rem;">
+                <a href="videos.html" style="color:var(--cyan);text-decoration:none;">📄 Past Papers</a>
+                <a href="videos.html" style="color:var(--cyan);text-decoration:none;">🎯 Mock Tests</a>
+              </div>
+            </div>
           </div>
-          <div class="resource-item">
-            <div class="resource-icon">📖</div>
-            <div class="resource-label">Complete Study Notes</div>
-            <a href="https://drive.google.com/folder/placeholder-notes-alevel" target="_blank" class="resource-link">Access Drive →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">📝</div>
-            <div class="resource-label">Past Papers</div>
-            <a href="https://drive.google.com/folder/placeholder-pastpapers-alevel" target="_blank" class="resource-link">Download →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon">🎯</div>
-            <div class="resource-label">University Prep</div>
-            <a href="https://drive.google.com/folder/placeholder-prep-alevel" target="_blank" class="resource-link">Access →</a>
-          </div>
+          <a href="contact.html" class="btn-primary"
+            style="margin-top:1.5rem;text-align:center;text-decoration:none;">Enroll SEE Batch →</a>
         </div>
+
+        <!-- Grade 11 - 12 NEB -->
+        <div class="class-detail-card soft-card">
+          <div>
+            <div style="font-size:2rem;margin-bottom:0.5rem;">⚗️</div>
+            <span class="detail-pill highlight">Grade 11 – 12</span>
+            <h3 style="font-size:1.3rem;margin:0.4rem 0;">NEB Science Stream</h3>
+            <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1rem;">Advanced Physics, Chemistry,
+              Biology, and Calculus coaching with IOE & IOM entrance orientation.</p>
+
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:0.78rem;color:var(--cyan);font-weight:700;margin-bottom:0.3rem;">SUBJECTS</div>
+              <span class="detail-pill">Physics</span>
+              <span class="detail-pill">Chemistry</span>
+              <span class="detail-pill">Calculus</span>
+              <span class="detail-pill">Biology</span>
+            </div>
+
+            <div>
+              <div style="font-size:0.78rem;color:var(--green);font-weight:700;margin-bottom:0.3rem;">RESOURCES</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;font-size:0.8rem;">
+                <a href="videos.html" style="color:var(--cyan);text-decoration:none;">📖 Full Notes</a>
+                <a href="videos.html" style="color:var(--cyan);text-decoration:none;">📐 Derivations Sheet</a>
+              </div>
+            </div>
+          </div>
+          <a href="contact.html" class="btn-primary"
+            style="margin-top:1.5rem;text-align:center;text-decoration:none;">Enroll NEB Batch →</a>
+        </div>
+
+        <!-- A-Level -->
+        <div class="class-detail-card soft-card">
+          <div>
+            <div style="font-size:2rem;margin-bottom:0.5rem;">🎓</div>
+            <span class="detail-pill highlight">Cambridge A-Level</span>
+            <h3 style="font-size:1.3rem;margin:0.4rem 0;">A-Level Programme</h3>
+            <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1rem;">Rigorous instruction for Cambridge
+              AS & A2 exams in Mathematics, Physics (9702), Chemistry (9701), and CS.</p>
+
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:0.78rem;color:var(--cyan);font-weight:700;margin-bottom:0.3rem;">SUBJECTS</div>
+              <span class="detail-pill">A-Level Math</span>
+              <span class="detail-pill">Physics 9702</span>
+              <span class="detail-pill">Chemistry 9701</span>
+            </div>
+
+            <div>
+              <div style="font-size:0.78rem;color:var(--green);font-weight:700;margin-bottom:0.3rem;">RESOURCES</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;font-size:0.8rem;">
+                <a href="videos.html" style="color:var(--cyan);text-decoration:none;">📝 Past Papers</a>
+                <a href="videos.html" style="color:var(--cyan);text-decoration:none;">🎯 Uni Prep</a>
+              </div>
+            </div>
+          </div>
+          <a href="contact.html" class="btn-primary"
+            style="margin-top:1.5rem;text-align:center;text-decoration:none;">Enroll A-Level →</a>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section id="timings">
-    <div class="reveal">
-      <span class="section-tag">⏰ Batch Timings</span>
-      <h2>Choose Your Slot</h2>
-      <p style="color:var(--muted);margin-top:.6rem;">Available batches for all grades. Contact us to confirm your preferred slot — batches fill up quickly!</p>
-    </div>
-    <div class="timings-grid">
-      <div class="timing-card reveal">
-        <div class="timing-time">6:00 AM – 8:00 AM</div>
-        <div class="timing-label">☀️ Early Morning Batch</div>
-        <div class="timing-desc">Perfect for students who prefer learning before school hours. Good for focus and fresh minds.</div>
-      </div>
-      <div class="timing-card reveal">
-        <div class="timing-time">4:00 PM – 6:00 PM</div>
-        <div class="timing-label">🌆 After-School Batch</div>
-        <div class="timing-desc">Most popular slot — ideal for school-going students. Perfect transition after school.</div>
-      </div>
-      <div class="timing-card reveal">
-        <div class="timing-time">6:00 PM – 8:00 PM</div>
-        <div class="timing-label">🌙 Evening Batch</div>
-        <div class="timing-desc">Great for Grade 11–12 students with busier daytime schedules and exam prep focus.</div>
-      </div>
-    </div>
-
-    <div class="fees-note reveal">
-      <div class="fees-note-icon">💡</div>
-      <p><strong>Note on Fees:</strong> Fees vary by grade and subject. Contact us directly at <strong>+977 9768021317</strong> or <strong>gurungsajan0228@gmail.com</strong> for the current fee structure. We believe quality education should be accessible — ask us about any available discounts or flexible payment options.</p>
-    </div>
-  </section>
-
-  <!-- LEARNINGHUB STEM BANNER -->
+  <!-- Batch Timings Horizontal Track -->
   <section>
-    <div style="background:linear-gradient(135deg,rgba(26,111,255,.12),rgba(0,232,162,.06));border:1px solid rgba(0,232,162,.25);border-radius:24px;padding:2.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;" class="reveal">
-      <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;">🚀</div>
-      <div style="flex:1;min-width:200px;">
-        <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.3rem;">Free Resource</div>
-        <div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.4rem;">LearningHub STEM</div>
-        <p style="color:var(--muted);font-size:.95rem;line-height:1.6;">Want to go deeper? Follow our free social pages for in-depth STEM concept explanations, advanced topic breakdowns, and detailed lessons — completely free for everyone.</p>
-        <div class="social-links">
-          <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="social-btn social-youtube">▶️ YouTube</a>
-          <a href="https://www.facebook.com/profile.php?id=61586052460441" target="_blank" class="social-btn social-facebook">📘 Facebook</a>
-          <a href="https://www.instagram.com/stem.tuition/" target="_blank" class="social-btn social-instagram">📸 Instagram</a>
-          <a href="https://www.tiktok.com/@learninghubstem" target="_blank" class="social-btn social-tiktok">🎵 TikTok</a>
-          <a href="https://x.com/LearningHubSTEM" target="_blank" class="social-btn social-twitter">𝕏 Twitter</a>
+    <div class="section-header-row reveal-on-scroll">
+      <div>
+        <span class="section-tag">⏰ Timings & Slots</span>
+        <h2 style="font-size:1.8rem;">Daily Batch Schedule</h2>
+      </div>
+      <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
+    </div>
+
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container">
+        <div class="soft-card" style="flex:0 0 280px;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--cyan);">6:00 AM – 8:00 AM</div>
+          <div style="font-size:0.95rem;font-weight:700;margin:0.3rem 0;">☀️ Morning Batch</div>
+          <p style="color:var(--text-muted);font-size:0.85rem;">Ideal for students who focus best early in the morning
+            before school hours.</p>
+        </div>
+        <div class="soft-card" style="flex:0 0 280px;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--green);">4:00 PM – 6:00 PM</div>
+          <div style="font-size:0.95rem;font-weight:700;margin:0.3rem 0;">🌆 After-School Batch</div>
+          <p style="color:var(--text-muted);font-size:0.85rem;">Most popular slot — perfect transition immediately
+            following school classes.</p>
+        </div>
+        <div class="soft-card" style="flex:0 0 280px;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--purple);">6:00 PM – 8:00 PM</div>
+          <div style="font-size:0.95rem;font-weight:700;margin:0.3rem 0;">🌙 Evening Batch</div>
+          <p style="color:var(--text-muted);font-size:0.85rem;">Great for Grade 11–12 and A-Level students with busier
+            daytime schedules.</p>
         </div>
       </div>
-    </div>
-
-    <div class="cta-strip reveal">
-      <h2>Ready to Start?</h2>
-      <p>Get in touch today and secure your seat in the next available batch.</p>
-      <a href="contact.html" class="btn-primary">📞 Contact Us Now</a>
     </div>
   </section>
 
   <footer>
     <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="index.html" class="nav-logo">STEM Tution</a>
-        <p>All subjects (≤Gr.8) · Science, Math & Language (Gr.9–10) · Physics, Chemistry, Math & Language (Gr.11–12). Home, group & online tution in Pokhara.</p>
+      <div>
+        <a href="index.html" class="nav-logo"><span>⚡</span> STEM Tuition</a>
+        <p style="margin-top:0.6rem;">Dedicated home, group, and online STEM tutoring in Pokhara, Nepal.</p>
       </div>
       <div class="footer-links">
-        <h4>Pages</h4>
+        <h4>Navigation</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="classes.html">Classes</a></li>
@@ -505,26 +538,49 @@
         </ul>
       </div>
       <div class="footer-links">
-        <h4>Contact & Links</h4>
+        <h4>Contact</h4>
         <ul>
           <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
           <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
-          <li><a href="https://wa.me/9768021317?text=Hello!%20I'm%20interested%20in%20STEM%20Tution" target="_blank">💬 WhatsApp</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube</a></li>
-          <li><a href="https://www.facebook.com/profile.php?id=61586052460441" target="_blank">📘 Facebook</a></li>
-          <li><a href="https://www.instagram.com/stem.tuition/" target="_blank">📸 Instagram</a></li>
-          <li><a href="https://www.tiktok.com/@learninghubstem" target="_blank">🎵 TikTok</a></li>
-          <li><a href="https://x.com/LearningHubSTEM" target="_blank">𝕏 Twitter</a></li>
+          <li><a href="https://wa.me/9779768021317" target="_blank">💬 WhatsApp</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">© 2025 STEM Tution · Pokhara, Nepal · All rights reserved.</div>
-  </footer>
+  <!-- External JS Engines -->
+  <script src="js/main.js?v=13.0"></script>
+  <script src="js/stem-pioneers.js?v=13.0" defer></script>
+  <script src="js/stem-quiz.js?v=13.0" defer></script>
+  <script src="js/stem-effects.js?v=13.0" defer></script>
 
   <script>
-    const reveals=document.querySelectorAll('.reveal');
-    const observer=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);observer.unobserve(e.target)}})},{threshold:.1});
-    reveals.forEach(el=>observer.observe(el));
+    document.addEventListener('DOMContentLoaded', () => {
+      // Scroll reveal
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+      // Horizontal Mouse Wheel Scroll (Non-Locking Rule)
+      document.querySelectorAll('.h-scroll-container').forEach(container => {
+        container.addEventListener('wheel', (evt) => {
+          const atRightEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+          const atLeftEnd = container.scrollLeft <= 0;
+
+          if ((evt.deltaY > 0 && !atRightEnd) || (evt.deltaY < 0 && !atLeftEnd)) {
+            evt.preventDefault();
+            container.scrollBy({ left: evt.deltaY * 1.5, behavior: 'smooth' });
+          }
+        }, { passive: false });
+      });
+
+      // Progress bar
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.getElementById('scroll-progress').style.width = ((winScroll / height) * 100) + '%';
+      });
+    });
   </script>
 </body>
+
 </html>

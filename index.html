@@ -1,423 +1,634 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>STEM Tution – Pokhara</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --navy:#0a0f2e; --navy2:#111740; --blue:#1a6fff; --cyan:#00d4ff;
-      --green:#00e8a2; --white:#f0f4ff; --muted:#8892b8;
-      --card:rgba(255,255,255,0.04); --border:rgba(255,255,255,0.08);
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--white); overflow-x:hidden; }
-    body::before {
-      content:''; position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events:none; z-index:0; opacity:.5;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEM Tuition – Pokhara | Interactive STEM Hub</title>
 
-    /* NAV */
-    nav {
-      position:fixed; top:0; width:100%; z-index:100;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:1.2rem 6%;
-      background:rgba(10,15,46,0.85); backdrop-filter:blur(14px);
-      border-bottom:1px solid var(--border);
-    }
-    .nav-logo {
-      font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800;
-      background:linear-gradient(90deg,var(--cyan),var(--blue));
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      text-decoration:none;
-    }
-    .nav-links { display:flex; gap:2rem; list-style:none; }
-    .nav-links a { color:var(--muted); text-decoration:none; font-size:.95rem; font-weight:500; transition:color .25s; }
-    .nav-links a:hover, .nav-links a.active { color:var(--white); }
-    .nav-cta {
-      background:var(--blue); color:#fff; padding:.55rem 1.4rem;
-      border-radius:50px; text-decoration:none; font-weight:600; font-size:.9rem;
-      transition:background .25s, transform .2s;
-    }
-    .nav-cta:hover { background:var(--cyan); color:var(--navy); transform:translateY(-1px); }
-    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
-    .hamburger span { width:24px; height:2px; background:var(--white); border-radius:2px; transition:.3s; }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
 
-    /* HERO */
-    .hero {
-      min-height:100vh; display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      text-align:center; padding:7rem 6% 4rem; position:relative; overflow:hidden;
-    }
-    .blob { position:absolute; border-radius:50%; filter:blur(90px); opacity:.25; pointer-events:none; animation:drift 10s ease-in-out infinite alternate; }
-    .blob1 { width:520px; height:520px; background:var(--blue); top:-120px; left:-180px; }
-    .blob2 { width:400px; height:400px; background:var(--cyan); bottom:-80px; right:-120px; animation-delay:-3s; }
-    .blob3 { width:300px; height:300px; background:var(--green); top:55%; left:50%; transform:translate(-50%,-50%); animation-delay:-6s; opacity:.15; }
-    @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,40px) scale(1.07)} }
-
-    .hero-tag {
-      display:inline-flex; align-items:center; gap:.5rem;
-      background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.3);
-      color:var(--cyan); border-radius:50px; padding:.35rem 1rem;
-      font-size:.82rem; font-weight:500; margin-bottom:1.6rem;
-      animation:fadeUp .7s ease both;
-    }
-    h1 { font-family:'Syne',sans-serif; font-size:clamp(2.8rem,7vw,5.5rem); font-weight:800; line-height:1.08; letter-spacing:-.02em; animation:fadeUp .8s .1s ease both; }
-    h1 .accent { background:linear-gradient(135deg,var(--cyan) 0%,var(--blue) 50%,var(--green) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .hero-sub { margin-top:1.4rem; color:var(--muted); font-size:clamp(1rem,2.2vw,1.2rem); max-width:560px; line-height:1.7; animation:fadeUp .85s .2s ease both; }
-    .hero-btns { display:flex; gap:1rem; margin-top:2.4rem; flex-wrap:wrap; justify-content:center; animation:fadeUp .9s .3s ease both; }
-    .btn-primary {
-      background:linear-gradient(135deg,var(--blue),var(--cyan)); color:var(--navy);
-      padding:.85rem 2.2rem; border-radius:50px; font-weight:700; font-size:1rem;
-      text-decoration:none; transition:transform .2s, box-shadow .2s;
-      box-shadow:0 0 30px rgba(26,111,255,.4);
-    }
-    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 50px rgba(26,111,255,.6); }
-    .btn-secondary {
-      border:1.5px solid var(--border); color:var(--white); padding:.85rem 2.2rem;
-      border-radius:50px; font-weight:600; font-size:1rem;
-      text-decoration:none; transition:border-color .2s, background .2s;
-    }
-    .btn-secondary:hover { border-color:var(--cyan); background:rgba(0,212,255,.07); }
-
-    .hero-stats { display:flex; gap:3rem; margin-top:4rem; flex-wrap:wrap; justify-content:center; animation:fadeUp 1s .45s ease both; }
-    .stat { text-align:center; }
-    .stat-num { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; background:linear-gradient(90deg,var(--cyan),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .stat-label { color:var(--muted); font-size:.85rem; margin-top:.2rem; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-
-    /* SECTIONS */
-    section { padding:6rem 6%; position:relative; }
-    .section-tag { display:inline-block; font-size:.8rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan); margin-bottom:.8rem; }
-    h2 { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; line-height:1.15; }
-    .section-intro { color:var(--muted); max-width:520px; margin-top:.8rem; line-height:1.7; }
-
-    /* CLASSES */
-    #classes { background:var(--navy2); }
-    .classes-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-top:3rem; }
-    .class-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:2rem; position:relative; overflow:hidden; transition:transform .3s, border-color .3s; }
-    .class-card:hover { transform:translateY(-5px); border-color:var(--blue); }
-    .class-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
-    .card-blue::before  { background:linear-gradient(90deg,var(--blue),var(--cyan)); }
-    .card-green::before { background:linear-gradient(90deg,var(--green),var(--cyan)); }
-    .card-purple::before{ background:linear-gradient(90deg,#a855f7,var(--blue)); }
-    .class-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1.2rem; }
-    .icon-blue  { background:rgba(26,111,255,.15); }
-    .icon-green { background:rgba(0,232,162,.15); }
-    .icon-purple{ background:rgba(168,85,247,.15); }
-    .class-grade { font-size:.78rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--cyan); margin-bottom:.4rem; }
-    .class-title { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:700; margin-bottom:.8rem; }
-    .class-subjects { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
-    .subject-pill { background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:50px; padding:.3rem .9rem; font-size:.8rem; color:var(--muted); }
-
-    /* WHY */
-    .why-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.2rem; margin-top:3rem; }
-    .why-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.6rem; transition:border-color .25s; }
-    .why-card:hover { border-color:rgba(0,212,255,.4); }
-    .why-icon { font-size:2rem; margin-bottom:1rem; }
-    .why-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:.4rem; }
-    .why-text { color:var(--muted); font-size:.9rem; line-height:1.6; }
-
-    /* HOW */
-    #how { background:var(--navy2); }
-    .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-top:3rem; }
-    .step { text-align:center; }
-    .step-num { width:60px; height:60px; background:linear-gradient(135deg,var(--cyan),var(--blue)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:800; margin:0 auto 1rem; }
-    .step-title { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:.4rem; }
-    .step-text { color:var(--muted); font-size:.9rem; line-height:1.6; }
-
-    /* SOCIAL BANNER */
-    .social-banner { 
-      background:linear-gradient(135deg,rgba(0,212,255,.12),rgba(0,232,162,.08)); 
-      border:1px solid rgba(0,212,255,.25); border-radius:24px; 
-      padding:2.5rem; display:flex; align-items:center; gap:2rem; 
-      flex-wrap:wrap; margin:3rem 0; 
-    }
-    .social-icon { width:64px; height:64px; background:linear-gradient(135deg,var(--blue),var(--cyan)); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
-    .social-info { flex:1; min-width:200px; }
-    .social-tag { font-size:.78rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--green); margin-bottom:.3rem; }
-    .social-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:.4rem; }
-    .social-text { color:var(--muted); font-size:.95rem; line-height:1.6; }
-    .social-links { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem; }
-    .social-btn { display:inline-flex; align-items:center; gap:.4rem; padding:.55rem 1.2rem; border-radius:50px; text-decoration:none; font-weight:600; font-size:.9rem; transition:transform .2s; }
-    .social-youtube { background:#ff0000; color:#fff; }
-    .social-youtube:hover { transform:translateY(-2px); }
-    .social-instagram { background:#E1306C; color:#fff; }
-    .social-instagram:hover { transform:translateY(-2px); }
-    .social-facebook { background:#1877F2; color:#fff; }
-    .social-facebook:hover { transform:translateY(-2px); }
-    .social-tiktok { background:#000; color:#fff; }
-    .social-tiktok:hover { transform:translateY(-2px); }
-    .social-twitter { background:#1DA1F2; color:#fff; }
-    .social-twitter:hover { transform:translateY(-2px); }
-    .social-whatsapp { background:#25D366; color:#fff; }
-    .social-whatsapp:hover { transform:translateY(-2px); }
-
-    /* REVEAL ANIMATION */
-    .reveal { opacity:0; transform:translateY(30px); transition:opacity .65s ease, transform .65s ease; }
-    .reveal.visible { opacity:1; transform:translateY(0); }
-
-    /* FOOTER */
-    footer {
-      background:rgba(0,0,0,.3); border-top:1px solid var(--border);
-      padding:2.5rem 6%;
-    }
-    .footer-inner {
-      display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between;
-      align-items:flex-start; margin-bottom:2rem;
-    }
-    .footer-brand { }
-    .footer-brand p { color:var(--muted); font-size:.88rem; line-height:1.6; max-width:260px; margin-top:.4rem; }
-    .footer-links { }
-    .footer-links h4 { font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; margin-bottom:.8rem; }
-    .footer-links ul { list-style:none; display:flex; flex-direction:column; gap:.5rem; }
-    .footer-links a { color:var(--muted); text-decoration:none; font-size:.88rem; transition:color .2s; }
-    .footer-links a:hover { color:var(--cyan); }
-    .footer-bottom { border-top:1px solid var(--border); padding-top:1.2rem; text-align:center; color:var(--muted); font-size:.82rem; }
-
-    @media(max-width:768px) {
-      .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:rgba(10,15,46,.97); padding:1.5rem 6%; gap:1rem; border-bottom:1px solid var(--border); }
-      .nav-links.open { display:flex; }
-      .hamburger { display:flex; }
-      .social-banner { flex-direction:column; }
-      .social-links { justify-content:center; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/main.css?v=13.0" />
+  <link rel="stylesheet" href="css/stem-theme.css?v=13.0" />
 </head>
+
 <body>
 
+  <!-- Top Scroll Progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Navbar -->
   <nav>
-    <a href="index.html" class="nav-logo">STEM Tution</a>
+    <a href="index.html" class="nav-logo">
+      <span>⚡</span> STEM Tuition
+    </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="classes.html">Classes</a></li>
       <li><a href="videos.html">Videos & Notes</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-    <div style="display:flex;gap:1rem;align-items:center;">
-      <a href="contact.html" class="nav-cta">Enroll Now</a>
-      <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
-        <span></span><span></span><span></span>
-      </div>
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <a href="contact.html" class="nav-cta" onclick="openEnrollModal('Quick Enroll')">Enroll Now</a>
     </div>
   </nav>
 
+  <!-- Hero Section -->
   <div class="hero">
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
-    <div class="blob blob3"></div>
-    <span class="hero-tag">🎓 Quality STEM Education in Pokhara</span>
-    <h1>Master <span class="accent">Science & Math</span> with Expert Guidance</h1>
-    <p class="hero-sub">Home tution, group classes & online sessions. Aligned with Nepal's national curriculum (NEB & SEE). Small batches, personal attention, proven results.</p>
-    <div class="hero-btns">
-      <a href="#classes" class="btn-primary">Explore Classes</a>
-      <a href="videos.html" class="btn-secondary">Watch Free Content →</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">100+</div>
-        <div class="stat-label">Students Taught</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">15+</div>
-        <div class="stat-label">Years Experience</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">95%</div>
-        <div class="stat-label">Pass Rate</div>
+    <div class="hero-content reveal-on-scroll">
+      <div class="hero-tag">🎓 Quality STEM Education in Pokhara</div>
+      <h1>Master <span class="accent">Science & Math</span> with Expert Guidance</h1>
+      <p class="hero-sub">Home tuition, group classes & live online sessions aligned with Nepal's SEE, NEB & Cambridge
+        A-Levels. Personalized attention, conceptual depth, proven results.</p>
+
+      <div class="hero-btns">
+        <button onclick="openEnrollModal('Hero Direct')" class="btn-primary">🚀 Get Started Now</button>
+        <a href="#classes" class="btn-secondary">Explore Classes →</a>
+        <a href="#quiz" class="btn-secondary">Test STEM Quiz ⚡</a>
       </div>
     </div>
   </div>
 
+  <!-- Horizontal Scroll Class Offerings -->
   <section id="classes">
-    <div class="reveal">
-      <span class="section-tag">📚 Our Classes</span>
-      <h2>Choose Your Grade & Subject</h2>
-      <p class="section-intro">Comprehensive STEM classes for all grades — from foundations to board exam preparation.</p>
-    </div>
-    <div class="classes-grid">
-      <div class="class-card card-blue reveal">
-        <div class="class-icon icon-blue">🔢</div>
-        <div class="class-grade">Grade 1 – 8</div>
-        <div class="class-title">Foundation STEM</div>
-        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">All subjects including Math, Physics, Chemistry, Biology, English, Nepali, and Social Studies. Build strong fundamentals for higher grades.</p>
-        <div class="class-subjects">
-          <span class="subject-pill">Mathematics</span>
-          <span class="subject-pill">Science (Physics, Chemistry, Biology)</span>
-          <span class="subject-pill">English</span>
-          <span class="subject-pill">Nepali</span>
-        </div>
+    <div class="section-header-row reveal-on-scroll">
+      <div class="section-header-info">
+        <span class="section-tag">📚 Class Offerings</span>
+        <h2>Targeted Academic Programs</h2>
+        <p class="section-intro">Scroll horizontally with your mouse wheel or swipe to explore class tiers.</p>
       </div>
-      <div class="class-card card-green reveal">
-        <div class="class-icon icon-green">⚙️</div>
-        <div class="class-grade">Grade 9 – 10</div>
-        <div class="class-title">SEE Board Prep</div>
-        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">Complete SEE preparation — Mathematics, Physics, Chemistry, Biology, Computer Science, and Language subjects with practice tests and past papers.</p>
-        <div class="class-subjects">
-          <span class="subject-pill">Mathematics</span>
-          <span class="subject-pill">Physics & Chemistry</span>
-          <span class="subject-pill">Biology</span>
-          <span class="subject-pill">Computer Science</span>
-          <span class="subject-pill">English & Nepali</span>
-        </div>
-      </div>
-      <div class="class-card card-purple reveal">
-        <div class="class-icon icon-purple">⚗️</div>
-        <div class="class-grade">Grade 11 – 12</div>
-        <div class="class-title">NEB Science Stream</div>
-        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">Advanced NEB preparation — Physics, Chemistry, Biology, Mathematics, Computer Science plus Language subjects for complete board exam readiness and entrance prep.</p>
-        <div class="class-subjects">
-          <span class="subject-pill">Physics & Chemistry</span>
-          <span class="subject-pill">Mathematics</span>
-          <span class="subject-pill">Biology</span>
-          <span class="subject-pill">Computer Science</span>
-          <span class="subject-pill">English & Nepali</span>
-        </div>
-      </div>
-      <div class="class-card card-blue reveal">
-        <div class="class-icon icon-blue">🎓</div>
-        <div class="class-grade">Advanced Level</div>
-        <div class="class-title">Cambridge A-Level</div>
-        <p style="color:var(--muted);font-size:.9rem;line-height:1.6;">Our A-Level programme provides comprehensive instruction in Mathematics, Physics, Chemistry, Computer Science, and other STEM subjects while preparing for Cambridge International AS & A Level examinations.</p>
-        <div class="class-subjects">
-          <span class="subject-pill">Mathematics</span>
-          <span class="subject-pill">Physics</span>
-          <span class="subject-pill">Chemistry</span>
-          <span class="subject-pill">Biology</span>
-          <span class="subject-pill">Computer Science</span>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+        <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
+        <div class="filter-pills">
+          <button class="pill-btn active" onclick="filterClasses('all', this)">All</button>
+          <button class="pill-btn" onclick="filterClasses('foundation', this)">Gr 1-8</button>
+          <button class="pill-btn" onclick="filterClasses('see', this)">SEE</button>
+          <button class="pill-btn" onclick="filterClasses('neb', this)">NEB</button>
+          <button class="pill-btn" onclick="filterClasses('alevel', this)">A-Level</button>
         </div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:2.5rem;">
-      <a href="classes.html" class="btn-primary">See Full Class Details →</a>
-    </div>
-  </section>
 
-  <section style="background:var(--navy2);">
-    <div class="reveal">
-      <span class="section-tag">📖 How You Learn</span>
-      <h2>Flexible Learning Modes</h2>
-      <p class="section-intro">Choose the mode that works best for you — or mix and match!</p>
-    </div>
-    <div class="why-grid" style="margin-top:2.5rem;">
-      <div class="why-card reveal">
-        <div class="why-icon">🏠</div>
-        <div class="why-title">Home Tution</div>
-        <div class="why-text">One-on-one personalized sessions at your home for maximum comfort, focus, and individual attention.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">👥</div>
-        <div class="why-title">Group Tution</div>
-        <div class="why-text">Small group classes for collaborative learning, peer interaction, and a classroom-like environment.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">💻</div>
-        <div class="why-title">Online Sessions</div>
-        <div class="why-text">Live online classes via Zoom/Google Meet — same quality and attention, learn from anywhere.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">📝</div>
-        <div class="why-title">Notes Provided</div>
-        <div class="why-text">Comprehensive study notes, practice sheets, and revision materials included with all classes.</div>
+    <!-- Horizontal Carousel Track -->
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container" id="classesGridContainer">
+        <!-- JS rendered cards -->
       </div>
     </div>
   </section>
 
-  <section id="why">
-    <div class="reveal">
-      <span class="section-tag">⭐ Why STEM Tution</span>
-      <h2>The STEM Advantage</h2>
-      <p class="section-intro">We don't just teach — we help students truly understand and enjoy learning.</p>
-    </div>
-    <div class="why-grid">
-      <div class="why-card reveal"><div class="why-icon">🎯</div><div class="why-title">Concept-First Approach</div><div class="why-text">We focus on understanding before memorization — so knowledge sticks for exams and beyond.</div></div>
-      <div class="why-card reveal"><div class="why-icon">📝</div><div class="why-title">Regular Practice Tests</div><div class="why-text">Frequent mock tests and assignments keep students exam-ready throughout the year.</div></div>
-      <div class="why-card reveal"><div class="why-icon">👨‍🏫</div><div class="why-title">Personal Attention</div><div class="why-text">Small batch sizes ensure every student gets individual guidance and doubt-clearing time.</div></div>
-      <div class="why-card reveal"><div class="why-icon">📈</div><div class="why-title">Track Record of Results</div><div class="why-text">Students consistently improve grades and score well in SEE and NEB board exams.</div></div>
-      <div class="why-card reveal"><div class="why-icon">💬</div><div class="why-title">Doubt Sessions</div><div class="why-text">Questions are never left unanswered — dedicated doubt-clearing sessions every week.</div></div>
-      <div class="why-card reveal"><div class="why-icon">🚀</div><div class="why-title">LearningHub STEM</div><div class="why-text">Follow our free social page for in-depth STEM explanations, advanced concepts and topic deep-dives — completely free!</div></div>
+  <!-- Interactive Dynamic Estimator Card -->
+  <section id="calculator">
+    <div class="calc-card reveal-on-scroll" style="max-width:1000px;margin:0 auto;">
+      <div class="section-header-info" style="margin-bottom:1.5rem;">
+        <span class="section-tag">🎯 Custom Plan Builder</span>
+        <h2 style="font-size:1.6rem;margin-top:0.2rem;">Interactive Fee & Schedule Estimator</h2>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.8rem;">
+        <!-- Step 1 -->
+        <div>
+          <label
+            style="display:block;color:var(--cyan);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.6rem;">1.
+            Select Grade</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;" id="gradeBtnGroup">
+            <button type="button" class="grade-opt-btn active" onclick="setCalcGrade('g1_8', this)">Grade 1 – 8</button>
+            <button type="button" class="grade-opt-btn" onclick="setCalcGrade('g9_10', this)">Grade 9 – 10
+              (SEE)</button>
+            <button type="button" class="grade-opt-btn" onclick="setCalcGrade('g11_12', this)">Grade 11 – 12
+              (NEB)</button>
+            <button type="button" class="grade-opt-btn" onclick="setCalcGrade('alevel', this)">Cambridge
+              A-Level</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div>
+          <label
+            style="display:block;color:var(--green);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.6rem;">2.
+            Choose Subjects</label>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;" id="subjectBtnGroup">
+            <label class="subject-toggle"><input type="checkbox" value="Mathematics" checked
+                onchange="updateCalcSummary()" /> 📐 Math</label>
+            <label class="subject-toggle"><input type="checkbox" value="Physics" checked
+                onchange="updateCalcSummary()" /> ⚡ Physics</label>
+            <label class="subject-toggle"><input type="checkbox" value="Chemistry" checked
+                onchange="updateCalcSummary()" /> 🧪 Chemistry</label>
+            <label class="subject-toggle"><input type="checkbox" value="Biology" onchange="updateCalcSummary()" /> 🧬
+              Biology</label>
+            <label class="subject-toggle"><input type="checkbox" value="Computer Science"
+                onchange="updateCalcSummary()" /> 💻 CS</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 & Output Banner -->
+      <div
+        style="margin-top:1.5rem;border-top:1px solid var(--glass-border);padding-top:1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;">
+        <div>
+          <div style="font-weight:700;color:#fff;font-size:1.05rem;" id="calcGradeTitle">Selected: Grade 1 – 8
+            (Foundation)</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.2rem;" id="calcDetailsText">Subjects:
+            Mathematics, Physics</div>
+          <div style="color:var(--green);font-size:0.88rem;font-weight:700;margin-top:0.2rem;" id="calcEstFee">Est.
+            Commitment: 4 Hours / Week</div>
+        </div>
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+          <a href="#" id="whatsappCalcBtn" target="_blank" class="btn-primary"
+            style="padding:0.65rem 1.2rem;font-size:0.85rem;">📲 WhatsApp Inquiry →</a>
+          <button onclick="openEnrollModal('Estimator Form')" class="btn-secondary"
+            style="padding:0.65rem 1.2rem;font-size:0.85rem;">📋 Quick Form</button>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- LEARNINGHUB STEM SOCIAL BANNER -->
+  <!-- Horizontal Scroll Learning Formats -->
   <section>
-    <div class="social-banner reveal">
-      <div class="social-icon">🚀</div>
-      <div class="social-info">
-        <div class="social-tag">Free STEM Content</div>
-        <div class="social-title">Follow LearningHub STEM</div>
-        <p class="social-text">Want deeper STEM knowledge? Follow our free social channels for in-depth concept explanations, advanced topic breakdowns, and detailed lessons — completely free for everyone!</p>
-        <div class="social-links">
-          <a href="https://www.youtube.com/@LearningHubSTEM" target="_blank" class="social-btn social-youtube">▶️ YouTube</a>
-          <a href="https://www.facebook.com/profile.php?id=61586052460441" target="_blank" class="social-btn social-facebook">📘 Facebook</a>
-          <a href="https://www.instagram.com/stem.tuition/" target="_blank" class="social-btn social-instagram">📸 Instagram</a>
-          <a href="https://www.tiktok.com/@learninghubstem" target="_blank" class="social-btn social-tiktok">🎵 TikTok</a>
-          <a href="https://x.com/LearningHubSTEM" target="_blank" class="social-btn social-twitter">𝕏 Twitter</a>
+    <div class="section-header-row reveal-on-scroll">
+      <div class="section-header-info">
+        <span class="section-tag">📖 Learning Modes</span>
+        <h2>Flexible Tuition Options</h2>
+        <p class="section-intro">Tailored formats suited to every student's learning style.</p>
+      </div>
+      <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
+    </div>
+
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container">
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('Home Tuition')" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">🏠</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Home Tuition</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Direct 1-on-1 personalized instruction at your home in
+            Pokhara for individual progress.</div>
+        </div>
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('Group Class')" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">👥</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Group Batches</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Small peer groups (max 8 students) encouraging
+            collaboration and interactive problem solving.</div>
+        </div>
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('Online Sessions')" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">💻</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Live Online Sessions</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Interactive HD live online sessions with digital
+            whiteboard notes and recorded archives.</div>
+        </div>
+        <div class="h-scroll-item soft-card" onclick="window.location.href='videos.html'" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">📝</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Notes & Exam Materials</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Chapter revision notes, past paper practice sets, and
+            formula sheets included with every class.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="how">
-    <div class="reveal">
-      <span class="section-tag">🚀 Getting Started</span>
-      <h2>How to Join</h2>
-      <p class="section-intro">Enrolling is simple. Here's how you can get started with STEM Tution.</p>
+  <!-- STEM Quiz Section -->
+  <section id="quiz">
+    <div class="section-header-info reveal-on-scroll" style="text-align:center;margin:0 auto 1.8rem;">
+      <span class="section-tag">⚡ Interactive Quiz</span>
+      <h2>Challenge Your STEM Brain</h2>
     </div>
-    <div class="steps">
-      <div class="step reveal"><div class="step-num">1</div><div class="step-title">Contact Us</div><div class="step-text">Call or email us to express your interest. We'll respond quickly and answer any questions.</div></div>
-      <div class="step reveal"><div class="step-num">2</div><div class="step-title">Free Consultation</div><div class="step-text">We assess the student's current level and identify the right class and subjects needed.</div></div>
-      <div class="step reveal"><div class="step-num">3</div><div class="step-title">Choose Your Batch</div><div class="step-text">Pick a convenient time slot from available morning or evening batches.</div></div>
-      <div class="step reveal"><div class="step-num">4</div><div class="step-title">Start Learning</div><div class="step-text">Jump into classes and begin your journey toward academic excellence!</div></div>
-    </div>
-    <div style="text-align:center;margin-top:2.5rem;">
-      <a href="contact.html" class="btn-primary">📞 Get In Touch</a>
+
+    <div class="quiz-container reveal-on-scroll">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+        <span style="font-size:0.78rem;color:var(--cyan);font-weight:700;" id="quizCategoryBadge">PHYSICS</span>
+        <span
+          style="background:rgba(52,211,153,0.12);color:var(--green);padding:0.2rem 0.6rem;border-radius:20px;font-size:0.8rem;font-weight:700;"
+          id="quizScoreBadge">Score: 0</span>
+      </div>
+
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;" id="quizQuestionText">Loading Question...</div>
+      <div id="quizOptionsContainer"></div>
+      <div id="quizExplanationBox"
+        style="display:none;padding:0.8rem;border-radius:10px;background:rgba(56,189,248,0.08);font-size:0.85rem;margin-bottom:1rem;">
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:0.78rem;color:var(--text-muted);" id="quizProgressText">Question 1 of 4</span>
+        <button class="btn-primary" id="nextQuizBtn" onclick="nextQuizQuestion()"
+          style="display:none;padding:0.45rem 1rem;font-size:0.82rem;">Next Question →</button>
+      </div>
     </div>
   </section>
 
+  <!-- Pioneers Wall - Horizontal Scroll -->
+  <section id="pioneers">
+    <div class="section-header-row reveal-on-scroll">
+      <div class="section-header-info">
+        <span class="section-tag">🧬 Wall of STEM Pioneers</span>
+        <h2>Giants of Science & Math</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+        <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
+        <div class="filter-pills">
+          <button class="pill-btn active" onclick="filterPioneers('all', this)">All</button>
+          <button class="pill-btn" onclick="filterPioneers('physics', this)">Physics</button>
+          <button class="pill-btn" onclick="filterPioneers('math', this)">Math</button>
+          <button class="pill-btn" onclick="filterPioneers('computing', this)">CS</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container" id="pioneerGrid">
+        <!-- Pioneer horizontal items -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive STEM Tools Section -->
+  <section id="tools">
+    <div class="section-header-info reveal-on-scroll" style="text-align:center;margin:0 auto 1.8rem;">
+      <span class="section-tag">🧮 Quick Tool</span>
+      <h2>STEM Scale Converter & Formula Matrix</h2>
+    </div>
+
+    <div class="stem-widget reveal-on-scroll">
+      <div class="widget-tabs">
+        <button class="widget-tab-btn active" onclick="switchWidgetTab('converter', this)">Unit Converter</button>
+        <button class="widget-tab-btn" onclick="switchWidgetTab('formulas', this)">Quick Formulas</button>
+      </div>
+
+      <div id="tab-converter">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;align-items:center;">
+          <div class="form-group">
+            <label>Value</label>
+            <input type="number" id="convertValue" class="form-input" value="100" oninput="runUnitConversion()">
+          </div>
+          <div class="form-group">
+            <label>Conversion Mode</label>
+            <select id="convertType" class="form-input" onchange="runUnitConversion()">
+              <option value="c2f">Celsius (°C) to Fahrenheit (°F)</option>
+              <option value="m2ft">Meters (m) to Feet (ft)</option>
+              <option value="km2mi">Kilometers (km) to Miles (mi)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Result</label>
+            <div id="convertResult"
+              style="padding:0.7rem 1rem;background:rgba(52,211,153,0.1);border:1px solid var(--green);border-radius:12px;color:var(--green);font-weight:700;font-family:var(--font-mono);">
+              212 °F</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-formulas" style="display:none;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+          <div
+            style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--glass-border);">
+            <div style="color:var(--cyan);font-weight:700;font-size:0.8rem;">PHYSICS</div>
+            <div style="font-family:var(--font-mono);font-size:1.1rem;margin:0.3rem 0;">
+              <math><mi>F</mi><mo>=</mo><mi>m</mi><mo>·</mo><mi>a</mi></math>
+            </div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">Newton's 2nd Law</div>
+          </div>
+          <div
+            style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--glass-border);">
+            <div style="color:var(--green);font-weight:700;font-size:0.8rem;">MATH</div>
+            <div style="font-family:var(--font-mono);font-size:1.1rem;margin:0.3rem 0;">
+              <math><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup></math>
+            </div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">Pythagorean Theorem</div>
+          </div>
+          <div
+            style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--glass-border);">
+            <div style="color:var(--purple);font-weight:700;font-size:0.8rem;">CHEMISTRY</div>
+            <div style="font-family:var(--font-mono);font-size:1.1rem;margin:0.3rem 0;">
+              <math><mi>P</mi><mi>V</mi><mo>=</mo><mi>n</mi><mi>R</mi><mi>T</mi></math>
+            </div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">Ideal Gas Law</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <a href="index.html" class="nav-logo">STEM Tution</a>
-        <p>All subjects (≤Gr.8) · Science, Math & Language (Gr.9–10) · Physics, Chemistry, Math & Language (Gr.11–12). Home, group & online tution in Pokhara.</p>
+        <a href="index.html" class="nav-logo"><span>⚡</span> STEM Tuition</a>
+        <p>Comprehensive home, group & online STEM tutoring in Pokhara, Nepal. SEE, NEB & Cambridge A-Levels.</p>
       </div>
       <div class="footer-links">
-        <h4>Pages</h4>
+        <h4>Navigation</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="classes.html">Classes</a></li>
-          <li><a href="videos.html">Videos & Notes</a></li>
+          <li><a href="#classes">Classes</a></li>
+          <li><a href="#calculator">Estimator</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-links">
-        <h4>Connect</h4>
+        <h4>Direct Contact</h4>
         <ul>
           <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
           <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
-          <li><a href="https://wa.me/9768021317?text=Hello!%20I'm%20interested%20in%20STEM%20Tution" target="_blank">💬 WhatsApp</a></li>
-          <li><a href="https://www.youtube.com/@LearningHubSTEM" target="_blank">▶️ YouTube</a></li>
-          <li><a href="https://www.facebook.com/profile.php?id=61586052460441" target="_blank">📘 Facebook</a></li>
-          <li><a href="https://www.instagram.com/stem.tuition/" target="_blank">📸 Instagram</a></li>
-          <li><a href="https://www.tiktok.com/@learninghubstem" target="_blank">🎵 TikTok</a></li>
-          <li><a href="https://x.com/LearningHubSTEM" target="_blank">𝕏 Twitter</a></li>
+          <li><a href="https://wa.me/9779768021317" target="_blank">💬 WhatsApp Direct</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">© 2025 STEM Tution · Pokhara, Nepal · All rights reserved.</div>
+    <div class="footer-bottom">© 2026 STEM Tuition · Pokhara, Nepal</div>
   </footer>
 
+  <!-- Lead Modal -->
+  <dialog id="enrollModal" popover class="modal-card">
+    <button class="modal-close" onclick="closeEnrollModal()">×</button>
+    <h3 style="font-size:1.3rem;margin-bottom:0.3rem;" id="modalTitle">Enroll in STEM Tuition</h3>
+    <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.2rem;">Submit your details for quick admission
+      in Pokhara.</p>
+
+    <form onsubmit="handleModalSubmit(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="studentName" required class="form-input" placeholder="e.g. Aarav Sharma">
+      </div>
+      <div class="form-group">
+        <label>Grade Level</label>
+        <select id="studentGradeSelect" class="form-input">
+          <option value="Grade 1-8">Grade 1 – 8 (Foundation)</option>
+          <option value="Grade 9-10 (SEE)">Grade 9 – 10 (SEE Board)</option>
+          <option value="Grade 11-12 (NEB)">Grade 11 – 12 (NEB Science)</option>
+          <option value="Cambridge A-Level">Cambridge A-Level</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Phone / WhatsApp</label>
+        <input type="tel" id="studentPhone" required class="form-input" placeholder="e.g. 98XXXXXXXX">
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">Submit
+        Request 🚀</button>
+    </form>
+  </dialog>
+
+  <!-- External JS Engines -->
+  <script src="js/main.js?v=13.0"></script>
+  <script src="js/stem-pioneers.js?v=13.0" defer></script>
+  <script src="js/stem-quiz.js?v=13.0" defer></script>
+  <script src="js/stem-effects.js?v=13.0" defer></script>
+
+  <!-- Inline Interactive Logic -->
   <script>
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry,i) => {
-        if(entry.isIntersecting){ setTimeout(()=>entry.target.classList.add('visible'),i*80); observer.unobserve(entry.target); }
+    // Data Sets
+    const classData = [
+      { id: 'g1_8', cat: 'foundation', icon: '🔬', grade: 'Grade 1 – 8', title: 'Foundation Level', desc: 'Conceptual tutoring in Math, Science & English for young learners.', subjects: ['Math', 'Science', 'English'], seats: '4 seats left' },
+      { id: 'g9_10', cat: 'see', icon: '⚙️', grade: 'Grade 9 – 10', title: 'SEE Board Prep', desc: 'Rigorous prep for Comp Math, Opt Math, Physics & Chemistry.', subjects: ['Comp. Math', 'Opt. Math', 'Science'], seats: '2 seats left' },
+      { id: 'g11_12', cat: 'neb', icon: '⚗️', grade: 'Grade 11 – 12', title: 'NEB Science', desc: 'In-depth Physics, Chemistry, Biology & Math coaching for NEB boards.', subjects: ['Physics', 'Chemistry', 'Math', 'Bio'], seats: '3 seats left' },
+      { id: 'alevel', cat: 'alevel', icon: '🎓', grade: 'A-Level', title: 'Cambridge A-Level', desc: 'Coaching for AS & A2 exams in Physics, Chemistry, Math & CS.', subjects: ['A-Level Math', 'Physics 9702', 'Chemistry 9701'], seats: '2 seats left' }
+    ];
+
+    const pioneersData = [
+      { name: 'Albert Einstein', field: 'physics', cat: 'Physics', desc: 'Formulated Relativity; Nobel Prize winner for Photochemistry.' },
+      { name: 'Marie Curie', field: 'chemistry', cat: 'Chemistry', desc: 'Pioneered radioactivity; won Nobel Prizes in physics and chemistry.' },
+      { name: 'Isaac Newton', field: 'physics', cat: 'Physics & Math', desc: 'Formulated classical mechanics laws and calculus.' },
+      { name: 'Ada Lovelace', field: 'computing', cat: 'Computer Science', desc: 'First computer programmer for Babbage’s Engine.' },
+      { name: 'Srinivasa Ramanujan', field: 'math', cat: 'Math', desc: 'Groundbreaking contributions to number theory.' }
+    ];
+
+    const quizQuestions = [
+      { cat: 'PHYSICS', q: 'What is the SI unit of Force?', opts: ['Joule', 'Newton', 'Pascal'], correct: 1, exp: 'Force is measured in Newtons (N).' },
+      { cat: 'MATHEMATICS', q: 'What is the derivative of sin(x)?', opts: ['-cos(x)', 'cos(x)', 'tan(x)'], correct: 1, exp: 'The derivative of sin(x) is cos(x).' },
+      { cat: 'CHEMISTRY', q: 'Which gas is released when Zn reacts with HCl?', opts: ['Oxygen', 'Hydrogen', 'CO2'], correct: 1, exp: 'Zn + 2HCl → ZnCl₂ + H₂↑' },
+      { cat: 'COMPUTING', q: 'What does CPU stand for?', opts: ['Central Processing Unit', 'Computer Power Unit'], correct: 0, exp: 'Central Processing Unit.' }
+    ];
+
+    let currentCalcGrade = 'g1_8';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initScrollReveal();
+      initMouseWheelScroll();
+      initScrollProgress();
+      initAnimatedCounters();
+      renderClasses('all');
+      renderPioneers('all');
+      initQuiz();
+      updateCalcSummary();
+    });
+
+    /* --- Scroll Reveal Observer --- */
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.08 });
+
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    }
+
+    /* --- Convert Vertical Mouse Wheel to Horizontal Scroll --- */
+    function initMouseWheelScroll() {
+      const containers = document.querySelectorAll('.h-scroll-container');
+      containers.forEach(container => {
+        container.addEventListener('wheel', (evt) => {
+          const atRightEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+          const atLeftEnd = container.scrollLeft <= 0;
+
+          if ((evt.deltaY > 0 && !atRightEnd) || (evt.deltaY < 0 && !atLeftEnd)) {
+            evt.preventDefault();
+            container.scrollBy({
+              left: evt.deltaY * 1.5,
+              behavior: 'smooth'
+            });
+          }
+        }, { passive: false });
       });
-    },{ threshold:.12 });
-    reveals.forEach(el=>observer.observe(el));
+    }
+
+    /* --- Scroll Progress Bar --- */
+    function initScrollProgress() {
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.getElementById('scroll-progress').style.width = ((winScroll / height) * 100) + '%';
+      });
+    }
+
+    /* --- Animated Numbers --- */
+    function initAnimatedCounters() {
+      const stats = document.querySelectorAll('.stat-num');
+      stats.forEach(stat => {
+        const target = +stat.getAttribute('data-count');
+        let count = 0;
+        const speed = target / 35;
+        const update = () => {
+          count += speed;
+          if (count < target) {
+            stat.innerText = Math.ceil(count) + (target === 95 ? '%' : '+');
+            setTimeout(update, 30);
+          } else {
+            stat.innerText = target + (target === 95 ? '%' : '+');
+          }
+        };
+        update();
+      });
+    }
+
+    /* --- Class Render --- */
+    function filterClasses(cat, btn) {
+      document.querySelectorAll('.filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderClasses(cat);
+    }
+
+    function renderClasses(cat) {
+      const container = document.getElementById('classesGridContainer');
+      const filtered = cat === 'all' ? classData : classData.filter(c => c.cat === cat);
+
+      container.innerHTML = filtered.map(c => `
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('${c.title}')" style="cursor:pointer;">
+          <div class="class-badge">${c.seats}</div>
+          <div>
+            <div class="class-icon">${c.icon}</div>
+            <div class="class-grade">${c.grade}</div>
+            <div class="class-title">${c.title}</div>
+            <p style="color:var(--text-muted);font-size:0.85rem;">${c.desc}</p>
+          </div>
+          <div class="class-subjects">
+            ${c.subjects.map(s => `<span class="subject-pill">${s}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* --- Estimator Logic --- */
+    function setCalcGrade(gradeKey, btn) {
+      currentCalcGrade = gradeKey;
+      document.querySelectorAll('#gradeBtnGroup .grade-opt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateCalcSummary();
+    }
+
+    function updateCalcSummary() {
+      const selectedSubjects = Array.from(document.querySelectorAll('#subjectBtnGroup input:checked')).map(cb => cb.value);
+      const gradeMap = {
+        'g1_8': 'Grade 1 – 8 (Foundation)',
+        'g9_10': 'Grade 9 – 10 (SEE)',
+        'g11_12': 'Grade 11 – 12 (NEB)',
+        'alevel': 'Cambridge A-Level'
+      };
+
+      const hrs = selectedSubjects.length * 2;
+      document.getElementById('calcGradeTitle').textContent = `Selected: ${gradeMap[currentCalcGrade]}`;
+      document.getElementById('calcDetailsText').textContent = `Subjects: ${selectedSubjects.join(', ') || 'None'}`;
+      document.getElementById('calcEstFee').textContent = `Est. Weekly Commitment: ~${hrs} Hours`;
+
+      const msg = encodeURIComponent(`Hi STEM Tuition Pokhara! Inquiry for ${gradeMap[currentCalcGrade]}. Subjects: ${selectedSubjects.join(', ')}.`);
+      document.getElementById('whatsappCalcBtn').href = `https://wa.me/9779768021317?text=${msg}`;
+    }
+
+    /* --- Quiz Logic --- */
+    let quizIdx = 0, quizScore = 0;
+
+    function initQuiz() {
+      quizIdx = 0; quizScore = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = quizQuestions[quizIdx];
+      document.getElementById('quizCategoryBadge').textContent = q.cat;
+      document.getElementById('quizQuestionText').textContent = q.q;
+      document.getElementById('quizProgressText').textContent = `Question ${quizIdx + 1} of ${quizQuestions.length}`;
+      document.getElementById('quizExplanationBox').style.display = 'none';
+      document.getElementById('nextQuizBtn').style.display = 'none';
+
+      document.getElementById('quizOptionsContainer').innerHTML = q.opts.map((opt, i) => `
+        <button class="quiz-opt-btn" onclick="checkQuizAnswer(${i})">${opt}</button>
+      `).join('');
+    }
+
+    function checkQuizAnswer(selectedIdx) {
+      const q = quizQuestions[quizIdx];
+      const btns = document.querySelectorAll('#quizOptionsContainer .quiz-opt-btn');
+
+      btns.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correct) btn.classList.add('correct');
+        if (i === selectedIdx && selectedIdx !== q.correct) btn.classList.add('wrong');
+      });
+
+      if (selectedIdx === q.correct) quizScore += 10;
+      document.getElementById('quizScoreBadge').textContent = `Score: ${quizScore}`;
+
+      const expBox = document.getElementById('quizExplanationBox');
+      expBox.innerHTML = `<strong>Note:</strong> ${q.exp}`;
+      expBox.style.display = 'block';
+
+      document.getElementById('nextQuizBtn').style.display = 'inline-flex';
+    }
+
+    function nextQuizQuestion() {
+      quizIdx = (quizIdx + 1) % quizQuestions.length;
+      showQuestion();
+    }
+
+    /* --- Pioneer Filter --- */
+    function filterPioneers(field, btn) {
+      document.querySelectorAll('#pioneers .pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPioneers(field);
+    }
+
+    function renderPioneers(field) {
+      const grid = document.getElementById('pioneerGrid');
+      const filtered = field === 'all' ? pioneersData : pioneersData.filter(p => p.field === field);
+
+      grid.innerHTML = filtered.map(p => `
+        <div class="pioneer-card soft-card" onclick="alert('${p.name}: ${p.desc}')" style="cursor:pointer;">
+          <div class="pioneer-avatar">⚛️</div>
+          <div style="font-weight:700;font-size:1.05rem;">${p.name}</div>
+          <div style="color:var(--cyan);font-size:0.75rem;font-weight:700;margin:0.2rem 0 0.4rem;">${p.cat}</div>
+          <div style="color:var(--text-muted);font-size:0.82rem;">${p.desc}</div>
+        </div>
+      `).join('');
+    }
+
+    /* --- Widget Tabs --- */
+    function switchWidgetTab(tab, btn) {
+      document.querySelectorAll('.widget-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-converter').style.display = tab === 'converter' ? 'block' : 'none';
+      document.getElementById('tab-formulas').style.display = tab === 'formulas' ? 'block' : 'none';
+    }
+
+    function runUnitConversion() {
+      const val = parseFloat(document.getElementById('convertValue').value) || 0;
+      const type = document.getElementById('convertType').value;
+      let res = '';
+
+      if (type === 'c2f') res = `${((val * 9 / 5) + 32).toFixed(1)} °F`;
+      else if (type === 'm2ft') res = `${(val * 3.28084).toFixed(1)} ft`;
+      else if (type === 'km2mi') res = `${(val * 0.621371).toFixed(1)} miles`;
+
+      document.getElementById('convertResult').textContent = res;
+    }
+
+    /* --- Modal --- */
+    function openEnrollModal(title) {
+      document.getElementById('modalTitle').textContent = `Inquiry: ${title}`;
+      document.getElementById('enrollModal').classList.add('active');
+    }
+
+    function closeEnrollModal() {
+      document.getElementById('enrollModal').classList.remove('active');
+    }
+
+    function handleModalSubmit(e) {
+      e.preventDefault();
+      alert(`Thank you ${document.getElementById('studentName').value}! Your request has been logged. Our Pokhara coordinator will get in touch.`);
+      closeEnrollModal();
+    }
   </script>
 </body>
+
 </html>
