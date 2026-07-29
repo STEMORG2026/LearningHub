@@ -3,7 +3,8 @@
 > **Status:** 🟢 Active Evolution (Strangler Fig Pattern)  
 > **Version:** 2.0.0 (Ecosystem Edition)  
 > **Mission:** Transform STEM Tuition into the foundational bounded context of the LearningHub STEM ecosystem.  
-> **Last Updated:** 2024-05-21
+> **Last Updated:** 2026-07-29  
+> **Current Date:** 2026-07-29
 
 ---
 
@@ -187,5 +188,6 @@ pnpm gen:module my-new-simulation
 ---
 
 *Approved by: Chief Software Architect*  
-*Date: 2024-05-21*  
-*Status: ENFORCED*
+*Date: 2026-07-29*  
+*Status: ENFORCED*  
+*Next Review: 2026-08-29 (Monthly Architecture Review)*

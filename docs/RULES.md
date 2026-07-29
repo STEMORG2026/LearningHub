@@ -1,9 +1,10 @@
 # 📐 LearningHub STEM: Technical Rules & Coding Standards
 
-> **Version:** 2.0.0  
+> **Version:** 2.0.0 (Ecosystem Edition)  
 > **Status:** 🔒 ENFORCED  
 > **Applies To:** All developers, AI agents, and contributors  
-> **Effective Date:** 2024-05-21
+> **Effective Date:** 2026-07-29  
+> **Current Date:** 2026-07-29
 
 ---
 
@@ -523,7 +524,7 @@ Before generating ANY code, AI agents MUST:
  * @misconceptions heavier-objects-fall-faster
  * @migrationPath packages/simulation-core/v2
  * @testStrategy property-based-testing
- * @aiGenerated 2024-05-21T10:30:00Z
+ * @aiGenerated 2026-07-29T10:30:00Z
  */
 export function calculateGravity(m1: number, m2: number, r: number): number {
   // Implementation
@@ -679,12 +680,12 @@ Every migration PR MUST include:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 2.0.0 | 2024-05-21 | Complete rewrite for LearningHub STEM ecosystem |
+| 2.0.0 | 2026-07-29 | Complete rewrite for LearningHub STEM ecosystem |
 | 1.0.0 | 2024-01-15 | Initial static site rules (archived) |
 
 ---
 
-*Last Updated: 2024-05-21*  
+*Last Updated: 2026-07-29*  
 *Approved by: Chief Software Architect*  
 *Status: 🔒 ENFORCED*  
-*Next Review: 2024-08-21*
+*Next Review: 2026-10-29*
