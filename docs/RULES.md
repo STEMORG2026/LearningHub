@@ -1,322 +1,690 @@
-# 📜 RULES.md – STEM Tuition Architecture & Guidelines (v5.0 Dual-Tier System)
+# 📐 LearningHub STEM: Technical Rules & Coding Standards
 
-This document is the authoritative technical reference for maintaining, editing, and extending the **STEM Tuition** web platform. Compliance with these rules is strictly mandatory across both the current static frontend and future VPS backend expansions.
-
----
-
-## 📂 1. Directory Structure & File Architecture
-
-All files **MUST** maintain exact casing, location, and naming conventions.
-
-```
-STEM-TUITION/
-├── index.html              # Modern STEM Hub (Hero, Horizontal Carousels, Estimator, Pioneers, Quiz, Tools)
-├── classes.html            # Classes & Curriculum Page (Grade 1-8, SEE 9-10, NEB 11-12, A-Levels, Batch Timings)
-├── videos.html             # Video Lessons, Study Notes, Syllabus Downloads, Student Reviews
-├── contact.html            # Contact & Admissions (Inquiry Form, WhatsApp, Operating Hours, FAQs)
-├── stem-tuition.html       # Comprehensive Class Details & Subject Overview
-├── css/
-│   ├── main.css            # Core Design System, Token Palette, Layout Grids, Nav, Footer
-│   └── stem-theme.css      # Card Styles, 6 Extended Hover Animations, Pioneer Spotlight, Quiz & Physics CSS
-├── js/
-│   ├── main.js             # Navigation, Native Scroll Engines, Popover Handlers, Tabs
-│   ├── stem-effects.js     # Canvas Engine, 6-Hover Engine, Sound FX, Non-Locking Wheel Handler
-│   ├── stem-pioneers.js    # STEM Pioneers Wall Renderer & Floating Spotlight Engine
-│   └── stem-quiz.js        # Interactive STEM Quiz Engine (Physics, Math, Chemistry, CS)
-└── docs/
-    ├── RULES.md            # Authoritative Rules & Standard Guidelines Document
-    ├── DEVELOPMENT.md      # Developer Handbook & Component Guides
-    ├── CURRICULUM_GUIDE.md # Syllabus Breakdown (NEB, SEE, A-Levels)
-    └── TUITION_OPERATIONS.md # Operating SOPs for Pokhara Classes
-
-```
+> **Version:** 2.0.0  
+> **Status:** 🔒 ENFORCED  
+> **Applies To:** All developers, AI agents, and contributors  
+> **Effective Date:** 2024-05-21
 
 ---
 
-## 🎨 2. Tier 1: Static Architecture (Pure Frontend SOTA)
+## 🎯 Purpose
 
-All static code must run without build steps, framework dependencies, or bundle overhead while leveraging cutting-edge browser capabilities.
+This document defines the **strict technical regulations** that govern all code written in the LearningHub STEM ecosystem. These rules are non-negotiable and must be followed to maintain architectural integrity, educational quality, and long-term maintainability.
 
-### 2.1 CSS Token Palette & Glassmorphic Elevation
+**Violation of these rules will result in automatic PR rejection.**
 
-All UI components **MUST** strictly extend these CSS root variables:
+---
 
+## 🏛️ ARCHITECTURAL RULES
+
+### Rule 1: Legacy Isolation (CRITICAL)
+```typescript
+// ❌ FORBIDDEN: Direct import from legacy
+import { legacyFunction } from '../legacy/js/stem-effects.js';
+
+// ✅ REQUIRED: Use Anti-Corruption Layer
+import { PhysicsAdapter } from '@learninghub/physics-adapter';
+```
+
+**Rationale:** Prevents legacy coupling from spreading into new modules.  
+**Enforcement:** `pnpm lint:arch` blocks builds with violations.
+
+### Rule 2: Business Logic Purity
+```typescript
+// ❌ FORBIDDEN: DOM manipulation in business logic
+class QuizEngine {
+  checkAnswer() {
+    document.querySelector('.result').innerText = 'Correct!'; // VIOLATION
+  }
+}
+
+// ✅ REQUIRED: Pure logic, return values only
+class QuizEngine {
+  checkAnswer(studentAnswer: string, correctAnswer: string): boolean {
+    return studentAnswer === correctAnswer;
+  }
+}
+```
+
+**Rationale:** Enables testing without DOM, supports multiple UI frameworks.  
+**Enforcement:** ESLint rule `no-dom-in-logic`.
+
+### Rule 3: No Global Mutable State
+```typescript
+// ❌ FORBIDDEN: Global variables
+let currentGrade = 10;
+window.userProgress = {};
+
+// ✅ REQUIRED: Encapsulated state with signals/store
+import { signal } from '@preact/signals-core';
+const currentGrade = signal(10);
+```
+
+**Rationale:** Prevents race conditions, enables time-travel debugging.  
+**Enforcement:** ESLint rule `no-global-mutable-state`.
+
+### Rule 4: Interface-First Development
+```typescript
+// ✅ REQUIRED: Define interfaces before implementation
+interface ISimulation {
+  init(): void;
+  update(deltaTime: number): void;
+  render(): void;
+  destroy(): void;
+}
+
+interface IQuizQuestion {
+  id: string;
+  concept: string;
+  difficulty: 1 | 2 | 3 | 4 | 5;
+  commonMisconceptions: string[];
+}
+```
+
+**Rationale:** Ensures loose coupling, enables mock testing.  
+**Enforcement:** Code review checklist.
+
+### Rule 5: Strangler Fig Compliance
+- New functionality MUST be created in `packages/` or `apps/`
+- Legacy code MAY ONLY be modified for critical security patches
+- Every migration MUST have a rollback plan documented in the PR
+
+---
+
+## 💻 CODING STANDARDS
+
+### TypeScript Configuration (STRICT MODE)
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": false,
+    "verbatimModuleSyntax": true
+  }
+}
+```
+
+### Naming Conventions
+| Type | Convention | Example |
+|------|-----------|---------|
+| Files | kebab-case | `quiz-engine.ts` |
+| Classes | PascalCase | `QuizEngine` |
+| Functions | camelCase | `calculateScore` |
+| Constants | UPPER_SNAKE_CASE | `MAX_ATTEMPTS` |
+| Interfaces | IPascalCase | `IQuizQuestion` |
+| Types | PascalCase | `QuestionType` |
+| Private members | `#` prefix | `#internalState` |
+| Test files | `*.test.ts` | `quiz-engine.test.ts` |
+
+### File Organization
+```typescript
+// ✅ CORRECT: Single responsibility per file
+// packages/learning-engine/src/quiz-validator.ts
+// packages/learning-engine/src/quiz-scorer.ts
+// packages/learning-engine/src/quiz-analytics.ts
+
+// ❌ WRONG: God files
+// packages/learning-engine/src/quiz-everything.ts
+```
+
+**Maximum file size:** 500 lines (excluding tests and comments)  
+**Enforcement:** `pnpm lint:size`
+
+### Documentation Requirements
+```typescript
+/**
+ * Calculates gravitational force between two bodies
+ * 
+ * @param m1 - Mass of first body in kg
+ * @param m2 - Mass of second body in kg
+ * @param r - Distance between centers in meters
+ * @returns Force in Newtons
+ * 
+ * @educationalConcept newtons-law-of-universal-gravitation
+ * @prerequisites algebra,vectors
+ * @misconceptions heavier-objects-fall-faster
+ * @gradeLevel 9-12
+ * 
+ * @example
+ * const force = calculateGravity(5.97e24, 70, 6.371e6);
+ * console.log(force); // ~687 N
+ * 
+ * @see https://learninghub.stem/concepts/gravity
+ */
+export function calculateGravity(m1: number, m2: number, r: number): number {
+  const G = 6.674e-11;
+  return G * ((m1 * m2) / (r * r));
+}
+```
+
+---
+
+## 🎨 CSS & STYLING RULES
+
+### Design Token Usage (MANDATORY)
+```css
+/* ❌ FORBIDDEN: Hardcoded values */
+.card {
+  padding: 16px;
+  color: #3b82f6;
+  border-radius: 8px;
+}
+
+/* ✅ REQUIRED: Use design tokens */
+.card {
+  padding: var(--space-4);
+  color: var(--color-primary-500);
+  border-radius: var(--radius-md);
+}
+```
+
+### Required Design Tokens
+All packages MUST use these token categories:
 ```css
 :root {
-  --bg-dark: #070a14;
-  --bg-card: rgba(255, 255, 255, 0.03);
-  --bg-card-hover: rgba(255, 255, 255, 0.06);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --cyan: #38bdf8;
-  --green: #34d399;
-  --purple: #c084fc;
-  --amber: #fbbf24;
-  --pink: #ec4899;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --font-main: 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  /* ... */
+  
+  /* Colors */
+  --color-primary-500: oklch(0.623 0.214 259.815);
+  --color-success-500: oklch(0.723 0.219 149.579);
+  /* ... */
+  
+  /* Typography */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  /* ... */
+  
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  /* ... */
+}
+```
+
+### Component Scoping
+```css
+/* ✅ REQUIRED: BEM or data attributes for scoping */
+[data-component="quiz-card"] {
+  /* styles */
 }
 
-```
-
-* **Uniform Radius Rule**: ALL interactive containers and cards (`.soft-card`, `.class-card`, `.pioneer-card`, `.quiz-container`, `.modal-card`, `.calc-card`, `.stat-card`, etc.) **MUST** enforce exact border rounding:
-```css
-border-radius: 20px !important;
-
-```
-
-
-* **Elevated Glass Container Standard**:
-```css
-background: var(--bg-card);
-border: 1.5px solid var(--glass-border);
-box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-backdrop-filter: blur(16px) saturate(180%);
--webkit-backdrop-filter: blur(16px) saturate(180%);
-
-```
-
-
-* **Button & Pill Radii**: Action buttons (`.btn-primary`, `.btn-secondary`, `.nav-cta`) enforce `border-radius: 30px`; form inputs enforce `border-radius: 12px`.
-
-### 2.2 Modern Native Browser APIs (Zero JS Overheads)
-
-1. **Compositor-Thread Scroll Reveals**: Use native CSS `animation-timeline: view()` so scroll reveals run on the GPU thread off JS main loop.
-```css
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.reveal-on-scroll {
-  animation: fadeUp linear both;
-  animation-timeline: view();
-  animation-range: entry 10% cover 30%;
+.quiz-card__question {
+  /* styles */
 }
 
+.quiz-card__answer--selected {
+  /* styles */
+}
 ```
 
+### Modern CSS Features (Preferred)
+- ✅ Container Queries (`@container`)
+- ✅ `:has()` selector
+- ✅ CSS Custom Properties
+- ✅ `clamp()` for responsive sizing
+- ✅ `oklch()` color space
+- ✅ `@layer` for cascade management
+- ❌ Preprocessor mixins (use native CSS instead)
+- ❌ `!important` (except for utility classes)
 
-2. **Native HTML Popover API**: Modals (`#enrollModal`) **MUST** use the native HTML `popover` attribute and CSS `@starting-style` for accessible, top-layer modal rendering without custom JS focus traps.
+### Accessibility in CSS
+```css
+/* ✅ REQUIRED: Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ✅ REQUIRED: Focus indicators */
+button:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+```
+
+---
+
+## 🧪 TESTING REQUIREMENTS
+
+### Coverage Thresholds (ENFORCED)
+| Module Type | Line Coverage | Branch Coverage | Action on Fail |
+|-------------|---------------|-----------------|----------------|
+| Core Logic | ≥95% | ≥90% | Block merge |
+| UI Components | ≥90% | ≥85% | Block merge |
+| Adapters | ≥95% | ≥95% | Block merge |
+| E2E Flows | Critical paths only | N/A | Warning |
+
+### Test Structure
+```typescript
+import { describe, it, expect, beforeEach } from 'vitest';
+
+describe('QuizEngine', () => {
+  let engine: QuizEngine;
+
+  beforeEach(() => {
+    engine = new QuizEngine();
+  });
+
+  describe('checkAnswer()', () => {
+    it('should return true for correct answer', () => {
+      expect(engine.checkAnswer('42', '42')).toBe(true);
+    });
+
+    it('should handle case-insensitive matches', () => {
+      expect(engine.checkAnswer('newton', 'Newton')).toBe(true);
+    });
+
+    it('should identify common misconceptions', () => {
+      const result = engine.analyzeMisconception('F = mv');
+      expect(result.type).toBe('confuses_momentum_force');
+    });
+    
+    it('should not leak state between calls', () => {
+      engine.checkAnswer('wrong', 'correct');
+      const freshResult = engine.checkAnswer('right', 'right');
+      expect(freshResult.isFirstAttempt).toBe(true);
+    });
+  });
+});
+```
+
+### Educational Test Cases (MANDATORY)
+Every learning module test MUST include:
+1. ✅ Correct path validation
+2. ✅ Common misconception detection
+3. ✅ Edge case handling
+4. ✅ Accessibility verification
+5. ✅ State isolation verification
+
+### E2E Testing with Playwright
+```typescript
+import { test, expect } from '@playwright/test';
+
+test('student can complete quiz flow', async ({ page }) => {
+  await page.goto('/quiz/newton-laws');
+  
+  // Verify accessibility
+  await expect(page.locator('main')).toHaveAttribute('aria-label');
+  
+  // Complete quiz
+  await page.click('[data-answer="a"]');
+  await page.click('button:has-text("Submit")');
+  
+  // Verify feedback
+  await expect(page.locator('[data-feedback]')).toBeVisible();
+  
+  // Verify analytics event
+  const analyticsEvent = await page.waitForEvent('analytics');
+  expect(analyticsEvent.type).toBe('quiz_completed');
+});
+```
+
+---
+
+## 🎓 EDUCATIONAL FITNESS RULES
+
+### Rule EDU-1: Concept Clarity
+Every interactive element MUST have structured metadata:
 ```html
-<dialog id="enrollModal" popover class="modal-card">...</dialog>
-
+<div 
+  data-component="simulation"
+  data-concept="newtons-law-of-gravitation"
+  data-prerequisites="force,mass,distance"
+  data-misconceptions="heavier-faster,gravity-needs-air"
+  data-grade-level="9,10,11,12"
+  data-estimated-time="5min">
+</div>
 ```
 
+### Rule EDU-2: Worked Examples First
+Interactive simulations MUST provide:
+1. **Static explanation** (What is this?)
+2. **Worked example** (How does it work?)
+3. **Guided practice** (Try with hints)
+4. **Independent practice** (No hints)
 
-3. **MathML Core Math Expressions**: Formulas and scientific equations MUST use HTML MathML Core (`<math>`) rather than unrendered LaTeX text strings.
-4. **Non-Locking Mouse-Wheel Carousel Logic**: Horizontal scroll tracks MUST check boundaries before capturing `deltaY` wheel events:
-```javascript
-document.querySelectorAll('.h-scroll-container').forEach(container => {
-  container.addEventListener('wheel', (evt) => {
-    const atRightEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
-    const atLeftEnd = container.scrollLeft <= 0;
+### Rule EDU-3: Misconception Addressing
+```typescript
+interface ILearningModule {
+  concept: string;
+  commonMisconceptions: Array<{
+    id: string;
+    description: string;
+    correctionStrategy: string;
+    diagnosticQuestion: string;
+  }>;
+}
+```
 
-    if ((evt.deltaY > 0 && !atRightEnd) || (evt.deltaY < 0 && !atLeftEnd)) {
-      evt.preventDefault();
-      container.scrollBy({ left: evt.deltaY * 1.5, behavior: 'smooth' });
-    }
-  }, { passive: false });
+### Rule EDU-4: Accessibility First
+- All interactive elements MUST be keyboard navigable
+- All visual information MUST have text alternatives
+- Color alone CANNOT convey meaning
+- Animations MUST respect `prefers-reduced-motion`
+- Reading level MUST be appropriate for target grade
+
+### Rule EDU-5: AI Assistance Guidelines
+- AI MUST NOT replace student thinking
+- AI hints MUST be Socratic (guiding questions, not answers)
+- AI explanations MUST cite sources
+- AI MUST disclose uncertainty
+
+---
+
+## 🔒 SECURITY RULES
+
+### Input Validation (MANDATORY)
+```typescript
+// ✅ REQUIRED: Validate all inputs with Zod
+import { z } from 'zod';
+
+const QuestionSchema = z.object({
+  id: z.string().uuid(),
+  text: z.string().min(10).max(500),
+  options: z.array(z.string()).length(4),
+  correctIndex: z.number().int().min(0).max(3)
 });
 
-```
-
-
-
-### 2.3 Dynamic Hover Animation Engine (6 Styles)
-
-Every `mouseenter` event attached via `js/stem-effects.js` MUST attach one randomly selected hover class from the 6 system variants:
-
-1. `.hover-effect-glow`: HSL color-cycling border glow.
-2. `.hover-effect-tint`: Solid accent border flash with background tinting.
-3. `.hover-effect-electric`: SVG displacement map (`url(#lightningDistort)`) electric shock border.
-4. `.hover-effect-borderless`: Outline dissolution with backdrop blur elevation (`blur(24px)`).
-5. `.hover-effect-warp`: Chromatic dual-offset purple (`#c084fc`) and cyan (`#38bdf8`) border split.
-6. `.hover-effect-plasma`: Conic-gradient solar plasma flare.
-
-* **4-Cycle Style Cooldown Protocol**: When a hover animation style is randomly triggered on an element, that specific style enters a **4-cycle cooldown**. It cannot be selected again until at least 4 distinct new hover animation styles have been selected from the pool.
-
-### 2.4 Visual Engine Default State & Floating Toast Protocol
-
-The 3D canvas physics engine and floating control widget (`⚙️ Visuals`) in `js/stem-effects.js` **MUST** enforce the following immutable default state on initial load:
-
-* **Background Animation**: `OFF` (`isBackgroundDisabled = true`)
-* **Audio & Sound FX**: `OFF` (`isAudioMuted = true`)
-* **Blackhole Engine**: `OFF` (`isBlackholeDisabled = true`)
-* **Collision Intensity**: `50%` (`isHalfIntensity = true`)
-* **Notification Toast Protocol**: Do NOT block the screen with an initial modal overlay. Instead, display a non-intrusive floating toast banner (`.stem-bg-toast`) at random intervals (every 45-75s) notifying users: *"💡 Tip: Interactive 3D physics background animation is available!"* with a **"✨ Turn On"** action button.
-
-### 2.5 STEM Tuition Canvas Visibility & Layer Stacking Rule
-
-All background canvas elements (`#bg-canvas, canvas`) **MUST** enforce non-blocking fixed full-viewport canvas visibility and rigid layer stacking:
-
-```css
-/* STEM Tuition Canvas Visibility Rule */
-#bg-canvas, canvas {
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
-}
-
-#stemBackgroundCanvas {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 1 !important; /* Layer 1: Above body bg, below UI content */
-  pointer-events: none !important;
+// Never trust user input
+function processAnswer(rawInput: unknown) {
+  const validated = QuestionSchema.safeParse(rawInput);
+  if (!validated.success) {
+    throw new SecurityError('Invalid input structure');
+  }
+  return validated.data;
 }
 ```
 
-* **Layer 0**: `body` background gradient & grid pattern (`z-index: 0`).
-* **Layer 1**: `#stemBackgroundCanvas` 3D physics universe (`z-index: 1 !important`).
-* **Layer 2**: Interactive UI content containers (`nav`, `main`, `section`, `.card`, `.soft-card`, `.class-card`) set to `position: relative; z-index: 2;`.
-* **Layer 999999**: Floating Visual Controls Widget (`.stem-corner-widget`) & Toast (`.stem-bg-toast`) assigned highest priority (`z-index: 999999 !important;`).
+### XSS Prevention
+```typescript
+// ❌ FORBIDDEN: InnerHTML with user data
+element.innerHTML = userInput;
+
+// ✅ REQUIRED: TextContent or sanitized HTML
+element.textContent = userInput;
+// OR
+element.innerHTML = DOMPurify.sanitize(userInput);
+```
+
+### CSP Headers (Production)
+```nginx
+add_header Content-Security-Policy "
+  default-src 'self';
+  script-src 'self' 'unsafe-inline';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https:;
+  font-src 'self';
+  connect-src 'self' https://api.learninghub.stem;
+" always;
+```
+
+### Data Privacy
+- ❌ No PII (Personally Identifiable Information) in localStorage
+- ❌ No analytics events containing student names
+- ✅ All data transmission MUST use HTTPS (enforced in production)
+- ✅ Session tokens MUST expire after 30 minutes of inactivity
 
 ---
 
-## 🚀 3. Tier 2: Future VPS Expansion Architecture (Server-Side & Node/JARVIS Integrations)
+## ⚡ PERFORMANCE RULES
 
-When migrating from static hosting to a dedicated VPS, the platform transitions into a hybrid SSR/API architecture.
+### Rendering Performance
+```typescript
+// ✅ REQUIRED: Use requestAnimationFrame for animations
+function animate(timestamp: number) {
+  // Update logic
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
 
-```
-       [ Client Browser ]
-               │
-               ▼ (Port 443 / SSL)
-       ┌───────────────┐
-       │ Nginx Proxy   │
-       └───────┬───────┘
-               │
-       ┌───────┴───────────────────────┐
-       │                               │
-       ▼ (Port 8085)                   ▼ (Port 8000)
-┌─────────────────────────┐   ┌─────────────────────────┐
-│ STEM Node/Fastify API   │   │ JARVIS Core Services    │
-│ (Dynamic Seats, Leads,  │   │ (AI Tutors, Automated   │
-│ SQLite/Postgres DB)     │   │ Analytics, Backups)     │
-└─────────────────────────┘   └─────────────────────────┘
+// ✅ REQUIRED: Passive event listeners for scroll/touch
+element.addEventListener('scroll', handler, { passive: true });
 
+// ✅ REQUIRED: Virtual scrolling for long lists
+import { useVirtualizer } from '@tanstack/virtual-core';
 ```
 
-### 3.1 Port Architecture & Process Management
+### Bundle Size Budgets
+| Module Type | Max Size (gzipped) | Action on Exceed |
+|-------------|-------------------|------------------|
+| Core Package | 50 KB | Block merge |
+| UI Component | 20 KB | Warning |
+| Simulation | 100 KB | Requires justification |
+| Full App | 300 KB | Performance review |
 
-* **Port Allocation**:
-* **Port `8085**`: Reserved for STEM Tuition Application & Web API Services.
-* **Port `8000**`: Strictly reserved for local JARVIS backend platform services.
+### Lazy Loading Pattern
+```typescript
+// ✅ REQUIRED: Dynamic imports for heavy modules
+const loadSimulation = async () => {
+  const { PhysicsEngine } = await import('@learninghub/simulation-core');
+  return new PhysicsEngine();
+};
 
+// Usage
+const simulation = await loadSimulation();
+simulation.init();
+```
 
-* **Process Manager**: All production VPS Node/Python services **MUST** run under `pm2` or Docker containers with auto-restart policies:
+### Core Web Vitals Targets
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| LCP | <2.5s | p75 of users |
+| FID | <100ms | p75 of users |
+| CLS | <0.1 | p75 of users |
+| INP | <200ms | p75 of users |
+
+---
+
+## 🤖 AI AGENT SPECIFIC RULES
+
+### Pre-Generation Checklist
+Before generating ANY code, AI agents MUST:
+1. ✅ Verify target directory (`packages/` vs `legacy/`)
+2. ✅ Check for existing similar functionality
+3. ✅ Identify required interfaces
+4. ✅ Plan test coverage strategy
+5. ✅ Consider educational impact
+6. ✅ Review architectural constraints
+
+### Code Generation Standards
+```typescript
+/**
+ * AI-Generated Code Requirements:
+ * 1. Include JSDoc with @educationalConcept tag
+ * 2. Include @migrationPath for future refactoring
+ * 3. Include @testStrategy for coverage planning
+ * 4. Include @aiGenerated timestamp
+ */
+
+/**
+ * Calculates gravitational force between two bodies
+ * @educationalConcept newtons-law-of-universal-gravitation
+ * @prerequisites algebra,vectors
+ * @misconceptions heavier-objects-fall-faster
+ * @migrationPath packages/simulation-core/v2
+ * @testStrategy property-based-testing
+ * @aiGenerated 2024-05-21T10:30:00Z
+ */
+export function calculateGravity(m1: number, m2: number, r: number): number {
+  // Implementation
+}
+```
+
+### Self-Correction Protocol
+If AI detects a violation during generation:
+1. 🛑 Stop immediately
+2. 📝 Report the specific rule violation
+3. 💡 Propose an alternative approach
+4. ⏸️ Wait for confirmation before proceeding
+
+### AI Output Verification
+All AI-generated code MUST pass:
+- `pnpm lint` (no warnings)
+- `pnpm test` (all tests pass)
+- `pnpm verify-governance` (all checks pass)
+- Human code review
+
+---
+
+## 📋 ENFORCEMENT MECHANISMS
+
+### Automated Checks (CI/CD Pipeline)
+```yaml
+# .github/workflows/governance.yml
+name: Architecture Governance
+
+on: [push, pull_request]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Architecture Lint
+        run: pnpm lint:arch
+        continue-on-error: false
+      
+      - name: Test Coverage
+        run: pnpm test:coverage
+        continue-on-error: false
+      
+      - name: Bundle Size Check
+        run: pnpm build:size
+        continue-on-error: false
+      
+      - name: Educational Metadata
+        run: pnpm validate:edu
+        continue-on-error: false
+      
+      - name: Accessibility Audit
+        run: pnpm a11y:audit
+        continue-on-error: false
+      
+      - name: Type Check
+        run: pnpm typecheck
+        continue-on-error: false
+```
+
+### Git Hooks (Husky)
 ```bash
-pm2 start server.js --name "stem-tuition-api" --port 8085
+#!/bin/sh
+# .husky/pre-commit
 
+pnpm lint-staged
+pnpm test -- --changedSince HEAD~1
 ```
 
+### Manual Review Requirements
+- All ADRs (Architecture Decision Records) require architect approval
+- Any package >50KB requires performance justification
+- New interfaces require ecosystem impact assessment
+- Educational content requires pedagogy review
 
+### Violation Escalation Matrix
+| Level | Violation Type | Response |
+|-------|---------------|----------|
+| 1 | Minor lint warning | PR comment, auto-fix suggestion |
+| 2 | Coverage below threshold | PR blocked, requires fix |
+| 3 | Architecture violation | PR blocked, architect review |
+| 4 | Security/privacy breach | Immediate revert, incident report |
+| 5 | Repeated violations | Developer retraining required |
 
-### 3.2 Nginx Reverse Proxy Configuration Standard
+---
 
-All VPS traffic MUST pass through Nginx configured with TLS 1.3, HTTP/2, Gzip/Brotli compression, and proxy buffers:
+## 🔄 MIGRATION PROTOCOLS
 
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name stemtuitionpokhara.com;
-
-    ssl_certificate /etc/letsencrypt/live/stemtuitionpokhara.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/stemtuitionpokhara.com/privkey.pem;
-
-    # Static Asset Caching
-    location ~* \.(css|js|png|jpg|webp|svg|woff2)$ {
-        root /var/www/stem-tuition;
-        expires 30d;
-        add_header Cache-Control "public, no-transform";
-    }
-
-    # Dynamic API Routes Proxy to Port 8085
-    location /api/ {
-        proxy_pass http://127.0.0.1:8085/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_cache_bypass $http_upgrade;
-    }
+### Strangler Fig Pattern Implementation
+```typescript
+// Step 1: Create adapter for legacy functionality
+export class LegacyQuizAdapter implements IQuizService {
+  async loadQuestions(): Promise<IQuizQuestion[]> {
+    // Call legacy global function through ACL
+    return window.legacyQuizEngine.getQuestions();
+  }
 }
 
+// Step 2: Build new implementation alongside
+export class ModernQuizService implements IQuizService {
+  async loadQuestions(): Promise<IQuizQuestion[]> {
+    // Fetch from new API
+    const response = await fetch('/api/questions');
+    return response.json();
+  }
+}
+
+// Step 3: Feature flag controlled routing
+export function getQuizService(): IQuizService {
+  if (featureFlags.useModernQuiz) {
+    return new ModernQuizService();
+  }
+  return new LegacyQuizAdapter();
+}
 ```
 
-### 3.3 State Management & Data Layer Rules
-
-* **Database Protocol**: Use lightweight, zero-latency persistence (SQLite via Drizzle ORM or PostgreSQL). SQLite databases MUST reside in an encrypted container or non-public directory (`/var/data/stem.db`).
-* **Real-Time Dynamic Seat Sync**: Live class seat countdowns ("Only 2 seats left") MUST sync using native **Server-Sent Events (SSE)** (`/api/seats/stream`) or lightweight WebSockets.
-* **Admission Lead Ingestion Pipeline**:
-```
-[Inquiry Form] ──> POST /api/leads ──> SQLite DB ──> Webhook to WhatsApp / Telegram
-
-```
-
-
-
-### 3.4 Production Security & Headers Standard
-
-When serving via VPS, Nginx or Node middleware **MUST** inject the following HTTP security headers:
-
-```nginx
-add_header X-Frame-Options "SAMEORIGIN" always;
-add_header X-XSS-Protection "1; mode=block" always;
-add_header X-Content-Type-Options "nosniff" always;
-add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-add_header Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;" always;
-
-```
+### Rollback Procedures
+Every migration PR MUST include:
+1. Rollback trigger condition
+2. Rollback execution steps
+3. Data migration reversal (if applicable)
+4. Communication plan
 
 ---
 
-## 🔄 4. Operational Integrity, Spelling & Cache-Busting Protocol
+## 📚 REFERENCES
 
-### 4.1 Cache-Busting Protocol (Static Release Pipeline)
+### Core Documents
+- [Architecture Charter](../README.md)
+- [ADR Index](./adr/)
+- [Educational Guidelines](./EDUCATIONAL_GUIDELINES.md)
+- [Migration Strategy](./MIGRATION_STRATEGY.md)
 
-Every release update on the static tier **MUST** increment the version query parameter across all HTML files:
-
-```html
-<link rel="stylesheet" href="css/main.css?v=13.0"/>
-<link rel="stylesheet" href="css/stem-theme.css?v=13.0"/>
-<script src="js/main.js?v=13.0"></script>
-
-```
-
-### 4.2 Content Integrity & Vocabulary Directives
-
-* **Zero-Tolerance Spelling Rule**: The word **"Tuition"** **MUST** always be spelled correctly (never "tution" or "tution-stem").
-* **Official Immutable Credentials**:
-* **Phone**: `+977 9768021317`
-* **Email**: `gurungsajan0228@gmail.com`
-* **WhatsApp**: `[https://wa.me/9779768021317](https://wa.me/9779768021317)`
-* **Location**: Pokhara, Nepal
-
-### 4.3 Mandatory Server Restart & Verification Directive
-
-* **Automatic Web Server Restart Rule**: Every single time any file (`.html`, `.css`, `.js`, `.md`) or configuration is modified, updated, or created, you **MUST** automatically restart the HTTP web server on Port `8085` (`python3 -m http.server 8085`) and run `node tests/verify-stem-platform.js` to guarantee the live environment serves updated assets.
+### External Standards
+- [WCAG 2.2 AA](https://www.w3.org/WAI/WCAG22/quickref/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Web Dev Guidelines](https://web.dev/learn/)
+- [MDN Web Docs](https://developer.mozilla.org/)
 
 ---
 
-## 📋 5. Operational Guidelines Summary
+## 📝 CHANGELOG
 
-| Feature / Standard | Tier 1: Static Hosting | Tier 2: Future VPS Deployment |
-| --- | --- | --- |
-| **Hosting Platform** | GitHub Pages / Cloudflare Pages | Dedicated Linux VPS (Ubuntu/Debian) |
-| **Port Assignment** | Standard HTTP/HTTPS | Frontend via Nginx, API on **Port `8085**` |
-| **Animations** | CSS `animation-timeline: view()` | CSS Native + SSE triggered live UI events |
-| **Modals** | Native HTML `<dialog popover>` | Native Popover + Server API confirmation |
-| **Data Storage** | LocalStorage / Pre-filled URLs | SQLite / PostgreSQL + Drizzle ORM |
-| **Form Handling** | Direct WhatsApp Redirects | REST API (`/api/leads`) + Webhook Alerts |
+| Version | Date | Changes |
+|---------|------|---------|
+| 2.0.0 | 2024-05-21 | Complete rewrite for LearningHub STEM ecosystem |
+| 1.0.0 | 2024-01-15 | Initial static site rules (archived) |
+
+---
+
+*Last Updated: 2024-05-21*  
+*Approved by: Chief Software Architect*  
+*Status: 🔒 ENFORCED*  
+*Next Review: 2024-08-21*
