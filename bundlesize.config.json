@@ -1,0 +1,8 @@
+{
+  "files": [
+    {
+      "path": "apps/shell/dist/assets/*.js",
+      "maxSize": "100 kB"
+    }
+  ]
+}

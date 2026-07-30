@@ -113,13 +113,19 @@ pnpm lint:arch
 # TypeScript type check
 pnpm typecheck
 
-# ──── Version Management ────
+# ──── Version Management (4-Stage Pipeline) ────
 
-# Create a changeset for version bump
+# Create a changeset (new dependency change entry)
 pnpm changeset
 
-# Apply all pending changesets and version packages
-pnpm changeset version
+# Release pipeline — run in order:
+pnpm release:prepare   # generates CHANGELOG/DEVLOG drafts, scans registry
+pnpm release:validate  # no [EDIT:] markers, clean tree, verify-governance, tests, writes token
+pnpm release:version   # token+TOCTOU guard → changeset version → sync-versions → typecheck → test
+pnpm release:finalize  # mutation allowlist → finalize docs → commit → tag → clean up token
+
+# NOTE: pnpm changeset version is intentionally DISABLED (guarded).
+# Use the 4-stage pipeline above instead.
 
 # ──── Documentation ────
 

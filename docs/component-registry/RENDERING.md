@@ -13,18 +13,19 @@
 | Event Bus | `packages/core/` | `src/event-bus.ts` | — | — | No UI — pure logic |
 | Tracer Dashboard | `packages/tracer/` | `src/dashboard.ts` | — | — | Floating panel when `?trace=true` |
 
-## Phase 2: Audio Synth (NOT YET EXTRACTED)
+## Phase 2: Audio Synth (EXTRACTED)
 
 | Component | Package | Definition | Template | Styles | Status |
 |-----------|---------|-----------|----------|--------|--------|
-| Audio playback | `packages/audio-synth/` | `src/synth.ts` | — | — | Not yet extracted |
+| Synth functions | `packages/audio-synth/` | `src/synth.ts` | — | — | Extracted (Phase 2) |
+| AudioEngine | `packages/audio-synth/` | `src/engine.ts` | — | — | Extracted (Phase 2) |
 | Legacy audio | `legacy/` | `js/stem-effects.js:28` | — | — | Active (frozen) |
 
-## Phase 4: Quiz Engine (NOT YET EXTRACTED)
+## Phase 4: Quiz Engine (EXTRACTED)
 
 | Component | Package | Definition | Template | Styles | Status |
 |-----------|---------|-----------|----------|--------|--------|
-| `<stem-quiz>` | `packages/quiz-engine/` | `src/internal/web-component.ts` | `src/internal/template.ts` | `src/internal/styles.css` | Not yet extracted |
+| `<stem-quiz>` | `packages/quiz-engine/` | `src/internal/web-component.ts` | `src/internal/template.ts` | `src/internal/styles.css` | Extracted (Phase 4) |
 | Legacy quiz | `legacy/` | `js/stem-quiz.js:1` | — | — | Active (frozen) |
 
 ## Phase 5: Hover Engine (NOT YET EXTRACTED)

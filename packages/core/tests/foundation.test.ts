@@ -80,7 +80,7 @@ describe('Changesets configuration', () => {
     const cfg = JSON.parse(read(join(ROOT, '.changeset/config.json')));
     expect(cfg.baseBranch).toBe('main');
     expect(cfg.access).toBe('restricted');
-    expect(cfg.commit).toBe(true);
+    expect(cfg.commit).toBe(false);
     expect(cfg.$schema).toContain('@changesets/config');
   });
 

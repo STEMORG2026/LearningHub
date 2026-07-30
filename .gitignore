@@ -48,3 +48,9 @@ apps/*/src/**/*.d.ts.map
 # Temp
 tmp/
 temp/
+
+# Release pipeline
+.release-token.json
+
+# Playwright
+test-results/

@@ -6,7 +6,7 @@
 
 ---
 
-## Quiz Engine (Phase 4 — Not Yet Extracted)
+## Quiz Engine (Phase 4 — Extracted)
 
 | Concept | ID | Grade | Prerequisites | Misconceptions | Location (future) |
 |---------|----|-------|---------------|----------------|-------------------|
@@ -15,13 +15,13 @@
 | Ohm's Law | `ohms-law` | 9-12 | `voltage, current, resistance` | — | `packages/quiz-engine/src/data/physics.ts` |
 | Atomic Structure | `atomic-structure` | 9-12 | `elements, matter` | — | `packages/quiz-engine/src/data/chemistry.ts` |
 | Atmosphere Gases | `atmosphere-gases` | 9-10 | `earth-science, percentages` | — | `packages/quiz-engine/src/data/chemistry.ts` |
-| pH Scale | `ph-scale` | 9-12 | `acids, bases` | — | `packages/quiz-engine/src/data/chemistry.ts` |
-| Periodic Table | `periodic-table` | 9-12 | `elements, atomic-number` | — | `packages/quiz-engine/src/data/chemistry.ts` |
-| Chemical Bonds | `chemical-bonds` | 9-12 | `electrons, valence` | — | `packages/quiz-engine/src/data/chemistry.ts` |
+| pH Scale | `ph-scale` | 9-12 | `acids, bases` | — | `packages/quiz-engine/src/data.ts` |
+| Periodic Table | `periodic-table` | 9-12 | `elements, atomic-number` | — | `packages/quiz-engine/src/data.ts` |
+| Chemical Bonds | `chemical-bonds` | 9-12 | `electrons, valence` | — | `packages/quiz-engine/src/data.ts` |
 
 ## Simulation Core (Phase 6 — Not Yet Extracted)
 
-| Concept | ID | Grade | Prerequisites | Misconceptions | Location (future) |
+| Concept | ID | Grade | Prerequisites | Misconceptions | Location |
 |---------|----|-------|---------------|----------------|-------------------|
 | Newtonian Gravity | `newtons-gravity` | 9-12 | `force, mass, distance` | `heavier-falls-faster, gravity-needs-air` | `packages/simulation-core/src/gravity.ts` |
 | Solar System | `solar-system` | 5-8 | `planets, orbits` | — | `packages/simulation-core/src/bodies.ts` |

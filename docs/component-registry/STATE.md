@@ -35,11 +35,11 @@
 | Legacy quiz state bridge | via ACL | `packages/acl/src/quiz-adapter.ts` | Reads `window.stemQuizApp`, `STEM_QUIZ_DATA` |
 | Canvas simulation state bridge | via ACL | `packages/acl/src/canvas-adapter.ts` | Reads `#stemBackgroundCanvas` DOM state |
 
-## Phase 4: Quiz Engine (Not yet extracted)
+## Phase 4: Quiz Engine (Extracted)
 
 | State | Type | Location | Notes |
 |-------|------|----------|-------|
-| (pending extraction) | — | `packages/quiz-engine/src/internal/quiz-engine.ts` | Will hold current quiz state |
+| Quiz state | QuizState | `packages/quiz-engine/src/internal/quiz-engine.ts:5` | Current question index, score, answers |
 
 ## Phase 5: Hover Engine (Not yet extracted)
 

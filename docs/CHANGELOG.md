@@ -9,6 +9,20 @@ All notable changes to STEM-TUITION are documented here.
 
 ---
 
+## [3.0.0] — 2026-07-31
+
+### Added
+- **Phase 4: Quiz Engine** — 5 subjects × 4 questions with educational metadata, pure logic engine, `renderQuestion`/`renderResult` templates, `<stem-quiz>` Web Component with Shadow DOM, EventBus integration (`quiz:started`, `quiz:answer-submitted`, `quiz:completed`), Tracer integration, 16 tests
+- **Phase 3: Event Bus + ACL** — EventBus (publish/subscribe/wildcards/BroadcastChannel/`?debug_events=true`), `packages/core/src/types.ts`, quiz-adapter/canvas-adapter, 26 tests
+- **Phase 2: Audio Synth** — 4 pure synthesis functions, AudioEngine, ACL bridge, 14 tests
+- **Phase 1: Tracer** — Tracer singleton, `traced()`/`@traceDecorator()`, `<stem-tracer-dashboard>` WC, `initTracer()` for `?trace=true`/`?debug_events=true`, 24 tests
+- **Release automation** — 4-stage pipeline (`release:prepare`, `release:validate`, `release:version`, `release:finalize`) with TOCTOU token, governance gate, mutation allowlist
+- **Dependency cruiser** — `.dependency-cruiser.js` enforcing architecture import rules
+
+### Changed
+- Root `2.0.0` → `3.0.0`; tracer/audio-synth/core/quiz-engine/acl/shell: `0.0.0` → `1.0.0`
+- `pnpm changeset:version` now guarded — must use 4-stage pipeline
+
 ## [2.0.0] — 2026-07-30
 
 ### Added

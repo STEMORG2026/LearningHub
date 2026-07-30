@@ -35,11 +35,11 @@
 
 | Function | Span name | Parent | Instrumented | Location |
 |----------|-----------|--------|--------------|----------|
-| `loadQuiz()` | `quiz:load` | `quiz:start` | ❌ Not yet | `packages/quiz-engine/src/internal/quiz-engine.ts` |
-| `validateAnswer()` | `quiz:validate` | `quiz:check-answer` | ❌ Not yet | `packages/quiz-engine/src/internal/quiz-engine.ts` |
-| `checkAnswer()` | `quiz:check-answer` | `quiz:answer-submitted` | ❌ Not yet | `packages/quiz-engine/src/internal/quiz-engine.ts` |
-| `calculateScore()` | `quiz:calculate-score` | `quiz:check-answer` | ❌ Not yet | `packages/quiz-engine/src/internal/quiz-engine.ts` |
-| `analyzeMisconception()` | `quiz:misconception` | `quiz:check-answer` | ❌ Not yet | `packages/quiz-engine/src/internal/quiz-engine.ts` |
+| `validateAnswer()` | `quiz:validate-answer` | `quiz:answer-submitted` | ✅ Instrumented | `packages/quiz-engine/src/internal/quiz-engine.ts:49` |
+| `advanceQuestion()` | `quiz:advance-question` | `quiz:started` | ✅ Instrumented | `packages/quiz-engine/src/internal/quiz-engine.ts:94` |
+| `loadQuiz()` | `quiz:load` | `quiz:start` | 🔲 Planned | `packages/quiz-engine/src/internal/quiz-engine.ts` |
+| `checkAnswer()` | `quiz:check-answer` | `quiz:answer-submitted` | 🔲 Planned | `packages/quiz-engine/src/internal/quiz-engine.ts` |
+| `calculateScore()` | `quiz:calculate-score` | `quiz:check-answer` | 🔲 Planned | `packages/quiz-engine/src/internal/quiz-engine.ts` |
 
 ### Phase 5: Hover Engine
 
@@ -63,9 +63,9 @@
 PHASE 1: tracer infrastructure     ██████████ 100%
 PHASE 2: audio-spans               ██████████ 100%
 PHASE 3: event-bus-spans           ██████████ 100%
-PHASE 4: quiz-spans                ░░░░░░░░░░ 0%
+PHASE 4: quiz-spans                ████░░░░░░ 40% (2/5 instrumented)
 PHASE 5: hover-spans               ░░░░░░░░░░ 0%
 PHASE 6: physics-spans             ░░░░░░░░░░ 0%
 
-Total: 14 functions to instrument  ░░░░░░░░░░ 0% (tracer infrastructure ready)
+Total: 20 functions to instrument  ░░░░░░░░░░ 10% (tracer + 2 quiz spans active)
 ```
