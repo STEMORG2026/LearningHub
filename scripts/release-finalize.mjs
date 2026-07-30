@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'fs';
-import { join, resolve } from 'path';
+import { join, dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
-const ROOT = resolve(import.meta.dirname, '..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const TOKEN_PATH = join(ROOT, '.release-token.json');
 const ALLOWED_MUTATIONS = [
   '.changeset/',
@@ -87,7 +88,7 @@ if (nextSectionRegex.test(changelog)) {
 
 const roadMapPath = join(ROOT, 'docs/ROADMAP.md');
 if (existsSync(roadMapPath)) {
-  log('  ✓ docs/ROADMAP.md — review manually if phase markers need updating');
+  log('  ✓ docs/ROADMAP.md — TODO: automate phase-marker updates here');
 }
 
 log('\n=== Stage 4: Commit ===');

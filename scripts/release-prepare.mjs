@@ -1,33 +1,14 @@
 #!/usr/bin/env node
 
-import { readFileSync, readdirSync, writeFileSync, statSync, existsSync } from 'fs';
-import { join, resolve } from 'path';
-import { execSync } from 'child_process';
+import { readFileSync, readdirSync, writeFileSync, existsSync } from 'fs';
+import { join, dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
-const ROOT = resolve(import.meta.dirname, '..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CHANGESET_DIR = join(ROOT, '.changeset');
-const DOCS_DIR = join(ROOT, 'docs');
 
 function log(msg) {
   console.log(`[release:prepare] ${msg}`);
-}
-
-function warn(msg) {
-  console.warn(`[release:prepare] ⚠  ${msg}`);
-}
-
-function findMarkdownFiles(dir) {
-  const files = [];
-  const entries = readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = join(dir, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...findMarkdownFiles(fullPath));
-    } else if (entry.name.endsWith('.md')) {
-      files.push(fullPath);
-    }
-  }
-  return files;
 }
 
 const changesetFiles = readdirSync(CHANGESET_DIR).filter(
@@ -39,12 +20,17 @@ if (changesetFiles.length === 0) {
   process.exit(0);
 }
 
+function sepIdx(lines, from = 0) {
+  return lines.findIndex((l, i) => i >= from && l.trim() === '---');
+}
+
 const changesets = changesetFiles.map((f) => {
   const content = readFileSync(join(CHANGESET_DIR, f), 'utf8');
   const lines = content.split('\n');
-  const headerEnd = lines.findIndex((l) => l.trim() === '---' && l.startsWith('---'));
-  const frontmatter = lines.slice(0, headerEnd);
-  const description = lines.slice(headerEnd + 1).join('\n').trim();
+  const firstSep = sepIdx(lines);
+  const secondSep = sepIdx(lines, firstSep + 1);
+  const frontmatter = lines.slice(firstSep + 1, secondSep);
+  const description = lines.slice(secondSep + 1).join('\n').trim();
   const packages = [];
   for (const line of frontmatter) {
     const match = line.match(/^"@stem-tuition\/([^"]+)"\s*:\s*"(major|minor|patch)"/);
@@ -100,8 +86,9 @@ ${[...allPkg].sort().map((n) => `- ${n}: pending`).join('\n')}
 `;
 
 if (!hasNextSection) {
-  const insertIdx = changelog.indexOf('\n---\n');
-  const insertionPoint = insertIdx !== -1 ? insertIdx + 5 : changelog.length;
+  const sep = '\n---\n';
+  const insertIdx = changelog.indexOf(sep);
+  const insertionPoint = insertIdx !== -1 ? insertIdx + sep.length : changelog.length;
   changelog = changelog.slice(0, insertionPoint) + newChangelogSection + changelog.slice(insertionPoint);
   writeFileSync(changelogPath, changelog);
   log('  ✓ docs/CHANGELOG.md — NEXT section added');

@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'fs';
-import { join, resolve } from 'path';
+import { join, dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
-const ROOT = resolve(import.meta.dirname, '..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const TOKEN_PATH = join(ROOT, '.release-token.json');
 
 function log(msg) {
