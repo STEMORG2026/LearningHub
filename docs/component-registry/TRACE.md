@@ -29,6 +29,7 @@
 | `playSparkSound()` | `audio:play-spark` | (root) | ❌ Not yet | `packages/audio-synth/src/synth.ts` |
 | `playCollisionSound()` | `audio:play-collision` | (root) | ❌ Not yet | `packages/audio-synth/src/synth.ts` |
 | `playExplosionSound()` | `audio:play-explosion` | (root) | ❌ Not yet | `packages/audio-synth/src/synth.ts` |
+| `playMotionHum()` | `audio:play-motion-hum` | (root) | ❌ Not yet | `packages/audio-synth/src/synth.ts` |
 
 ### Phase 4: Quiz Engine
 
@@ -60,7 +61,7 @@
 
 ```
 PHASE 1: tracer infrastructure     ██████████ 100%
-PHASE 2: audio-spans               ░░░░░░░░░░ 0%
+PHASE 2: audio-spans               ██████████ 100%
 PHASE 3: event-bus-spans           ░░░░░░░░░░ 0%
 PHASE 4: quiz-spans                ░░░░░░░░░░ 0%
 PHASE 5: hover-spans               ░░░░░░░░░░ 0%

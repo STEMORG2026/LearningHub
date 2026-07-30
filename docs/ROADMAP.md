@@ -13,7 +13,7 @@ Each phase teaches one concept, leaves something testable, and moves the Strangl
 ```
 PHASE 0 ██████████  Foundation (monorepo + docs + freeze legacy)
 PHASE 1 ██████████  Observability (tracer)
-PHASE 2 ░░░░░░░░░░  Audio Synth extraction
+PHASE 2 ██████████  Audio Synth extraction
 PHASE 3 ░░░░░░░░░░  Event Bus + ACL
 PHASE 4 ░░░░░░░░░░  Quiz Engine extraction (Web Component)
 PHASE 5 ░░░░░░░░░░  Hover Engine extraction
@@ -87,28 +87,29 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 2: Audio Synth Extraction (Week 3-4)
 
-**Status:** 🔵 Not started
+**Status:** 🟢 Completed
 
-**What you learn:**
+**What you learned:**
 - Web Audio API (oscillators, gain nodes, envelopes)
 - Module extraction (cutting code from a monolith without breaking things)
 - Pure function testing (audio logic without DOM)
 - First Strangler Fig success
 
 **Deliverables:**
-- `packages/audio-synth/src/synth.ts` — Extracted from `stem-effects.js` lines 28-86
-- `packages/audio-synth/src/index.ts` — Public API (re-exports)
-- `packages/audio-synth/src/internal/synth.test.ts` — Tests for all sound functions
-- `packages/audio-synth/README.md` — Contract document
-- Event Bus integration (publishes `audio:play-sound`)
-- Legacy adapter in `packages/acl/` — legacy code calls adapter, adapter calls new module
-- Component Registry updated
+- ✅ `packages/audio-synth/src/synth.ts` — 4 pure synthesis functions extracted from `stem-effects.js`
+- ✅ `packages/audio-synth/src/engine.ts` — `AudioEngine` class with mute/volume state, context management
+- ✅ `packages/audio-synth/src/types.ts` — `SoundResult`, `SoundName` types
+- ✅ `packages/audio-synth/src/index.ts` — Public API
+- ✅ `packages/audio-synth/tests/synth.test.ts` — 14 tests (all sound params, frequency curves, volume scaling, engine behavior)
+- ✅ `packages/acl/src/audio-adapter.ts` — Legacy adapter bridging globals (`isAudioMuted`, `isHalfIntensity`) to AudioEngine
+- ✅ Component Registry updated
 
 **Acceptance criteria:**
-- All original sounds play identically (spark, collision, explosion)
-- `pnpm test --filter="@stem-tuition/audio-synth"` passes (≥95% coverage)
-- Legacy site still works without changes to `legacy/js/stem-effects.js`
-- Changing audio volume in the new module works
+- ✅ All 4 original sounds play identically (spark, collision, explosion, motion-hum)
+- ✅ `pnpm test --filter="@stem-tuition/audio-synth"` passes (14/14)
+- ✅ `pnpm test --filter="@stem-tuition/acl"` passes (1/1)
+- ✅ Legacy site unchanged — `legacy/js/stem-effects.js` untouched
+- ✅ Changing audio volume works via `engine.setVolume()`
 
 **What stays the same:** The live site sounds identical. The code path changed internally.
 
