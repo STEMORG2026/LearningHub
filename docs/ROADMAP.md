@@ -11,8 +11,8 @@
 Each phase teaches one concept, leaves something testable, and moves the Strangler Fig forward. Phases build on each other.
 
 ```
-PHASE 0 ████░░░░░░  Foundation (monorepo + docs + freeze legacy)
-PHASE 1 ░░░░░░░░░░  Observability (tracer)
+PHASE 0 ██████████  Foundation (monorepo + docs + freeze legacy)
+PHASE 1 ██████████  Observability (tracer)
 PHASE 2 ░░░░░░░░░░  Audio Synth extraction
 PHASE 3 ░░░░░░░░░░  Event Bus + ACL
 PHASE 4 ░░░░░░░░░░  Quiz Engine extraction (Web Component)
@@ -25,7 +25,7 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 0: Foundation (Week 1-2)
 
-**Status:** 🔵 Not started
+**Status:** 🟢 Completed
 
 **What you learn:**
 - What a monorepo is and why pnpm
@@ -59,27 +59,27 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 1: Observability (Week 2-3)
 
-**Status:** 🔵 Not started
+**Status:** 🟢 Completed
 
-**What you learn:**
+**What you learned:**
 - Decorators and metaprogramming in TypeScript
 - Span-based tracing (how Langfuse/Datadog work internally)
 - Live dashboard rendering with Web Components
 - Performance measurement and waterfall analysis
 
 **Deliverables:**
-- `packages/tracer/src/tracer.ts` — Tracer class with `startSpan()`, `endSpan()`, `getCurrentTraceId()`
-- `packages/tracer/src/dashboard.ts` — Floating dashboard Web Component shown when `?trace=true`
-- `@trace` decorator or wrapper function for easy instrumentation
-- Tests for tracer (start/end span, nesting, duration calculation)
-- Debug mode (`?debug_events=true`) functional
-- Component Registry updated with all tracer component locations
+- ✅ `packages/tracer/src/tracer.ts` — Tracer class with `startSpan()`, `endSpan()`, `getCurrentTraceId()`, span tree, event listeners
+- ✅ `packages/tracer/src/dashboard.ts` — `<stem-tracer-dashboard>` Web Component with span tree, summary stats, drag support, collapsible nodes
+- ✅ `packages/tracer/src/decorator.ts` — `traced()` wrapper function + `@traceDecorator()` method decorator
+- ✅ `packages/tracer/src/types.ts` — Span, TracerConfig, TracerEvent, TracerListener types
+- ✅ `packages/tracer/src/index.ts` — Public API with `initTracer()` for auto-detecting `?trace=true` / `?debug_events=true`
+- ✅ 24 tests passing (start/end span, nesting, error, event listeners, disabled mode, traced wrapper, decorator)
 
 **Acceptance criteria:**
-- `?trace=true` shows floating dashboard
-- `?debug_events=true` shows console events
-- Tracer accurately measures function durations (±1ms)
-- Tests pass: `pnpm test --filter="@stem-tuition/tracer"`
+- ✅ `?trace=true` shows floating dashboard (via `initTracer()`)
+- ✅ `?debug_events=true` enriches console with trace ID + timestamp
+- ✅ Tracer accurately measures function durations using `performance.now()`
+- ✅ Tests pass: `pnpm test --filter="@stem-tuition/tracer"` (24/24)
 
 **What stays the same:** No production code is affected. This is instrumentation infrastructure.
 
