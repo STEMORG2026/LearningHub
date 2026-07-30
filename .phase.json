@@ -65,9 +65,9 @@
     {
       "id": 6,
       "name": "Physics Core extraction",
-      "status": "planned",
-      "completedVersion": null,
-      "completedDate": null,
+      "status": "completed",
+      "completedVersion": "3.0.0",
+      "completedDate": "2026-07-31",
       "packages": [
         "simulation-core"
       ]

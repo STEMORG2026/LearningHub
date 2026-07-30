@@ -66,8 +66,8 @@ PHASE 2 ██████████  Audio Synth extraction
 PHASE 3 ██████████  Event Bus + ACL
 PHASE 4 ██████████  Quiz Engine extraction
 PHASE 5 ██████████  Hover Engine extraction
-PHASE 6 ░░░░░░░░░░  Physics Core extraction   ← CURRENT
-PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
+PHASE 6 ██████████  Physics Core extraction
+PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)   ← NEXT
 ```
 <!-- END AUTO:phase-map -->
 
@@ -87,7 +87,7 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/acl/` | Event Bus + ACL | `src/audio-adapter.ts, src/canvas-adapter.ts, src/index.ts, src/quiz-adapter.ts` |
 | `packages/quiz-engine/` | Quiz Engine extraction | `src/data.ts, src/index.ts, src/types.ts` |
 | `packages/hover-engine/` | Hover Engine extraction | `src/hover-state.ts, src/index.ts, src/types.ts` |
-| `packages/simulation-core/` | Physics Core extraction | `src/index.ts` |
+| `packages/simulation-core/` | Physics Core extraction | `src/types.ts, src/config.ts, src/create-body.ts, src/physics.ts, src/index.ts` |
 <!-- END AUTO:package-map -->
 
 ---

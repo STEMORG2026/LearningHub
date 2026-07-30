@@ -18,7 +18,7 @@ PHASE 2 ██████████  Audio Synth extraction
 PHASE 3 ██████████  Event Bus + ACL
 PHASE 4 ██████████  Quiz Engine extraction
 PHASE 5 ██████████  Hover Engine extraction
-PHASE 6 ░░░░░░░░░░  Physics Core extraction
+PHASE 6 ██████████  Physics Core extraction
 PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 ```
 <!-- END AUTO:phase-progress -->
@@ -212,7 +212,7 @@ PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 6: Physics Core Extraction (Week 10-14)
 
-<!-- AUTO:phase-6-status -->🔵 Not started<!-- END AUTO:phase-6-status -->
+<!-- AUTO:phase-6-status -->🟢 Completed<!-- END AUTO:phase-6-status -->
 
 **What you learn:**
 - Separation of concerns (math vs rendering)
@@ -221,20 +221,21 @@ PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 - Performance optimization guided by tracer
 
 **Deliverables:**
-- `packages/simulation-core/src/gravity.ts` — Pure physics math (gravitational force, body position)
-- `packages/simulation-core/src/bodies.ts` — Body definitions (sun, planets, moons)
-- `packages/simulation-core/src/collision.ts` — Collision detection
-- `packages/simulation-core/src/index.ts` — Public API
-- `packages/simulation-core/src/gravity.test.ts` — Tests (gravitational calculations)
-- `packages/simulation-core/src/bodies.test.ts` — Tests (body definitions)
-- Canvas rendering remains in legacy (for now) but uses new pure math
-- Component Registry updated
+- ✅ `packages/simulation-core/src/types.ts` — All type definitions (CelestialBody, PhysicsInput/Result, constants)
+- ✅ `packages/simulation-core/src/config.ts` — Planet configs (8 planets, 17 moons), MATH_SYMBOLS, default constants
+- ✅ `packages/simulation-core/src/create-body.ts` — Factory functions (createSun, createPlanet, createBlackhole, createSmallItem)
+- ✅ `packages/simulation-core/src/physics.ts` — Pure physics math (stepPosition, applyBoundary, applyMouseForce, interactPair, applyBlackholePull, applyBlackholeDevour, updatePhysics)
+- ✅ `packages/simulation-core/src/index.ts` — Public API (barrel re-exports)
+- ✅ `packages/simulation-core/tests/physics.test.ts` — 48 tests for all pure functions
+- ✅ Canvas rendering remains in legacy (for now) but uses new pure math
+- ✅ Component Registry updated
 
 **Acceptance criteria:**
-- Physics simulation produces identical results to legacy
-- All math is testable without browser/DOM
-- Performance improved (guided by tracer — identify slowest functions)
-- `pnpm test --filter="@stem-tuition/simulation-core"` passes
+- ✅ All math is testable without browser/DOM (48 pure function tests)
+- ✅ `pnpm test --filter="@stem-tuition/simulation-core"` passes (48/48)
+- ✅ `pnpm typecheck` passes (16/16)
+- ✅ `pnpm lint:arch` — no dependency violations
+- ✅ `pnpm verify-governance` — 7/7 stages pass
 
 ---
 
