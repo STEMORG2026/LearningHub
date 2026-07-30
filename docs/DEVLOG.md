@@ -145,6 +145,24 @@
 **Note from past self to future self:**
 > The temptation to "just fix this one thing" in legacy code will be strong. Don't. Every minute spent extracting is an investment in testability. Every minute spent patching legacy is debt.
 
+
+## 2026-07-31 — Phase 5: Hover Engine extraction complete
+
+**Changes:**
+- docs-only phase completion: Phase 5 (Hover Engine extraction)
+- Release automation refactored: removed time-based token expiry, added working tree integrity checks, provenance chain for changeset consumption
+
+**Packages affected:**
+- @stem-tuition/hover-engine
+
+**Tests:**
+All 12 hover-engine tests pass, 100% line/branch/function coverage.
+
+**Notes:**
+Phase 5 extracted hover state machine (4 pure functions, 6 CSS hover classes) from legacy frozen zone. Release pipeline hardened with triple integrity gate (no unstaged + no untracked + tree-hash match) and validatedChangesetFiles → consumedChangesets provenance chain.
+
+---
+
 ---
 
 ## [Template for Future Entries]

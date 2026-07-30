@@ -16,17 +16,18 @@
 
 ## New Module Tests
 
+<!-- AUTO:testing-table -->
 | Package | Test file | Type | Coverage target | Status |
 |---------|-----------|------|----------------|--------|
-| `packages/core/` | `tests/event-bus.test.ts` | Unit | ≥95% lines | 🟢 Written (12 tests) |
-| `packages/core/` | `tests/foundation.test.ts` | Unit | Integration | 🟢 Written (91 tests) |
-| `packages/tracer/` | `tests/tracer.test.ts` | Unit | ≥95% lines | 🟢 Written (24 tests) |
-| `packages/audio-synth/` | `tests/synth.test.ts` | Unit | ≥95% lines | 🟢 Written (14 tests) |
-| `packages/acl/` | `tests/acl.test.ts` | Unit | ≥95% lines | 🟢 Written (14 tests) |
-| `packages/quiz-engine/` | `tests/quiz-engine.test.ts` | Unit | ≥95% lines | 🟢 Written (14 tests) |
-| `packages/quiz-engine/` | `tests/web-component.test.ts` | WC integration | DOM | 🟢 Written (2 tests) |
-| `packages/hover-engine/` | `tests/placeholder.test.ts` | Placeholder | — | ⚪ Placeholder |
-| `packages/simulation-core/` | `tests/placeholder.test.ts` | Placeholder | — | ⚪ Placeholder |
+| `packages/core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (59 tests) |
+| `packages/tracer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (24 tests) |
+| `packages/audio-synth/` | `tests/*.test.ts` | Unit | — | 🟢 Written (14 tests) |
+| `packages/core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (59 tests) |
+| `packages/acl/` | `tests/*.test.ts` | Unit | — | 🟢 Written (14 tests) |
+| `packages/quiz-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (16 tests) |
+| `packages/hover-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
+| `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
+<!-- END AUTO:testing-table -->
 
 ## E2E Tests (Future)
 

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.0",
+  "phases": [
+    {
+      "id": 0,
+      "name": "Foundation",
+      "status": "completed",
+      "completedVersion": "2.0.0",
+      "completedDate": "2026-07-30",
+      "packages": [
+        "core"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Tracer (observability)",
+      "status": "completed",
+      "completedVersion": "3.0.0",
+      "completedDate": "2026-07-30",
+      "packages": [
+        "tracer"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Audio Synth extraction",
+      "status": "completed",
+      "completedVersion": "3.0.0",
+      "completedDate": "2026-07-30",
+      "packages": [
+        "audio-synth"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Event Bus + ACL",
+      "status": "completed",
+      "completedVersion": "3.0.0",
+      "completedDate": "2026-07-31",
+      "packages": [
+        "core",
+        "acl"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Quiz Engine extraction",
+      "status": "completed",
+      "completedVersion": "3.0.0",
+      "completedDate": "2026-07-31",
+      "packages": [
+        "quiz-engine"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Hover Engine extraction",
+      "status": "completed",
+      "completedVersion": "3.0.0",
+      "completedDate": "2026-07-30",
+      "packages": [
+        "hover-engine"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Physics Core extraction",
+      "status": "planned",
+      "completedVersion": null,
+      "completedDate": null,
+      "packages": [
+        "simulation-core"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Features (auth, progress, admin)",
+      "status": "planned",
+      "completedVersion": null,
+      "completedDate": null,
+      "packages": []
+    }
+  ]
+}

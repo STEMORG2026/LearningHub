@@ -1,0 +1,107 @@
+/* Style 1: Neon HSL Glow (.hover-effect-glow) */
+@keyframes neonGlowCycle {
+  0% { border-color: #00d4ff; box-shadow: 0 0 25px rgba(0, 212, 255, 0.65), inset 0 0 15px rgba(0, 212, 255, 0.2); }
+  33% { border-color: #ff007f; box-shadow: 0 0 30px rgba(255, 0, 127, 0.7), inset 0 0 18px rgba(255, 0, 127, 0.25); }
+  66% { border-color: #ffaa00; box-shadow: 0 0 28px rgba(255, 170, 0, 0.65), inset 0 0 15px rgba(255, 170, 0, 0.2); }
+  100% { border-color: #00ffaa; box-shadow: 0 0 25px rgba(0, 255, 170, 0.65), inset 0 0 15px rgba(0, 255, 170, 0.2); }
+}
+
+.hover-effect-glow:hover {
+  animation: neonGlowCycle 2.4s linear infinite;
+  transform: translateY(-6px) scale(1.018);
+}
+
+/* Style 2: Accent Border Tint (.hover-effect-tint) */
+@keyframes quizFlash {
+  0%, 100% { border-color: #ffaa00; background: linear-gradient(145deg, rgba(24, 28, 65, 0.96), rgba(12, 14, 38, 0.98)); box-shadow: 0 0 25px rgba(255, 170, 0, 0.5), inset 0 0 20px rgba(255, 170, 0, 0.2); }
+  50% { border-color: #00d4ff; background: linear-gradient(145deg, rgba(12, 32, 70, 0.96), rgba(6, 16, 42, 0.98)); box-shadow: 0 0 30px rgba(0, 212, 255, 0.55), inset 0 0 20px rgba(0, 212, 255, 0.22); }
+}
+
+.hover-effect-tint:hover {
+  animation: quizFlash 1.8s ease-in-out infinite;
+  transform: translateY(-5px) scale(1.02);
+}
+
+/* Style 3: SVG Displacement Electric Shock (.hover-effect-electric) */
+@keyframes electricJitter {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-1.5px, 1px); }
+  50% { transform: translate(1px, -1.5px); }
+  75% { transform: translate(-1px, -1px); }
+  100% { transform: translate(1px, 1px); }
+}
+
+.hover-effect-electric { position: relative; }
+.hover-effect-electric::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 2px dashed #00ffff;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.hover-effect-electric:hover {
+  transform: translateY(-6px) scale(1.018);
+  border-color: #00ffff;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.6), inset 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.hover-effect-electric:hover::before {
+  opacity: 1;
+  filter: url(#lightningDistort);
+  border-color: #ff00ff;
+  box-shadow: 0 0 30px #00ffff, 0 0 55px #ff00ff;
+  animation: electricJitter 0.12s infinite linear;
+}
+
+/* Style 4: Outline Dissolution (.hover-effect-borderless) */
+.hover-effect-borderless:hover {
+  border-color: transparent;
+  background: rgba(14, 22, 58, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 212, 255, 0.25);
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Style 5: Chromatic Warp Split (.hover-effect-warp) */
+@keyframes quantumPulse {
+  0%, 100% { border-color: #a855f7; box-shadow: 0 0 28px rgba(168, 85, 247, 0.85), 0 0 55px rgba(0, 240, 255, 0.55); }
+  50% { border-color: #00f0ff; box-shadow: 0 0 35px rgba(0, 240, 255, 0.9), 0 0 65px rgba(168, 85, 247, 0.6); }
+}
+
+.hover-effect-warp:hover {
+  animation: quantumPulse 1.4s ease-in-out infinite;
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Style 6: Conic Solar Plasma (.hover-effect-plasma) */
+@keyframes plasmaGlow {
+  0%, 100% {
+    border-color: #ff5500;
+    background: radial-gradient(circle, rgba(255, 85, 0, 0.15), transparent 70%);
+    box-shadow: 0 0 30px rgba(255, 85, 0, 0.85), 0 0 60px rgba(255, 170, 0, 0.55);
+  }
+  50% {
+    border-color: #00d4ff;
+    background: conic-gradient(from 0deg, rgba(0, 212, 255, 0.18), rgba(255, 85, 0, 0.18), rgba(0, 212, 255, 0.18));
+    box-shadow: 0 0 35px rgba(0, 212, 255, 0.9), 0 0 65px rgba(255, 85, 0, 0.6);
+  }
+}
+
+.hover-effect-plasma:hover {
+  animation: plasmaGlow 1.5s linear infinite;
+  transform: translateY(-6px) scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="hover-effect-"]:hover {
+    animation: none !important;
+    filter: none !important;
+    transform: translateY(-2px) !important;
+  }
+}

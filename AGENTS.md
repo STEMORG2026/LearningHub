@@ -58,16 +58,18 @@ pnpm verify-governance  # CI pipeline (runs lint:arch, typecheck, test:coverage,
 
 ## Phase Map
 
+<!-- AUTO:phase-map -->
 ```
-PHASE 0 ██████████  Foundation (monorepo + docs + legacy freeze)
+PHASE 0 ██████████  Foundation
 PHASE 1 ██████████  Tracer (observability)
 PHASE 2 ██████████  Audio Synth extraction
 PHASE 3 ██████████  Event Bus + ACL
-PHASE 4 ██████████  Quiz Engine extraction   ← CURRENT
-PHASE 5 ░░░░░░░░░░  Hover Engine extraction
-PHASE 6 ░░░░░░░░░░  Physics Core extraction
-PHASE 7+ ░░░░░░░░░░  Features (auth, progress, admin)
+PHASE 4 ██████████  Quiz Engine extraction
+PHASE 5 ██████████  Hover Engine extraction
+PHASE 6 ░░░░░░░░░░  Physics Core extraction   ← CURRENT
+PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 ```
+<!-- END AUTO:phase-map -->
 
 Current phase details in `docs/ROADMAP.md`.
 
@@ -75,16 +77,18 @@ Current phase details in `docs/ROADMAP.md`.
 
 ## Package Map
 
+<!-- AUTO:package-map -->
 | Package | Responsibility | Key files |
 |---------|---------------|-----------|
-| `packages/core/` | EventBus, shared types, utilities | `src/event-bus.ts`, `src/types.ts` |
-| `packages/tracer/` | Function timing, span trees, dashboard | `src/tracer.ts`, `src/dashboard.ts` |
-| `packages/acl/` | Anti-Corruption Layer adapters | `src/quiz-adapter.ts`, `src/canvas-adapter.ts` |
-| `packages/audio-synth/` | Web Audio API sound effects | `src/synth.ts`, `src/engine.ts` |
-| `packages/quiz-engine/` | Quiz logic, scoring, Web Component | `src/types.ts`, `src/data.ts`, `src/internal/quiz-engine.ts`, `src/internal/web-component.ts`, `src/internal/template.ts` |
-| `packages/hover-engine/` | Hover state machine, cooldown | `src/hover-state.ts` |
-| `packages/simulation-core/` | Pure physics math | `src/gravity.ts`, `src/bodies.ts` |
-| `apps/shell/` | Entry point, routing | `public/index.html` |
+| `packages/core/` | Foundation | `src/event-bus.ts, src/index.ts, src/types.ts` |
+| `packages/tracer/` | Tracer (observability) | `src/dashboard.ts, src/decorator.ts, src/index.ts, src/tracer.ts, src/types.ts` |
+| `packages/audio-synth/` | Audio Synth extraction | `src/engine.ts, src/index.ts, src/synth.ts, src/types.ts` |
+| `packages/core/` | Event Bus + ACL | `src/event-bus.ts, src/index.ts, src/types.ts` |
+| `packages/acl/` | Event Bus + ACL | `src/audio-adapter.ts, src/canvas-adapter.ts, src/index.ts, src/quiz-adapter.ts` |
+| `packages/quiz-engine/` | Quiz Engine extraction | `src/data.ts, src/index.ts, src/types.ts` |
+| `packages/hover-engine/` | Hover Engine extraction | `src/hover-state.ts, src/index.ts, src/types.ts` |
+| `packages/simulation-core/` | Physics Core extraction | `src/index.ts` |
+<!-- END AUTO:package-map -->
 
 ---
 
@@ -97,6 +101,31 @@ Before writing any code, verify:
 4. Test coverage strategy identified
 5. Educational impact considered (for learning modules)
 6. Architectural constraints reviewed (import rules, EventBus, etc.)
+
+---
+
+---
+
+## Release Workflow — Human Approval Required
+
+After `pnpm release:prepare`, the agent MUST STOP and report the complete
+release candidate to the human. Do NOT run any of the following without
+explicit human approval:
+
+- `git add -A`
+- `pnpm release:validate`
+- `pnpm release:version`
+- `pnpm release:finalize`
+
+The release pipeline sequence is:
+
+```
+agent work → prepare → human approval → git add → validate → version → finalize
+```
+
+The validation token authorizes the complete staged baseline.
+The mutation allowlist governs only pipeline-introduced mutations after validation.
+Phase source files (e.g., `packages/*/src/*`) are not added to the mutation allowlist.
 
 ---
 

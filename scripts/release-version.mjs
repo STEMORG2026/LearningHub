@@ -5,6 +5,13 @@ import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
+// ──── Intentional re-verification ────
+// Stages 3/6/7 re-run governance, typecheck, and tests AFTER the version
+// mutation (changeset version + sync-versions.mjs). This is a defensive
+// safety net — the mutation modifies package.json files and may introduce
+// errors not present when release:validate ran. This is NOT a replacement
+// for release:validate; it is post-mutation insurance.
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const TOKEN_PATH = join(ROOT, '.release-token.json');
 
@@ -29,20 +36,25 @@ if (!token.validationPassed) {
   fail('Token indicates validation did not pass. Re-run pnpm release:validate.');
 }
 
-const tokenAge = Date.now() - new Date(token.validatedAt).getTime();
-const MAX_TOKEN_AGE_MS = 5 * 60 * 1000; // 5 minutes
-if (tokenAge > MAX_TOKEN_AGE_MS) {
-  fail(`Token expired (${Math.round(tokenAge / 1000)}s old, max ${MAX_TOKEN_AGE_MS / 1000}s). Re-run pnpm release:validate.`);
+if (!['versioned', 'docs-only'].includes(token.releaseMode)) {
+  fail(`Unknown release mode: ${token.releaseMode}`);
 }
-log(`  ✓ Token valid, age ${Math.round(tokenAge / 1000)}s`);
 
-log('\n=== Stage 2: Tree-hash match (TOCTOU guard) ===');
+log(`  ✓ Token valid, mode: ${token.releaseMode}`);
 
-const currentTreeHash = execSync('git write-tree', { cwd: ROOT, encoding: 'utf8' }).trim();
-if (currentTreeHash !== token.treeHash) {
-  fail(`TOCTOU violation: tree hash changed since validation.\n  Expected: ${token.treeHash}\n  Current:  ${currentTreeHash}\nWorking tree was modified since pnpm release:validate — re-validate.`);
+if (token.releaseMode === 'docs-only') {
+  log('\n=== Docs-only release — skipping version bump ===');
+  log('  No package versions changed. Proceed to release:finalize.');
+  log('\n✓ release:version complete. Ready for release:finalize.');
+  log('  Run:  pnpm release:finalize');
+  process.exit(0);
 }
-log(`  ✓ Tree hash unchanged (${currentTreeHash.slice(0, 12)}...)`);
+
+log('\n=== Stage 2: Set consumed changesets (handoff to finalize) ===');
+
+token.consumedChangesets = token.validatedChangesetFiles;
+writeFileSync(TOKEN_PATH, JSON.stringify(token, null, 2) + '\n');
+log(`  ✓ consumedChangesets written (${token.consumedChangesets.length} file(s))`);
 
 log('\n=== Stage 3: Governance gate ===');
 
@@ -53,7 +65,28 @@ try {
 }
 log('  ✓ Governance checks passed');
 
-log('\n=== Stage 4: Bump versions via changeset ===');
+log('\n=== Stage 4: Working tree integrity (pre-versioning) ===');
+
+try {
+  execSync('git diff --quiet', { cwd: ROOT, stdio: 'pipe' });
+} catch {
+  fail('Unstaged tracked changes exist. Stage or stash them before versioning.');
+}
+
+const untracked = execSync('git ls-files --others --exclude-standard', {
+  cwd: ROOT, encoding: 'utf8',
+}).trim();
+if (untracked) {
+  fail(`Untracked files exist:\n${untracked}\nClean them up before versioning.`);
+}
+
+const currentTreeHash = execSync('git write-tree', { cwd: ROOT, encoding: 'utf8' }).trim();
+if (currentTreeHash !== token.treeHash) {
+  fail(`TOCTOU violation: tree hash changed since validation.\n  Expected: ${token.treeHash}\n  Current:  ${currentTreeHash}\nWorking tree was modified since pnpm release:validate — re-validate.`);
+}
+log(`  ✓ No unstaged, no untracked, tree hash unchanged (${currentTreeHash.slice(0, 12)}...)`);
+
+log('\n=== Stage 5: Bump versions via changeset ===');
 
 try {
   execSync('pnpm changeset version', { cwd: ROOT, stdio: 'inherit' });
@@ -62,7 +95,7 @@ try {
 }
 log('  ✓ changeset version succeeded');
 
-log('\n=== Stage 5: Sync version strings ===');
+log('\n=== Stage 6: Sync version strings ===');
 
 try {
   execSync('node scripts/sync-versions.mjs', { cwd: ROOT, stdio: 'inherit' });
@@ -71,7 +104,7 @@ try {
 }
 log('  ✓ Version strings synchronized');
 
-log('\n=== Stage 6: TypeScript type check ===');
+log('\n=== Stage 7: TypeScript type check ===');
 
 try {
   execSync('pnpm typecheck', { cwd: ROOT, stdio: 'inherit' });
@@ -80,7 +113,7 @@ try {
 }
 log('  ✓ TypeScript checks passed');
 
-log('\n=== Stage 7: Run tests ===');
+log('\n=== Stage 8: Run tests ===');
 
 try {
   execSync('pnpm test', { cwd: ROOT, stdio: 'inherit' });
@@ -89,9 +122,9 @@ try {
 }
 log('  ✓ All tests passed');
 
-log('\n=== Stage 8: Delete consumed changesets ===');
+log('\n=== Stage 9: Delete consumed changesets ===');
 
-for (const changesetFile of token.consumedChangesetFiles) {
+for (const changesetFile of token.consumedChangesets) {
   const fullPath = join(ROOT, changesetFile);
   if (existsSync(fullPath)) {
     try {
@@ -106,4 +139,4 @@ for (const changesetFile of token.consumedChangesetFiles) {
 }
 
 log('\n✓ release:version complete. Ready for release:finalize.');
-log(`  Run:  pnpm release:finalize`);
+log('  Run:  pnpm release:finalize');

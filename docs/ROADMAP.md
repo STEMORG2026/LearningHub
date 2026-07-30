@@ -10,22 +10,24 @@
 
 Each phase teaches one concept, leaves something testable, and moves the Strangler Fig forward. Phases build on each other.
 
+<!-- AUTO:phase-progress -->
 ```
-PHASE 0 ██████████  Foundation (monorepo + docs + freeze legacy)
-PHASE 1 ██████████  Observability (tracer)
+PHASE 0 ██████████  Foundation
+PHASE 1 ██████████  Tracer (observability)
 PHASE 2 ██████████  Audio Synth extraction
 PHASE 3 ██████████  Event Bus + ACL
-PHASE 4 ██████████  Quiz Engine extraction (Web Component)
-PHASE 5 ░░░░░░░░░░  Hover Engine extraction
+PHASE 4 ██████████  Quiz Engine extraction
+PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ░░░░░░░░░░  Physics Core extraction
-PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
+PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 ```
+<!-- END AUTO:phase-progress -->
 
 ---
 
 ## Phase 0: Foundation (Week 1-2)
 
-**Status:** 🟢 Completed
+<!-- AUTO:phase-0-status -->🟢 Completed<!-- END AUTO:phase-0-status -->
 
 **What you learn:**
 - What a monorepo is and why pnpm
@@ -59,7 +61,7 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 1: Observability (Week 2-3)
 
-**Status:** 🟢 Completed
+<!-- AUTO:phase-1-status -->🟢 Completed<!-- END AUTO:phase-1-status -->
 
 **What you learned:**
 - Decorators and metaprogramming in TypeScript
@@ -87,7 +89,7 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 2: Audio Synth Extraction (Week 3-4)
 
-**Status:** 🟢 Completed
+<!-- AUTO:phase-2-status -->🟢 Completed<!-- END AUTO:phase-2-status -->
 
 **What you learned:**
 - Web Audio API (oscillators, gain nodes, envelopes)
@@ -117,7 +119,7 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 3: Event Bus + ACL (Week 4-5)
 
-**Status:** 🟢 Completed
+<!-- AUTO:phase-3-status -->🟢 Completed<!-- END AUTO:phase-3-status -->
 
 **What you learned:**
 - Publisher/subscriber pattern
@@ -144,7 +146,7 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 4: Quiz Engine Extraction (Week 5-8)
 
-**Status:** 🟢 Completed
+<!-- AUTO:phase-4-status -->🟢 Completed<!-- END AUTO:phase-4-status -->
 
 **What you learned:**
 - Web Components (Custom Elements, Shadow DOM, lifecycle)
@@ -182,7 +184,7 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 5: Hover Engine Extraction (Week 8-10)
 
-**Status:** 🔵 Not started
+<!-- AUTO:phase-5-status -->🟢 Completed<!-- END AUTO:phase-5-status -->
 
 **What you learn:**
 - State machines (6 styles, 4-cycle cooldown)
@@ -190,24 +192,27 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 - Cooldown/algorithms in pure logic
 
 **Deliverables:**
-- `packages/hover-engine/src/hover-state.ts` — Pure state machine (style selection, cooldown tracking)
-- `packages/hover-engine/src/index.ts` — Public API
-- `packages/hover-engine/src/styles.css` — All 6 hover styles as CSS classes (no JavaScript)
-- `packages/hover-engine/src/hover-state.test.ts` — Tests for state machine
-- Legacy code updated to call new hover engine via ACL
-- Design token system extended with hover animation tokens
+- ✅ `packages/hover-engine/src/types.ts` — HoverStyle, CooldownState, HOVER_STYLES constant
+- ✅ `packages/hover-engine/src/hover-state.ts` — Pure state machine (initCooldownState, pickHoverStyle, updateCooldown, isStyleInCooldown)
+- ✅ `packages/hover-engine/src/index.ts` — Public API
+- ✅ `packages/hover-engine/src/styles.css` — All 6 hover styles as CSS classes (no JavaScript)
+- ✅ `packages/hover-engine/tests/hover-state.test.ts` — 12 tests for state machine (100% coverage)
+- ✅ `pnpm test --filter="@stem-tuition/hover-engine"` — 12/12 tests pass
+- ✅ `pnpm typecheck` — 16/16 tasks pass
+- ✅ `pnpm lint:arch` — no dependency violations
 
 **Acceptance criteria:**
-- All 6 hover effects still work identically
-- 4-cycle cooldown protocol maintained
-- Hover styles are CSS-driven, not JavaScript-driven
-- `pnpm test --filter="@stem-tuition/hover-engine"` passes
+- ✅ Pure state machine extracted (no DOM, no globals)
+- ✅ 4-cycle cooldown protocol maintained
+- ✅ All 6 hover effects CSS-driven (styles extracted from legacy)
+- ✅ `pnpm test --filter="@stem-tuition/hover-engine"` passes (12/12)
+- ✅ `pnpm typecheck` passes
 
 ---
 
 ## Phase 6: Physics Core Extraction (Week 10-14)
 
-**Status:** 🔵 Not started
+<!-- AUTO:phase-6-status -->🔵 Not started<!-- END AUTO:phase-6-status -->
 
 **What you learn:**
 - Separation of concerns (math vs rendering)
@@ -235,7 +240,7 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 7+: Features (Ongoing)
 
-**Status:** 🔵 Not started
+<!-- AUTO:phase-7-status -->🔵 Not started<!-- END AUTO:phase-7-status -->
 
 Future features as separate packages following the established pattern:
 

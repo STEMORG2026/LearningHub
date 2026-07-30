@@ -18,7 +18,50 @@ function fail(msg) {
   process.exit(1);
 }
 
-log('=== Stage 1: Human-input validation ===');
+log('=== Stage 1: Phase state validation ===');
+
+const phasePath = join(ROOT, '.phase.json');
+let phaseState;
+try {
+  phaseState = JSON.parse(readFileSync(phasePath, 'utf8'));
+} catch {
+  fail('.phase.json is missing or invalid JSON');
+}
+
+if (!Array.isArray(phaseState.phases)) {
+  fail('.phase.json must contain a "phases" array');
+}
+
+for (const phase of phaseState.phases) {
+  if (!['planned', 'completed'].includes(phase.status)) {
+    fail(`Phase ${phase.id}: invalid status "${phase.status}" — must be "planned" or "completed"`);
+  }
+  if (!Array.isArray(phase.packages)) {
+    fail(`Phase ${phase.id}: "packages" must be an array`);
+  }
+}
+
+// Validate no completion-sequence gaps
+const completedIds = phaseState.phases.filter((p) => p.status === 'completed').map((p) => p.id);
+for (let i = 1; i < completedIds.length; i++) {
+  if (completedIds[i] !== completedIds[i - 1] + 1) {
+    fail(`Completion sequence gap: Phase ${completedIds[i - 1]} is completed but Phase ${completedIds[i]} is "planned"`);
+  }
+}
+
+// Validate packages exist on disk
+for (const phase of phaseState.phases) {
+  for (const pkgName of phase.packages) {
+    const pkgDir = join(ROOT, 'packages', pkgName);
+    if (!readdirSync(join(ROOT, 'packages')).includes(pkgName)) {
+      warn(`Phase ${phase.id}: package "${pkgName}" not found in packages/`);
+    }
+  }
+}
+
+log('  ✓ .phase.json is valid');
+
+log('\n=== Stage 2: Human-input validation ===');
 
 const changelog = readFileSync(join(ROOT, 'docs/CHANGELOG.md'), 'utf8');
 const devlog = readFileSync(join(ROOT, 'docs/DEVLOG.md'), 'utf8');
@@ -39,25 +82,61 @@ if (found.length > 0) {
 }
 log('  ✓ No [EDIT:] markers remain');
 
-log('\n=== Stage 2: Changeset validation ===');
+log('\n=== Stage 3: Release mode determination ===');
 
 const changesetFiles = readdirSync(CHANGESET_DIR).filter(
   (f) => f.endsWith('.md') && f !== 'README.md' && f !== 'config.json'
 );
 
-if (changesetFiles.length === 0) {
-  fail('No pending changesets. Create changesets before releasing.');
+const newlyCompleted = phaseState.phases.filter(
+  (p) => p.status === 'completed' && p.completedDate === null
+);
+
+let releaseMode;
+if (changesetFiles.length > 0) {
+  releaseMode = 'versioned';
+} else if (newlyCompleted.length > 0) {
+  releaseMode = 'docs-only';
+} else {
+  fail('No pending changesets and no newly completed phases — this is not a valid release attempt.');
 }
 
-for (const f of changesetFiles) {
-  const content = readFileSync(join(CHANGESET_DIR, f), 'utf8');
-  if (!content.includes('---')) {
-    fail(`Malformed changeset: ${f} — missing frontmatter delimiters`);
+log(`  Release mode: ${releaseMode}`);
+if (newlyCompleted.length > 0) {
+  log(`  Newly completed phase(s): ${newlyCompleted.map((p) => `#${p.id}`).join(', ')}`);
+}
+
+if (releaseMode === 'versioned') {
+  log('\n=== Stage 4: Changeset validation ===');
+
+  for (const f of changesetFiles) {
+    const content = readFileSync(join(CHANGESET_DIR, f), 'utf8');
+    if (!content.includes('---')) {
+      fail(`Malformed changeset: ${f} — missing frontmatter delimiters`);
+    }
+  }
+  log(`  ✓ ${changesetFiles.length} changeset(s) are well-formed`);
+
+  // Advisory: check if changeset packages match newly completed phase
+  if (newlyCompleted.length > 0) {
+    const changedPkgs = new Set();
+    for (const f of changesetFiles) {
+      const content = readFileSync(join(CHANGESET_DIR, f), 'utf8');
+      const lines = content.split('\n');
+      for (const line of lines) {
+        const m = line.match(/^"@stem-tuition\/([^"]+)"\s*:/);
+        if (m) changedPkgs.add(m[1]);
+      }
+    }
+    const expectedPkgs = new Set(newlyCompleted.flatMap((p) => p.packages));
+    const hasOverlap = [...changedPkgs].some((p) => expectedPkgs.has(p));
+    if (!hasOverlap) {
+      log('  ⚠  Warning: changeset packages do not overlap with any newly completed phase — confirm this is intentional');
+    }
   }
 }
-log(`  ✓ ${changesetFiles.length} changeset(s) are well-formed`);
 
-log('\n=== Stage 3: Working-tree check (pre-test) ===');
+log('\n=== Stage 5: Working-tree check (pre-test) ===');
 
 try {
   execSync('git diff --quiet', { cwd: ROOT, stdio: 'pipe' });
@@ -74,7 +153,7 @@ if (untracked) {
 }
 log('  ✓ Working tree is clean (no unstaged, no untracked)');
 
-log('\n=== Stage 4: Governance validation ===');
+log('\n=== Stage 6: Governance validation ===');
 try {
   execSync('pnpm verify-governance', { cwd: ROOT, stdio: 'inherit' });
 } catch {
@@ -82,7 +161,7 @@ try {
 }
 log('  ✓ Governance checks passed');
 
-log('\n=== Stage 5: Authoritative tests ===');
+log('\n=== Stage 7: Authoritative tests ===');
 let testOutput;
 try {
   testOutput = execSync('pnpm test --force', { cwd: ROOT, encoding: 'utf8' });
@@ -111,7 +190,7 @@ if (testSummary.failed > 0) {
   fail('Tests failed — cannot proceed with release.');
 }
 
-log('\n=== Stage 6: Post-test working-tree check ===');
+log('\n=== Stage 8: Post-test working-tree check ===');
 try {
   execSync('git diff --quiet', { cwd: ROOT, stdio: 'pipe' });
 } catch {
@@ -126,22 +205,24 @@ if (untrackedAfter) {
 }
 log('  ✓ Working tree still clean after tests');
 
-log('\n=== Stage 7: Write validation token ===');
+log('\n=== Stage 9: Write validation token ===');
 
 const treeHash = execSync('git write-tree', { cwd: ROOT, encoding: 'utf8' }).trim();
-const consumedChangesetFiles = changesetFiles.map((f) => `.changeset/${f}`);
+const validatedChangesetFiles = changesetFiles.map((f) => `.changeset/${f}`);
 
 const token = {
   validationPassed: true,
+  releaseMode,
+  newlyCompletedPhaseIds: newlyCompleted.map((p) => p.id),
   treeHash,
   validatedAt: new Date().toISOString(),
   testCommand: 'pnpm test --force',
   testSummary,
-  consumedChangesetFiles,
+  validatedChangesetFiles,
 };
 
 writeFileSync(TOKEN_PATH, JSON.stringify(token, null, 2) + '\n');
-log(`  ✓ .release-token.json written (treeHash: ${treeHash.slice(0, 12)}...)`);
+log(`  ✓ .release-token.json written (mode: ${releaseMode}, treeHash: ${treeHash.slice(0, 12)}...)`);
 
-log('\n✓ release:validate complete. Ready for release:version.');
+log('\n✓ release:validate complete.');
 log(`  Run:  pnpm release:version`);
