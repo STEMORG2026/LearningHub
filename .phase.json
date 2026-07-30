@@ -1,5 +1,6 @@
 {
   "schemaVersion": "1.0",
+  "versioningNote": "Root version bumps require a newlyCompleted phase (see docs/VERSIONING.md §2.2). Package versions are independent of root.",
   "phases": [
     {
       "id": 0,

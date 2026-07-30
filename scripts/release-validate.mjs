@@ -107,6 +107,13 @@ if (newlyCompleted.length > 0) {
 }
 
 if (releaseMode === 'versioned') {
+  if (newlyCompleted.length === 0) {
+    log('  ⚠  Root version bump advisory: no newlyCompleted phase exists.');
+    log('  ⚠  A root version bump without a completed phase may be unintentional.');
+    log('  ⚠  See docs/VERSIONING.md §2.2 for the root bump rule.');
+    log('  ⚠  If this is intentional, proceed. Otherwise, create a changeset or add a phase completion.');
+  }
+
   log('\n=== Stage 4: Changeset validation ===');
 
   for (const f of changesetFiles) {

@@ -22,6 +22,7 @@
     "verify-governance": "pnpm lint:arch && pnpm typecheck && pnpm test:coverage && pnpm test:a11y && pnpm lint:size && pnpm validate:edu && pnpm lint:registry",
     "generate:graph": "dependency-cruise --output-type dot packages/ apps/ | dot -T svg -o docs/dependency-graph.svg",
     "changeset": "changeset",
+    "dev-version": "node scripts/dev-version.mjs",
     "sync-versions": "node scripts/sync-versions.mjs",
     "release:prepare": "node scripts/release-prepare.mjs",
     "release:validate": "node scripts/release-validate.mjs",

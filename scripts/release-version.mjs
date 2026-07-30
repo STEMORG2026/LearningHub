@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
 // ──── Intentional re-verification ────
-// Stages 3/6/7 re-run governance, typecheck, and tests AFTER the version
+// Stages 3/8/10/11 re-run governance, typecheck, and tests AFTER the version
 // mutation (changeset version + sync-versions.mjs). This is a defensive
 // safety net — the mutation modifies package.json files and may introduce
 // errors not present when release:validate ran. This is NOT a replacement
@@ -86,7 +86,12 @@ if (currentTreeHash !== token.treeHash) {
 }
 log(`  ✓ No unstaged, no untracked, tree hash unchanged (${currentTreeHash.slice(0, 12)}...)`);
 
-log('\n=== Stage 5: Bump versions via changeset ===');
+log('\n=== Stage 5: Record pre-bump root version ===');
+
+const rootPkgPath = join(ROOT, 'package.json');
+const preBumpRoot = JSON.parse(readFileSync(rootPkgPath, 'utf8')).version;
+
+log('\n=== Stage 6: Bump versions via changeset ===');
 
 try {
   execSync('pnpm changeset version', { cwd: ROOT, stdio: 'inherit' });
@@ -95,7 +100,29 @@ try {
 }
 log('  ✓ changeset version succeeded');
 
-log('\n=== Stage 6: Sync version strings ===');
+log('\n=== Stage 7: Root version bump guard ===');
+
+const postBumpRoot = JSON.parse(readFileSync(rootPkgPath, 'utf8')).version;
+if (postBumpRoot !== preBumpRoot) {
+  const phasePath = join(ROOT, '.phase.json');
+  const phaseState = JSON.parse(readFileSync(phasePath, 'utf8'));
+  const newlyCompleted = phaseState.phases.filter(
+    (p) => p.status === 'completed' && p.completedDate === null
+  );
+  if (newlyCompleted.length === 0) {
+    fail(
+      `Root version bumped from ${preBumpRoot} to ${postBumpRoot} but no newlyCompleted phase exists.\n` +
+      '  Root bumps require a completed phase per docs/VERSIONING.md §2.2.\n' +
+      '  To fix: add a changeset that only targets individual packages, or\n' +
+      '  create a changeset targeting the root with `"stem-tuition": "major|minor|patch"`.'
+    );
+  }
+  log(`  ✓ Root version ${preBumpRoot} → ${postBumpRoot} justified by phase(s): ${newlyCompleted.map((p) => `#${p.id}`).join(', ')}`);
+} else {
+  log('  − Root version unchanged (no guard needed)');
+}
+
+log('\n=== Stage 8: Sync version strings ===');
 
 try {
   execSync('node scripts/sync-versions.mjs', { cwd: ROOT, stdio: 'inherit' });
@@ -104,7 +131,7 @@ try {
 }
 log('  ✓ Version strings synchronized');
 
-log('\n=== Stage 7: TypeScript type check ===');
+log('\n=== Stage 9: TypeScript type check ===');
 
 try {
   execSync('pnpm typecheck', { cwd: ROOT, stdio: 'inherit' });
@@ -113,7 +140,7 @@ try {
 }
 log('  ✓ TypeScript checks passed');
 
-log('\n=== Stage 8: Run tests ===');
+log('\n=== Stage 10: Run tests ===');
 
 try {
   execSync('pnpm test', { cwd: ROOT, stdio: 'inherit' });
@@ -122,7 +149,7 @@ try {
 }
 log('  ✓ All tests passed');
 
-log('\n=== Stage 9: Delete consumed changesets ===');
+log('\n=== Stage 11: Delete consumed changesets ===');
 
 for (const changesetFile of token.consumedChangesets) {
   const fullPath = join(ROOT, changesetFile);

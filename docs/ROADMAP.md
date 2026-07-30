@@ -229,6 +229,9 @@ PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 - ✅ `packages/simulation-core/tests/physics.test.ts` — 48 tests for all pure functions
 - ✅ Canvas rendering remains in legacy (for now) but uses new pure math
 - ✅ Component Registry updated
+- ✅ `scripts/dev-version.mjs` — Dev-version identifier (`pnpm dev-version` → `vX.Y.Z-dev.N`)
+- ✅ `docs/VERSIONING.md` — Semver convention and root bump rule documented
+- ✅ Root version bump guard enforced in `release-version.mjs` — root bumps require a newlyCompleted phase
 
 **Acceptance criteria:**
 - ✅ All math is testable without browser/DOM (48 pure function tests)
@@ -236,6 +239,8 @@ PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 - ✅ `pnpm typecheck` passes (16/16)
 - ✅ `pnpm lint:arch` — no dependency violations
 - ✅ `pnpm verify-governance` — 7/7 stages pass
+- ✅ `scripts/dev-version.mjs` produces valid semver dev-identifier
+- ✅ Root version bump guard prevents bumps without phase completion
 
 ---
 
