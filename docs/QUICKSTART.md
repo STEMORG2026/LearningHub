@@ -134,6 +134,20 @@ pnpm lint:registry
 
 # Generate dependency graph (updates FLOWCHARTS.md)
 pnpm generate:graph
+
+# Show dev-version identifier (git describe → vX.Y.Z-dev.N)
+pnpm dev-version
+pnpm dev-version -- --json   # JSON output
+
+# ──── Branching (Feature Branches Required) ────
+
+# NEVER work directly on main. Always create a feature branch:
+git checkout -b feat/your-feature-name
+# Work, commit, test:
+pnpm test --filter="[changed]"
+pnpm verify-governance
+git push -u origin feat/your-feature-name
+# Create PR to merge into main
 ```
 
 ---
@@ -163,4 +177,5 @@ pnpm generate:graph
 | Find where code lives | `component-registry/` |
 | See release history | `CHANGELOG.md` |
 | Read development journey | `DEVLOG.md` |
+| Understand versioning | `VERSIONING.md` |
 | Deploy to production | `DEPLOYMENT.md` |

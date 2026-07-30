@@ -1,9 +1,9 @@
 # STEM-TUITION — Modular STEM Education Platform
 
 > **Status:** 🟢 Active Evolution (Strangler Fig Pattern)  
-> **Version:** 2.0.0 (Modular Edition)  
+> **Version:** 3.0.0 (Modular Edition)  
 > **Mission:** Transform a static tuition website into a modular, testable, and observable learning platform.  
-> **Last Updated:** 2026-07-30
+> **Last Updated:** 2026-07-31
 
 ---
 
@@ -148,6 +148,7 @@ See `docs/QUICKSTART.md` for detailed setup.
 | `ACCESSIBILITY.md` | WCAG 2.2 AA standards, audit checklist, component a11y |
 | `CHANGELOG.md` | Release history |
 | `DEVLOG.md` | Development diary with decisions and learnings |
+| `VERSIONING.md` | Semver convention, root bump rule, dev-version identifier |
 | `component-registry/` | Living index of every component → file:line |
 | `adr/` | Architecture Decision Records (why we chose what we chose) |
 

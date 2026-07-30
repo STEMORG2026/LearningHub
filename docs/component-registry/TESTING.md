@@ -26,7 +26,7 @@
 | `packages/acl/` | `tests/*.test.ts` | Unit | — | 🟢 Written (14 tests) |
 | `packages/quiz-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (16 tests) |
 | `packages/hover-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
-| `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
+| `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (48 tests) |
 <!-- END AUTO:testing-table -->
 
 ## E2E Tests (Future)

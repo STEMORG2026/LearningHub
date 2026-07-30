@@ -146,6 +146,35 @@
 > The temptation to "just fix this one thing" in legacy code will be strong. Don't. Every minute spent extracting is an investment in testability. Every minute spent patching legacy is debt.
 
 
+## 2026-07-31 — Phase 6: Physics Core extraction + dev-version + root bump guard
+
+**Changes:**
+- Extracted pure physics math from `legacy/js/stem-effects.js:784-1311` into `packages/simulation-core/`
+  - `src/types.ts` — CelestialBody, PhysicsInput/Result, CollisionEvent, DevourEvent, physics constants
+  - `src/config.ts` — 8 planet configs with 17 moons, MATH_SYMBOLS, default constants
+  - `src/create-body.ts` — Factory functions: createSun, createPlanet, createBlackhole, createSmallItem
+  - `src/physics.ts` — Pure functions: stepPosition, applyBoundary, applyMouseForce, interactPair (Coulomb + elastic collision), applyBlackholePull, applyBlackholeDevour, updatePhysics orchestrator
+  - 48 tests, physics.ts 96% stmt / 95% branch / 100% funcs
+- Created `scripts/dev-version.mjs` — `git describe --tags --match 'v*'` → `vX.Y.Z-dev.N`
+- Created `docs/VERSIONING.md` — semver convention, root bump rule documented
+- Added root version bump guard to `release-version.mjs` — root bumps blocked unless `newlyCompleted` phase exists
+- Added root version bump advisory to `release-validate.mjs`
+
+**Packages affected:**
+- @stem-tuition/simulation-core (new)
+- scripts/dev-version.mjs, release-validate.mjs, release-version.mjs
+
+**Tests:**
+48/48 simulation-core tests pass. `pnpm verify-governance` — 7/7 stages pass.
+
+**Notes:**
+This is the **last extraction from `stem-effects.js`** — the Strangler Fig migration is complete. All 6 phases of extraction done. The dev-version and root bump guard were tabled post-migration items.
+
+**Next:**
+- Phase 7: Features (auth, progress, admin)
+
+---
+
 ## 2026-07-31 — Phase 5: Hover Engine extraction complete
 
 **Changes:**

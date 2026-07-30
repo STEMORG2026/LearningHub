@@ -40,12 +40,17 @@
 | hover-engine | `packages/hover-engine/` | `src/hover-state.ts, src/types.ts` | — | — | Extracted (Phase 5) |
 <!-- END AUTO:rendering-phase-5 -->
 
-## Phase 6: Physics Core (NOT YET EXTRACTED)
+## Phase 6: Physics Core (EXTRACTED)
 
+<!-- AUTO:rendering-phase-6 -->
 | Component | Package | Definition | Template | Styles | Status |
 |-----------|---------|-----------|----------|--------|--------|
-| Physics math | `packages/simulation-core/` | `src/gravity.ts` | — | — | Not yet extracted |
+| Types | `packages/simulation-core/` | `src/types.ts` | — | — | Extracted (Phase 6) |
+| Config | `packages/simulation-core/` | `src/config.ts` | — | — | Extracted (Phase 6) |
+| Factory functions | `packages/simulation-core/` | `src/create-body.ts` | — | — | Extracted (Phase 6) |
+| Physics engine | `packages/simulation-core/` | `src/physics.ts` | — | — | Extracted (Phase 6) |
 | Canvas renderer | `legacy/` | `js/stem-effects.js:200` | — | `css/main.css:150` | Active (frozen) |
+<!-- END AUTO:rendering-phase-6 -->
 
 ## Legacy (Frozen — Full List)
 

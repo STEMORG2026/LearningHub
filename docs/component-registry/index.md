@@ -60,4 +60,4 @@ Every time you add, move, or change a component's file location, you MUST update
 | Quiz Engine | `packages/quiz-engine/` | `src/internal/quiz-engine.ts` | See RENDERING.md |
 | <stem-quiz> | `packages/quiz-engine/` | `src/internal/web-component.ts` | See RENDERING.md |
 | Hover Engine | `packages/hover-engine/` | `src/hover-state.ts` | See RENDERING.md |
-| Physics Core | `packages/simulation-core/` | `src/gravity.ts` | See RENDERING.md |
+| Physics Core | `packages/simulation-core/` | `src/physics.ts` | See RENDERING.md |

@@ -55,8 +55,15 @@
 | State (hover-engine) | — | `packages/hover-engine/src/hover-state.ts`, `packages/hover-engine/src/index.ts`, `packages/hover-engine/src/types.ts` | Extracted (Phase 5) |
 <!-- END AUTO:state-phase-5 -->
 
-## Phase 6: Physics Core (Not yet extracted)
+## Phase 6: Physics Core (Extracted)
 
+<!-- AUTO:state-phase-6 -->
 | State | Type | Location | Notes |
 |-------|------|----------|-------|
-| (pending extraction) | — | `packages/simulation-core/src/gravity.ts` | Will hold body positions/velocities |
+| Physics state | PhysicsInput | `packages/simulation-core/src/types.ts` | Bodies, dimensions, mouse, flags |
+| Physics result | PhysicsResult | `packages/simulation-core/src/types.ts` | Updated bodies, collisions, devour events |
+| CelestialBody | interface | `packages/simulation-core/src/types.ts` | Position, velocity, mass, charge, type |
+| Planet configs | PlanetConfig[] | `packages/simulation-core/src/config.ts` | 8 planets with 17 moon definitions |
+| Create-body factories | functions | `packages/simulation-core/src/create-body.ts` | createSun, createPlanet, createBlackhole, createSmallItem |
+| Physics engine | functions | `packages/simulation-core/src/physics.ts` | stepPosition, applyBoundary, interactPair, blackhole, updatePhysics |
+<!-- END AUTO:state-phase-6 -->

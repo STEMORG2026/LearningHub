@@ -19,12 +19,14 @@
 | Periodic Table | `periodic-table` | 9-12 | `elements, atomic-number` | — | `packages/quiz-engine/src/data.ts` |
 | Chemical Bonds | `chemical-bonds` | 9-12 | `electrons, valence` | — | `packages/quiz-engine/src/data.ts` |
 
-## Simulation Core (Phase 6 — Not Yet Extracted)
+## Simulation Core (Phase 6 — Extracted)
 
 | Concept | ID | Grade | Prerequisites | Misconceptions | Location |
 |---------|----|-------|---------------|----------------|-------------------|
-| Newtonian Gravity | `newtons-gravity` | 9-12 | `force, mass, distance` | `heavier-falls-faster, gravity-needs-air` | `packages/simulation-core/src/gravity.ts` |
-| Solar System | `solar-system` | 5-8 | `planets, orbits` | — | `packages/simulation-core/src/bodies.ts` |
+| Newtonian Gravity | `newtons-gravity` | 9-12 | `force, mass, distance` | `heavier-falls-faster, gravity-needs-air` | `packages/simulation-core/src/physics.ts:126` |
+| Solar System | `solar-system` | 5-8 | `planets, orbits` | — | `packages/simulation-core/src/config.ts` |
+| Elastic Collision | `elastic-collision` | 9-12 | `momentum, energy` | — | `packages/simulation-core/src/physics.ts:91` |
+| Coulomb Force | `coulomb-force` | 11-12 | `charge, distance` | — | `packages/simulation-core/src/physics.ts:70` |
 
 ## Legacy (Frozen — reference only)
 
