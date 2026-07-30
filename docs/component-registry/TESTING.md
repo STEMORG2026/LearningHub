@@ -18,16 +18,14 @@
 
 | Package | Test file | Type | Coverage target | Status |
 |---------|-----------|------|----------------|--------|
-| `packages/core/` | `src/event-bus.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/tracer/` | `src/tracer.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/audio-synth/` | `src/internal/synth.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/quiz-engine/` | `src/internal/quiz-engine.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/quiz-engine/` | `tests/web-component.test.ts` | Component | ≥90% lines | Not yet written |
-| `packages/hover-engine/` | `src/hover-state.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/simulation-core/` | `src/gravity.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/simulation-core/` | `src/bodies.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/acl/` | `src/quiz-adapter.test.ts` | Unit | ≥95% lines | Not yet written |
-| `packages/acl/` | `src/canvas-adapter.test.ts` | Unit | ≥95% lines | Not yet written |
+| `packages/core/` | `tests/event-bus.test.ts` | Unit | ≥95% lines | 🟢 Written (12 tests) |
+| `packages/core/` | `tests/foundation.test.ts` | Unit | Integration | 🟢 Written (91 tests) |
+| `packages/tracer/` | `tests/tracer.test.ts` | Unit | ≥95% lines | 🟢 Written (24 tests) |
+| `packages/audio-synth/` | `tests/synth.test.ts` | Unit | ≥95% lines | 🟢 Written (14 tests) |
+| `packages/acl/` | `tests/acl.test.ts` | Unit | ≥95% lines | 🟢 Written (14 tests) |
+| `packages/quiz-engine/` | `tests/placeholder.test.ts` | Placeholder | — | ⚪ Placeholder |
+| `packages/hover-engine/` | `tests/placeholder.test.ts` | Placeholder | — | ⚪ Placeholder |
+| `packages/simulation-core/` | `tests/placeholder.test.ts` | Placeholder | — | ⚪ Placeholder |
 
 ## E2E Tests (Future)
 

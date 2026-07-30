@@ -6,22 +6,33 @@
 
 ---
 
-## Event Bus Subscriptions
+## Event Bus — Implementation
 
-| Subscriber | Subscribes to | Handler location | Notes |
-|-----------|---------------|-----------------|-------|
-| Audio Synth | `quiz:answer-submitted` | `packages/audio-synth/src/synth.ts` | Plays correct/incorrect sound |
-| Audio Synth | `quiz:completed` | `packages/audio-synth/src/synth.ts` | Plays completion jingle |
-| Tracer | `*` (all) | `packages/tracer/src/tracer.ts` | Records all event timing |
-| Hover Engine | `ui:card-hovered` | `packages/hover-engine/src/hover-state.ts` | Triggers style selection |
+| Component | Type | Location | Status |
+|-----------|------|----------|--------|
+| `EventBus` class | Core | `packages/core/src/event-bus.ts:8` | 🟢 Active |
+| `publish()` | Method | `packages/core/src/event-bus.ts:35` | 🟢 Active |
+| `subscribe()` | Method | `packages/core/src/event-bus.ts:49` | 🟢 Active |
+| Wildcard `*` / `domain:*` | Pattern | `packages/core/src/event-bus.ts:3` | 🟢 Active |
+| `BroadcastChannel` cross-tab | Integration | `packages/core/src/event-bus.ts:20` | 🟢 Active |
+| `?debug_events=true` | Debug mode | `packages/core/src/event-bus.ts:86` | 🟢 Active |
 
-## Event Bus Publishers
+## Event Bus Publishers (Phase 3)
 
 | Publisher | Publishes | Handler location | Payload |
 |-----------|----------|-----------------|---------|
-| Quiz Engine | `quiz:answer-submitted` | `packages/quiz-engine/src/internal/quiz-engine.ts` | `{questionId, answer, timeSpentMs}` |
-| Quiz Engine | `quiz:completed` | `packages/quiz-engine/src/internal/quiz-engine.ts` | `{score, total, percentage}` |
-| Audio Synth | `audio:play-sound` | `packages/audio-synth/src/synth.ts` | `{sound, volume}` |
+| Quiz ACL Adapter | `quiz:started` | `packages/acl/src/quiz-adapter.ts:72` | `{quizId, conceptId, questionCount, difficulty}` |
+| Quiz ACL Adapter | `quiz:answer-submitted` | `packages/acl/src/quiz-adapter.ts:82` | `{quizId, questionId, answer, timeSpentMs, hintUsed}` |
+| Quiz ACL Adapter | `quiz:completed` | `packages/acl/src/quiz-adapter.ts:92` | `{quizId, conceptId, score, total, percentage}` |
+
+## Planned Subscriptions (Future Phases)
+
+| Subscriber | Subscribes to | Handler location | Notes |
+|-----------|---------------|-----------------|-------|
+| Audio Synth | `quiz:answer-submitted` | `packages/audio-synth/src/synth.ts` | Plays correct/incorrect sound (Phase 4) |
+| Audio Synth | `quiz:completed` | `packages/audio-synth/src/synth.ts` | Plays completion jingle (Phase 4) |
+| Tracer | `*` (all) | `packages/tracer/src/tracer.ts` | Records all event timing (Phase 4) |
+| Hover Engine | `ui:card-hovered` | `packages/hover-engine/src/hover-state.ts` | Triggers style selection (Phase 5) |
 
 ## API Endpoints (Future — VPS Migration)
 

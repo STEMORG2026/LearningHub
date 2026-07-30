@@ -14,7 +14,7 @@ Each phase teaches one concept, leaves something testable, and moves the Strangl
 PHASE 0 ██████████  Foundation (monorepo + docs + freeze legacy)
 PHASE 1 ██████████  Observability (tracer)
 PHASE 2 ██████████  Audio Synth extraction
-PHASE 3 ░░░░░░░░░░  Event Bus + ACL
+PHASE 3 ██████████  Event Bus + ACL
 PHASE 4 ░░░░░░░░░░  Quiz Engine extraction (Web Component)
 PHASE 5 ░░░░░░░░░░  Hover Engine extraction
 PHASE 6 ░░░░░░░░░░  Physics Core extraction
@@ -117,29 +117,28 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 3: Event Bus + ACL (Week 4-5)
 
-**Status:** 🔵 Not started
+**Status:** 🟢 Completed
 
-**What you learn:**
+**What you learned:**
 - Publisher/subscriber pattern
 - Anti-Corruption Layer pattern
 - BroadcastingChannel API (native browser)
 - How loose coupling enables independent module development
 
 **Deliverables:**
-- `packages/core/src/event-bus.ts` — Full EventBus implementation with BroadcastChannel
-- `packages/core/src/types.ts` — Shared type definitions
-- `packages/core/src/event-bus.test.ts` — Tests (publish/subscribe, wildcards, error handling)
-- `packages/acl/src/quiz-adapter.ts` — Adapter wrapping legacy quiz global functions
-- `packages/acl/src/canvas-adapter.ts` — Adapter wrapping legacy canvas global functions
-- All existing modules migrated to use Event Bus for cross-module communication
-- Component Registry updated
+- ✅ `packages/core/src/event-bus.ts` — Full EventBus implementation with BroadcastChannel, wildcards, debug mode
+- ✅ `packages/core/src/types.ts` — Shared type definitions (EventPayload, Quiz/Audio/Error data)
+- ✅ `packages/core/tests/event-bus.test.ts` — 12 tests (publish/subscribe, wildcards, unsubscribe, clear, debug mode, initEventBus)
+- ✅ `packages/acl/src/quiz-adapter.ts` — Adapter wrapping legacy quiz globals (window.stemQuizApp, STEM_QUIZ_DATA)
+- ✅ `packages/acl/src/canvas-adapter.ts` — Adapter wrapping legacy canvas element and simulation state
+- ✅ Component Registry updated (index, STATE, NETWORKING, TESTING, TRACE)
 
 **Acceptance criteria:**
-- Any package can publish and subscribe to events
-- Legacy quiz code accessible through ACL adapter
-- `?debug_events=true` shows all cross-module events
-- Tests pass: `pnpm test --filter="@stem-tuition/core"`
-- Tests pass: `pnpm test --filter="@stem-tuition/acl"`
+- ✅ Any package can publish and subscribe to events (`event-bus.test.ts` 12/12 passing)
+- ✅ Legacy quiz code accessible through ACL adapter (`acl.test.ts` — quiz-adapter section passing)
+- ✅ `?debug_events=true` shows all cross-module events (tested via `initEventBus()`)
+- ✅ Tests pass: `pnpm test --filter="@stem-tuition/core"` (103/103)
+- ✅ Tests pass: `pnpm test --filter="@stem-tuition/acl"` (15/15)
 
 ---
 

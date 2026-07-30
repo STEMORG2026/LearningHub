@@ -19,11 +19,21 @@
 | `STEM_QUIZ_DATA` | object | `legacy/js/stem-quiz.js:6` | Quiz question database |
 | `STEM_PIONEERS` | object[] | `legacy/js/stem-pioneers.js:6` | Pioneers database |
 
-## Phase 2: Audio Synth (Not yet extracted)
+## Phase 2: Audio Synth (Extracted)
 
 | State | Type | Location | Notes |
 |-------|------|----------|-------|
-| (pending extraction) | — | `packages/audio-synth/src/synth.ts` | Will hold AudioContext + volume |
+| AudioEngine | class | `packages/audio-synth/src/engine.ts:8` | Web Audio context + mute/volume |
+| Legacy globals bridge | via ACL | `packages/acl/src/audio-adapter.ts` | Reads `isAudioMuted`, `isHalfIntensity` |
+
+## Phase 3: Event Bus + ACL (Active)
+
+| State | Type | Location | Notes |
+|-------|------|----------|-------|
+| Subscriber registry | SubscriptionEntry[] | `packages/core/src/event-bus.ts:12` | Internal to EventBus |
+| Default EventBus instance | EventBus | `packages/core/src/event-bus.ts:82` | Module-level singleton |
+| Legacy quiz state bridge | via ACL | `packages/acl/src/quiz-adapter.ts` | Reads `window.stemQuizApp`, `STEM_QUIZ_DATA` |
+| Canvas simulation state bridge | via ACL | `packages/acl/src/canvas-adapter.ts` | Reads `#stemBackgroundCanvas` DOM state |
 
 ## Phase 4: Quiz Engine (Not yet extracted)
 
@@ -42,9 +52,3 @@
 | State | Type | Location | Notes |
 |-------|------|----------|-------|
 | (pending extraction) | — | `packages/simulation-core/src/gravity.ts` | Will hold body positions/velocities |
-
-## Core (Active)
-
-| State | Type | Location | Notes |
-|-------|------|----------|-------|
-| Subscriber registry | Map | `packages/core/src/event-bus.ts` | Internal to Event Bus |

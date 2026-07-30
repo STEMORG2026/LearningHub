@@ -39,10 +39,10 @@ Every time you add, move, or change a component's file location, you MUST update
 | File | Entries | Last Updated | Status |
 |------|---------|-------------|--------|
 | `RENDERING.md` | 6 | 2026-07-30 | ✅ Up to date |
-| `STATE.md` | 4 | 2026-07-30 | ✅ Up to date |
-| `NETWORKING.md` | 2 | 2026-07-30 | ✅ Up to date |
+| `STATE.md` | 6 | 2026-07-30 | ✅ Up to date |
+| `NETWORKING.md` | 4 | 2026-07-30 | ✅ Up to date |
 | `EDUCATIONAL.md` | 2 | 2026-07-30 | ✅ Up to date |
-| `TESTING.md` | 2 | 2026-07-30 | ✅ Up to date |
+| `TESTING.md` | 4 | 2026-07-30 | ✅ Up to date |
 | `TRACE.md` | 2 | 2026-07-30 | ✅ Up to date |
 
 ---
@@ -52,8 +52,11 @@ Every time you add, move, or change a component's file location, you MUST update
 | Feature | Package | Key File | Line |
 |---------|---------|----------|------|
 | Event Bus | `packages/core/` | `src/event-bus.ts` | See RENDERING.md |
+| Shared Types | `packages/core/` | `src/types.ts` | See RENDERING.md |
 | Tracer | `packages/tracer/` | `src/tracer.ts` | See RENDERING.md |
 | Audio Synth | `packages/audio-synth/` | `src/synth.ts` | See RENDERING.md |
+| Quiz ACL Adapter | `packages/acl/` | `src/quiz-adapter.ts` | See NETWORKING.md |
+| Canvas ACL Adapter | `packages/acl/` | `src/canvas-adapter.ts` | See RENDERING.md |
 | Quiz Engine | `packages/quiz-engine/` | `src/internal/quiz-engine.ts` | See RENDERING.md |
 | <stem-quiz> | `packages/quiz-engine/` | `src/internal/web-component.ts` | See RENDERING.md |
 | Hover Engine | `packages/hover-engine/` | `src/hover-state.ts` | See RENDERING.md |

@@ -62,7 +62,7 @@
 ```
 PHASE 1: tracer infrastructure     ██████████ 100%
 PHASE 2: audio-spans               ██████████ 100%
-PHASE 3: event-bus-spans           ░░░░░░░░░░ 0%
+PHASE 3: event-bus-spans           ██████████ 100%
 PHASE 4: quiz-spans                ░░░░░░░░░░ 0%
 PHASE 5: hover-spans               ░░░░░░░░░░ 0%
 PHASE 6: physics-spans             ░░░░░░░░░░ 0%

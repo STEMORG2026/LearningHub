@@ -22,6 +22,7 @@ function getEngine(): AudioEngine {
 }
 
 export function syncMutedState(): void {
+  if (typeof window === 'undefined') return;
   const muted = (window as unknown as Record<string, unknown>).isAudioMuted as boolean | undefined;
   if (muted !== undefined) {
     getEngine().setMuted(muted);
@@ -29,6 +30,7 @@ export function syncMutedState(): void {
 }
 
 export function syncIntensityState(): void {
+  if (typeof window === 'undefined') return;
   const halfIntensity = (window as unknown as Record<string, unknown>).isHalfIntensity as boolean | undefined;
   getEngine().setVolume(halfIntensity ? 0.5 : 1.0);
 }
