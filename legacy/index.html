@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEM Tuition – Pokhara | Interactive STEM Hub</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/main.css?v=13.0" />
+  <link rel="stylesheet" href="css/stem-theme.css?v=13.0" />
+</head>
+
+<body>
+
+  <!-- Top Scroll Progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <span>⚡</span> STEM Tuition
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="classes.html">Classes</a></li>
+      <li><a href="videos.html">Videos & Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <a href="contact.html" class="nav-cta" onclick="openEnrollModal('Quick Enroll')">Enroll Now</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-content reveal-on-scroll">
+      <div class="hero-tag">🎓 Quality STEM Education in Pokhara</div>
+      <h1>Master <span class="accent">Science & Math</span> with Expert Guidance</h1>
+      <p class="hero-sub">Home tuition, group classes & live online sessions aligned with Nepal's SEE, NEB & Cambridge
+        A-Levels. Personalized attention, conceptual depth, proven results.</p>
+
+      <div class="hero-btns">
+        <button onclick="openEnrollModal('Hero Direct')" class="btn-primary">🚀 Get Started Now</button>
+        <a href="#classes" class="btn-secondary">Explore Classes →</a>
+        <a href="#quiz" class="btn-secondary">Test STEM Quiz ⚡</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Horizontal Scroll Class Offerings -->
+  <section id="classes">
+    <div class="section-header-row reveal-on-scroll">
+      <div class="section-header-info">
+        <span class="section-tag">📚 Class Offerings</span>
+        <h2>Targeted Academic Programs</h2>
+        <p class="section-intro">Scroll horizontally with your mouse wheel or swipe to explore class tiers.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+        <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
+        <div class="filter-pills">
+          <button class="pill-btn active" onclick="filterClasses('all', this)">All</button>
+          <button class="pill-btn" onclick="filterClasses('foundation', this)">Gr 1-8</button>
+          <button class="pill-btn" onclick="filterClasses('see', this)">SEE</button>
+          <button class="pill-btn" onclick="filterClasses('neb', this)">NEB</button>
+          <button class="pill-btn" onclick="filterClasses('alevel', this)">A-Level</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horizontal Carousel Track -->
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container" id="classesGridContainer">
+        <!-- JS rendered cards -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Dynamic Estimator Card -->
+  <section id="calculator">
+    <div class="calc-card reveal-on-scroll" style="max-width:1000px;margin:0 auto;">
+      <div class="section-header-info" style="margin-bottom:1.5rem;">
+        <span class="section-tag">🎯 Custom Plan Builder</span>
+        <h2 style="font-size:1.6rem;margin-top:0.2rem;">Interactive Fee & Schedule Estimator</h2>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.8rem;">
+        <!-- Step 1 -->
+        <div>
+          <label
+            style="display:block;color:var(--cyan);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.6rem;">1.
+            Select Grade</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;" id="gradeBtnGroup">
+            <button type="button" class="grade-opt-btn active" onclick="setCalcGrade('g1_8', this)">Grade 1 – 8</button>
+            <button type="button" class="grade-opt-btn" onclick="setCalcGrade('g9_10', this)">Grade 9 – 10
+              (SEE)</button>
+            <button type="button" class="grade-opt-btn" onclick="setCalcGrade('g11_12', this)">Grade 11 – 12
+              (NEB)</button>
+            <button type="button" class="grade-opt-btn" onclick="setCalcGrade('alevel', this)">Cambridge
+              A-Level</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div>
+          <label
+            style="display:block;color:var(--green);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.6rem;">2.
+            Choose Subjects</label>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;" id="subjectBtnGroup">
+            <label class="subject-toggle"><input type="checkbox" value="Mathematics" checked
+                onchange="updateCalcSummary()" /> 📐 Math</label>
+            <label class="subject-toggle"><input type="checkbox" value="Physics" checked
+                onchange="updateCalcSummary()" /> ⚡ Physics</label>
+            <label class="subject-toggle"><input type="checkbox" value="Chemistry" checked
+                onchange="updateCalcSummary()" /> 🧪 Chemistry</label>
+            <label class="subject-toggle"><input type="checkbox" value="Biology" onchange="updateCalcSummary()" /> 🧬
+              Biology</label>
+            <label class="subject-toggle"><input type="checkbox" value="Computer Science"
+                onchange="updateCalcSummary()" /> 💻 CS</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 & Output Banner -->
+      <div
+        style="margin-top:1.5rem;border-top:1px solid var(--glass-border);padding-top:1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;">
+        <div>
+          <div style="font-weight:700;color:#fff;font-size:1.05rem;" id="calcGradeTitle">Selected: Grade 1 – 8
+            (Foundation)</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.2rem;" id="calcDetailsText">Subjects:
+            Mathematics, Physics</div>
+          <div style="color:var(--green);font-size:0.88rem;font-weight:700;margin-top:0.2rem;" id="calcEstFee">Est.
+            Commitment: 4 Hours / Week</div>
+        </div>
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+          <a href="#" id="whatsappCalcBtn" target="_blank" class="btn-primary"
+            style="padding:0.65rem 1.2rem;font-size:0.85rem;">📲 WhatsApp Inquiry →</a>
+          <button onclick="openEnrollModal('Estimator Form')" class="btn-secondary"
+            style="padding:0.65rem 1.2rem;font-size:0.85rem;">📋 Quick Form</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal Scroll Learning Formats -->
+  <section>
+    <div class="section-header-row reveal-on-scroll">
+      <div class="section-header-info">
+        <span class="section-tag">📖 Learning Modes</span>
+        <h2>Flexible Tuition Options</h2>
+        <p class="section-intro">Tailored formats suited to every student's learning style.</p>
+      </div>
+      <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
+    </div>
+
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container">
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('Home Tuition')" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">🏠</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Home Tuition</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Direct 1-on-1 personalized instruction at your home in
+            Pokhara for individual progress.</div>
+        </div>
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('Group Class')" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">👥</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Group Batches</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Small peer groups (max 8 students) encouraging
+            collaboration and interactive problem solving.</div>
+        </div>
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('Online Sessions')" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">💻</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Live Online Sessions</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Interactive HD live online sessions with digital
+            whiteboard notes and recorded archives.</div>
+        </div>
+        <div class="h-scroll-item soft-card" onclick="window.location.href='videos.html'" style="cursor:pointer;">
+          <div style="font-size:1.8rem;margin-bottom:0.6rem;">📝</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Notes & Exam Materials</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;">Chapter revision notes, past paper practice sets, and
+            formula sheets included with every class.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEM Quiz Section -->
+  <section id="quiz">
+    <div class="section-header-info reveal-on-scroll" style="text-align:center;margin:0 auto 1.8rem;">
+      <span class="section-tag">⚡ Interactive Quiz</span>
+      <h2>Challenge Your STEM Brain</h2>
+    </div>
+
+    <div class="quiz-container reveal-on-scroll">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+        <span style="font-size:0.78rem;color:var(--cyan);font-weight:700;" id="quizCategoryBadge">PHYSICS</span>
+        <span
+          style="background:rgba(52,211,153,0.12);color:var(--green);padding:0.2rem 0.6rem;border-radius:20px;font-size:0.8rem;font-weight:700;"
+          id="quizScoreBadge">Score: 0</span>
+      </div>
+
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;" id="quizQuestionText">Loading Question...</div>
+      <div id="quizOptionsContainer"></div>
+      <div id="quizExplanationBox"
+        style="display:none;padding:0.8rem;border-radius:10px;background:rgba(56,189,248,0.08);font-size:0.85rem;margin-bottom:1rem;">
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:0.78rem;color:var(--text-muted);" id="quizProgressText">Question 1 of 4</span>
+        <button class="btn-primary" id="nextQuizBtn" onclick="nextQuizQuestion()"
+          style="display:none;padding:0.45rem 1rem;font-size:0.82rem;">Next Question →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pioneers Wall - Horizontal Scroll -->
+  <section id="pioneers">
+    <div class="section-header-row reveal-on-scroll">
+      <div class="section-header-info">
+        <span class="section-tag">🧬 Wall of STEM Pioneers</span>
+        <h2>Giants of Science & Math</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+        <span class="scroll-hint">🖱️ Scroll wheel to move sideways →</span>
+        <div class="filter-pills">
+          <button class="pill-btn active" onclick="filterPioneers('all', this)">All</button>
+          <button class="pill-btn" onclick="filterPioneers('physics', this)">Physics</button>
+          <button class="pill-btn" onclick="filterPioneers('math', this)">Math</button>
+          <button class="pill-btn" onclick="filterPioneers('computing', this)">CS</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container" id="pioneerGrid">
+        <!-- Pioneer horizontal items -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive STEM Tools Section -->
+  <section id="tools">
+    <div class="section-header-info reveal-on-scroll" style="text-align:center;margin:0 auto 1.8rem;">
+      <span class="section-tag">🧮 Quick Tool</span>
+      <h2>STEM Scale Converter & Formula Matrix</h2>
+    </div>
+
+    <div class="stem-widget reveal-on-scroll">
+      <div class="widget-tabs">
+        <button class="widget-tab-btn active" onclick="switchWidgetTab('converter', this)">Unit Converter</button>
+        <button class="widget-tab-btn" onclick="switchWidgetTab('formulas', this)">Quick Formulas</button>
+      </div>
+
+      <div id="tab-converter">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;align-items:center;">
+          <div class="form-group">
+            <label>Value</label>
+            <input type="number" id="convertValue" class="form-input" value="100" oninput="runUnitConversion()">
+          </div>
+          <div class="form-group">
+            <label>Conversion Mode</label>
+            <select id="convertType" class="form-input" onchange="runUnitConversion()">
+              <option value="c2f">Celsius (°C) to Fahrenheit (°F)</option>
+              <option value="m2ft">Meters (m) to Feet (ft)</option>
+              <option value="km2mi">Kilometers (km) to Miles (mi)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Result</label>
+            <div id="convertResult"
+              style="padding:0.7rem 1rem;background:rgba(52,211,153,0.1);border:1px solid var(--green);border-radius:12px;color:var(--green);font-weight:700;font-family:var(--font-mono);">
+              212 °F</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-formulas" style="display:none;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+          <div
+            style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--glass-border);">
+            <div style="color:var(--cyan);font-weight:700;font-size:0.8rem;">PHYSICS</div>
+            <div style="font-family:var(--font-mono);font-size:1.1rem;margin:0.3rem 0;">
+              <math><mi>F</mi><mo>=</mo><mi>m</mi><mo>·</mo><mi>a</mi></math>
+            </div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">Newton's 2nd Law</div>
+          </div>
+          <div
+            style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--glass-border);">
+            <div style="color:var(--green);font-weight:700;font-size:0.8rem;">MATH</div>
+            <div style="font-family:var(--font-mono);font-size:1.1rem;margin:0.3rem 0;">
+              <math><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup></math>
+            </div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">Pythagorean Theorem</div>
+          </div>
+          <div
+            style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--glass-border);">
+            <div style="color:var(--purple);font-weight:700;font-size:0.8rem;">CHEMISTRY</div>
+            <div style="font-family:var(--font-mono);font-size:1.1rem;margin:0.3rem 0;">
+              <math><mi>P</mi><mi>V</mi><mo>=</mo><mi>n</mi><mi>R</mi><mi>T</mi></math>
+            </div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">Ideal Gas Law</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><span>⚡</span> STEM Tuition</a>
+        <p>Comprehensive home, group & online STEM tutoring in Pokhara, Nepal. SEE, NEB & Cambridge A-Levels.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#classes">Classes</a></li>
+          <li><a href="#calculator">Estimator</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Direct Contact</h4>
+        <ul>
+          <li><a href="tel:9768021317">📞 +977 9768021317</a></li>
+          <li><a href="mailto:gurungsajan0228@gmail.com">✉️ gurungsajan0228@gmail.com</a></li>
+          <li><a href="https://wa.me/9779768021317" target="_blank">💬 WhatsApp Direct</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 STEM Tuition · Pokhara, Nepal</div>
+  </footer>
+
+  <!-- Lead Modal -->
+  <dialog id="enrollModal" popover class="modal-card">
+    <button class="modal-close" onclick="closeEnrollModal()">×</button>
+    <h3 style="font-size:1.3rem;margin-bottom:0.3rem;" id="modalTitle">Enroll in STEM Tuition</h3>
+    <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.2rem;">Submit your details for quick admission
+      in Pokhara.</p>
+
+    <form onsubmit="handleModalSubmit(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="studentName" required class="form-input" placeholder="e.g. Aarav Sharma">
+      </div>
+      <div class="form-group">
+        <label>Grade Level</label>
+        <select id="studentGradeSelect" class="form-input">
+          <option value="Grade 1-8">Grade 1 – 8 (Foundation)</option>
+          <option value="Grade 9-10 (SEE)">Grade 9 – 10 (SEE Board)</option>
+          <option value="Grade 11-12 (NEB)">Grade 11 – 12 (NEB Science)</option>
+          <option value="Cambridge A-Level">Cambridge A-Level</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Phone / WhatsApp</label>
+        <input type="tel" id="studentPhone" required class="form-input" placeholder="e.g. 98XXXXXXXX">
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">Submit
+        Request 🚀</button>
+    </form>
+  </dialog>
+
+  <!-- External JS Engines -->
+  <script src="js/main.js?v=13.0"></script>
+  <script src="js/stem-pioneers.js?v=13.0" defer></script>
+  <script src="js/stem-quiz.js?v=13.0" defer></script>
+  <script src="js/stem-effects.js?v=13.0" defer></script>
+
+  <!-- Inline Interactive Logic -->
+  <script>
+    // Data Sets
+    const classData = [
+      { id: 'g1_8', cat: 'foundation', icon: '🔬', grade: 'Grade 1 – 8', title: 'Foundation Level', desc: 'Conceptual tutoring in Math, Science & English for young learners.', subjects: ['Math', 'Science', 'English'], seats: '4 seats left' },
+      { id: 'g9_10', cat: 'see', icon: '⚙️', grade: 'Grade 9 – 10', title: 'SEE Board Prep', desc: 'Rigorous prep for Comp Math, Opt Math, Physics & Chemistry.', subjects: ['Comp. Math', 'Opt. Math', 'Science'], seats: '2 seats left' },
+      { id: 'g11_12', cat: 'neb', icon: '⚗️', grade: 'Grade 11 – 12', title: 'NEB Science', desc: 'In-depth Physics, Chemistry, Biology & Math coaching for NEB boards.', subjects: ['Physics', 'Chemistry', 'Math', 'Bio'], seats: '3 seats left' },
+      { id: 'alevel', cat: 'alevel', icon: '🎓', grade: 'A-Level', title: 'Cambridge A-Level', desc: 'Coaching for AS & A2 exams in Physics, Chemistry, Math & CS.', subjects: ['A-Level Math', 'Physics 9702', 'Chemistry 9701'], seats: '2 seats left' }
+    ];
+
+    const pioneersData = [
+      { name: 'Albert Einstein', field: 'physics', cat: 'Physics', desc: 'Formulated Relativity; Nobel Prize winner for Photochemistry.' },
+      { name: 'Marie Curie', field: 'chemistry', cat: 'Chemistry', desc: 'Pioneered radioactivity; won Nobel Prizes in physics and chemistry.' },
+      { name: 'Isaac Newton', field: 'physics', cat: 'Physics & Math', desc: 'Formulated classical mechanics laws and calculus.' },
+      { name: 'Ada Lovelace', field: 'computing', cat: 'Computer Science', desc: 'First computer programmer for Babbage’s Engine.' },
+      { name: 'Srinivasa Ramanujan', field: 'math', cat: 'Math', desc: 'Groundbreaking contributions to number theory.' }
+    ];
+
+    const quizQuestions = [
+      { cat: 'PHYSICS', q: 'What is the SI unit of Force?', opts: ['Joule', 'Newton', 'Pascal'], correct: 1, exp: 'Force is measured in Newtons (N).' },
+      { cat: 'MATHEMATICS', q: 'What is the derivative of sin(x)?', opts: ['-cos(x)', 'cos(x)', 'tan(x)'], correct: 1, exp: 'The derivative of sin(x) is cos(x).' },
+      { cat: 'CHEMISTRY', q: 'Which gas is released when Zn reacts with HCl?', opts: ['Oxygen', 'Hydrogen', 'CO2'], correct: 1, exp: 'Zn + 2HCl → ZnCl₂ + H₂↑' },
+      { cat: 'COMPUTING', q: 'What does CPU stand for?', opts: ['Central Processing Unit', 'Computer Power Unit'], correct: 0, exp: 'Central Processing Unit.' }
+    ];
+
+    let currentCalcGrade = 'g1_8';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initScrollReveal();
+      initMouseWheelScroll();
+      initScrollProgress();
+      initAnimatedCounters();
+      renderClasses('all');
+      renderPioneers('all');
+      initQuiz();
+      updateCalcSummary();
+    });
+
+    /* --- Scroll Reveal Observer --- */
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.08 });
+
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    }
+
+    /* --- Convert Vertical Mouse Wheel to Horizontal Scroll --- */
+    function initMouseWheelScroll() {
+      const containers = document.querySelectorAll('.h-scroll-container');
+      containers.forEach(container => {
+        container.addEventListener('wheel', (evt) => {
+          const atRightEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+          const atLeftEnd = container.scrollLeft <= 0;
+
+          if ((evt.deltaY > 0 && !atRightEnd) || (evt.deltaY < 0 && !atLeftEnd)) {
+            evt.preventDefault();
+            container.scrollBy({
+              left: evt.deltaY * 1.5,
+              behavior: 'smooth'
+            });
+          }
+        }, { passive: false });
+      });
+    }
+
+    /* --- Scroll Progress Bar --- */
+    function initScrollProgress() {
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.getElementById('scroll-progress').style.width = ((winScroll / height) * 100) + '%';
+      });
+    }
+
+    /* --- Animated Numbers --- */
+    function initAnimatedCounters() {
+      const stats = document.querySelectorAll('.stat-num');
+      stats.forEach(stat => {
+        const target = +stat.getAttribute('data-count');
+        let count = 0;
+        const speed = target / 35;
+        const update = () => {
+          count += speed;
+          if (count < target) {
+            stat.innerText = Math.ceil(count) + (target === 95 ? '%' : '+');
+            setTimeout(update, 30);
+          } else {
+            stat.innerText = target + (target === 95 ? '%' : '+');
+          }
+        };
+        update();
+      });
+    }
+
+    /* --- Class Render --- */
+    function filterClasses(cat, btn) {
+      document.querySelectorAll('.filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderClasses(cat);
+    }
+
+    function renderClasses(cat) {
+      const container = document.getElementById('classesGridContainer');
+      const filtered = cat === 'all' ? classData : classData.filter(c => c.cat === cat);
+
+      container.innerHTML = filtered.map(c => `
+        <div class="h-scroll-item soft-card" onclick="openEnrollModal('${c.title}')" style="cursor:pointer;">
+          <div class="class-badge">${c.seats}</div>
+          <div>
+            <div class="class-icon">${c.icon}</div>
+            <div class="class-grade">${c.grade}</div>
+            <div class="class-title">${c.title}</div>
+            <p style="color:var(--text-muted);font-size:0.85rem;">${c.desc}</p>
+          </div>
+          <div class="class-subjects">
+            ${c.subjects.map(s => `<span class="subject-pill">${s}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* --- Estimator Logic --- */
+    function setCalcGrade(gradeKey, btn) {
+      currentCalcGrade = gradeKey;
+      document.querySelectorAll('#gradeBtnGroup .grade-opt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateCalcSummary();
+    }
+
+    function updateCalcSummary() {
+      const selectedSubjects = Array.from(document.querySelectorAll('#subjectBtnGroup input:checked')).map(cb => cb.value);
+      const gradeMap = {
+        'g1_8': 'Grade 1 – 8 (Foundation)',
+        'g9_10': 'Grade 9 – 10 (SEE)',
+        'g11_12': 'Grade 11 – 12 (NEB)',
+        'alevel': 'Cambridge A-Level'
+      };
+
+      const hrs = selectedSubjects.length * 2;
+      document.getElementById('calcGradeTitle').textContent = `Selected: ${gradeMap[currentCalcGrade]}`;
+      document.getElementById('calcDetailsText').textContent = `Subjects: ${selectedSubjects.join(', ') || 'None'}`;
+      document.getElementById('calcEstFee').textContent = `Est. Weekly Commitment: ~${hrs} Hours`;
+
+      const msg = encodeURIComponent(`Hi STEM Tuition Pokhara! Inquiry for ${gradeMap[currentCalcGrade]}. Subjects: ${selectedSubjects.join(', ')}.`);
+      document.getElementById('whatsappCalcBtn').href = `https://wa.me/9779768021317?text=${msg}`;
+    }
+
+    /* --- Quiz Logic --- */
+    let quizIdx = 0, quizScore = 0;
+
+    function initQuiz() {
+      quizIdx = 0; quizScore = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = quizQuestions[quizIdx];
+      document.getElementById('quizCategoryBadge').textContent = q.cat;
+      document.getElementById('quizQuestionText').textContent = q.q;
+      document.getElementById('quizProgressText').textContent = `Question ${quizIdx + 1} of ${quizQuestions.length}`;
+      document.getElementById('quizExplanationBox').style.display = 'none';
+      document.getElementById('nextQuizBtn').style.display = 'none';
+
+      document.getElementById('quizOptionsContainer').innerHTML = q.opts.map((opt, i) => `
+        <button class="quiz-opt-btn" onclick="checkQuizAnswer(${i})">${opt}</button>
+      `).join('');
+    }
+
+    function checkQuizAnswer(selectedIdx) {
+      const q = quizQuestions[quizIdx];
+      const btns = document.querySelectorAll('#quizOptionsContainer .quiz-opt-btn');
+
+      btns.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correct) btn.classList.add('correct');
+        if (i === selectedIdx && selectedIdx !== q.correct) btn.classList.add('wrong');
+      });
+
+      if (selectedIdx === q.correct) quizScore += 10;
+      document.getElementById('quizScoreBadge').textContent = `Score: ${quizScore}`;
+
+      const expBox = document.getElementById('quizExplanationBox');
+      expBox.innerHTML = `<strong>Note:</strong> ${q.exp}`;
+      expBox.style.display = 'block';
+
+      document.getElementById('nextQuizBtn').style.display = 'inline-flex';
+    }
+
+    function nextQuizQuestion() {
+      quizIdx = (quizIdx + 1) % quizQuestions.length;
+      showQuestion();
+    }
+
+    /* --- Pioneer Filter --- */
+    function filterPioneers(field, btn) {
+      document.querySelectorAll('#pioneers .pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPioneers(field);
+    }
+
+    function renderPioneers(field) {
+      const grid = document.getElementById('pioneerGrid');
+      const filtered = field === 'all' ? pioneersData : pioneersData.filter(p => p.field === field);
+
+      grid.innerHTML = filtered.map(p => `
+        <div class="pioneer-card soft-card" onclick="alert('${p.name}: ${p.desc}')" style="cursor:pointer;">
+          <div class="pioneer-avatar">⚛️</div>
+          <div style="font-weight:700;font-size:1.05rem;">${p.name}</div>
+          <div style="color:var(--cyan);font-size:0.75rem;font-weight:700;margin:0.2rem 0 0.4rem;">${p.cat}</div>
+          <div style="color:var(--text-muted);font-size:0.82rem;">${p.desc}</div>
+        </div>
+      `).join('');
+    }
+
+    /* --- Widget Tabs --- */
+    function switchWidgetTab(tab, btn) {
+      document.querySelectorAll('.widget-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-converter').style.display = tab === 'converter' ? 'block' : 'none';
+      document.getElementById('tab-formulas').style.display = tab === 'formulas' ? 'block' : 'none';
+    }
+
+    function runUnitConversion() {
+      const val = parseFloat(document.getElementById('convertValue').value) || 0;
+      const type = document.getElementById('convertType').value;
+      let res = '';
+
+      if (type === 'c2f') res = `${((val * 9 / 5) + 32).toFixed(1)} °F`;
+      else if (type === 'm2ft') res = `${(val * 3.28084).toFixed(1)} ft`;
+      else if (type === 'km2mi') res = `${(val * 0.621371).toFixed(1)} miles`;
+
+      document.getElementById('convertResult').textContent = res;
+    }
+
+    /* --- Modal --- */
+    function openEnrollModal(title) {
+      document.getElementById('modalTitle').textContent = `Inquiry: ${title}`;
+      document.getElementById('enrollModal').classList.add('active');
+    }
+
+    function closeEnrollModal() {
+      document.getElementById('enrollModal').classList.remove('active');
+    }
+
+    function handleModalSubmit(e) {
+      e.preventDefault();
+      alert(`Thank you ${document.getElementById('studentName').value}! Your request has been logged. Our Pokhara coordinator will get in touch.`);
+      closeEnrollModal();
+    }
+  </script>
+</body>
+
+</html>

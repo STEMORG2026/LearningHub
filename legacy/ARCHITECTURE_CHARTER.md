@@ -1,4 +1,7 @@
-# 🏛️ STEM Tuition Platform - Architecture Charter
+# 🏛️ [SUPERSEDED] STEM Tuition Platform - Architecture Charter
+
+> **⚠️ This document is superseded.** See `docs/ARCHITECTURE.md`, `docs/COMPONENT_STANDARDS.md`, `docs/EVENT_BUS_CONTRACT.md`, and `docs/RULES.md` for the current architecture and standards.  
+> **Kept for historical reference only.**
 
 **Version:** 2.0.0 (LearningHub Ecosystem)  
 **Status:** Active Evolution  

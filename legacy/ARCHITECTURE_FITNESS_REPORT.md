@@ -1,4 +1,7 @@
-# 🏗️ Architecture Fitness Report — STEM Tuition Platform
+# 🏗️ [SUPERSEDED] Architecture Fitness Report — STEM Tuition Platform
+
+> **⚠️ This document is superseded.** See `docs/ARCHITECTURE.md`, `docs/ROADMAP.md`, and `docs/component-registry/` for the current architecture and migration status.  
+> **Kept for historical reference only.**
 
 **Report Generated:** v1.0.0 (Frozen Release)  
 **Assessment Date:** Current  

@@ -1,7 +1,7 @@
 # ADR-001: Establish Architecture Charter and Strangler Fig Migration Strategy
 
 ## Status
-**Accepted**
+**Superseded** — replaced by ADR-001 through ADR-009 in `docs/adr/` (2026-07-30). The documents at `docs/ARCHITECTURE.md`, `docs/COMPONENT_STANDARDS.md`, `docs/EVENT_BUS_CONTRACT.md`, and `docs/RULES.md` now govern the project.
 
 ## Date
 2026-07-29

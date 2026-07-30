@@ -1,4 +1,7 @@
-# Architecture Migration Strategy & Strangler Fig Plan
+# [SUPERSEDED] Architecture Migration Strategy & Strangler Fig Plan
+
+> **⚠️ This document is superseded.** See `docs/ROADMAP.md` for the current phased migration plan, `docs/ARCHITECTURE.md` for architecture, and `docs/FLOWCHARTS.md` for visual diagrams.  
+> **Kept for historical reference only.**
 
 **Project:** STEM Tuition Platform (v1.0.0)  
 **Date:** 2023-10-27  

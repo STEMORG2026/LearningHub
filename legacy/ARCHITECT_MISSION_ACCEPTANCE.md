@@ -1,4 +1,7 @@
-# 🧭 Chief Software Architect - Mission Acceptance
+# 🧭 [SUPERSEDED] Chief Software Architect - Mission Acceptance
+
+> **⚠️ This document is superseded.** The principles and architecture defined here have been codified into `docs/RULES.md`, `docs/ARCHITECTURE.md`, `docs/ADR/`, and `docs/GLOSSARY.md`.  
+> **Kept for historical reference only.**
 
 **Status:** ✅ Active  
 **Role:** Chief Software Architect  

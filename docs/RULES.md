@@ -1,16 +1,16 @@
-# 📐 LearningHub STEM: Technical Rules & Coding Standards
+# 📐 STEM-TUITION: Technical Rules & Coding Standards
 
-> **Version:** 2.0.0 (Ecosystem Edition)  
+> **Version:** 2.0.0 (Modular Edition)  
 > **Status:** 🔒 ENFORCED  
 > **Applies To:** All developers, AI agents, and contributors  
-> **Effective Date:** 2026-07-29  
-> **Current Date:** 2026-07-29
+> **Effective Date:** 2026-07-30  
+> **Current Date:** 2026-07-30
 
 ---
 
 ## 🎯 Purpose
 
-This document defines the **strict technical regulations** that govern all code written in the LearningHub STEM ecosystem. These rules are non-negotiable and must be followed to maintain architectural integrity, educational quality, and long-term maintainability.
+This document defines the **strict technical regulations** that govern all code written in the STEM-TUITION project. These rules are non-negotiable and must be followed to maintain architectural integrity, educational quality, and long-term maintainability.
 
 **Violation of these rules will result in automatic PR rejection.**
 
@@ -24,7 +24,7 @@ This document defines the **strict technical regulations** that govern all code 
 import { legacyFunction } from '../legacy/js/stem-effects.js';
 
 // ✅ REQUIRED: Use Anti-Corruption Layer
-import { PhysicsAdapter } from '@learninghub/physics-adapter';
+import { PhysicsAdapter } from '@stem-tuition/physics-adapter';
 ```
 
 **Rationale:** Prevents legacy coupling from spreading into new modules.  
@@ -384,6 +384,8 @@ interface ILearningModule {
 - Animations MUST respect `prefers-reduced-motion`
 - Reading level MUST be appropriate for target grade
 
+> **Full standard:** `docs/ACCESSIBILITY.md` — WCAG 2.2 AA, component-specific requirements, audit process.
+
 ### Rule EDU-5: AI Assistance Guidelines
 - AI MUST NOT replace student thinking
 - AI hints MUST be Socratic (guiding questions, not answers)
@@ -445,6 +447,8 @@ add_header Content-Security-Policy "
 - ✅ All data transmission MUST use HTTPS (enforced in production)
 - ✅ Session tokens MUST expire after 30 minutes of inactivity
 
+> **Full policy:** `docs/SECURITY.md` — secrets management, dependency auditing, vulnerability reporting.
+
 ---
 
 ## ⚡ PERFORMANCE RULES
@@ -477,7 +481,7 @@ import { useVirtualizer } from '@tanstack/virtual-core';
 ```typescript
 // ✅ REQUIRED: Dynamic imports for heavy modules
 const loadSimulation = async () => {
-  const { PhysicsEngine } = await import('@learninghub/simulation-core');
+  const { PhysicsEngine } = await import('@stem-tuition/simulation-core');
   return new PhysicsEngine();
 };
 
@@ -493,6 +497,8 @@ simulation.init();
 | FID | <100ms | p75 of users |
 | CLS | <0.1 | p75 of users |
 | INP | <200ms | p75 of users |
+
+> **Full guide:** `docs/PERFORMANCE.md` — optimization rules, monitoring, pre-release checklist.
 
 ---
 
@@ -680,12 +686,12 @@ Every migration PR MUST include:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 2.0.0 | 2026-07-29 | Complete rewrite for LearningHub STEM ecosystem |
+| 2.0.0 | 2026-07-30 | Rebrand to STEM-TUITION (independent project), replace all `@learninghub` → `@stem-tuition` |
 | 1.0.0 | 2024-01-15 | Initial static site rules (archived) |
 
 ---
 
-*Last Updated: 2026-07-29*  
+*Last Updated: 2026-07-30*  
 *Approved by: Chief Software Architect*  
 *Status: 🔒 ENFORCED*  
-*Next Review: 2026-10-29*
+*Next Review: 2026-10-30*

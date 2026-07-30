@@ -1,4 +1,7 @@
-# STEM Tuition Website - Upgraded Version
+# [SUPERSEDED] STEM Tuition Website - Upgraded Version
+
+> **⚠️ This document is superseded.** The v1.0.0 codebase is frozen under `legacy/`. See `docs/ROADMAP.md` for the migration plan and `docs/QUICKSTART.md` for setup.  
+> **Kept for historical reference only.**
 
 ## 🎉 What's New - Complete Upgrade Summary
 

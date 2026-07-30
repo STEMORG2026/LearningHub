@@ -1,0 +1,24 @@
+{
+  "name": "@stem-tuition/hover-engine",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Hover animation state machine — style selection and cooldown protocol",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stem-tuition/core": "workspace:*",
+    "@stem-tuition/tracer": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

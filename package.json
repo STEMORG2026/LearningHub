@@ -1,0 +1,45 @@
+{
+  "name": "stem-tuition",
+  "version": "2.0.0",
+  "private": true,
+  "description": "STEM-TUITION — Modular STEM education platform",
+  "scripts": {
+    "dev:legacy": "python3 -m http.server 8085 --directory legacy/",
+    "dev:shell": "turbo dev --filter=@stem-tuition/shell",
+    "build": "turbo build",
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "lint": "turbo lint",
+    "lint:arch": "dependency-cruise packages/ apps/",
+    "lint:circular": "madge --circular packages/**/*.ts apps/**/*.ts",
+    "lint:size": "bundlesize",
+    "lint:state": "eslint --rule 'no-restricted-globals: [\"error\", \"window\", \"globalThis\"]' packages/",
+    "lint:dom": "eslint --rule 'no-restricted-properties: [\"error\", { \"property\": \"getElementById\" }, { \"property\": \"querySelector\" }]' packages/",
+    "lint:registry": "node scripts/verify-registry.js",
+    "typecheck": "turbo typecheck",
+    "test:a11y": "playwright test --config=playwright.config.ts",
+    "validate:edu": "node scripts/validate-educational-metadata.js",
+    "verify-governance": "pnpm lint:arch && pnpm typecheck && pnpm test:coverage && pnpm test:a11y && pnpm lint:size && pnpm validate:edu && pnpm lint:registry",
+    "generate:graph": "dependency-cruise --output-type dot packages/ apps/ | dot -T svg -o docs/dependency-graph.svg",
+    "changeset": "changeset",
+    "sync-versions": "node scripts/sync-versions.mjs",
+    "changeset:version": "changeset version && node scripts/sync-versions.mjs",
+    "changeset:publish": "changeset publish"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "turbo": "^1.13.0",
+    "vitest": "^1.6.0",
+    "@playwright/test": "^1.44.0",
+    "eslint": "^8.57.0",
+    "dependency-cruiser": "^16.3.0",
+    "madge": "^7.0.0",
+    "bundlesize": "^0.18.2",
+    "@changesets/cli": "^2.27.0",
+    "axe-core": "^4.9.0",
+    "@axe-core/playwright": "^4.9.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

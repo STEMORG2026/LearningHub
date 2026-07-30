@@ -1,5 +1,7 @@
 # 🧊 Version Freeze — v1.0.0
 
+> **Note:** This is the frozen v1.0.0 baseline. The code is now under `legacy/`. All new development is in `packages/` and `apps/`.
+
 **Date:** 2026-07-29  
 **Commit:** `f874d6ab72e5ea1a6e9c7f2b4d89f4740c0cbc92`  
 **Tag:** `v1.0.0` (annotated)
