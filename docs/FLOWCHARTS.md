@@ -1,6 +1,6 @@
 # STEM-TUITION Flowcharts
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 **Purpose:** Visual diagrams of architecture, data flow, and module connections
 
 ---

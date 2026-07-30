@@ -1,6 +1,6 @@
 # Trace Registry
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 
 **Purpose:** Every traced function, its parent span, child spans, and instrumentation status.
 

@@ -1,6 +1,6 @@
 # Accessibility Guide
 
-**Version:** 2.0.0  
+**Version:** 3.0.0  
 **Target:** WCAG 2.2 AA  
 **Tooling:** axe-core via Playwright (automated) + manual review
 

@@ -1,6 +1,6 @@
 # Networking Registry
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 
 **Purpose:** Every API call, Event Bus subscription, external connection, and network boundary.
 

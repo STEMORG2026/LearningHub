@@ -1,6 +1,6 @@
 # Development Log
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 **Purpose:** Day-to-day record of decisions, struggles, learnings, and progress.  
 **Format:** Newest entries first.
 

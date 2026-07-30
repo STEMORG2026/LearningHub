@@ -1,6 +1,6 @@
 # Glossary
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 **Purpose:** Every technical term used in STEM-TUITION, explained simply with project-specific examples.
 
 ---

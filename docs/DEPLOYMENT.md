@@ -1,6 +1,6 @@
 # Deployment Guide
 
-**Version:** 2.0.0  
+**Version:** 3.0.0  
 **Purpose:** How to deploy STEM-TUITION to production at every stage of the migration.
 
 ---

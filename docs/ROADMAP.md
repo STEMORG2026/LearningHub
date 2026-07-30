@@ -1,6 +1,6 @@
 # Roadmap
 
-**Version:** 2.0.0 (Refined)
+**Version:** 3.0.0 (Refined)
 **Status:** Active
 **Purpose:** Phased execution plan with current status, updated after every milestone.
 
@@ -15,7 +15,7 @@ PHASE 0 ██████████  Foundation (monorepo + docs + freeze leg
 PHASE 1 ██████████  Observability (tracer)
 PHASE 2 ██████████  Audio Synth extraction
 PHASE 3 ██████████  Event Bus + ACL
-PHASE 4 ░░░░░░░░░░  Quiz Engine extraction (Web Component)
+PHASE 4 ██████████  Quiz Engine extraction (Web Component)
 PHASE 5 ░░░░░░░░░░  Hover Engine extraction
 PHASE 6 ░░░░░░░░░░  Physics Core extraction
 PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
@@ -144,31 +144,39 @@ PHASE 7+ ░░░░░░░░░  Features (auth, progress, admin)
 
 ## Phase 4: Quiz Engine Extraction (Week 5-8)
 
-**Status:** 🔵 Not started
+**Status:** 🟢 Completed
 
-**What you learn:**
+**What you learned:**
 - Web Components (Custom Elements, Shadow DOM, lifecycle)
 - Data modeling for educational content
 - Educational metadata tagging
 - TypeScript migration of existing JavaScript
+- Event-driven component design (EventBus from UI interactions)
 
 **Deliverables:**
-- `packages/quiz-engine/src/internal/quiz-engine.ts` — Pure logic (validate, score, track misconceptions)
-- `packages/quiz-engine/src/internal/web-component.ts` — `<stem-quiz>` Web Component
-- `packages/quiz-engine/src/internal/template.ts` — HTML template
-- `packages/quiz-engine/src/internal/styles.css` — Scoped styles
-- `packages/quiz-engine/src/internal/quiz-engine.test.ts` — Unit tests for all logic
-- `packages/quiz-engine/tests/web-component.test.ts` — Component tests
-- Educational metadata for each quiz question
-- `<stem-quiz>` is feature-flagged — can toggle between legacy and new quiz
+- ✅ `packages/quiz-engine/src/types.ts` — QuizQuestion, QuizState, QuizResult interfaces with educational metadata
+- ✅ `packages/quiz-engine/src/data.ts` — 5 subjects × 4 questions, typed with SubjectKey, EducationalTag, DifficultyLevel
+- ✅ `packages/quiz-engine/src/internal/quiz-engine.ts` — Pure logic: createQuizState, validateAnswer, advanceQuestion, resetQuiz, getCurrentQuestion
+- ✅ `packages/quiz-engine/src/internal/template.ts` — HTML template renderers (renderQuestion, renderResult)
+- ✅ `packages/quiz-engine/src/internal/web-component.ts` — `<stem-quiz>` Web Component with Shadow DOM, event delegation, EventBus integration
+- ✅ `packages/quiz-engine/src/internal/styles.css` — Scoped styles for quiz cards/tabs/results
+- ✅ `packages/quiz-engine/src/index.ts` — Public API exports
+- ✅ `packages/quiz-engine/tests/quiz-engine.test.ts` — 14 unit tests (logic coverage)
+- ✅ `packages/quiz-engine/tests/web-component.test.ts` — 2 component tests (definition, observedAttributes)
+- ✅ EventBus integration: publishes `quiz:started`, `quiz:answer-submitted`, `quiz:completed` events
+- ✅ Tracer integration: all quiz functions wrapped with `traced()` spans
+- ✅ `packages/quiz-engine/README.md` — Package documentation
 
 **Acceptance criteria:**
-- Quiz works identically to legacy version
-- `<stem-quiz>` Web Component can be used standalone on any HTML page
-- Quiz data is typed (TypeScript strict)
-- All functions have educational metadata tags
-- `?trace=true` shows quiz answer flow with spans
-- Tests pass (≥90% coverage)
+- ✅ `pnpm typecheck` — all 16 tasks pass
+- ✅ `pnpm test --filter="@stem-tuition/quiz-engine"` — 16/16 tests pass
+- ✅ Quiz data is fully typed (TypeScript strict)
+- ✅ All logic functions have educational metadata tags
+- ✅ `<stem-quiz>` uses Shadow DOM scoped styles
+- ✅ EventBus integration publishes standard events
+- ✅ Component Registry and ROADMAP updated
+
+**What stays the same:** The live site still uses the legacy quiz via `legacy/js/stem-quiz.js`. The `<stem-quiz>` element is ready for deployment behind the `use-legacy` attribute flag.
 
 ---
 

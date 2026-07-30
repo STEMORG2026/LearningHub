@@ -62,8 +62,8 @@ pnpm verify-governance  # CI pipeline (runs lint:arch, typecheck, test:coverage,
 PHASE 0 ██████████  Foundation (monorepo + docs + legacy freeze)
 PHASE 1 ██████████  Tracer (observability)
 PHASE 2 ██████████  Audio Synth extraction
-PHASE 3 ██████████  Event Bus + ACL    ← CURRENT
-PHASE 4 ░░░░░░░░░░  Quiz Engine extraction
+PHASE 3 ██████████  Event Bus + ACL
+PHASE 4 ██████████  Quiz Engine extraction   ← CURRENT
 PHASE 5 ░░░░░░░░░░  Hover Engine extraction
 PHASE 6 ░░░░░░░░░░  Physics Core extraction
 PHASE 7+ ░░░░░░░░░░  Features (auth, progress, admin)
@@ -81,7 +81,7 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/tracer/` | Function timing, span trees, dashboard | `src/tracer.ts`, `src/dashboard.ts` |
 | `packages/acl/` | Anti-Corruption Layer adapters | `src/quiz-adapter.ts`, `src/canvas-adapter.ts` |
 | `packages/audio-synth/` | Web Audio API sound effects | `src/synth.ts`, `src/engine.ts` |
-| `packages/quiz-engine/` | Quiz logic, scoring, Web Component | `src/internal/quiz-engine.ts` |
+| `packages/quiz-engine/` | Quiz logic, scoring, Web Component | `src/types.ts`, `src/data.ts`, `src/internal/quiz-engine.ts`, `src/internal/web-component.ts`, `src/internal/template.ts` |
 | `packages/hover-engine/` | Hover state machine, cooldown | `src/hover-state.ts` |
 | `packages/simulation-core/` | Pure physics math | `src/gravity.ts`, `src/bodies.ts` |
 | `apps/shell/` | Entry point, routing | `public/index.html` |

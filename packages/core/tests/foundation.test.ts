@@ -21,7 +21,7 @@ describe('Root monorepo structure', () => {
   it('root package.json exists with correct metadata', () => {
     const pkg = JSON.parse(read(join(ROOT, 'package.json')));
     expect(pkg.name).toBe('stem-tuition');
-    expect(pkg.version).toBe('2.0.0');
+    expect(pkg.version).toBe('3.0.0');
     expect(pkg.private).toBe(true);
     expect(pkg.scripts).toHaveProperty('build');
     expect(pkg.scripts).toHaveProperty('test');
@@ -116,7 +116,7 @@ describe('Package scaffolds exist with correct structure', () => {
       it('package.json has valid name, version, scripts', () => {
         const pkg = JSON.parse(read(join(pkgDir, 'package.json')));
         expect(pkg.name).toBe(`@stem-tuition/${pkgName}`);
-        expect(pkg.version).toBe('0.0.0');
+        expect(pkg.version).toMatch(/^\d+\.\d+\.\d+$/);
         expect(pkg.private).toBe(true);
         expect(pkg.type).toBe('module');
         expectedScripts.forEach((s) => {

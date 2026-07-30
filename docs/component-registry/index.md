@@ -1,6 +1,6 @@
 # Component Registry
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 **Purpose:** Living index of every component, module, and data store in STEM-TUITION. Updated on every change.
 
 ---

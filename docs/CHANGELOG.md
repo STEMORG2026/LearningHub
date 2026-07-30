@@ -1,6 +1,6 @@
 # Changelog
 
-**Version:** 2.0.0 (auto — see sync-versions.mjs)
+**Version:** 3.0.0 (auto — see sync-versions.mjs)
 
 All notable changes to STEM-TUITION are documented here.
 

@@ -1,6 +1,6 @@
 # Rendering Registry
 
-**Version:** 2.0.0
+**Version:** 3.0.0
 
 **Purpose:** Every Web Component, HTML template, and CSS file that renders to the screen.
 
