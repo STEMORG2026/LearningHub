@@ -1,6 +1,6 @@
 {
   "name": "@stem-tuition/shell",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Application shell — routing between legacy and modern modules",
   "type": "module",

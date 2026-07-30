@@ -1,6 +1,6 @@
 {
   "name": "@stem-tuition/hover-engine",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Hover animation state machine — style selection and cooldown protocol",
   "type": "module",

@@ -1,6 +1,6 @@
 {
   "name": "@stem-tuition/audio-synth",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Web Audio API procedural sound synthesizer",
   "type": "module",

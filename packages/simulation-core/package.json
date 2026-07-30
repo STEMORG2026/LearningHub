@@ -1,6 +1,6 @@
 {
   "name": "@stem-tuition/simulation-core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Pure physics math — Newtonian gravity, collision, body simulation",
   "type": "module",
