@@ -8,16 +8,28 @@
 
 ## Quiz Engine (Phase 4 — Extracted)
 
-| Concept | ID | Grade | Prerequisites | Misconceptions | Location (future) |
-|---------|----|-------|---------------|----------------|-------------------|
-| Newton's Laws | `newtons-laws` | 9-12 | `force, motion` | `action-reaction-cancels` | `packages/quiz-engine/src/data/physics.ts` |
-| Speed of Light | `speed-of-light` | 9-12 | `waves, electromagnetism` | — | `packages/quiz-engine/src/data/physics.ts` |
-| Ohm's Law | `ohms-law` | 9-12 | `voltage, current, resistance` | — | `packages/quiz-engine/src/data/physics.ts` |
-| Atomic Structure | `atomic-structure` | 9-12 | `elements, matter` | — | `packages/quiz-engine/src/data/chemistry.ts` |
-| Atmosphere Gases | `atmosphere-gases` | 9-10 | `earth-science, percentages` | — | `packages/quiz-engine/src/data/chemistry.ts` |
-| pH Scale | `ph-scale` | 9-12 | `acids, bases` | — | `packages/quiz-engine/src/data.ts` |
-| Periodic Table | `periodic-table` | 9-12 | `elements, atomic-number` | — | `packages/quiz-engine/src/data.ts` |
-| Chemical Bonds | `chemical-bonds` | 9-12 | `electrons, valence` | — | `packages/quiz-engine/src/data.ts` |
+| Concept | ID | Grade | Prerequisites | Misconceptions | Location |
+|---------|----|-------|---------------|----------------|-----------|
+| Newton's Third Law of Motion | `newtons-third-law` | 9-12 | force, interaction | action-reaction-cancel, only-contact-forces | `packages/quiz-engine/src/data.ts` |
+| Speed of Light | `speed-of-light` | 9-12 | waves, electromagnetic-spectrum | light-instantaneous, light-needs-medium | `packages/quiz-engine/src/data.ts` |
+| Ohm's Law | `ohms-law` | 10-12 | current, voltage, resistance | voltage-causes-current-directly, resistance-is-constant | `packages/quiz-engine/src/data.ts` |
+| Atomic Structure | `atomic-structure` | 8-10 | atoms, elements | protons-move, neutrons-charged | `packages/quiz-engine/src/data.ts` |
+| Atmospheric Composition | `atmospheric-composition` | 8-10 | atmosphere, gases | most-abundant-oxygen, co2-primary-gas | `packages/quiz-engine/src/data.ts` |
+| pH Scale | `ph-scale` | 9-11 | acids, bases, concentration | water-is-acidic, ph-0-is-strongest | `packages/quiz-engine/src/data.ts` |
+| History of the Periodic Table | `periodic-table-history` | 8-10 | elements, atomic-mass | mendeleev-discovered-elements, modern-table-same-order | `packages/quiz-engine/src/data.ts` |
+| Chemical Bonding | `chemical-bonding` | 9-11 | valence-electrons, octet-rule | covalent-donates-electrons, ionic-shares-electrons | `packages/quiz-engine/src/data.ts` |
+| Power Rule of Differentiation | `power-rule-differentiation` | 11-12 | limits, functions | derivative-is-slope-only, power-rule-adds-one | `packages/quiz-engine/src/data.ts` |
+| Trigonometric Values | `trigonometric-values` | 10-12 | angles, right-triangles, unit-circle | sin-max-0.5, cos-90-equals-1 | `packages/quiz-engine/src/data.ts` |
+| Pythagorean Theorem | `pythagorean-theorem` | 8-10 | squares, square-roots, triangles | hypotenuse-is-longest-leg, a-squared-plus-b-squared-equals-c | `packages/quiz-engine/src/data.ts` |
+| Factorial Definition | `factorial-definition` | 10-12 | multiplication, combinatorics | zero-factorial-zero, factorial-only-integers | `packages/quiz-engine/src/data.ts` |
+| Binary Number System | `binary-numbers` | 8-10 | decimal-system, place-value | binary-starts-with-1, binary-only-ones | `packages/quiz-engine/src/data.ts` |
+| History of Computing | `history-of-computing` | 8-12 | — | turing-first-programmer, babbage-wrote-software | `packages/quiz-engine/src/data.ts` |
+| Queue Data Structure | `queue-data-structure` | 10-12 | arrays, linked-lists | queue-is-lifo, stack-and-queue-same | `packages/quiz-engine/src/data.ts` |
+| Computer Architecture Basics | `computer-architecture` | 6-8 | — | cpu-is-computer-brain-literal, cpu-stores-data | `packages/quiz-engine/src/data.ts` |
+| Marie Curie | `marie-curie` | 8-12 | radioactivity | curie-won-one-nobel, curie-discovered-radium-only | `packages/quiz-engine/src/data.ts` |
+| Aryabhata | `aryabhata` | 8-12 | number-systems, pi | zero-invented-by-arabs, aryabhata-only-astronomy | `packages/quiz-engine/src/data.ts` |
+| Rosalind Franklin | `rosalind-franklin` | 9-12 | dna, x-ray-crystallography | watson-crick-discovered-dna, franklin-assistant-only | `packages/quiz-engine/src/data.ts` |
+| Katherine Johnson | `katherine-johnson` | 8-12 | orbital-mechanics, geometry | computers-did-all-work, nasa-only-had-white-male-mathematicians | `packages/quiz-engine/src/data.ts` |
 
 ## Simulation Core (Phase 6 — Extracted)
 

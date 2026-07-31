@@ -63,7 +63,9 @@ The registry now has a **hybrid ownership model** (see ADR-010):
   phases** (`status: completed` + `completedDate: null`).
 - **Human-owned (preserved, never wholesale-regenerated):** RENDERING/STATE rows for
   **released** phases. Human semantic refinement of released phases is allowed.
-- **Known gap:** `scripts/verify-registry.js` currently performs header-level
-  validation only (`**Version:**` / `**Purpose:**` present). The file:line
-  existence enforcement described in the Decision above is **not yet implemented** —
-  tracked as a known gap in ADR-010.
+- **Update (2026-07-31):** `scripts/verify-registry.js` now implements the full
+  enforcement described in the Decision above — header contract, file:line existence,
+  phantom-reference detection, and Web Component coverage (every
+  `customElements.define` in `packages/*/src` must appear in RENDERING.md). Runs via
+  `pnpm lint:registry`, wired into `pnpm verify-governance`. References to
+  Future/Planned components are downgraded to warnings, not errors.

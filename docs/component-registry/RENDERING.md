@@ -11,7 +11,7 @@
 | Component | Package | Definition | Template | Styles | Notes |
 |-----------|---------|-----------|----------|--------|-------|
 | Event Bus | `packages/core/` | `src/event-bus.ts` | — | — | No UI — pure logic |
-| Tracer Dashboard | `packages/tracer/` | `src/dashboard.ts` | — | — | Floating panel when `?trace=true` |
+| `<stem-tracer-dashboard>` | `packages/tracer/` | `src/dashboard.ts` | — | — | Floating panel when `?trace=true` |
 
 ## Phase 2: Audio Synth (EXTRACTED)
 

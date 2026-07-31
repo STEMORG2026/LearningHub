@@ -86,18 +86,24 @@ phases during verification.
 - `vX.Y.Z-dev.N` remains a build-time Git-derived identifier, never a package version.
 
 ## Known Gaps (accepted, deferred)
-1. `scripts/verify-registry.js` is a **header-level stub** — it checks
-   `**Version:**`/`**Purpose:**` presence but not the file:line existence
-   enforcement described in ADR-009.
-2. `scripts/validate-educational-metadata.js` is a **stub** (always passes).
-3. `pnpm lint:circular`, `pnpm lint:state`, and `pnpm lint:dom` exist but are **not
-   wired into** `pnpm verify-governance`.
-4. **No git tags exist** despite docs referencing `3.0.0`; `pnpm dev-version`
+1. **No git tags exist** despite docs referencing `3.0.0`; `pnpm dev-version`
    therefore reports `v0.0.0-dev.0`. Tags are created by `release:finalize`.
-5. `docs/component-registry/TRACE.md` is hand-maintained and **not covered by
+2. `docs/component-registry/TRACE.md` is hand-maintained and **not covered by
    `docs-sync`**.
-6. No CI/CD exists in the repository; RULES.md and DEPLOYMENT.md document a GitHub
+3. No CI/CD exists in the repository; RULES.md and DEPLOYMENT.md document a GitHub
    Actions pipeline as **planned, not implemented**.
+
+## Resolved Gaps
+- ~~Gap 1: `verify-registry.js` was a header-level stub.~~ Resolved 2026-07-31 —
+  `scripts/verify-registry.js` now enforces header contract, file:line existence,
+  phantom-reference detection, and Web Component coverage (ADR-009).
+- ~~Gap 2: `validate-educational-metadata.js` was a stub.~~ Resolved 2026-07-31 —
+  `scripts/validate-educational-metadata.js` now validates the `data.ts` question
+  schema (11 required fields, option/correct/grade/tag invariants) and
+  cross-references conceptIds against EDUCATIONAL.md.
+- ~~Gap 3: `lint:circular`/`lint:state`/`lint:dom` were not wired in.~~ Resolved
+  2026-07-31 — all three run via flat-config ESLint/madge and are stages of
+  `pnpm verify-governance`.
 
 ## Compliance
 - [x] Documentation synchronization is deterministic and idempotent (`docs-sync`)
@@ -105,5 +111,7 @@ phases during verification.
 - [x] Release approval boundary enforced (token + TOCTOU + mutation allowlist)
 - [x] Docs-only releases supported
 - [x] Human-vs-automation contract documented (`docs/HUMAN_INVOLVEMENT.md`)
-- [ ] Deep registry enforcement (`verify-registry.js`) — gap, deferred
+- [x] Deep registry enforcement (`verify-registry.js`) — ADR-009 implemented
+- [x] Educational metadata validation (`validate-educational-metadata.js`) — ADR-007 implemented
+- [x] `lint:circular`, `lint:state`, `lint:dom` wired into `pnpm verify-governance`
 - [ ] CI/CD pipeline — planned, not implemented

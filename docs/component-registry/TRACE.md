@@ -52,9 +52,9 @@
 
 | Function | Span name | Parent | Instrumented | Location |
 |----------|-----------|--------|--------------|----------|
-| `applyGravity()` | `physics:apply-gravity` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/gravity.ts` |
-| `detectCollisions()` | `physics:detect-collisions` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/collision.ts` |
-| `updatePositions()` | `physics:update-positions` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/gravity.ts` |
+| `applyGravity()` | `physics:apply-gravity` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/physics.ts` |
+| `detectCollisions()` | `physics:detect-collisions` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/physics.ts` |
+| `updatePositions()` | `physics:update-positions` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/physics.ts` |
 | `renderFrame()` | `canvas:render` | `physics:tick` | ❌ Not yet | `legacy/js/stem-effects.js` |
 
 ## Migration Progress

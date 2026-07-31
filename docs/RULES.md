@@ -48,7 +48,7 @@ class QuizEngine {
 ```
 
 **Rationale:** Enables testing without DOM, supports multiple UI frameworks.  
-**Enforcement:** ESLint rule `no-dom-in-logic`.
+**Enforcement:** `pnpm lint:dom` (ESLint `no-restricted-properties`, scoped to pure-logic packages) blocks violations.
 
 ### Rule 3: No Global Mutable State
 ```typescript
@@ -62,7 +62,7 @@ const currentGrade = signal(10);
 ```
 
 **Rationale:** Prevents race conditions, enables time-travel debugging.  
-**Enforcement:** ESLint rule `no-global-mutable-state`.
+**Enforcement:** `pnpm lint:state` (ESLint `no-restricted-globals: window/globalThis`, scoped to pure-logic packages) blocks violations.
 
 ### Rule 4: Interface-First Development
 ```typescript
@@ -554,6 +554,24 @@ All AI-generated code MUST pass:
 ---
 
 ## 📋 ENFORCEMENT MECHANISMS
+
+### Automated Checks (Local — `pnpm verify-governance`)
+
+All checks below run locally (and are the same suite the planned CI would run).
+`pnpm verify-governance` fails on the first failing stage:
+
+| Stage | Command | Enforces |
+|-------|---------|----------|
+| Architecture imports | `pnpm lint:arch` | No `legacy/` imports, no cross-package imports (dependency-cruiser) |
+| Circular dependencies | `pnpm lint:circular` | No import cycles (madge) |
+| Global mutable state | `pnpm lint:state` | No `window`/`globalThis` in pure-logic src (ESLint flat config) |
+| DOM purity | `pnpm lint:dom` | No `document.getElementById`/`querySelector` in pure-logic src (ESLint flat config) |
+| Types | `pnpm typecheck` | Strict TypeScript across all workspaces |
+| Test coverage | `pnpm test:coverage` | ≥95% line coverage on core logic |
+| Accessibility | `pnpm test:a11y` | Playwright + axe-core audit |
+| Bundle size | `pnpm lint:size` | Per-package size budgets |
+| Educational metadata | `pnpm validate:edu` | `data.ts` question schema + EDUCATIONAL.md cross-reference |
+| Component registry | `pnpm lint:registry` | Registry header + file:line + web-component coverage (ADR-009) |
 
 ### Automated Checks (CI/CD Pipeline) — PLANNED, NOT YET IMPLEMENTED
 

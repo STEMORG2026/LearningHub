@@ -35,7 +35,7 @@ describe('Root monorepo structure', () => {
     const content = read(join(ROOT, 'pnpm-workspace.yaml'));
     expect(content).toContain('packages/*');
     expect(content).toContain('apps/*');
-    expect(content).toContain('onlyBuiltDependencies');
+    expect(content).toContain('allowBuilds');
   });
 
   it('root tsconfig.json enforces strict mode and experimental decorators', () => {
