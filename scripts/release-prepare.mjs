@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-import { readFileSync, readdirSync, writeFileSync, existsSync, statSync } from 'fs';
+import { readFileSync, readdirSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CHANGESET_DIR = join(ROOT, '.changeset');
@@ -20,21 +21,6 @@ const phasePath = join(ROOT, '.phase.json');
 let phaseState = { phases: [] };
 if (existsSync(phasePath)) {
   phaseState = JSON.parse(readFileSync(phasePath, 'utf8'));
-}
-
-function currentPhaseIdx(phases) {
-  const idx = phases.findIndex((p) => p.status !== 'completed');
-  return idx !== -1 ? idx : null;
-}
-
-function phaseStatusForDoc(phase) {
-  if (phase.status === 'completed') return '🟢 Completed';
-  if (phase.status === 'planned') return '🔵 Not started';
-  return phase.status;
-}
-
-function progressBarFilled(n) {
-  return '█'.repeat(Math.min(10, n)) + '░'.repeat(Math.max(0, 10 - n));
 }
 
 // ──── Count test files per package ────
@@ -187,93 +173,10 @@ log('  ✓ docs/DEVLOG.md — new entry added');
 
 log('\n--- Phase Documentation ---');
 
-if (newlyCompleted.length > 0) {
-  // Generate ROADMAP progress bar
-  const phases = phaseState.phases;
-  const roadMapPath = join(ROOT, 'docs/ROADMAP.md');
-  let roadmap = readFileSync(roadMapPath, 'utf8');
-
-  const progressBar = phases.map((p) => {
-    const totalPhases = 8;
-    const bar = progressBarFilled(p.status === 'completed' ? 10 : 0);
-    const name = p.name;
-    return `PHASE ${p.id} ${bar}  ${name}`;
-  }).join('\n');
-
-  const autoProgressOpen = '<!-- AUTO:phase-progress -->';
-  const autoProgressClose = '<!-- END AUTO:phase-progress -->';
-  const progressStart = roadmap.indexOf(autoProgressOpen);
-  const progressEnd = roadmap.indexOf(autoProgressClose);
-  if (progressStart !== -1 && progressEnd !== -1) {
-    const before = roadmap.slice(0, progressStart + autoProgressOpen.length);
-    const after = roadmap.slice(progressEnd);
-    roadmap = before + '\n```\n' + progressBar + '\n```\n' + after;
-    writeFileSync(roadMapPath, roadmap);
-    log('  ✓ docs/ROADMAP.md — progress bar drafted');
-  }
-
-  // Generate per-phase status lines
-  for (const phase of phases) {
-    const marker = `<!-- AUTO:phase-${phase.id}-status -->`;
-    const markerEnd = `<!-- END AUTO:phase-${phase.id}-status -->`;
-    const start = roadmap.indexOf(marker);
-    const end = roadmap.indexOf(markerEnd, start);
-    if (start !== -1 && end !== -1) {
-      const statusText = phaseStatusForDoc(phase);
-      const before = roadmap.slice(0, start + marker.length);
-      const after = roadmap.slice(end);
-      roadmap = before + statusText + after;
-      writeFileSync(roadMapPath, roadmap);
-      log(`  ✓ Phase ${phase.id} status → ${statusText}`);
-    }
-  }
-
-  // Generate AGENTS.md phase map
-  const agentsPath = join(ROOT, 'AGENTS.md');
-  let agents = readFileSync(agentsPath, 'utf8');
-
-  const autoPhaseMapOpen = '<!-- AUTO:phase-map -->';
-  const autoPhaseMapClose = '<!-- END AUTO:phase-map -->';
-  const pmStart = agents.indexOf(autoPhaseMapOpen);
-  const pmEnd = agents.indexOf(autoPhaseMapClose);
-  if (pmStart !== -1 && pmEnd !== -1) {
-    const current = currentPhaseIdx(phases);
-    const phaseLines = phases.map((p) => {
-      const bar = progressBarFilled(p.status === 'completed' ? 10 : 0);
-      const isCurrent = current !== null && p.id === current;
-      const suffix = isCurrent ? '   ← CURRENT' : '';
-      return `PHASE ${p.id} ${bar}  ${p.name}${suffix}`;
-    }).join('\n');
-    const beforeAgents = agents.slice(0, pmStart + autoPhaseMapOpen.length);
-    const afterAgents = agents.slice(pmEnd);
-    agents = beforeAgents + '\n```\n' + phaseLines + '\n```\n' + afterAgents;
-    writeFileSync(agentsPath, agents);
-    log('  ✓ AGENTS.md — phase map drafted');
-  }
-
-  // Generate AGENTS.md package map
-  const autoPkgMapOpen = '<!-- AUTO:package-map -->';
-  const autoPkgMapClose = '<!-- END AUTO:package-map -->';
-  const pkgStart = agents.indexOf(autoPkgMapOpen);
-  const pkgEnd = agents.indexOf(autoPkgMapClose, pkgStart);
-  if (pkgStart !== -1 && pkgEnd !== -1) {
-    const pkgLines = phases.filter((p) => p.packages.length > 0).flatMap((p) =>
-      p.packages.map((pkgName) => {
-        const pkgDir = join(ROOT, 'packages', pkgName);
-        let keyFiles = '';
-        if (existsSync(pkgDir)) {
-          const srcFiles = readdirSync(join(pkgDir, 'src')).filter((f) => f.endsWith('.ts'));
-          keyFiles = srcFiles.map((f) => `src/${f}`).join(', ');
-        }
-        return `| \`packages/${pkgName}/\` | ${p.name} | \`${keyFiles || 'N/A'}\` |`;
-      })
-    ).join('\n');
-    const beforePkgs = agents.slice(0, pkgStart + autoPkgMapOpen.length);
-    const afterPkgs = agents.slice(pkgEnd);
-    agents = beforePkgs + '\n| Package | Responsibility | Key files |\n|---------|---------------|-----------|\n' + pkgLines + '\n' + afterPkgs;
-    writeFileSync(agentsPath, agents);
-    log('  ✓ AGENTS.md — package map drafted');
-  }
+try {
+  execSync('node scripts/docs-sync.mjs', { cwd: ROOT, stdio: 'inherit' });
+} catch (e) {
+  warn(`docs-sync.mjs failed:\n${e.stdout || ''}\n${e.stderr || ''}`);
 }
 
 log('\n--- Test Counts ---');

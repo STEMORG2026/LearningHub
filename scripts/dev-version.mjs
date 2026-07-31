@@ -13,7 +13,7 @@ try {
   if (describe) {
     tag = describe;
     const count = execSync(
-      `git rev-list --count "${tag}..HEAD" 2>/dev/null || echo 0`,
+      `git rev-list --count --first-parent "${tag}..HEAD" 2>/dev/null || echo 0`,
       { encoding: 'utf8' },
     ).trim();
     commits = parseInt(count, 10) || 0;

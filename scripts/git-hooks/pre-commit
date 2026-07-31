@@ -1,0 +1,3 @@
+#!/bin/sh
+pnpm docs:sync
+git add -u
