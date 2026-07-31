@@ -68,8 +68,13 @@ v<latest-tag-version>-dev.<commits-since-tag>
 ```
 
 - `<latest-tag-version>`: most recent `v*` git tag (e.g., `v3.0.0`)
-- `<commits-since-tag>`: `git rev-list --count` from that tag to `HEAD`
+- `<commits-since-tag>`: `git rev-list --count --first-parent` from that tag to `HEAD`
 - If no tags exist: `v0.0.0-dev.0`
+
+> **Note:** the base version comes from git tags. The docs currently reference
+> `3.0.0`, but no `v3.0.0` tag has been created yet, so `pnpm dev-version` reports
+> `v0.0.0-dev.0`. Tags are created by `release:finalize` for versioned releases —
+> the tag and the documented version should be kept consistent.
 
 ### 3.2 JSON output
 
@@ -93,21 +98,32 @@ pnpm dev-version -- --json
 Development  ──→  pnpm changeset (track changes)
                       │
                       ▼
-                  pnpm release:prepare  ──→  Drafts docs, phase docs
+                  pnpm release:prepare  ──→  Drafts docs, phase docs, docs-sync
                       │
                 Human approval gate
                       │
+                  git add -A  ──→  establishes the validated baseline
+                      │
                       ▼
-                  pnpm release:validate  ──→  Governance, tests, .phase.json check
+                  pnpm release:validate  ──→  Governance, tests, .phase.json check, writes TOCTOU token
                       │
                       ▼
                   pnpm release:version  ──→  changeset version + root bump guard + sync docs + delete consumed changesets
                       │
                       ▼
-                  pnpm release:finalize  ──→  Commit, tag, push, stamp .phase.json dates
+                  pnpm release:finalize  ──→  Commit, tag, push, stamp .phase.json dates, docs-sync
 ```
 
-See `AGENTS.md` Release Workflow section for the detailed human-approval process.
+**Docs-only release:** when a phase is `completed` in `.phase.json` but there are
+**zero** Changesets, the pipeline skips the version bump and package tags, and
+commits the phase completion + documentation instead (`release:validate` /
+`release:version` run in `docs-only` mode).
+
+**Normal commits are not releases.** A commit runs `docs:sync` via the pre-commit
+hook but never bumps versions or creates tags.
+
+See `AGENTS.md` Release Workflow and `docs/HUMAN_INVOLVEMENT.md` for the detailed
+human-approval process.
 
 ---
 

@@ -31,11 +31,16 @@ cd stem-tuition
 # 2. Install all dependencies (for all packages)
 pnpm install
 
-# 3. Run the legacy development server
+# 3. Configure the tracked pre-commit hook (required — not automatic on clone)
+pnpm setup-hooks
+#   core.hooksPath = scripts/git-hooks
+#   Every commit now runs `pnpm docs:sync` and stages deterministic doc changes.
+
+# 4. Run the legacy development server
 python3 -m http.server 8085 --directory legacy/
 # Open http://localhost:8085
 
-# 4. Verify everything is working
+# 5. Verify everything is working
 pnpm verify-governance
 # Should print: ✅ All checks passed
 ```
@@ -72,11 +77,21 @@ STEM-TUITION/
 │   ├── DEBUGGING.md
 │   ├── ROADMAP.md
 │   ├── GLOSSARY.md
+│   ├── HUMAN_INVOLVEMENT.md        Human vs. automation contract
+│   ├── VERSIONING.md               Semver, dev-version, release workflow
 │   ├── component-registry/         Living map of code locations
 │   └── adr/                        Architecture Decision Records
 │
+├── scripts/                        Release pipeline + doc sync + hooks
+│   ├── docs-sync.mjs               Deterministic AUTO-section synchronizer
+│   ├── sync-versions.mjs           Syncs **Version:** headers in docs/
+│   ├── dev-version.mjs             vX.Y.Z-dev.N identifier
+│   ├── release-{prepare,validate,version,finalize}.mjs
+│   └── git-hooks/pre-commit        Tracked pre-commit hook
+│
 ├── pnpm-workspace.yaml
 ├── turbo.json
+├── .phase.json                     Canonical phase-state source
 ├── package.json
 └── tsconfig.json                   Shared TypeScript config
 ```
@@ -129,6 +144,10 @@ pnpm release:finalize  # mutation allowlist → finalize docs → commit → tag
 
 # ──── Documentation ────
 
+# Regenerate AUTO documentation sections + sync **Version:** headers
+# (runs automatically on every commit via the pre-commit hook)
+pnpm docs:sync
+
 # Check Component Registry is up to date
 pnpm lint:registry
 
@@ -175,6 +194,7 @@ git push -u origin feat/your-feature-name
 | Know what to work on next | `ROADMAP.md` |
 | Look up a technical term | `GLOSSARY.md` |
 | Find where code lives | `component-registry/` |
+| Know who decides vs. automation | `HUMAN_INVOLVEMENT.md` |
 | See release history | `CHANGELOG.md` |
 | Read development journey | `DEVLOG.md` |
 | Understand versioning | `VERSIONING.md` |

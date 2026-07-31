@@ -130,7 +130,16 @@ SESSION_SECRET=<generate-random-64-char-string>
 
 ---
 
-## CI/CD Pipeline (GitHub Actions)
+## CI/CD Pipeline (GitHub Actions) — PLANNED, NOT YET IMPLEMENTED
+
+> ⚠️ There is **no CI/CD in the repository yet** — no `.github/` directory exists.
+> Until this workflow is created, run the governance gate locally on every change:
+
+```bash
+pnpm verify-governance
+```
+
+The intended GitHub Actions deployment workflow (not yet committed):
 
 ```yaml
 name: Deploy
@@ -146,9 +155,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
       - run: pnpm install --frozen-lockfile
+      - run: pnpm setup-hooks
       - run: pnpm verify-governance
       - run: pnpm build
-      
+
       # Deploy to GitHub Pages
       - uses: peaceiris/actions-gh-pages@v3
         with:

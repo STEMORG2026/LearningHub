@@ -74,10 +74,20 @@ STEM-TUITION/
 │   ├── DEBUGGING.md                    ← troubleshooting guide
 │   ├── ROADMAP.md                      ← migration phases
 │   ├── GLOSSARY.md                     ← technical terms
+│   ├── HUMAN_INVOLVEMENT.md            ← human vs. automation contract
+│   ├── VERSIONING.md                   ← semver, dev-version, release workflow
 │   ├── component-registry/             ← living map of every component + file:line
 │   └── adr/                            ← Architecture Decision Records
 │
+├── scripts/                            ← release pipeline, doc sync, tracked hooks
+│   ├── docs-sync.mjs                   ← deterministic AUTO-section synchronizer
+│   ├── sync-versions.mjs               ← syncs **Version:** headers in docs/
+│   ├── dev-version.mjs                 ← vX.Y.Z-dev.N identifier
+│   ├── release-{prepare,validate,version,finalize}.mjs
+│   └── git-hooks/pre-commit            ← tracked pre-commit hook (core.hooksPath)
+│
 ├── .changeset/                         ← version bump automation
+├── .phase.json                         ← canonical phase-state source
 ├── pnpm-workspace.yaml
 ├── turbo.json
 ├── package.json
@@ -215,7 +225,7 @@ tracer   quiz-   audio-   analytics
 | **Testing** | Vitest (unit), Playwright (E2E), axe (a11y) | Fast, modern, comprehensive |
 | **Observability** | `@stem-tuition/tracer` | Built-in, no external service needed |
 | **Communication** | CustomEvent + BroadcastChannel | Native browser APIs, framework-agnostic |
-| **Versioning** | Changesets | Automated, standardized, integrated with CI/CD |
+| **Versioning** | Changesets + gated 4-stage release pipeline | Changesets record release intent; versions are applied only through `release:prepare → human approval → release:validate → release:version → release:finalize` (docs-only releases supported) |
 
 ---
 
@@ -244,7 +254,16 @@ This is used by:
 
 ## 8. Migration Progress Tracking
 
-The Strangler Fig migration progress is tracked in `docs/component-registry/TRACE.md`:
+**`.phase.json` is the canonical phase-state source.** The ROADMAP progress bar,
+per-phase statuses, and the `AGENTS.md` phase-map are `AUTO` regions regenerated
+from `.phase.json` by `scripts/docs-sync.mjs` (run automatically by the pre-commit
+hook and the release pipeline) — never hand-edit them.
+
+Phase completion is a human decision: set `status: "completed"` in `.phase.json`
+(leaving `completedVersion` / `completedDate` `null`); the release pipeline stamps
+the release fields.
+
+The extracted-code tracker lives in `docs/component-registry/TRACE.md`:
 
 ```
 PHASE 0: Foundation    ██████████ 100%
@@ -257,7 +276,7 @@ PHASE 6: Physics Core  ██████████ 100%
 PHASE 7+: Features     ░░░░░░░░░░ 0%
 ```
 
-Each phase is updated in real time as packages are extracted and legacy code is strangled.
+`TRACE.md` is currently **hand-maintained** (not covered by `docs-sync`).
 
 ---
 

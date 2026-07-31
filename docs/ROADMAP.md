@@ -269,8 +269,14 @@ Each feature gets:
 
 ## How to Update This Document
 
-After each phase:
-1. Change the phase status from 🔵 Not started to 🟢 Completed
-2. Update the progress bar at the top
-3. Update the current phase row
-4. Commit with message: `docs(roadmap): mark Phase N complete`
+The phase progress bar and per-phase status markers are **machine-owned** `AUTO`
+regions, regenerated from `.phase.json` by `pnpm docs:sync` — do not hand-edit them.
+
+To mark a phase complete:
+
+1. Edit `.phase.json` — set `"status": "completed"` and leave
+   `completedVersion` / `completedDate` as `null` (the release pipeline fills them).
+2. Run `pnpm docs:sync` (or commit — the pre-commit hook runs it automatically).
+3. The progress bar, phase status, `AGENTS.md` phase-map, and `← CURRENT` pointer
+   all update automatically.
+4. Commit with a message like `feat(phase-N): mark Phase N complete`.
