@@ -5,7 +5,7 @@ import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CHANGESET_DIR = join(ROOT, '.changeset');
 
 function log(msg) {
@@ -174,7 +174,7 @@ log('  ✓ docs/DEVLOG.md — new entry added');
 log('\n--- Phase Documentation ---');
 
 try {
-  execSync('node scripts/docs-sync.mjs', { cwd: ROOT, stdio: 'inherit' });
+  execSync('node scripts/generate/docs-sync.mjs', { cwd: ROOT, stdio: 'inherit' });
 } catch (e) {
   warn(`docs-sync.mjs failed:\n${e.stdout || ''}\n${e.stderr || ''}`);
 }

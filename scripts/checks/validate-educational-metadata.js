@@ -13,7 +13,7 @@
 const { readFileSync, existsSync } = require('fs');
 const { join } = require('path');
 
-const root = join(__dirname, '..');
+const root = join(__dirname, '..', '..');
 const quizDataPath = join(root, 'packages/quiz-engine/src/data.ts');
 const eduRegistryPath = join(root, 'docs/component-registry/EDUCATIONAL.md');
 const SUBJECTS = ['physics', 'chemistry', 'math', 'computing', 'pioneers'];

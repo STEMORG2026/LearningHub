@@ -10,7 +10,7 @@
  * Output is deterministic: header uses the git short SHA (no timestamp), so
  * running twice against the same tree produces zero diff.
  *
- * Usage: pnpm docs:sync  (or: node scripts/generate-tree.mjs)
+ * Usage: pnpm docs:sync  (or: node scripts/generate/generate-tree.mjs)
  */
 
 import { readdirSync, writeFileSync, existsSync } from 'node:fs';

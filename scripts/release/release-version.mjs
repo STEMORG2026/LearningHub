@@ -12,7 +12,7 @@ import { execSync } from 'child_process';
 // errors not present when release:validate ran. This is NOT a replacement
 // for release:validate; it is post-mutation insurance.
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const TOKEN_PATH = join(ROOT, '.release-token.json');
 
 function log(msg) {
@@ -112,7 +112,7 @@ if (postBumpRoot !== preBumpRoot) {
   if (newlyCompleted.length === 0) {
     fail(
       `Root version bumped from ${preBumpRoot} to ${postBumpRoot} but no newlyCompleted phase exists.\n` +
-      '  Root bumps require a completed phase per docs/VERSIONING.md §2.2.\n' +
+      '  Root bumps require a completed phase per docs/policies/VERSIONING.md §2.2.\n' +
       '  To fix: add a changeset that only targets individual packages, or\n' +
       '  create a changeset targeting the root with `"stem-tuition": "major|minor|patch"`.'
     );
@@ -125,7 +125,7 @@ if (postBumpRoot !== preBumpRoot) {
 log('\n=== Stage 8: Sync version strings ===');
 
 try {
-  execSync('node scripts/sync-versions.mjs', { cwd: ROOT, stdio: 'inherit' });
+  execSync('node scripts/generate/sync-versions.mjs', { cwd: ROOT, stdio: 'inherit' });
 } catch (e) {
   fail(`sync-versions.mjs failed.\n${e.stdout || ''}\n${e.stderr || ''}`);
 }

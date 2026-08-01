@@ -5,7 +5,7 @@ import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const TOKEN_PATH = join(ROOT, '.release-token.json');
 const PHASE_PATH = join(ROOT, '.phase.json');
 
@@ -107,7 +107,7 @@ if (token.releaseMode === 'versioned') {
 log('\n=== Stage 4: Phase documentation update ===');
 
 try {
-  execSync('node scripts/docs-sync.mjs', { cwd: ROOT, stdio: 'inherit' });
+  execSync('node scripts/generate/docs-sync.mjs', { cwd: ROOT, stdio: 'inherit' });
 } catch (e) {
   fail(`docs-sync.mjs failed.\n${e.stdout || ''}\n${e.stderr || ''}`);
 }

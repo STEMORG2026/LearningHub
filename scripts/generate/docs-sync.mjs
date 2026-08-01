@@ -25,7 +25,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 
-const ROOT = resolve(import.meta.dirname, '..');
+const ROOT = resolve(import.meta.dirname, '..', '..');
 const PHASE_PATH = join(ROOT, '.phase.json');
 const PACKAGES_DIR = join(ROOT, 'packages');
 

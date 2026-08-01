@@ -3,7 +3,7 @@ const { readFileSync, statSync, readdirSync, existsSync } = require('fs');
 const { gzipSync } = require('zlib');
 const { join, relative } = require('path');
 
-const root = join(__dirname, '..');
+const root = join(__dirname, '..', '..');
 const configPath = join(root, 'bundlesize.config.json');
 const config = JSON.parse(readFileSync(configPath, 'utf8'));
 

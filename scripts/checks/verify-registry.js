@@ -17,7 +17,7 @@
 const { readFileSync, existsSync, readdirSync, statSync } = require('fs');
 const { join } = require('path');
 
-const root = join(__dirname, '..');
+const root = join(__dirname, '..', '..');
 const registryDir = join(root, 'docs/component-registry');
 const packagesDir = join(root, 'packages');
 const SOURCE_EXT = /\.(ts|js|cjs|mjs|css|html)$/;

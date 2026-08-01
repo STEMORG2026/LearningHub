@@ -4,14 +4,14 @@
  * Syncs document versions with project version.
  * Reads root package.json version, stamps it into all **Version:** headers in docs/*.md
  * 
- * Usage: node scripts/sync-versions.js
+ * Usage: node scripts/generate/sync-versions.mjs
  * Hook: runs automatically as part of `pnpm changeset version`
  */
 
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 
-const ROOT = resolve(import.meta.dirname, '..');
+const ROOT = resolve(import.meta.dirname, '..', '..');
 const DOCS_DIR = join(ROOT, 'docs');
 
 // Read project version
