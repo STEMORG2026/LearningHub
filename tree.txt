@@ -1,0 +1,212 @@
+STEM-TUITION/  3bb1b0b
+├── .changeset/
+│   ├── calm-docs-governance.md
+│   ├── config.json
+│   └── README.md
+├── apps/
+│   └── shell/
+│       ├── public/
+│       ├── src/
+│       │   └── index.ts  [entry]
+│       ├── ARCHITECTURE.toml
+│       ├── CHANGELOG.md
+│       ├── index.html
+│       ├── package.json
+│       ├── README.md
+│       ├── tsconfig.json
+│       └── vite.config.ts
+├── docs/
+│   ├── adr/
+│   │   ├── 001-strangler-fig-migration.md
+│   │   ├── 002-web-components-as-default.md
+│   │   ├── 003-event-bus-communication.md
+│   │   ├── 004-legacy-frozen-zone.md
+│   │   ├── 005-pnpm-monorepo-turborepo.md
+│   │   ├── 006-typescript-strict-mode.md
+│   │   ├── 007-educational-fitness-functions.md
+│   │   ├── 008-built-in-observability-tracer.md
+│   │   ├── 009-component-registry-enforcement.md
+│   │   ├── 010-release-doc-governance.md
+│   │   └── README.md
+│   ├── ARCHITECTURE/
+│   │   ├── components.md
+│   │   ├── containers.md
+│   │   ├── context.md
+│   │   ├── dependencies.md
+│   │   ├── migration.md
+│   │   ├── overview.md
+│   │   └── README.md
+│   ├── component-registry/
+│   │   ├── EDUCATIONAL.md
+│   │   ├── index.md
+│   │   ├── NETWORKING.md
+│   │   ├── RENDERING.md
+│   │   ├── STATE.md
+│   │   ├── TESTING.md
+│   │   └── TRACE.md
+│   ├── ACCESSIBILITY.md
+│   ├── API_CONTRACT.md
+│   ├── CHANGELOG.md
+│   ├── COMPONENT_STANDARDS.md
+│   ├── DEBUGGING.md
+│   ├── DEPENDENCY_POLICY.md
+│   ├── DEPLOYMENT.md
+│   ├── DEVLOG.md
+│   ├── DOCS.md
+│   ├── EVENT_BUS_CONTRACT.md
+│   ├── FLOWCHARTS.md
+│   ├── GLOSSARY.md
+│   ├── HUMAN_INVOLVEMENT.md
+│   ├── OBSERVABILITY.md
+│   ├── PACKAGE_LIFECYCLE.md
+│   ├── PACKAGE_METADATA.md
+│   ├── PERFORMANCE.md
+│   ├── QUICKSTART.md
+│   ├── RELIABILITY.md
+│   ├── REPOSITORY_HEALTH.md
+│   ├── ROADMAP.md
+│   ├── RULES.md
+│   ├── SECURITY.md
+│   └── VERSIONING.md
+├── e2e/
+│   └── legacy-loads.spec.ts  [test]
+├── legacy/  [frozen] read-only, never edit
+├── packages/
+│   ├── acl/
+│   │   ├── src/
+│   │   │   ├── audio-adapter.ts
+│   │   │   ├── canvas-adapter.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── quiz-adapter.ts
+│   │   ├── tests/
+│   │   │   └── acl.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── audio-synth/
+│   │   ├── src/
+│   │   │   ├── engine.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── synth.ts
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── synth.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── core/
+│   │   ├── src/
+│   │   │   ├── event-bus.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   ├── event-bus.test.ts  [test]
+│   │   │   └── foundation.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── hover-engine/
+│   │   ├── src/
+│   │   │   ├── hover-state.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── styles.css
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── hover-state.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── quiz-engine/
+│   │   ├── src/
+│   │   │   ├── internal/
+│   │   │   │   ├── quiz-engine.ts
+│   │   │   │   ├── styles.css
+│   │   │   │   ├── template.ts
+│   │   │   │   └── web-component.ts
+│   │   │   ├── data.ts  [schema]
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   ├── quiz-engine.test.ts  [test]
+│   │   │   └── web-component.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── simulation-core/
+│   │   ├── src/
+│   │   │   ├── config.ts
+│   │   │   ├── create-body.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── physics.ts
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── physics.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   └── tracer/
+│       ├── src/
+│       │   ├── dashboard.ts
+│       │   ├── decorator.ts
+│       │   ├── index.ts  [entry]
+│       │   ├── tracer.ts
+│       │   └── types.ts  [schema]
+│       ├── tests/
+│       │   └── tracer.test.ts  [test]
+│       ├── ARCHITECTURE.toml
+│       ├── CHANGELOG.md
+│       ├── package.json
+│       ├── README.md
+│       ├── tsconfig.json
+│       └── vitest.config.ts
+├── scripts/
+│   ├── git-hooks/
+│   │   └── pre-commit
+│   ├── dev-version.mjs
+│   ├── docs-sync.mjs
+│   ├── eslint-config.mjs
+│   ├── generate-health.mjs
+│   ├── generate-tree.mjs
+│   ├── release-finalize.mjs
+│   ├── release-prepare.mjs
+│   ├── release-validate.mjs
+│   ├── release-version.mjs
+│   ├── size-check.cjs
+│   ├── sync-versions.mjs
+│   ├── validate-educational-metadata.js
+│   └── verify-registry.js
+├── .dependency-cruiser.js
+├── .gitignore
+├── .phase.json
+├── AGENTS.md
+├── bundlesize.config.json
+├── eslint.config.dom.mjs
+├── eslint.config.mjs
+├── eslint.config.state.mjs
+├── index.html  [entry]
+├── package.json
+├── playwright.config.ts
+├── pnpm-workspace.yaml
+├── README.md
+├── tsconfig.json
+└── turbo.json
+
+generated by pnpm docs:sync
