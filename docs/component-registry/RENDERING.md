@@ -20,7 +20,7 @@
 |-----------|---------|-----------|----------|--------|--------|
 | Synth functions | `packages/audio-synth/` | `src/synth.ts` | — | — | Extracted (Phase 2) |
 | AudioEngine | `packages/audio-synth/` | `src/engine.ts` | — | — | Extracted (Phase 2) |
-| Legacy audio | `legacy/` | `js/stem-effects.js:28` | — | — | Active (frozen) |
+| Audio adapter | `packages/acl/` | `src/audio-adapter.ts` | — | — | Extracted (Phase 3) |
 <!-- END AUTO:rendering-phase-2 -->
 
 ## Phase 4: Quiz Engine (EXTRACTED)
@@ -29,7 +29,6 @@
 | Component | Package | Definition | Template | Styles | Status |
 |-----------|---------|-----------|----------|--------|--------|
 | `<stem-quiz>` | `packages/quiz-engine/` | `src/internal/web-component.ts` | `src/internal/template.ts` | `src/internal/styles.css` | Extracted (Phase 4) |
-| Legacy quiz | `legacy/` | `js/stem-quiz.js:1` | — | — | Active (frozen) |
 <!-- END AUTO:rendering-phase-4 -->
 
 ## Phase 5: Hover Engine (EXTRACTED)
@@ -49,21 +48,18 @@
 | Config | `packages/simulation-core/` | `src/config.ts` | — | — | Extracted (Phase 6) |
 | Factory functions | `packages/simulation-core/` | `src/create-body.ts` | — | — | Extracted (Phase 6) |
 | Physics engine | `packages/simulation-core/` | `src/physics.ts` | — | — | Extracted (Phase 6) |
-| Canvas renderer | `legacy/` | `js/stem-effects.js:200` | — | `css/main.css:150` | Active (frozen) |
+| Cosmic background renderer | `apps/shell/` | `src/lib/cosmic-background.ts` | — | `src/styles/base.css` | App shell (Phase 7) |
+| Canvas contract | `packages/acl/` | `src/canvas-adapter.ts` | — | — | Extracted (Phase 3) |
+| `<did-you-know>` widget | `apps/shell/` | `src/components/did-you-know.ts` | — | `src/styles/widgets.css` | App shell (Phase 7) |
 <!-- END AUTO:rendering-phase-6 -->
 
-## Legacy (Frozen — Full List)
+## App Shell (Phase 7)
 
-| File | Type | Lines | Purpose |
-|------|------|-------|---------|
-| `legacy/index.html` | HTML | 634 | Main landing page |
-| `legacy/classes.html` | HTML | ~400 | Course catalog |
-| `legacy/videos.html` | HTML | ~400 | Video lessons |
-| `legacy/contact.html` | HTML | ~350 | Contact form |
-| `legacy/stem-tuition.html` | HTML | ~250 | About page |
-| `legacy/css/main.css` | CSS | 816 | Design system |
-| `legacy/css/stem-theme.css` | CSS | 664 | Card/hover/quiz styles |
-| `legacy/js/main.js` | JS | 92 | DOM utilities |
-| `legacy/js/stem-effects.js` | JS | 1311 | Audio + hover + canvas + controls |
-| `legacy/js/stem-quiz.js` | JS | 312 | Quiz data + renderer |
-| `legacy/js/stem-pioneers.js` | JS | 328 | Pioneers data + wall |
+| Component | Package | Definition | Template | Styles | Notes |
+|-----------|---------|-----------|----------|--------|-------|
+| Icons | `apps/shell/` | `src/components/icons.ts` | — | `src/styles/base.css` | Inline SVG custom elements |
+| Site header | `apps/shell/` | `src/components/site-header.ts` | — | `src/styles/layout.css` | Multi-page nav |
+| Site footer | `apps/shell/` | `src/components/site-footer.ts` | — | `src/styles/layout.css` | Contact links |
+| Enroll modal | `apps/shell/` | `src/components/enroll-modal.ts` | — | `src/styles/widgets.css` | Form modal |
+| FAQ list | `apps/shell/` | `src/components/faq-list.ts` | — | `src/styles/widgets.css` | Accordion |
+| Home page | `apps/shell/` | `index.html` | `src/index.ts` | `src/styles/main.css` | Hero + sections |

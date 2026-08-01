@@ -9,7 +9,7 @@
   width: 380px;
   max-width: calc(100vw - 48px);
   border-radius: 20px;
-  padding: 1.25rem 1.4rem;
+  padding: 0.9rem 1rem;
   background: linear-gradient(135deg, rgba(14, 25, 58, 0.95), rgba(8, 14, 38, 0.98));
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -17,50 +17,88 @@
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), var(--stem-glow);
   overflow: visible;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .dyk-widget.minimized {
   width: auto;
-  padding: 0.6rem 1.2rem;
-  cursor: pointer;
+  padding: 0.7rem 0.9rem;
+  border-radius: 50px;
 }
 
-.dyk-header {
+.dyk-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  gap: 0.75rem;
 }
 
-.dyk-widget.minimized .dyk-header {
-  margin-bottom: 0;
-}
-
-.dyk-tag {
-  display: inline-flex;
+.dyk-avatar {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+  display: flex;
   align-items: center;
-  gap: 0.45rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--cyan);
-  text-transform: uppercase;
+  justify-content: center;
+  position: relative;
+}
+
+.dyk-monogram {
+  font-weight: 800;
+  font-size: 1.05rem;
   letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.dyk-avatar-icon {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(10, 15, 46, 0.95);
+  border: 1px solid var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  color: var(--cyan);
+}
+
+.dyk-bar-name {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: #ffffff;
+  line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+}
+
+.dyk-bar-era {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-weight: 400;
 }
 
 .dyk-toggle {
+  margin-left: auto;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--muted);
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
   flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
 .dyk-toggle:hover {
@@ -73,46 +111,35 @@
   transition: transform 0.25s ease;
 }
 
+/* chevronDown rotated 180deg becomes the "up" (maximize) arrow */
 .dyk-widget.minimized .dyk-toggle .chev {
   transform: rotate(180deg);
 }
 
-.dyk-pioneer {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  margin-bottom: 0.85rem;
+.dyk-body {
+  padding-top: 0.8rem;
+  margin-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: default;
 }
 
-.dyk-avatar {
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-  border-radius: 14px;
-  background: rgba(0, 212, 255, 0.12);
-  display: flex;
+.dyk-widget.minimized .dyk-body {
+  display: none;
+}
+
+.dyk-header {
+  margin-bottom: 0.5rem;
+}
+
+.dyk-tag {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: var(--cyan);
-}
-
-.dyk-name {
-  font-weight: 700;
-  font-size: 1rem;
-  color: #ffffff;
-  margin-bottom: 0.15rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.dyk-era {
+  gap: 0.45rem;
   font-size: 0.72rem;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-weight: 400;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .dyk-field {

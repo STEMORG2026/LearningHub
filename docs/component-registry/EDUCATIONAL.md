@@ -40,10 +40,9 @@
 | Elastic Collision | `elastic-collision` | 9-12 | `momentum, energy` | — | `packages/simulation-core/src/physics.ts:91` |
 | Coulomb Force | `coulomb-force` | 11-12 | `charge, distance` | — | `packages/simulation-core/src/physics.ts:70` |
 
-## Legacy (Frozen — reference only)
+## App Shell (Phase 7 — Active)
 
 | Concept | Location | Notes |
 |---------|----------|-------|
-| All physics quiz | `legacy/js/stem-quiz.js:6` | Contains physics, chemistry, math, computing, pioneers |
-| All pioneers | `legacy/js/stem-pioneers.js:6` | 11 STEM pioneers with biographies |
-| Physics simulation | `legacy/js/stem-effects.js:200` | Canvas-based solar system |
+| STEM pioneers wall | `apps/shell/src/data/pioneers.ts` | 20 STEM pioneers with biographies |
+| Cosmic background simulation | `apps/shell/src/lib/cosmic-background.ts` | Canvas-based solar system renderer |

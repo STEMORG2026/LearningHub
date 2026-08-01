@@ -62,6 +62,9 @@ importers:
       '@stem-tuition/quiz-engine':
         specifier: workspace:*
         version: link:../../packages/quiz-engine
+      '@stem-tuition/simulation-core':
+        specifier: workspace:*
+        version: link:../../packages/simulation-core
       '@stem-tuition/tracer':
         specifier: workspace:*
         version: link:../../packages/tracer

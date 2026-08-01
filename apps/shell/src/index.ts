@@ -6,6 +6,7 @@ import { initClassCarousel, initLearningModes, initPioneerWall } from '../src/li
 import { initEstimator, initToolsWidget } from '../src/lib/interactive';
 import { initEnrollTriggers } from '../src/lib/enroll';
 import { initHoverEffects } from '../src/lib/hover-effects';
+import { initCosmicBackground } from '../src/lib/cosmic-background';
 
 initEngines('home');
 initEnrollTriggers();
@@ -18,3 +19,4 @@ initPioneerWall();
 initEstimator();
 initToolsWidget();
 initHoverEffects();
+initCosmicBackground();

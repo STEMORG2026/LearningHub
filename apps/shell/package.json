@@ -16,6 +16,7 @@
     "@stem-tuition/core": "workspace:*",
     "@stem-tuition/hover-engine": "workspace:*",
     "@stem-tuition/quiz-engine": "workspace:*",
+    "@stem-tuition/simulation-core": "workspace:*",
     "@stem-tuition/tracer": "workspace:*"
   },
   "devDependencies": {

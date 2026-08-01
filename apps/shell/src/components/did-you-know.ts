@@ -3,55 +3,64 @@ import { STEM_PIONEERS } from '../data/pioneers';
 const STORAGE_KEY = 'stem_dyk_minimized';
 const ROTATE_MS = 28000;
 
+function initialsOf(name: string): string {
+  const words = name.split(/\s+/).filter(Boolean);
+  const first = words[0]?.[0] ?? '';
+  const last = words.length > 1 ? words[words.length - 1]![0] ?? '' : '';
+  return `${first}${last}`.toUpperCase();
+}
+
 export class DidYouKnowWidget extends HTMLElement {
   #index = Math.floor(Math.random() * STEM_PIONEERS.length);
-  #minimized = false;
+  #minimized = true;
   #root: HTMLElement | null = null;
+  #avatar: HTMLElement | null = null;
   #name: HTMLElement | null = null;
+  #era: HTMLElement | null = null;
   #field: HTMLElement | null = null;
   #fact: HTMLElement | null = null;
-  #avatar: HTMLElement | null = null;
   #toggle: HTMLButtonElement | null = null;
   #interval: ReturnType<typeof setInterval> | null = null;
 
   connectedCallback(): void {
     try {
-      this.#minimized = localStorage.getItem(STORAGE_KEY) === 'true';
+      this.#minimized = localStorage.getItem(STORAGE_KEY) !== 'false';
     } catch {
-      this.#minimized = false;
+      this.#minimized = true;
     }
 
     this.innerHTML = `
       <div class="dyk-widget${this.#minimized ? ' minimized' : ''}">
-        <div class="dyk-header" data-header>
-          <span class="dyk-tag"><icon-lightbulb name="lightbulb"></icon-lightbulb> STEM Did You Know?</span>
-          <button type="button" class="dyk-toggle" data-toggle aria-expanded="${!this.#minimized}" aria-label="${this.#minimized ? 'Expand panel' : 'Collapse panel'}">
+        <div class="dyk-bar" data-toggle role="button" tabindex="0" aria-label="Toggle STEM Did You Know panel">
+          <div class="dyk-avatar" data-avatar></div>
+          <div class="dyk-bar-name"><span data-name></span><span class="dyk-bar-era" data-era></span></div>
+          <button type="button" class="dyk-toggle" data-toggle aria-expanded="${!this.#minimized}" aria-label="${this.#minimized ? 'Maximize panel' : 'Minimize panel'}">
             <icon-chevronDown name="chevronDown" class="chev"></icon-chevronDown>
           </button>
         </div>
-        <div class="dyk-pioneer" data-pioneer>
-          <div class="dyk-avatar" data-avatar></div>
-            <div class="dyk-info">
-              <div class="dyk-name"><span data-name></span> <span class="dyk-era"></span></div>
-              <div class="dyk-field" data-field></div>
-              <div class="dyk-fact" data-fact></div>
-            </div>
-        </div>
-        <div class="dyk-footer" data-footer>
-          <button type="button" class="dyk-next-btn" data-next>
-            <icon-dice name="dice"></icon-dice> Next Pioneer Fact
-          </button>
-          <span class="dyk-footnote">STEM Pioneer Spotlight</span>
+        <div class="dyk-body">
+          <div class="dyk-header">
+            <span class="dyk-tag"><icon-lightbulb name="lightbulb"></icon-lightbulb> STEM Did You Know?</span>
+          </div>
+          <div class="dyk-field" data-field></div>
+          <div class="dyk-fact" data-fact></div>
+          <div class="dyk-footer">
+            <button type="button" class="dyk-next-btn" data-next>
+              <icon-dice name="dice"></icon-dice> Next Pioneer Fact
+            </button>
+            <span class="dyk-footnote">STEM Pioneer Spotlight</span>
+          </div>
         </div>
       </div>
     `;
 
     this.#root = this.querySelector('.dyk-widget');
+    this.#avatar = this.querySelector('[data-avatar]');
     this.#name = this.querySelector('[data-name]');
+    this.#era = this.querySelector('[data-era]');
     this.#field = this.querySelector('[data-field]');
     this.#fact = this.querySelector('[data-fact]');
-    this.#avatar = this.querySelector('[data-avatar]');
-    this.#toggle = this.querySelector('[data-toggle]');
+    this.#toggle = this.querySelector('[data-toggle]') as HTMLButtonElement | null;
     const next = this.querySelector('[data-next]') as HTMLButtonElement | null;
 
     this.#renderPioneer();
@@ -68,8 +77,8 @@ export class DidYouKnowWidget extends HTMLElement {
   }
 
   #handleClick = (e: Event): void => {
-    const toggle = (e.target as HTMLElement).closest('[data-toggle]');
-    if (toggle) {
+    const bar = (e.target as HTMLElement).closest('[data-toggle]');
+    if (bar) {
       this.#toggleMinimized();
     }
   };
@@ -93,20 +102,24 @@ export class DidYouKnowWidget extends HTMLElement {
     }
     this.#root?.classList.toggle('minimized', this.#minimized);
     this.#toggle?.setAttribute('aria-expanded', String(!this.#minimized));
-    this.#toggle?.setAttribute('aria-label', this.#minimized ? 'Expand panel' : 'Collapse panel');
+    this.#toggle?.setAttribute('aria-label', this.#minimized ? 'Maximize panel' : 'Minimize panel');
   }
 
   #renderPioneer(): void {
     const pioneer = STEM_PIONEERS[this.#index];
     if (!pioneer) return;
     if (this.#avatar) {
-      this.#avatar.innerHTML = `<icon-${pioneer.icon} name="${pioneer.icon}"></icon-${pioneer.icon}>`;
+      this.#avatar.innerHTML = `
+        <span class="dyk-monogram">${initialsOf(pioneer.name)}</span>
+        <span class="dyk-avatar-icon"><icon-${pioneer.icon} name="${pioneer.icon}"></icon-${pioneer.icon}></span>
+      `;
     }
     if (this.#name) {
       this.#name.textContent = pioneer.name;
     }
-    const eraEl = this.#root?.querySelector('.dyk-era');
-    if (eraEl) eraEl.textContent = `(${pioneer.era})`;
+    if (this.#era) {
+      this.#era.textContent = pioneer.era;
+    }
     if (this.#field) {
       this.#field.innerHTML = `<icon-book name="book"></icon-book> ${pioneer.field}`;
     }

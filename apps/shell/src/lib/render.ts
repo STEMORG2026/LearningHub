@@ -74,20 +74,29 @@ export function initPioneerWall(): void {
     const list = filter === 'all' ? STEM_PIONEERS : STEM_PIONEERS.filter((p) => p.fieldKey === (filter as PioneerFilterKey));
     container.innerHTML = list
       .map(
-        (p) => `
-        <div class="h-scroll-item soft-card pioneer-card">
-          <div class="pioneer-header">
-            <div class="pioneer-icon"><icon-${p.icon} name="${p.icon}"></icon-${p.icon}></div>
-            <div>
-              <div class="pioneer-title">${p.name}</div>
-              <div class="pioneer-era">${p.era}</div>
+        (p) => {
+          const initials = p.name
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((w) => w[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase();
+          return `
+          <div class="h-scroll-item soft-card pioneer-card">
+            <div class="pioneer-header">
+              <div class="pioneer-portrait"><span class="pioneer-monogram">${initials}</span><span class="pioneer-portrait-icon"><icon-${p.icon} name="${p.icon}"></icon-${p.icon}></span></div>
+              <div>
+                <div class="pioneer-title">${p.name}</div>
+                <div class="pioneer-era">${p.era}</div>
+              </div>
             </div>
+            <span class="pioneer-field-badge"><icon-book name="book"></icon-book> ${p.field}</span>
+            <div class="pioneer-famous-for"><strong>Famous for:</strong> ${p.famousFor}</div>
+            <div class="pioneer-quote">&ldquo;${p.quote}&rdquo;</div>
           </div>
-          <span class="pioneer-field-badge"><icon-book name="book"></icon-book> ${p.field}</span>
-          <div class="pioneer-famous-for"><strong>Famous for:</strong> ${p.famousFor}</div>
-          <div class="pioneer-quote">&ldquo;${p.quote}&rdquo;</div>
-        </div>
-      `,
+        `;
+        },
       )
       .join('');
   };

@@ -6,18 +6,18 @@
 
 ---
 
-## Global State (Legacy — Frozen)
+## Global State (Removed — legacy deleted)
 
 | State | Type | Location | Notes |
 |-------|------|----------|-------|
-| `stemTimeScale` | number | `legacy/js/stem-effects.js:14` | Physics speed multiplier |
-| `audioCtx` | AudioContext\|null | `legacy/js/stem-effects.js:15` | Web Audio context |
-| `isAudioMuted` | boolean | `legacy/js/stem-effects.js:17` | Sound toggle (default: true) |
-| `isBlackholeDisabled` | boolean | `legacy/js/stem-effects.js:18` | Blackhole toggle (default: true) |
-| `isBackgroundDisabled` | boolean | `legacy/js/stem-effects.js:19` | Background animation toggle (default: true) |
-| `isHalfIntensity` | boolean | `legacy/js/stem-effects.js:20` | Intensity toggle (default: true) |
-| `STEM_QUIZ_DATA` | object | `legacy/js/stem-quiz.js:6` | Quiz question database |
-| `STEM_PIONEERS` | object[] | `legacy/js/stem-pioneers.js:6` | Pioneers database |
+| `stemTimeScale` | number | removed | Physics speed multiplier |
+| `audioCtx` | AudioContext\|null | removed | Web Audio context |
+| `isAudioMuted` | boolean | removed | Sound toggle |
+| `isBlackholeDisabled` | boolean | removed | Blackhole toggle |
+| `isBackgroundDisabled` | boolean | removed | Background animation toggle |
+| `isHalfIntensity` | boolean | removed | Intensity toggle |
+| `STEM_QUIZ_DATA` | object | removed | Quiz question database |
+| `STEM_PIONEERS` | object[] | removed | Pioneers database |
 
 ## Phase 2: Audio Synth (Extracted)
 

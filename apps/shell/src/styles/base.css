@@ -70,6 +70,23 @@ body::before {
   transition: width 0.1s linear;
 }
 
+#stemBackgroundCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #stemBackgroundCanvas {
+    display: none;
+  }
+}
+
 button {
   font-family: inherit;
 }
@@ -82,6 +99,90 @@ textarea:focus-visible,
 summary:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
+}
+
+/* Inline SVG icon custom elements — size to the surrounding text. */
+[class^='icon-'],
+icon-bolt,
+icon-book,
+icon-flask,
+icon-atom,
+icon-calc,
+icon-graduation,
+icon-phone,
+icon-mail,
+icon-chat,
+icon-pin,
+icon-play,
+icon-download,
+icon-users,
+icon-home,
+icon-laptop,
+icon-file,
+icon-star,
+icon-target,
+icon-rocket,
+icon-arrowRight,
+icon-chevronDown,
+icon-chevronUp,
+icon-lightbulb,
+icon-dice,
+icon-monitor,
+icon-binary,
+icon-globe,
+icon-dna,
+icon-magnet,
+icon-telescope,
+icon-waves,
+icon-plug,
+icon-clock {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
+
+[class^='icon-'] svg,
+icon-bolt svg,
+icon-book svg,
+icon-flask svg,
+icon-atom svg,
+icon-calc svg,
+icon-graduation svg,
+icon-phone svg,
+icon-mail svg,
+icon-chat svg,
+icon-pin svg,
+icon-play svg,
+icon-download svg,
+icon-users svg,
+icon-home svg,
+icon-laptop svg,
+icon-file svg,
+icon-star svg,
+icon-target svg,
+icon-rocket svg,
+icon-arrowRight svg,
+icon-chevronDown svg,
+icon-chevronUp svg,
+icon-lightbulb svg,
+icon-dice svg,
+icon-monitor svg,
+icon-binary svg,
+icon-globe svg,
+icon-dna svg,
+icon-magnet svg,
+icon-telescope svg,
+icon-waves svg,
+icon-plug svg,
+icon-clock svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 @media (prefers-reduced-motion: reduce) {

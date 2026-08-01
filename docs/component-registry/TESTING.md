@@ -6,14 +6,6 @@
 
 ---
 
-## Legacy Tests (Frozen)
-
-| Test file | Type | Coverage | Status |
-|-----------|------|----------|--------|
-| `legacy/tests/verify-stem-platform.js` | Static analysis | File existence, casing, string matching | Frozen |
-| `legacy/tests/verify-canvas-bodies-and-controls.js` | Static analysis | Canvas body declarations, control IDs | Frozen |
-| `legacy/tests/verify-background_animation.js` | Static analysis | Animation engine compliance | Frozen |
-
 ## New Module Tests
 
 <!-- AUTO:testing-table -->

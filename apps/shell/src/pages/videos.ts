@@ -5,6 +5,7 @@ import { initScrollReveal, initMouseWheelScroll, initScrollProgress } from '../l
 import { initVideoLessons, initNoteResources } from '../lib/render';
 import { initEnrollTriggers } from '../lib/enroll';
 import { initHoverEffects } from '../lib/hover-effects';
+import { initCosmicBackground } from '../lib/cosmic-background';
 
 initEngines('videos');
 initEnrollTriggers();
@@ -14,3 +15,4 @@ initScrollProgress();
 initVideoLessons();
 initNoteResources();
 initHoverEffects();
+initCosmicBackground();
