@@ -4,7 +4,7 @@
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** Root workspace and all packages
-**Related:** `RULES.md`, `API_CONTRACT.md`, `SECURITY.md`, `docs/PERFORMANCE.md`, `docs/adr/005-pnpm-monorepo-turborepo.md`
+**Related:** `RULES.md`, `API_CONTRACT.md`, `SECURITY.md`, `docs/policies/PERFORMANCE.md`, `docs/adr/005-pnpm-monorepo-turborepo.md`
 
 ---
 

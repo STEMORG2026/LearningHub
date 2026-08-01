@@ -256,17 +256,25 @@ describe('Documentation completeness', () => {
   const requiredDocs = [
     'ARCHITECTURE/README.md',
     'RULES.md',
-    'COMPONENT_STANDARDS.md',
-    'EVENT_BUS_CONTRACT.md',
-    'FLOWCHARTS.md',
-    'QUICKSTART.md',
-    'DEBUGGING.md',
+    'policies/API_CONTRACT.md',
+    'policies/EVENT_BUS_CONTRACT.md',
+    'policies/VERSIONING.md',
+    'policies/DEPENDENCY_POLICY.md',
+    'policies/RELIABILITY.md',
+    'policies/OBSERVABILITY.md',
+    'policies/PACKAGE_LIFECYCLE.md',
+    'policies/PACKAGE_METADATA.md',
+    'policies/SECURITY.md',
+    'policies/ACCESSIBILITY.md',
+    'policies/PERFORMANCE.md',
+    'policies/HUMAN_INVOLVEMENT.md',
+    'guides/QUICKSTART.md',
+    'guides/DEBUGGING.md',
+    'guides/COMPONENT_STANDARDS.md',
+    'guides/FLOWCHARTS.md',
+    'guides/GLOSSARY.md',
+    'guides/DEPLOYMENT.md',
     'ROADMAP.md',
-    'GLOSSARY.md',
-    'SECURITY.md',
-    'PERFORMANCE.md',
-    'DEPLOYMENT.md',
-    'ACCESSIBILITY.md',
     'CHANGELOG.md',
     'DEVLOG.md',
   ];
@@ -278,10 +286,16 @@ describe('Documentation completeness', () => {
   });
 
   it('all docs have Version header', () => {
-    const files = readdirSync(DOCS_DIR).filter((f) => f.endsWith('.md'));
-    files.forEach((f) => {
-      const content = read(join(DOCS_DIR, f));
-      expect(content).toMatch(/\*\*Version:\*\*/);
+    const walk = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+        e.isDirectory()
+          ? walk(join(dir, e.name))
+          : e.name.endsWith('.md')
+            ? [join(dir, e.name)]
+            : [],
+      );
+    walk(DOCS_DIR).forEach((f) => {
+      expect(read(f)).toMatch(/\*\*Version:\*\*/);
     });
   });
 
@@ -301,7 +315,7 @@ describe('Documentation completeness', () => {
   });
 
   it('FLOWCHARTS.md contains Mermaid diagrams', () => {
-    const content = read(join(DOCS_DIR, 'FLOWCHARTS.md'));
+    const content = read(join(DOCS_DIR, 'guides/FLOWCHARTS.md'));
     expect(content).toContain('```mermaid');
     expect(content.match(/```mermaid/g)!.length).toBeGreaterThanOrEqual(3);
   });
@@ -311,12 +325,12 @@ describe('Documentation completeness', () => {
 // SUITE 8: SCRIPTS
 // ────────────────────────────────────────────────────────────────
 describe('Scripts', () => {
-  it('scripts/sync-versions.mjs exists', () => {
-    expect(isFile(join(SCRIPTS_DIR, 'sync-versions.mjs'))).toBe(true);
+  it('scripts/generate/sync-versions.mjs exists', () => {
+    expect(isFile(join(SCRIPTS_DIR, 'generate/sync-versions.mjs'))).toBe(true);
   });
 
   it('sync-versions.mjs has valid syntax', () => {
-    const content = read(join(SCRIPTS_DIR, 'sync-versions.mjs'));
+    const content = read(join(SCRIPTS_DIR, 'generate/sync-versions.mjs'));
     expect(content).toContain('VERSION');
     expect(content).toContain('**Version:**');
     expect(content).toContain('writeFileSync');

@@ -20,9 +20,9 @@ All notable changes to STEM-TUITION are documented here.
 - **Phase 1: Tracer** — Tracer singleton, `traced()`/`@traceDecorator()`, `<stem-tracer-dashboard>` WC, `initTracer()` for `?trace=true`/`?debug_events=true`, 24 tests
 - **Release automation** — 4-stage pipeline (`release:prepare`, `release:validate`, `release:version`, `release:finalize`) with TOCTOU token, governance gate, mutation allowlist
 - **Dependency cruiser** — `.dependency-cruiser.js` enforcing architecture import rules
-- **Dev-version identifier** — `scripts/dev-version.mjs` outputs `vX.Y.Z-dev.N` via `git describe --tags`
-- **Root version bump guard** — enforced in `release-version.mjs`; root bumps require a `newlyCompleted` phase
-- **`docs/VERSIONING.md`** — Documents semver convention, root bump rule, dev-version format
+- **Dev-version identifier** — `scripts/release/dev-version.mjs` outputs `vX.Y.Z-dev.N` via `git describe --tags`
+- **Root version bump guard** — enforced in `scripts/release/release-version.mjs`; root bumps require a `newlyCompleted` phase
+- **`docs/policies/VERSIONING.md`** — Documents semver convention, root bump rule, dev-version format
 
 ### Changed
 - Root `2.0.0` → `3.0.0`; tracer/audio-synth/core/quiz-engine/acl/shell: `0.0.0` → `1.0.0`

@@ -78,7 +78,7 @@ This single convention keeps events (`EVENT_BUS_CONTRACT.md`), trace spans
 ## 6. Events
 
 Event naming, payloads, and versioning are governed by
-`docs/EVENT_BUS_CONTRACT.md` — this document is the naming-convention source, the
+`docs/policies/EVENT_BUS_CONTRACT.md` — this document is the naming-convention source, the
 contract doc is the payload/versioning source.
 
 ---

@@ -346,7 +346,7 @@ Every component MUST:
 5. **Color independence** — meaning not conveyed by color alone
 6. **Screen reader friendly** — use `aria-live` for dynamic content
 
-> **Full accessibility standard:** `docs/ACCESSIBILITY.md` — WCAG 2.2 AA target, component-specific requirements (quiz, simulation, canvas), audit process, violation escalation matrix.
+> **Full accessibility standard:** `docs/policies/ACCESSIBILITY.md` — WCAG 2.2 AA target, component-specific requirements (quiz, simulation, canvas), audit process, violation escalation matrix.
 
 ```typescript
 connectedCallback() {

@@ -138,8 +138,8 @@ These remain under human control:
 * semantic or ambiguous component-registry decisions
 * `docs/RULES.md`
 * `docs/ARCHITECTURE/README.md`
-* `docs/COMPONENT_STANDARDS.md`
-* `docs/EVENT_BUS_CONTRACT.md`
+* `docs/guides/COMPONENT_STANDARDS.md`
+* `docs/policies/EVENT_BUS_CONTRACT.md`
 * ADRs
 * phase-completion decisions
 * Changeset SemVer decisions

@@ -21,7 +21,7 @@ table are built from.
 ## Schema
 
 ```toml
-# ARCHITECTURE.toml — package metadata standard (docs/PACKAGE_METADATA.md)
+# ARCHITECTURE.toml — package metadata standard (docs/policies/PACKAGE_METADATA.md)
 owner = "Core Team"                # owning team / named maintainer (architect review = this person)
 status = "stable"                    # lifecycle: experimental | incubating | stable | legacy | deprecated | archived
 maturity = "proven"                  # maturity: incubating | proven | mature (plus legacy exit path)
@@ -83,7 +83,7 @@ require an ADR (see `PACKAGE_LIFECYCLE.md`).
 `packages/core/ARCHITECTURE.toml`:
 
 ```toml
-# ARCHITECTURE.toml — package metadata standard (docs/PACKAGE_METADATA.md)
+# ARCHITECTURE.toml — package metadata standard (docs/policies/PACKAGE_METADATA.md)
 owner = "Core Team"
 status = "stable"
 maturity = "mature"

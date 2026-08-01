@@ -4,7 +4,7 @@
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** All packages and apps
-**Related:** `RULES.md`, `API_CONTRACT.md`, `docs/DEBUGGING.md`
+**Related:** `RULES.md`, `API_CONTRACT.md`, `docs/guides/DEBUGGING.md`
 
 ---
 

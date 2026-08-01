@@ -8,10 +8,10 @@
 
 1. **`AGENTS.md`** (this file) — quick reference
 2. **`docs/RULES.md`** — non-negotiable coding rules (697 lines, ENFORCED)
-3. **`docs/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
+3. **`docs/policies/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
 4. **`docs/ARCHITECTURE/README.md`** — architecture charter: module layout, import rules, data flow (the charter moved from `docs/ARCHITECTURE.md` to `docs/ARCHITECTURE/README.md`)
-5. **`docs/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (277 lines, ENFORCED)
-6. **`docs/COMPONENT_STANDARDS.md`** — Web Component patterns (414 lines, ENFORCED)
+5. **`docs/policies/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (277 lines, ENFORCED)
+6. **`docs/guides/COMPONENT_STANDARDS.md`** — Web Component patterns (414 lines, ENFORCED)
 7. **`docs/adr/001-010`** — architecture decisions (10 files)
 8. **`docs/ROADMAP.md`** — current phase, what's next (258 lines)
 
@@ -109,7 +109,7 @@ Current phase details in `docs/ROADMAP.md`.
 ## Documentation Synchronization
 
 `pnpm docs:sync` is the deterministic documentation synchronizer
-(`scripts/docs-sync.mjs` + `scripts/sync-versions.mjs`). It runs automatically on
+(`scripts/generate/docs-sync.mjs` + `scripts/generate/sync-versions.mjs`). It runs automatically on
 every commit via the tracked pre-commit hook and during the release pipeline.
 
 - `<!-- AUTO:... -->` regions are machine-owned. They are derived from `.phase.json`
@@ -171,7 +171,7 @@ Rules that govern the workflow:
   `pnpm changeset version` is disabled.
 - `git add -A` is mandatory before `pnpm release:validate` — it establishes the
   validated baseline that `release:validate` fingerprints with `git write-tree`.
-- See `docs/HUMAN_INVOLVEMENT.md` for the full human vs. automation contract.
+- See `docs/policies/HUMAN_INVOLVEMENT.md` for the full human vs. automation contract.
 
 ---
 

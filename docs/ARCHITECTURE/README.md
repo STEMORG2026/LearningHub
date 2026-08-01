@@ -4,7 +4,7 @@
 **Status:** Active Evolution
 **Owner:** Architecture
 **Applies To:** All packages, apps, and the root workspace
-**Related:** `RULES.md`, `API_CONTRACT.md`, `EVENT_BUS_CONTRACT.md`, `docs/ARCHITECTURE/`, `docs/adr/README.md`
+**Related:** `RULES.md`, `policies/API_CONTRACT.md`, `policies/EVENT_BUS_CONTRACT.md`, `docs/ARCHITECTURE/`, `docs/adr/README.md`
 **Project:** STEM-TUITION (independent project, not part of LearningHubSTEM)
 
 ---
@@ -110,32 +110,36 @@ STEM-TUITION/
 ├── docs/                               ← all documentation
 │   ├── RULES.md                        ← governance entry point (principles + rules)
 │   ├── ARCHITECTURE/                   ← THIS DIRECTORY (charter README + C4 set)
-│   ├── COMPONENT_STANDARDS.md          ← how to build components
-│   ├── EVENT_BUS_CONTRACT.md           ← how modules communicate
-│   ├── API_CONTRACT.md                 ← public contract versioning
-│   ├── OBSERVABILITY.md                ← logs/traces/metrics naming
-│   ├── DEPENDENCY_POLICY.md            ← dependency evaluation & approval
-│   ├── RELIABILITY.md                  ← timeouts, retries, error handling
-│   ├── PACKAGE_LIFECYCLE.md            ← package state transitions
-│   ├── VERSIONING.md                   ← semver, compatibility, deprecation, release
-│   ├── QUICKSTART.md                   ← setup guide
-│   ├── DEBUGGING.md                    ← troubleshooting guide
+│   ├── policies/                       ← normative governance
+│   │   ├── API_CONTRACT.md             ← public contract versioning
+│   │   ├── EVENT_BUS_CONTRACT.md       ← how modules communicate
+│   │   ├── OBSERVABILITY.md            ← logs/traces/metrics naming
+│   │   ├── DEPENDENCY_POLICY.md        ← dependency evaluation & approval
+│   │   ├── RELIABILITY.md              ← timeouts, retries, error handling
+│   │   ├── PACKAGE_LIFECYCLE.md        ← package state transitions
+│   │   ├── VERSIONING.md               ← semver, compatibility, deprecation, release
+│   │   ├── HUMAN_INVOLVEMENT.md        ← human vs. automation contract
+│   │   └── PACKAGE_METADATA.md         ← package metadata standards (ARCHITECTURE.toml)
+│   ├── guides/                         ← standards, guides, how-tos
+│   │   ├── COMPONENT_STANDARDS.md      ← how to build components
+│   │   ├── QUICKSTART.md               ← setup guide
+│   │   ├── DEBUGGING.md                ← troubleshooting guide
+│   │   ├── GLOSSARY.md                 ← technical terms
+│   │   ├── FLOWCHARTS.md               ← connection diagrams
+│   │   └── DEPLOYMENT.md               ← deployment guide
 │   ├── ROADMAP.md                      ← migration phases
-│   ├── GLOSSARY.md                     ← technical terms
-│   ├── HUMAN_INVOLVEMENT.md            ← human vs. automation contract
 │   ├── component-registry/             ← living map of every component + file:line
 │   ├── DOCS.md                         ← docs taxonomy (map + update rules)
-│   ├── REPOSITORY_HEALTH.md             ← generated health dashboard (docs:sync)
-│   ├── PACKAGE_METADATA.md             ← package metadata standards (ARCHITECTURE.toml)
+│   ├── REPOSITORY_HEALTH.md            ← generated health dashboard (docs:sync)
 │   └── adr/                            ← Architecture Decision Records (+ README index)
 │
 ├── scripts/                            ← release pipeline, doc sync, tracked hooks
-│   ├── docs-sync.mjs                   ← deterministic AUTO-section synchronizer
-│   ├── sync-versions.mjs               ← syncs **Version:** headers in docs/
-│   ├── generate-health.mjs             ← regenerates REPOSITORY_HEALTH.md
-│   ├── generate-graph.mjs              ← regenerates docs/dependency-graph.svg
-│   ├── dev-version.mjs                 ← vX.Y.Z-dev.N identifier
-│   ├── release-{prepare,validate,version,finalize}.mjs
+│   ├── generate/docs-sync.mjs          ← deterministic AUTO-section synchronizer
+│   ├── generate/sync-versions.mjs      ← syncs **Version:** headers in docs/
+│   ├── generate/generate-health.mjs    ← regenerates REPOSITORY_HEALTH.md
+│   ├── generate/generate-tree.mjs      ← regenerates docs/tree.txt
+│   ├── release/                        ← release pipeline + dev-version identifier
+│   ├── checks/                         ← size-check, verify-registry, metadata validation
 │   └── git-hooks/pre-commit            ← tracked pre-commit hook (core.hooksPath)
 │
 ├── .changeset/                         ← version bump automation
@@ -308,7 +312,7 @@ This is used by:
 
 **`.phase.json` is the canonical phase-state source.** The ROADMAP progress bar,
 per-phase statuses, and the `AGENTS.md` phase-map are `AUTO` regions regenerated
-from `.phase.json` by `scripts/docs-sync.mjs` (run automatically by the pre-commit
+from `.phase.json` by `scripts/generate/docs-sync.mjs` (run automatically by the pre-commit
 hook and the release pipeline) — never hand-edit them.
 
 Phase completion is a human decision: set `status: "completed"` in `.phase.json`
@@ -337,7 +341,7 @@ PHASE 7+: Features     ░░░░░░░░░░ 0%
 Every `packages/*` and `apps/*` carries architecture metadata in its own
 `ARCHITECTURE.toml` (owner, status, maturity, contracts, public API, dependencies,
 ADRs). These feed the health dashboard (`docs/REPOSITORY_HEALTH.md`, generated by
-`scripts/generate-health.mjs`) and the maturity table below.
+`scripts/generate/generate-health.mjs`) and the maturity table below.
 
 | Package | Owner | Status | Maturity | Key contracts | ADRs |
 |---------|-------|--------|----------|---------------|------|
@@ -362,21 +366,21 @@ stable for many releases). Lifecycle states follow `PACKAGE_LIFECYCLE.md`
 | Document | What it covers |
 |----------|---------------|
 | `RULES.md` | Governance entry point: principles, mandatory rules, enforcement |
-| `COMPONENT_STANDARDS.md` | How to build a Web Component |
-| `EVENT_BUS_CONTRACT.md` | Event naming, payloads, versioning |
-| `API_CONTRACT.md` | Public contract versioning, semver, migration |
+| `guides/COMPONENT_STANDARDS.md` | How to build a Web Component |
+| `policies/EVENT_BUS_CONTRACT.md` | Event naming, payloads, versioning |
+| `policies/API_CONTRACT.md` | Public contract versioning, semver, migration |
 | `ARCHITECTURE/` | C4 diagram set (overview, context, containers, components, dependencies, migration) |
-| `QUICKSTART.md` | Setup and first contribution |
-| `DEBUGGING.md` | Troubleshooting with tracer |
+| `guides/QUICKSTART.md` | Setup and first contribution |
+| `guides/DEBUGGING.md` | Troubleshooting with tracer |
 | `DOCS.md` | Docs taxonomy: what lives where, who owns it, update rules |
 | `REPOSITORY_HEALTH.md` | Generated health dashboard (regenerated by `docs:sync`) |
-| `PACKAGE_METADATA.md` | Package metadata standard (`ARCHITECTURE.toml`) |
+| `policies/PACKAGE_METADATA.md` | Package metadata standard (`ARCHITECTURE.toml`) |
 | `ROADMAP.md` | Phased execution plan |
-| `GLOSSARY.md` | Technical terms defined |
-| `SECURITY.md` | Security policies, input validation, CSP, data privacy |
-| `PERFORMANCE.md` | Performance budgets, optimization rules, Core Web Vitals |
-| `DEPLOYMENT.md` | Deployment guide (static → VPS), Nginx, CI/CD |
-| `ACCESSIBILITY.md` | WCAG 2.2 AA standards, audit checklist, component a11y |
+| `guides/GLOSSARY.md` | Technical terms defined |
+| `policies/SECURITY.md` | Security policies, input validation, CSP, data privacy |
+| `policies/PERFORMANCE.md` | Performance budgets, optimization rules, Core Web Vitals |
+| `guides/DEPLOYMENT.md` | Deployment guide (static → VPS), Nginx, CI/CD |
+| `policies/ACCESSIBILITY.md` | WCAG 2.2 AA standards, audit checklist, component a11y |
 | `CHANGELOG.md` | Release history |
 | `DEVLOG.md` | Development diary with decisions and learnings |
 | `component-registry/` | Living map of every component |

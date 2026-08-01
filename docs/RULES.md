@@ -4,7 +4,7 @@
 > **Status:** 🔒 ENFORCED
 > **Owner:** Architecture
 > **Applies To:** All developers, AI agents, and contributors
-> **Related:** `API_CONTRACT.md` · `OBSERVABILITY.md` · `DEPENDENCY_POLICY.md` · `RELIABILITY.md` · `VERSIONING.md` · `EVENT_BUS_CONTRACT.md` · `PACKAGE_LIFECYCLE.md` · `PACKAGE_METADATA.md` · `REPOSITORY_HEALTH.md` · `DOCS.md` · `docs/adr/README.md` · `docs/ARCHITECTURE/`
+> **Related:** `policies/API_CONTRACT.md` · `policies/OBSERVABILITY.md` · `policies/DEPENDENCY_POLICY.md` · `policies/RELIABILITY.md` · `policies/VERSIONING.md` · `policies/EVENT_BUS_CONTRACT.md` · `policies/PACKAGE_LIFECYCLE.md` · `policies/PACKAGE_METADATA.md` · `REPOSITORY_HEALTH.md` · `DOCS.md` · `docs/adr/README.md` · `docs/ARCHITECTURE/`
 > **Effective Date:** 2026-07-30
 > **Current Date:** 2026-08-01
 
@@ -69,12 +69,12 @@ attribute (see the `**Quality:**` annotations on the Architectural Rules).
 | **Reliability** | Behave correctly under load, failure, and time |
 | **Extensibility** | Add capabilities without altering existing contracts |
 | **Testability** | Logic testable without a browser or network |
-| **Performance** | Meets explicit budgets (`PERFORMANCE.md`) |
-| **Accessibility** | WCAG 2.2 AA (`ACCESSIBILITY.md`) |
+| **Performance** | Meets explicit budgets (`policies/PERFORMANCE.md`) |
+| **Accessibility** | WCAG 2.2 AA (`policies/ACCESSIBILITY.md`) |
 | **Educational Accuracy** | Content is pedagogically correct (`EDUCATIONAL` registry) |
-| **Security** | Safe against common web threats (`SECURITY.md`) |
+| **Security** | Safe against common web threats (`policies/SECURITY.md`) |
 | **Observability** | Instrumentable, diagnosable in production |
-| **Portability** | Runs in any supported browser/runtime (`VERSIONING.md` → Compatibility) |
+| **Portability** | Runs in any supported browser/runtime (`policies/VERSIONING.md` → Compatibility) |
 
 ---
 
@@ -158,7 +158,7 @@ interface IQuizQuestion {
 **Rationale:** Ensures loose coupling, enables mock testing.  
 **Principles:** Interface First · Immutable Public Contracts  
 **Quality:** Maintainability · Extensibility · Testability  
-**Enforcement:** Code review checklist + public-contract governance (`API_CONTRACT.md`).
+**Enforcement:** Code review checklist + public-contract governance (`policies/API_CONTRACT.md`).
 
 ### Rule 5: Strangler Fig Compliance
 - New functionality MUST be created in `packages/` or `apps/`
@@ -342,8 +342,8 @@ button:focus-visible {
 }
 ```
 
-> Accessibility-in-CSS is one facet of `Rule EDU-4` / `ACCESSIBILITY.md` — the two
-> are complementary, not duplicates. Keep both in sync with `docs/ACCESSIBILITY.md`.
+> Accessibility-in-CSS is one facet of `Rule EDU-4` / `policies/ACCESSIBILITY.md` — the two
+> are complementary, not duplicates. Keep both in sync with `docs/policies/ACCESSIBILITY.md`.
 
 ---
 
@@ -466,7 +466,7 @@ interface ILearningModule {
 - Animations MUST respect `prefers-reduced-motion`
 - Reading level MUST be appropriate for target grade
 
-> **Full standard:** `docs/ACCESSIBILITY.md` — WCAG 2.2 AA, component-specific requirements, audit process.
+> **Full standard:** `docs/policies/ACCESSIBILITY.md` — WCAG 2.2 AA, component-specific requirements, audit process.
 
 ### Rule EDU-5: AI Assistance Guidelines
 - AI MUST NOT replace student thinking
@@ -529,7 +529,7 @@ add_header Content-Security-Policy "
 - ✅ All data transmission MUST use HTTPS (enforced in production)
 - ✅ Session tokens MUST expire after 30 minutes of inactivity
 
-> **Full policy:** `docs/SECURITY.md` — secrets management, dependency auditing, vulnerability reporting.
+> **Full policy:** `docs/policies/SECURITY.md` — secrets management, dependency auditing, vulnerability reporting.
 
 ---
 
@@ -580,7 +580,7 @@ simulation.init();
 | CLS | <0.1 | p75 of users |
 | INP | <200ms | p75 of users |
 
-> **Full guide:** `docs/PERFORMANCE.md` — optimization rules, monitoring, pre-release checklist.
+> **Full guide:** `docs/policies/PERFORMANCE.md` — optimization rules, monitoring, pre-release checklist.
 
 ---
 
@@ -651,7 +651,7 @@ Environment Variables**.
 - Stable contracts are never edited in place — change by addition or deprecation
 - Events require Event Bus review before use
 
-> **Full policy:** `docs/API_CONTRACT.md`
+> **Full policy:** `docs/policies/API_CONTRACT.md`
 
 ### ADR Governance
 
@@ -674,7 +674,7 @@ removed when possible. **Prefer removing a dependency over adding one.**
 - Workspace packages and devDependencies are preferred over runtime deps
 - Bundle impact must fit `lint:size` budgets
 
-> **Full policy:** `docs/DEPENDENCY_POLICY.md`
+> **Full policy:** `docs/policies/DEPENDENCY_POLICY.md`
 
 ### Bundle Budgets
 
@@ -684,10 +684,10 @@ Every package and app ships within a declared size budget (measured by
 - Library packages (`packages/*/dist`) are measured as raw bytes, per-entrypoint
 - Application bundles (`apps/shell` assets) are measured **gzipped**
 - Raising a budget requires maintainer approval and is tracked as a change
-- The `bundlesize` package is deprecated; the internal `scripts/size-check.cjs`
+- The `bundlesize` package is deprecated; the internal `scripts/checks/size-check.cjs`
   is the single size-check implementation
 
-> **Full guidance:** `docs/PERFORMANCE.md`
+> **Full guidance:** `docs/policies/PERFORMANCE.md`
 
 ### Observability
 
@@ -698,7 +698,7 @@ no PII. Events, trace spans, and log categories share one `domain:action` scheme
 - Metrics follow the project naming convention (defined in the owning doc)
 - Debug flags follow `?<area>=true` and are off by default
 
-> **Full policy (naming + conventions):** `docs/OBSERVABILITY.md`
+> **Full policy (naming + conventions):** `docs/policies/OBSERVABILITY.md`
 
 ### Reliability
 
@@ -708,7 +708,7 @@ Asynchronous and fallible code follows project-wide expectations:
 - Bounded retries with backoff+jitter on idempotent operations only
 - Graceful degradation; typed errors — never swallowed
 
-> **Full policy:** `docs/RELIABILITY.md`
+> **Full policy:** `docs/policies/RELIABILITY.md`
 
 ### Compatibility
 
@@ -725,7 +725,7 @@ version updates.
 | Browsers | modern evergreen (last 2 versions); no IE |
 | Build tooling | `tsc` + `turbo` |
 
-> **Full policy:** `docs/VERSIONING.md` → Compatibility
+> **Full policy:** `docs/policies/VERSIONING.md` → Compatibility
 
 ### Deprecation
 
@@ -736,7 +736,7 @@ MUST remain fully tested until removal.**
 - Deprecation is announced with a version + replacement and a migration path
 - Removal happens only in a MAJOR release, after a deprecation cycle
 
-> **Full policy:** `docs/VERSIONING.md` → Deprecation
+> **Full policy:** `docs/policies/VERSIONING.md` → Deprecation
 
 ### Package Lifecycle
 
@@ -746,7 +746,7 @@ Packages (not APIs) move through
 - New packages start at **Experimental**, never Stable
 - State changes require an ADR; deprecated packages stay tested until archived
 
-> **Full policy:** `docs/PACKAGE_LIFECYCLE.md`
+> **Full policy:** `docs/policies/PACKAGE_LIFECYCLE.md`
 
 ### Package Metadata (ARCHITECTURE.toml)
 
@@ -759,7 +759,7 @@ the health dashboard (`docs/REPOSITORY_HEALTH.md`).
   dependencies and ADR references)
 - Metadata changes follow the package's own ADR process
 
-> **Full standard:** `docs/PACKAGE_METADATA.md`
+> **Full standard:** `docs/policies/PACKAGE_METADATA.md`
 
 ### Plugin / Extension Governance — RESERVED
 
@@ -804,7 +804,7 @@ Use this to decide what a change requires. `✅` = required, `◻` = as applicab
 
 Notes:
 - "Architect review" = one named maintainer, not a board.
-- "Event Bus review" = verify against `docs/EVENT_BUS_CONTRACT.md` + ADR-003.
+- "Event Bus review" = verify against `docs/policies/EVENT_BUS_CONTRACT.md` + ADR-003.
 - When in doubt, prefer the stronger column.
 
 ---
@@ -906,8 +906,8 @@ pnpm docs:sync
 git add -u
 ```
 
-- `pnpm docs:sync` = `scripts/docs-sync.mjs` (regenerates `AUTO` sections from
-  `.phase.json` + the filesystem) + `scripts/sync-versions.mjs` (syncs `**Version:**`
+- `pnpm docs:sync` = `scripts/generate/docs-sync.mjs` (regenerates `AUTO` sections from
+  `.phase.json` + the filesystem) + `scripts/generate/sync-versions.mjs` (syncs `**Version:**`
   headers in `docs/`).
 - It is **idempotent** — running it twice produces no further changes, so the
   `release:finalize` commit that re-triggers the hook is harmless.
@@ -917,8 +917,8 @@ git add -u
 
 ### Release & Versioning Governance
 
-The following release rules are **normative** (see `docs/VERSIONING.md` and
-`docs/HUMAN_INVOLVEMENT.md` for details):
+The following release rules are **normative** (see `docs/policies/VERSIONING.md` and
+`docs/policies/HUMAN_INVOLVEMENT.md` for details):
 
 1. **`.phase.json` is the canonical phase-state source.** `currentPhase` is derived
    from it (first phase that is not `completed`). Do not hand-edit the phase/status
@@ -992,28 +992,28 @@ Every migration PR MUST include:
 
 ### Governance Entry Points (normative)
 - [RULES.md](./RULES.md) — this file (principles, mandatory rules, enforcement)
-- [API Contract](./API_CONTRACT.md) — public contracts, semver, migration
-- [Event Bus Contract](./EVENT_BUS_CONTRACT.md) — event naming, payloads, versioning
-- [Versioning](./VERSIONING.md) — semver, compatibility, deprecation, release workflow
-- [Dependency Policy](./DEPENDENCY_POLICY.md) — dependency evaluation & approval
-- [Reliability](./RELIABILITY.md) — timeouts, cancellation, retries, errors
-- [Observability](./OBSERVABILITY.md) — naming conventions for logs/traces/metrics
-- [Package Lifecycle](./PACKAGE_LIFECYCLE.md) — package states and transitions
+- [API Contract](./policies/API_CONTRACT.md) — public contracts, semver, migration
+- [Event Bus Contract](./policies/EVENT_BUS_CONTRACT.md) — event naming, payloads, versioning
+- [Versioning](./policies/VERSIONING.md) — semver, compatibility, deprecation, release workflow
+- [Dependency Policy](./policies/DEPENDENCY_POLICY.md) — dependency evaluation & approval
+- [Reliability](./policies/RELIABILITY.md) — timeouts, cancellation, retries, errors
+- [Observability](./policies/OBSERVABILITY.md) — naming conventions for logs/traces/metrics
+- [Package Lifecycle](./policies/PACKAGE_LIFECYCLE.md) — package states and transitions
 - [ADR Index & Governance](./adr/README.md) — decision log and ADR process
 - [Architecture Diagrams](./ARCHITECTURE/overview.md) — C4 diagram set
 - [Docs Taxonomy](./DOCS.md) — what lives where, who owns it, update rules
 
 ### Standards & Guides
 - [Architecture Charter](./ARCHITECTURE/README.md) — module layout, import rules, data flow
-- [Package Metadata](./PACKAGE_METADATA.md) — `ARCHITECTURE.toml` standard
+- [Package Metadata](./policies/PACKAGE_METADATA.md) — `ARCHITECTURE.toml` standard
 - [Health Dashboard](./REPOSITORY_HEALTH.md) — generated package health
-- [Component Standards](./COMPONENT_STANDARDS.md) — how to build a Web Component
-- [Accessibility](./ACCESSIBILITY.md) — WCAG 2.2 AA standards, audit checklist
-- [Security](./SECURITY.md) — input validation, CSP, data privacy, dependency audit
-- [Performance](./PERFORMANCE.md) — budgets, optimization rules, Core Web Vitals
-- [Human Involvement](./HUMAN_INVOLVEMENT.md) — human vs. automation contract
-- [Quickstart](./QUICKSTART.md) — setup and first contribution
-- [Debugging](./DEBUGGING.md) — troubleshooting with the tracer
+- [Component Standards](./guides/COMPONENT_STANDARDS.md) — how to build a Web Component
+- [Accessibility](./policies/ACCESSIBILITY.md) — WCAG 2.2 AA standards, audit checklist
+- [Security](./policies/SECURITY.md) — input validation, CSP, data privacy, dependency audit
+- [Performance](./policies/PERFORMANCE.md) — budgets, optimization rules, Core Web Vitals
+- [Human Involvement](./policies/HUMAN_INVOLVEMENT.md) — human vs. automation contract
+- [Quickstart](./guides/QUICKSTART.md) — setup and first contribution
+- [Debugging](./guides/DEBUGGING.md) — troubleshooting with the tracer
 
 ### External Standards
 - [WCAG 2.2 AA](https://www.w3.org/WAI/WCAG22/quickref/)
@@ -1028,7 +1028,8 @@ Every migration PR MUST include:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 2.3.0 | 2026-08-01 | Docs governance hardening: coverage ratchet policy (thresholds move only up, per `vitest.config.*.ts`), bundle-budget policy (raw bytes for libraries, gzip for apps, internal `size-check.cjs` replaces `bundlesize`), package-metadata policy (`ARCHITECTURE.toml`), build stage added to the enforcement chain, new docs registered (DOCS.md, REPOSITORY_HEALTH.md, PACKAGE_METADATA.md); architecture charter moved to `docs/ARCHITECTURE/README.md` |
+| 2.4.0 | 2026-08-01 | Docs/scripts reorganization: governance policies → `docs/policies/`, standards & guides → `docs/guides/`; scripts grouped under `scripts/checks/`, `scripts/generate/`, `scripts/release/`; added `pnpm quick`, `pnpm check`, `pnpm size` shortcuts; all references re-pointed to new paths |
+| 2.3.0 | 2026-08-01 | Docs governance hardening: coverage ratchet policy (thresholds move only up, per `vitest.config.*.ts`), bundle-budget policy (raw bytes for libraries, gzip for apps, internal `size-check.cjs` replaces `bundlesize`), package-metadata policy (`ARCHITECTURE.toml`), build stage added to the enforcement chain, new docs registered (DOCS.md, REPOSITORY_HEALTH.md, policies/PACKAGE_METADATA.md); architecture charter moved to `docs/ARCHITECTURE/README.md` |
 | 2.2.0 | 2026-08-01 | Restructured as governance **entry point**: added Architecture Principles, Quality Attributes, governance-policy summaries (public contracts, ADR, dependencies, observability, reliability, compatibility, deprecation, package lifecycle, reserved plugin section, architecture documentation), Decision Matrix, and Governance Philosophy. Detail moved to dedicated docs; fixed stale CI script names and broken references. |
 | 2.1.0 | 2026-07-31 | Git hooks documented as `core.hooksPath` pre-commit (`docs:sync` + `git add -u`); CI marked as planned; added Release & Versioning Governance rules |
 | 2.0.0 | 2026-07-30 | Rebrand to STEM-TUITION (independent project), replace all `@learninghub` → `@stem-tuition` |

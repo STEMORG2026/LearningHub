@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Event Bus, shared types, and foundational utilities. Every cross-module message in the workspace flows through the Event Bus (`domain:action` events, see `docs/EVENT_BUS_CONTRACT.md`).
+Event Bus, shared types, and foundational utilities. Every cross-module message in the workspace flows through the Event Bus (`domain:action` events, see `docs/policies/EVENT_BUS_CONTRACT.md`).
 
 ## Public API
 
@@ -22,7 +22,7 @@ Event Bus, shared types, and foundational utilities. Every cross-module message 
 
 ## Public Contracts
 
-- Contract classes: `api`, `interface`, `schema` (see `docs/API_CONTRACT.md`)
+- Contract classes: `api`, `interface`, `schema` (see `docs/policies/API_CONTRACT.md`)
 
 ## Dependencies
 

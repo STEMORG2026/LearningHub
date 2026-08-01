@@ -18,7 +18,7 @@ Built-in observability: span-based function timing, nesting, error tracking, and
 
 ## Outputs
 
-- Span tree (see `docs/DEBUGGING.md`); console output prefixed with `[ts] [TRACE:<id>] [method]`
+- Span tree (see `docs/guides/DEBUGGING.md`); console output prefixed with `[ts] [TRACE:<id>] [method]`
 
 ## Public Contracts
 

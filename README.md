@@ -132,7 +132,7 @@ pnpm docs:sync
 pnpm verify-governance
 ```
 
-See `docs/QUICKSTART.md` for detailed setup.
+See `docs/guides/QUICKSTART.md` for detailed setup.
 
 ---
 
@@ -144,25 +144,27 @@ Start with `docs/RULES.md` (governance entry point) and the architecture charter
 
 | Document | What it covers |
 |----------|---------------|
-| `ARCHITECTURE/README.md` | Charter: system overview, module map, data flow, dependency rules |
-| `RULES.md` | Non-negotiable architectural, coding, CSS, testing, security rules |
-| `PACKAGE_METADATA.md` | `ARCHITECTURE.toml` standard (owner, status, contracts, ADRs) |
-| `REPOSITORY_HEALTH.md` | Generated package health (coverage floors, status, sizes) |
+| **Root (navigation + ops)** | |
+| `RULES.md` | Governance entry point — non-negotiable rules |
 | `DOCS.md` | Docs taxonomy: what lives where, who owns it, update rules |
-| `COMPONENT_STANDARDS.md` | Web Component lifecycle, Shadow DOM, events |
+| `REPOSITORY_HEALTH.md` | Generated package health (coverage floors, status, sizes) |
+| `CHANGELOG.md` / `DEVLOG.md` | Release history / development diary |
+| `ROADMAP.md` | Phased migration plan with current status |
+| **`ARCHITECTURE/`** | Charter (`README.md`) + C4 diagram set |
+| **`policies/`** | Normative governance (contracts, versioning, security, …) |
+| `API_CONTRACT.md` | Public contract versioning, semver, migration |
 | `EVENT_BUS_CONTRACT.md` | Event naming, payload schemas, debugging |
-| `FLOWCHARTS.md` | Visual diagrams of every connection |
+| `VERSIONING.md` | Semver convention, root bump rule, dev-version identifier |
+| `PACKAGE_LIFECYCLE.md` / `PACKAGE_METADATA.md` | Package states / `ARCHITECTURE.toml` standard |
+| `SECURITY.md` / `PERFORMANCE.md` / `ACCESSIBILITY.md` | Security / performance budgets / WCAG 2.2 AA |
+| `OBSERVABILITY.md` / `RELIABILITY.md` / `DEPENDENCY_POLICY.md` / `HUMAN_INVOLVEMENT.md` | Observability / reliability / deps / human-vs-automation |
+| **`guides/`** | How-to |
 | `QUICKSTART.md` | Setup guide for new developers |
 | `DEBUGGING.md` | How to trace issues with Event Bus and Tracer |
-| `ROADMAP.md` | Phased migration plan with current status |
+| `COMPONENT_STANDARDS.md` | Web Component lifecycle, Shadow DOM, events |
+| `FLOWCHARTS.md` | Visual diagrams of every connection |
 | `GLOSSARY.md` | Every technical term explained simply |
-| `SECURITY.md` | Security policies, input validation, CSP, data privacy |
-| `PERFORMANCE.md` | Performance budgets, optimization rules, Core Web Vitals |
 | `DEPLOYMENT.md` | Deployment guide (static → VPS), Nginx config, CI/CD |
-| `ACCESSIBILITY.md` | WCAG 2.2 AA standards, audit checklist, component a11y |
-| `CHANGELOG.md` | Release history |
-| `DEVLOG.md` | Development diary with decisions and learnings |
-| `VERSIONING.md` | Semver convention, root bump rule, dev-version identifier |
 | `component-registry/` | Living index of every component → file:line |
 | `adr/` | Architecture Decision Records (why we chose what we chose) |
 

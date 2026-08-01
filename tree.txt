@@ -1,4 +1,4 @@
-STEM-TUITION/  3bb1b0b
+STEM-TUITION/  7e8d3fa
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -44,30 +44,32 @@ STEM-TUITION/  3bb1b0b
 │   │   ├── STATE.md
 │   │   ├── TESTING.md
 │   │   └── TRACE.md
-│   ├── ACCESSIBILITY.md
-│   ├── API_CONTRACT.md
+│   ├── guides/
+│   │   ├── COMPONENT_STANDARDS.md
+│   │   ├── DEBUGGING.md
+│   │   ├── DEPLOYMENT.md
+│   │   ├── FLOWCHARTS.md
+│   │   ├── GLOSSARY.md
+│   │   └── QUICKSTART.md
+│   ├── policies/
+│   │   ├── ACCESSIBILITY.md
+│   │   ├── API_CONTRACT.md
+│   │   ├── DEPENDENCY_POLICY.md
+│   │   ├── EVENT_BUS_CONTRACT.md
+│   │   ├── HUMAN_INVOLVEMENT.md
+│   │   ├── OBSERVABILITY.md
+│   │   ├── PACKAGE_LIFECYCLE.md
+│   │   ├── PACKAGE_METADATA.md
+│   │   ├── PERFORMANCE.md
+│   │   ├── RELIABILITY.md
+│   │   ├── SECURITY.md
+│   │   └── VERSIONING.md
 │   ├── CHANGELOG.md
-│   ├── COMPONENT_STANDARDS.md
-│   ├── DEBUGGING.md
-│   ├── DEPENDENCY_POLICY.md
-│   ├── DEPLOYMENT.md
 │   ├── DEVLOG.md
 │   ├── DOCS.md
-│   ├── EVENT_BUS_CONTRACT.md
-│   ├── FLOWCHARTS.md
-│   ├── GLOSSARY.md
-│   ├── HUMAN_INVOLVEMENT.md
-│   ├── OBSERVABILITY.md
-│   ├── PACKAGE_LIFECYCLE.md
-│   ├── PACKAGE_METADATA.md
-│   ├── PERFORMANCE.md
-│   ├── QUICKSTART.md
-│   ├── RELIABILITY.md
 │   ├── REPOSITORY_HEALTH.md
 │   ├── ROADMAP.md
-│   ├── RULES.md
-│   ├── SECURITY.md
-│   └── VERSIONING.md
+│   └── RULES.md
 ├── e2e/
 │   └── legacy-loads.spec.ts  [test]
 ├── legacy/  [frozen] read-only, never edit
@@ -178,21 +180,24 @@ STEM-TUITION/  3bb1b0b
 │       ├── tsconfig.json
 │       └── vitest.config.ts
 ├── scripts/
+│   ├── checks/
+│   │   ├── size-check.cjs
+│   │   ├── validate-educational-metadata.js
+│   │   └── verify-registry.js
+│   ├── generate/
+│   │   ├── docs-sync.mjs
+│   │   ├── generate-health.mjs
+│   │   ├── generate-tree.mjs
+│   │   └── sync-versions.mjs
 │   ├── git-hooks/
 │   │   └── pre-commit
-│   ├── dev-version.mjs
-│   ├── docs-sync.mjs
-│   ├── eslint-config.mjs
-│   ├── generate-health.mjs
-│   ├── generate-tree.mjs
-│   ├── release-finalize.mjs
-│   ├── release-prepare.mjs
-│   ├── release-validate.mjs
-│   ├── release-version.mjs
-│   ├── size-check.cjs
-│   ├── sync-versions.mjs
-│   ├── validate-educational-metadata.js
-│   └── verify-registry.js
+│   ├── release/
+│   │   ├── dev-version.mjs
+│   │   ├── release-finalize.mjs
+│   │   ├── release-prepare.mjs
+│   │   ├── release-validate.mjs
+│   │   └── release-version.mjs
+│   └── eslint-config.mjs
 ├── .dependency-cruiser.js
 ├── .gitignore
 ├── .phase.json

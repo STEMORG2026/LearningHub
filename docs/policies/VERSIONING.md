@@ -4,7 +4,7 @@
 **Status:** Active
 **Owner:** Architecture
 **Applies To:** Root workspace and all packages
-**Related:** `RULES.md`, `API_CONTRACT.md`, `PACKAGE_LIFECYCLE.md`, `docs/adr/README.md`, `docs/HUMAN_INVOLVEMENT.md`
+**Related:** `RULES.md`, `API_CONTRACT.md`, `PACKAGE_LIFECYCLE.md`, `docs/adr/README.md`, `docs/policies/HUMAN_INVOLVEMENT.md`
 
 ---
 
@@ -34,7 +34,7 @@ The root `stem-tuition` version represents the overall project release. It SHOUL
 
 Root version bumps are **only permitted** when a `newlyCompleted` phase exists in `.phase.json`. This rule prevents accidental root bumps from package-only changesets.
 
-**Enforcement point:** `scripts/release-version.mjs` — after `pnpm changeset version` runs, if the root version changed but no phase in `.phase.json` has `status: "completed"` with `completedDate: null`, the script fails with a clear message.
+**Enforcement point:** `scripts/release/release-version.mjs` — after `pnpm changeset version` runs, if the root version changed but no phase in `.phase.json` has `status: "completed"` with `completedDate: null`, the script fails with a clear message.
 
 ### 2.3 Package versions
 
@@ -125,7 +125,7 @@ commits the phase completion + documentation instead (`release:validate` /
 **Normal commits are not releases.** A commit runs `docs:sync` via the pre-commit
 hook but never bumps versions or creates tags.
 
-See `AGENTS.md` Release Workflow and `docs/HUMAN_INVOLVEMENT.md` for the detailed
+See `AGENTS.md` Release Workflow and `docs/policies/HUMAN_INVOLVEMENT.md` for the detailed
 human-approval process.
 
 ---
@@ -165,7 +165,7 @@ MUST remain fully tested until removal.**
   (warnings in the tracer/logs, JSDoc `@deprecated`, changelog entry).
 - Removal happens only in a MAJOR release, after a deprecation cycle.
 - Package-level state (Experimental/Incubating/Stable/Legacy/Deprecated/Archived) is
-  governed by `docs/PACKAGE_LIFECYCLE.md` — this section covers contracts and APIs.
+  governed by `docs/policies/PACKAGE_LIFECYCLE.md` — this section covers contracts and APIs.
 
 ---
 
@@ -179,7 +179,7 @@ MUST remain fully tested until removal.**
 | `adr/README.md` | ADR index and decision log |
 | `ROADMAP.md` | Phase execution plan |
 | `AGENTS.md` | Release workflow, human approval gate |
-| `scripts/dev-version.mjs` | Dev-version identifier implementation |
-| `scripts/release-version.mjs` | Root bump guard implementation |
+| `scripts/release/dev-version.mjs` | Dev-version identifier implementation |
+| `scripts/release/release-version.mjs` | Root bump guard implementation |
 | `.phase.json` | Phase state (canonical source for newlyCompleted) |
 | `.changeset/config.json` | Changeset configuration |

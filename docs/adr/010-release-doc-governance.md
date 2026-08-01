@@ -22,7 +22,7 @@ phases during verification.
    from it (first phase that is not `completed`). Phase completion is a **human
    decision**: set `status: "completed"`, leaving `completedVersion` / `completedDate`
    as `null`. The release pipeline fills those fields at release time.
-2. **`scripts/docs-sync.mjs` is the single deterministic documentation synchronizer.**
+2. **`scripts/generate/docs-sync.mjs` is the single deterministic documentation synchronizer.**
    It is idempotent, token-free, and regenerates only `<!-- AUTO:... -->` regions:
    - ROADMAP progress/status and AGENTS phase-map/package-map: always regenerated.
    - TESTING table: always regenerated (machine-derived test counts).
@@ -69,7 +69,7 @@ phases during verification.
   on every commit.
 - Enforced human approval + baseline fingerprinting (TOCTOU) + mutation allowlist
   make releases replayable and verifiable.
-- The human-vs-automation contract is documented in `docs/HUMAN_INVOLVEMENT.md`.
+- The human-vs-automation contract is documented in `docs/policies/HUMAN_INVOLVEMENT.md`.
 
 ### Negative
 - `core.hooksPath` is a local git config — fresh clones have **no hooks** until
@@ -95,10 +95,10 @@ phases during verification.
 
 ## Resolved Gaps
 - ~~Gap 1: `verify-registry.js` was a header-level stub.~~ Resolved 2026-07-31 —
-  `scripts/verify-registry.js` now enforces header contract, file:line existence,
+  `scripts/checks/verify-registry.js` now enforces header contract, file:line existence,
   phantom-reference detection, and Web Component coverage (ADR-009).
 - ~~Gap 2: `validate-educational-metadata.js` was a stub.~~ Resolved 2026-07-31 —
-  `scripts/validate-educational-metadata.js` now validates the `data.ts` question
+  `scripts/checks/validate-educational-metadata.js` now validates the `data.ts` question
   schema (11 required fields, option/correct/grade/tag invariants) and
   cross-references conceptIds against EDUCATIONAL.md.
 - ~~Gap 3: `lint:circular`/`lint:state`/`lint:dom` were not wired in.~~ Resolved
@@ -110,7 +110,7 @@ phases during verification.
 - [x] Phase state has a single canonical source (`.phase.json`)
 - [x] Release approval boundary enforced (token + TOCTOU + mutation allowlist)
 - [x] Docs-only releases supported
-- [x] Human-vs-automation contract documented (`docs/HUMAN_INVOLVEMENT.md`)
+- [x] Human-vs-automation contract documented (`docs/policies/HUMAN_INVOLVEMENT.md`)
 - [x] Deep registry enforcement (`verify-registry.js`) — ADR-009 implemented
 - [x] Educational metadata validation (`validate-educational-metadata.js`) — ADR-007 implemented
 - [x] `lint:circular`, `lint:state`, `lint:dom` wired into `pnpm verify-governance`

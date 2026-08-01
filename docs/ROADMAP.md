@@ -229,9 +229,9 @@ PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 - ✅ `packages/simulation-core/tests/physics.test.ts` — 48 tests for all pure functions
 - ✅ Canvas rendering remains in legacy (for now) but uses new pure math
 - ✅ Component Registry updated
-- ✅ `scripts/dev-version.mjs` — Dev-version identifier (`pnpm dev-version` → `vX.Y.Z-dev.N`)
-- ✅ `docs/VERSIONING.md` — Semver convention and root bump rule documented
-- ✅ Root version bump guard enforced in `release-version.mjs` — root bumps require a newlyCompleted phase
+- ✅ `scripts/release/dev-version.mjs` — Dev-version identifier (`pnpm dev-version` → `vX.Y.Z-dev.N`)
+- ✅ `docs/policies/VERSIONING.md` — Semver convention and root bump rule documented
+- ✅ Root version bump guard enforced in `scripts/release/release-version.mjs` — root bumps require a newlyCompleted phase
 
 **Acceptance criteria:**
 - ✅ All math is testable without browser/DOM (48 pure function tests)
@@ -239,7 +239,7 @@ PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
 - ✅ `pnpm typecheck` passes (16/16)
 - ✅ `pnpm lint:arch` — no dependency violations
 - ✅ `pnpm verify-governance` — 7/7 stages pass
-- ✅ `scripts/dev-version.mjs` produces valid semver dev-identifier
+- ✅ `scripts/release/dev-version.mjs` produces valid semver dev-identifier
 - ✅ Root version bump guard prevents bumps without phase completion
 
 ---
@@ -279,7 +279,7 @@ both pass with the changes below in place.
 | WS2 | README | Re-indexed to the charter, health dashboard, package metadata | ✅ |
 | WS3 | Charter content | Package Maturity table + package-map aligned with `ARCHITECTURE.toml` | ✅ |
 | WS4 | Size + coverage machinery | `size-check.cjs` gzip support, `bundlesize.config.json` per-package budgets, coverage ratchet policy, `build` stage, registry/`ARCHITECTURE.toml` validation | ✅ |
-| WS5 | Package metadata | `ARCHITECTURE.toml` in every package, `PACKAGE_METADATA.md`, `REPOSITORY_HEALTH.md` generator (`generate-health.mjs`) | ✅ |
+| WS5 | Package metadata | `ARCHITECTURE.toml` in every package, `policies/PACKAGE_METADATA.md`, `REPOSITORY_HEALTH.md` generator (`scripts/generate/generate-health.mjs`) | ✅ |
 
 All verified: `pnpm docs:sync` and `pnpm verify-governance` pass with these changes in place.
 
