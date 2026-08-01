@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const { readFileSync, statSync, readdirSync, existsSync } = require('fs');
+const { gzipSync } = require('zlib');
 const { join, relative } = require('path');
 
 const root = join(__dirname, '..');
@@ -14,13 +15,15 @@ for (const entry of config.files) {
   const maxBytes = parseSize(entry.maxSize);
   const files = findFiles(baseDir, pattern);
   for (const file of files) {
-    const size = statSync(file).size;
+    const raw = statSync(file).size;
+    // Libraries are measured as raw dist bytes; applications as gzip (entry.gzip).
+    const size = entry.gzip === true ? gzipSync(readFileSync(file)).length : raw;
     const rel = relative(root, file);
     if (size > maxBytes) {
-      console.error(`❌ ${rel}: ${formatSize(size)} > ${entry.maxSize}`);
+      console.error(`❌ ${rel}: ${formatSize(size)} > ${entry.maxSize}${entry.gzip ? ' (gzip)' : ''}`);
       totalErrors++;
     } else {
-      console.log(`✓ ${rel}: ${formatSize(size)} <= ${entry.maxSize}`);
+      console.log(`✓ ${rel}: ${formatSize(size)} <= ${entry.maxSize}${entry.gzip ? ' (gzip)' : ''}`);
     }
   }
 }

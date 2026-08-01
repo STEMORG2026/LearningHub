@@ -178,15 +178,14 @@ describe('App scaffolds exist', () => {
 });
 
 // ────────────────────────────────────────────────────────────────
-// SUITE 5: SHELL INDEX.HTML REDIRECT
+// SUITE 5: ROOT INDEX.HTML DEPRECATION
 // ────────────────────────────────────────────────────────────────
-describe('Shell index.html redirect', () => {
-  it('root index.html redirects to legacy', () => {
+describe('Root index.html deprecation notice', () => {
+  it('root index.html is a deprecation notice pointing at apps/shell', () => {
     const html = read(join(ROOT, 'index.html'));
-    expect(html).toContain('window.location.replace');
-    expect(html).toContain('legacy/index.html');
-    expect(html).toContain('<noscript>');
-    expect(html).toContain('meta http-equiv="refresh"');
+    expect(html).toContain('This entry point is deprecated');
+    expect(html).toContain('apps/shell/');
+    expect(html).toContain('removed in v4');
   });
 });
 
@@ -255,7 +254,7 @@ describe('Legacy frozen zone', () => {
 // ────────────────────────────────────────────────────────────────
 describe('Documentation completeness', () => {
   const requiredDocs = [
-    'ARCHITECTURE.md',
+    'ARCHITECTURE/README.md',
     'RULES.md',
     'COMPONENT_STANDARDS.md',
     'EVENT_BUS_CONTRACT.md',

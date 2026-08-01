@@ -173,7 +173,7 @@ MUST remain fully tested until removal.**
 
 | Document | What it covers |
 |----------|---------------|
-| `ARCHITECTURE.md` | Module layout, package map |
+| `ARCHITECTURE/README.md` | Module layout, package map |
 | `API_CONTRACT.md` | Public contract versioning, semver, migration |
 | `PACKAGE_LIFECYCLE.md` | Package state transitions |
 | `adr/README.md` | ADR index and decision log |

@@ -1,0 +1,24 @@
+# @stem-tuition/tracer — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "stable"
+maturity = "proven"
+
+contracts = ["api", "event"]
+
+publicApi = [
+  "Tracer",
+  "traced",
+  "traceDecorator",
+  "trace",
+  "initTracer",
+  "TracerDashboard",
+  "registerDashboard",
+  "showDashboard",
+  "hideDashboard",
+]
+
+dependencies = ["core"]
+
+adrs = ["008"]

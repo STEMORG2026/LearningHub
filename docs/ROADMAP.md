@@ -267,6 +267,24 @@ Each feature gets:
 
 ---
 
+## Docs Governance Hardening (WS1–WS5)
+
+Consolidation of the docs + governance machinery so it stays fresh without manual
+effort. All items are complete when `pnpm docs:sync` and `pnpm verify-governance`
+both pass with the changes below in place.
+
+| # | Workstream | Deliverable | Status |
+|---|------------|-------------|--------|
+| WS1 | Stale `ARCHITECTURE.md` | Replaced by `docs/ARCHITECTURE/README.md` charter + C4 set; refs updated across docs | ✅ |
+| WS2 | README | Re-indexed to the charter, health dashboard, package metadata | ✅ |
+| WS3 | Charter content | Package Maturity table + package-map aligned with `ARCHITECTURE.toml` | ✅ |
+| WS4 | Size + coverage machinery | `size-check.cjs` gzip support, `bundlesize.config.json` per-package budgets, coverage ratchet policy, `build` stage, registry/`ARCHITECTURE.toml` validation | ✅ |
+| WS5 | Package metadata | `ARCHITECTURE.toml` in every package, `PACKAGE_METADATA.md`, `REPOSITORY_HEALTH.md` generator (`generate-health.mjs`) | ✅ |
+
+All verified: `pnpm docs:sync` and `pnpm verify-governance` pass with these changes in place.
+
+---
+
 ## How to Update This Document
 
 The phase progress bar and per-phase status markers are **machine-owned** `AUTO`

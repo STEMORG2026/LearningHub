@@ -70,8 +70,7 @@ STEM-TUITION/
 │
 ├── docs/                           All documentation
 │   ├── RULES.md                    Governance entry point (principles + rules)
-│   ├── ARCHITECTURE.md
-│   ├── ARCHITECTURE/               C4 diagram set
+│   ├── ARCHITECTURE/               Charter (README.md) + C4 diagram set
 │   ├── COMPONENT_STANDARDS.md
 │   ├── EVENT_BUS_CONTRACT.md
 │   ├── API_CONTRACT.md
@@ -194,7 +193,7 @@ git push -u origin feat/your-feature-name
 
 | If you want to... | Read this |
 |-------------------|-----------|
-| Understand how modules connect | `ARCHITECTURE.md` |
+| Understand how modules connect | `ARCHITECTURE/README.md` |
 | Learn how to build a component | `COMPONENT_STANDARDS.md` |
 | See what's happening in real-time | `DEBUGGING.md` |
 | Know what to work on next | `ROADMAP.md` |

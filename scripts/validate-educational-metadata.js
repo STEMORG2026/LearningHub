@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Real educational-metadata validation (ADR-007 + ARCHITECTURE.md §7).
+// Real educational-metadata validation (ADR-007 + docs/ARCHITECTURE/README.md §7).
 //
 // For packages/quiz-engine/src/data.ts this checks:
 //   1. Every question carries the full educational metadata contract:

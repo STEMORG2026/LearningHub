@@ -4,7 +4,7 @@
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** All packages and apps
-**Related:** `ARCHITECTURE.md`, `COMPONENT_STANDARDS.md`, `EVENT_BUS_CONTRACT.md`, `docs/ARCHITECTURE/containers.md`
+**Related:** `ARCHITECTURE/README.md`, `COMPONENT_STANDARDS.md`, `EVENT_BUS_CONTRACT.md`, `docs/ARCHITECTURE/containers.md`
 
 ---
 

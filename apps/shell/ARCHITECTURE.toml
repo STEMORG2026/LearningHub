@@ -1,0 +1,14 @@
+# @stem-tuition/shell — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "experimental"
+maturity = "incubating"
+
+contracts = ["api"]
+
+publicApi = []
+
+dependencies = []
+
+adrs = ["002", "005"]

@@ -55,10 +55,13 @@ STEM-TUITION/
 │   └── shell/                    App shell (routing between legacy and modern)
 │
 ├── docs/                         ← All documentation
-│   ├── ARCHITECTURE.md           System architecture and module map
-│   ├── RULES.md                  Non-negotiable coding rules
+│   ├── ARCHITECTURE/             Charter (README.md) + C4 diagram set
+│   ├── RULES.md                  Non-negotiable coding rules (entry point)
 │   ├── COMPONENT_STANDARDS.md    Web Component patterns
 │   ├── EVENT_BUS_CONTRACT.md     Cross-module communication
+│   ├── PACKAGE_METADATA.md       ARCHITECTURE.toml standard
+│   ├── REPOSITORY_HEALTH.md       Generated package health (docs:sync)
+│   ├── DOCS.md                   Docs taxonomy
 │   ├── FLOWCHARTS.md             Visual diagrams
 │   ├── QUICKSTART.md             Setup guide
 │   ├── DEBUGGING.md              Troubleshooting with tracer
@@ -97,13 +100,14 @@ STEM-TUITION/
 | # | Check | Command | What it prevents |
 |---|-------|---------|-----------------|
 | F1 | Circular deps | `pnpm lint:circular` | `packages/a → packages/b → packages/a` |
-| F2 | Module size | `pnpm lint:size` | Package exceeding 50KB (gzipped) |
+| F2 | Module size | `pnpm lint:size` | Exceeding per-package budgets (`bundlesize.config.json`; apps measured gzip) |
 | F3 | Forbidden imports | `pnpm lint:arch` | `packages/*` importing `legacy/*` directly |
-| F4 | Test coverage | `pnpm test:coverage` | < 90% on new modules |
+| F4 | Test coverage | `pnpm test:coverage` | Below the per-package ratchet floor (≥95% target, floors in `vitest.config.*.ts`) |
 | F5 | No global state | `pnpm lint:state` | `window.X = Y` in new code |
 | F6 | No DOM in logic | `pnpm lint:dom` | `document.getElementById` in business logic |
 | F7 | A11y gate | `pnpm test:a11y` | axe-core violations |
 | F8 | Performance | `pnpm test:perf` | LCP > 2.5s, bundle > 300KB |
+| F9 | Registry + metadata | `pnpm lint:registry` | Missing registry entries or invalid `ARCHITECTURE.toml` |
 
 ---
 
@@ -121,6 +125,9 @@ pnpm dev:shell           # Modern modules (Vite HMR)
 # Testing (affected packages only)
 pnpm test --filter="[changed]"
 
+# Regenerate generated docs (health dashboard, AUTO regions)
+pnpm docs:sync
+
 # Full governance check
 pnpm verify-governance
 ```
@@ -131,10 +138,17 @@ See `docs/QUICKSTART.md` for detailed setup.
 
 ## 📚 Documentation Index
 
+Start with `docs/RULES.md` (governance entry point) and the architecture charter at
+`docs/ARCHITECTURE/README.md`. Live package status is in the generated
+[`docs/REPOSITORY_HEALTH.md`](docs/REPOSITORY_HEALTH.md).
+
 | Document | What it covers |
 |----------|---------------|
-| `ARCHITECTURE.md` | System overview, module map, data flow, dependency rules |
+| `ARCHITECTURE/README.md` | Charter: system overview, module map, data flow, dependency rules |
 | `RULES.md` | Non-negotiable architectural, coding, CSS, testing, security rules |
+| `PACKAGE_METADATA.md` | `ARCHITECTURE.toml` standard (owner, status, contracts, ADRs) |
+| `REPOSITORY_HEALTH.md` | Generated package health (coverage floors, status, sizes) |
+| `DOCS.md` | Docs taxonomy: what lives where, who owns it, update rules |
 | `COMPONENT_STANDARDS.md` | Web Component lifecycle, Shadow DOM, events |
 | `EVENT_BUS_CONTRACT.md` | Event naming, payload schemas, debugging |
 | `FLOWCHARTS.md` | Visual diagrams of every connection |

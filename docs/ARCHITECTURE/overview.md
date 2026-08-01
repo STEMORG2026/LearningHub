@@ -4,7 +4,7 @@
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** All packages and apps
-**Related:** `ARCHITECTURE.md`, `RULES.md`, `COMPONENT_STANDARDS.md`, `docs/ARCHITECTURE/`
+**Related:** `ARCHITECTURE/README.md`, `RULES.md`, `COMPONENT_STANDARDS.md`, `docs/ARCHITECTURE/`
 
 ---
 
@@ -12,7 +12,8 @@
 
 This directory is the **C4-style diagram set** for STEM-TUITION. It replaces
 `FLOWCHARTS.md` as the canonical location for architecture diagrams. The prose
-overview, module layout, and dependency rules remain in `docs/ARCHITECTURE.md`.
+overview, module layout, and dependency rules remain in the charter,
+`docs/ARCHITECTURE/README.md`.
 
 | File | C4 Level | Covers |
 |------|----------|--------|
@@ -31,7 +32,7 @@ flowchart LR
     CONT --> COMP[components.md]
     CONT --> DEP[dependencies.md]
     CONT --> MIG[migration.md]
-    COMP -.->|rules live in| RULES[RULES.md / ARCHITECTURE.md]
+    COMP -.->|rules live in| RULES[RULES.md / ARCHITECTURE/README.md]
     DEP -.->|enforced by| LINT[pnpm lint:arch]
 ```
 

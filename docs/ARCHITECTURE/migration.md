@@ -4,7 +4,7 @@
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** All packages and apps
-**Related:** `ARCHITECTURE.md`, `ROADMAP.md`, `docs/RULES.md`, `docs/adr/001-strangler-fig-migration.md`, `docs/ARCHITECTURE/overview.md`
+**Related:** `ARCHITECTURE/README.md`, `ROADMAP.md`, `docs/RULES.md`, `docs/adr/001-strangler-fig-migration.md`, `docs/ARCHITECTURE/overview.md`
 
 ---
 

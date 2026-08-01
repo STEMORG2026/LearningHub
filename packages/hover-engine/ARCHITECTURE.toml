@@ -1,0 +1,21 @@
+# @stem-tuition/hover-engine — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "incubating"
+maturity = "incubating"
+
+contracts = ["interface"]
+
+publicApi = [
+  "HOVER_STYLES",
+  "COOLDOWN_MAX",
+  "initCooldownState",
+  "pickHoverStyle",
+  "updateCooldown",
+  "isStyleInCooldown",
+]
+
+dependencies = ["core", "tracer"]
+
+adrs = ["002"]

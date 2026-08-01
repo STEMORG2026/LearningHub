@@ -17,8 +17,8 @@
 | **FID** (First Input Delay) | < 100ms | p75 of users | Lighthouse / Web Vitals |
 | **CLS** (Cumulative Layout Shift) | < 0.1 | p75 of users | Lighthouse / Web Vitals |
 | **INP** (Interaction to Next Paint) | < 200ms | p75 of users | Lighthouse / Web Vitals |
-| **Bundle size (legacy)** | < 300KB gzipped | per page | bundlesize / webpack-bundle-analyzer |
-| **Module size (modern)** | < 50KB gzipped | per package | `pnpm lint:size` |
+| **Bundle size (legacy)** | < 300KB gzipped | per page | webpack-bundle-analyzer |
+| **Module size (modern)** | per-package budgets in `bundlesize.config.json` (apps gzip) | per package | `pnpm lint:size` |
 
 ---
 
@@ -121,7 +121,7 @@ open http://localhost:8085/?trace=true
 |------|---------|------|
 | Lighthouse CI | Core Web Vitals | Every PR |
 | Web Vitals library | Real user monitoring | Production |
-| bundlesize | Bundle regression | Every commit |
+| `pnpm lint:size` (size-check.cjs) | Bundle regression vs. budgets | Every commit |
 
 ---
 

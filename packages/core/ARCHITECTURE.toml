@@ -1,0 +1,26 @@
+# @stem-tuition/core — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "stable"
+maturity = "mature"
+
+contracts = ["api", "interface", "schema"]
+
+publicApi = [
+  "EventBus",
+  "getDefaultEventBus",
+  "initEventBus",
+  "EventPayload",
+  "EventHandler",
+  "SubscriptionEntry",
+  "QuizStartedData",
+  "QuizAnswerSubmittedData",
+  "QuizCompletedData",
+  "AudioPlaySoundData",
+  "ErrorData",
+]
+
+dependencies = []
+
+adrs = ["003", "005"]

@@ -1,0 +1,38 @@
+# @stem-tuition/acl — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "stable"
+maturity = "proven"
+
+contracts = ["adapter", "event"]
+
+publicApi = [
+  "playSpark",
+  "playCollision",
+  "playExplosion",
+  "playMotionHum",
+  "syncMutedState",
+  "syncIntensityState",
+  "syncAllStates",
+  "getAudioContext",
+  "AudioEngine",
+  "getQuizState",
+  "getSubjectQuestions",
+  "getAvailableSubjects",
+  "setQuizSubject",
+  "publishQuizStarted",
+  "publishQuizAnswerSubmitted",
+  "publishQuizCompleted",
+  "isCanvasActive",
+  "isBackgroundDisabled",
+  "getCanvasDimensions",
+  "getSimulationState",
+  "clickControlButton",
+  "enableBackground",
+  "disableBackground",
+]
+
+dependencies = ["audio-synth", "core", "tracer"]
+
+adrs = ["003", "004"]

@@ -149,6 +149,85 @@ function processFile(fileName) {
   }
 }
 
+// ──── ARCHITECTURE.toml (package metadata) validation ────
+// Every packages/* and apps/* declares architecture metadata in ARCHITECTURE.toml
+// (owner, status, maturity, contracts, publicApi, dependencies, adrs). This is
+// parsed with a minimal flat-schema TOML parser — no TOML dependency needed.
+const LIFECYCLE_STATES = ['experimental', 'incubating', 'stable', 'legacy', 'deprecated', 'archived'];
+const CONTRACT_CLASSES = ['api', 'interface', 'event', 'adapter', 'schema', 'configuration', 'cli', 'environment-variables'];
+
+function parseToml(src) {
+  const obj = {};
+  for (const rawLine of src.split('\n')) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq === -1) continue;
+    const key = line.slice(0, eq).trim();
+    if (!key) continue;
+    let val = line.slice(eq + 1).trim();
+    if (val.startsWith('[') && val.endsWith(']')) {
+      const inner = val.slice(1, -1).trim();
+      obj[key] = inner === '' ? [] : inner.split(',').map((s) => s.trim().replace(/^["']|["']$/g, ''));
+    } else if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      obj[key] = val.slice(1, -1);
+    } else {
+      obj[key] = val;
+    }
+  }
+  return obj;
+}
+
+function validateArchitectureToml() {
+  const scopes = [join(root, 'packages'), join(root, 'apps')];
+  const knownPackages = new Set();
+  if (existsSync(join(root, 'packages'))) {
+    for (const p of readdirSync(join(root, 'packages'))) knownPackages.add(p);
+  }
+  for (const scope of scopes) {
+    if (!existsSync(scope)) continue;
+    for (const name of readdirSync(scope)) {
+      const dir = join(scope, name);
+      if (!statSync(dir).isDirectory()) continue;
+      const tomlPath = join(dir, 'ARCHITECTURE.toml');
+      if (!existsSync(tomlPath)) {
+        errors.push(`${scope.replace(root + '/', '')}/${name}: missing ARCHITECTURE.toml (package metadata standard)`);
+        continue;
+      }
+      const meta = parseToml(readFileSync(tomlPath, 'utf8'));
+      const label = `${scope.replace(root + '/', '')}/${name}`;
+      const required = ['owner', 'status', 'maturity', 'contracts', 'publicApi', 'dependencies', 'adrs'];
+      for (const field of required) {
+        if (!(field in meta)) errors.push(`${label}/ARCHITECTURE.toml: missing required field "${field}"`);
+      }
+      if (meta.status && !LIFECYCLE_STATES.includes(String(meta.status).toLowerCase())) {
+        errors.push(`${label}/ARCHITECTURE.toml: invalid status "${meta.status}" (must be one of ${LIFECYCLE_STATES.join(', ')})`);
+      }
+      if (Array.isArray(meta.contracts)) {
+        for (const c of meta.contracts) {
+          if (!CONTRACT_CLASSES.includes(String(c).toLowerCase())) {
+            errors.push(`${label}/ARCHITECTURE.toml: invalid contract "${c}" (must be one of ${CONTRACT_CLASSES.join(', ')})`);
+          }
+        }
+      }
+      if (Array.isArray(meta.dependencies)) {
+        for (const d of meta.dependencies) {
+          if (!knownPackages.has(String(d))) {
+            errors.push(`${label}/ARCHITECTURE.toml: unknown dependency "${d}" (not a workspace package)`);
+          }
+        }
+      }
+      if (Array.isArray(meta.adrs)) {
+        for (const adr of meta.adrs) {
+          const adrDir = join(root, 'docs/adr');
+          const ok = existsSync(adrDir) && readdirSync(adrDir).some((f) => f.startsWith(`${String(adr).padStart(3, '0')}-`));
+          if (!ok) errors.push(`${label}/ARCHITECTURE.toml: adrs entry "${adr}" does not match any docs/adr file`);
+        }
+      }
+    }
+  }
+}
+
 // ──── Run ────
 function main() {
   if (!existsSync(registryDir)) {
@@ -157,6 +236,7 @@ function main() {
   }
 
   checkComponentCoverage();
+  validateArchitectureToml();
 
   const files = readdirSync(registryDir).filter((f) => f.endsWith('.md')).sort();
   for (const file of files) processFile(file);

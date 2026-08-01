@@ -1,0 +1,22 @@
+# @stem-tuition/audio-synth — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "stable"
+maturity = "proven"
+
+contracts = ["api", "schema"]
+
+publicApi = [
+  "AudioEngine",
+  "playSparkSound",
+  "playCollisionSound",
+  "playExplosionSound",
+  "playMotionHum",
+  "SoundResult",
+  "SoundName",
+]
+
+dependencies = ["core", "tracer"]
+
+adrs = []

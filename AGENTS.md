@@ -9,7 +9,7 @@
 1. **`AGENTS.md`** (this file) — quick reference
 2. **`docs/RULES.md`** — non-negotiable coding rules (697 lines, ENFORCED)
 3. **`docs/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
-4. **`docs/ARCHITECTURE.md`** — module layout, import rules, data flow (283 lines)
+4. **`docs/ARCHITECTURE/README.md`** — architecture charter: module layout, import rules, data flow (the charter moved from `docs/ARCHITECTURE.md` to `docs/ARCHITECTURE/README.md`)
 5. **`docs/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (277 lines, ENFORCED)
 6. **`docs/COMPONENT_STANDARDS.md`** — Web Component patterns (414 lines, ENFORCED)
 7. **`docs/adr/001-010`** — architecture decisions (10 files)

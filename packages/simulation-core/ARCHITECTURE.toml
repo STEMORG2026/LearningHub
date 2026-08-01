@@ -1,0 +1,29 @@
+# @stem-tuition/simulation-core — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "incubating"
+maturity = "incubating"
+
+contracts = ["api", "interface", "schema"]
+
+publicApi = [
+  "BODY_TYPES",
+  "createSun",
+  "createPlanet",
+  "createBlackhole",
+  "createSmallItem",
+  "stepPosition",
+  "applyBoundary",
+  "applyMouseForce",
+  "interactPair",
+  "applyBlackholePull",
+  "applyBlackholeDevour",
+  "computeForceMult",
+  "updatePhysics",
+  "PLANET_CONFIGS",
+]
+
+dependencies = ["core", "tracer"]
+
+adrs = []

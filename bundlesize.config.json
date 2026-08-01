@@ -1,8 +1,37 @@
 {
   "files": [
     {
-      "path": "apps/shell/dist/assets/*.js",
+      "path": "packages/core/dist/*.js",
       "maxSize": "100 kB"
+    },
+    {
+      "path": "packages/tracer/dist/*.js",
+      "maxSize": "100 kB"
+    },
+    {
+      "path": "packages/audio-synth/dist/*.js",
+      "maxSize": "100 kB"
+    },
+    {
+      "path": "packages/acl/dist/*.js",
+      "maxSize": "100 kB"
+    },
+    {
+      "path": "packages/quiz-engine/dist/*.js",
+      "maxSize": "100 kB"
+    },
+    {
+      "path": "packages/hover-engine/dist/*.js",
+      "maxSize": "100 kB"
+    },
+    {
+      "path": "packages/simulation-core/dist/*.js",
+      "maxSize": "100 kB"
+    },
+    {
+      "path": "apps/shell/dist/assets/*.js",
+      "maxSize": "100 kB",
+      "gzip": true
     }
   ]
 }

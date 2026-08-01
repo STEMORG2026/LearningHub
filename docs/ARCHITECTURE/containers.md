@@ -4,7 +4,7 @@
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** All packages and apps
-**Related:** `ARCHITECTURE.md`, `RULES.md`, `docs/ARCHITECTURE/context.md`, `docs/ARCHITECTURE/dependencies.md`
+**Related:** `ARCHITECTURE/README.md`, `RULES.md`, `docs/ARCHITECTURE/context.md`, `docs/ARCHITECTURE/dependencies.md`
 
 ---
 

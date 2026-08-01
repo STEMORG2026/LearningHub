@@ -1,0 +1,27 @@
+# @stem-tuition/quiz-engine — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "stable"
+maturity = "proven"
+
+contracts = ["api", "event", "interface"]
+
+publicApi = [
+  "StemQuiz",
+  "createQuizState",
+  "validateAnswer",
+  "advanceQuestion",
+  "resetQuiz",
+  "getCurrentQuestion",
+  "renderQuestion",
+  "renderResult",
+  "QUIZ_QUESTIONS",
+  "getQuestionsBySubject",
+  "getQuestionById",
+  "getResultMetadata",
+]
+
+dependencies = ["core", "tracer"]
+
+adrs = ["002", "003"]

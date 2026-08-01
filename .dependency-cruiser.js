@@ -5,7 +5,7 @@ module.exports = {
       name: 'no-legacy-imports',
       severity: 'error',
       comment:
-        'Direct imports from legacy/ are forbidden — use ACL adapters. See docs/ARCHITECTURE.md:127',
+        'Direct imports from legacy/ are forbidden — use ACL adapters. See docs/ARCHITECTURE/README.md → Module Dependency Rules',
       from: { path: '^(packages|apps)' },
       to: { path: '^legacy' },
     },
@@ -13,7 +13,7 @@ module.exports = {
       name: 'legacy-no-modern-imports',
       severity: 'error',
       comment:
-        'Legacy code cannot import from packages/. See docs/ARCHITECTURE.md:132',
+        'Legacy code cannot import from packages/. See docs/ARCHITECTURE/README.md → Module Dependency Rules',
       from: { path: '^legacy' },
       to: { path: '^(packages|apps)' },
     },
