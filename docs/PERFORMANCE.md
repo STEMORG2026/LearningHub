@@ -1,6 +1,10 @@
 # Performance Guide
 
 **Version:** 3.0.0  
+**Status:** ENFORCED  
+**Owner:** Architecture  
+**Applies To:** All packages and apps  
+**Related:** `RULES.md`, `DEPENDENCY_POLICY.md`  
 **Purpose:** Performance budgets, monitoring, and optimization targets.
 
 ---

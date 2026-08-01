@@ -2,7 +2,9 @@
 
 **Version:** 3.0.0
 **Status:** ENFORCED
-**Applies to:** All packages under `packages/*`
+**Owner:** Architecture
+**Applies To:** All packages under `packages/*`
+**Related:** `RULES.md`, `EVENT_BUS_CONTRACT.md`, `ACCESSIBILITY.md`, `docs/component-registry/`
 
 ---
 

@@ -2,6 +2,9 @@
 
 **Version:** 3.0.0
 **Status:** Active
+**Owner:** Architecture
+**Applies To:** Root workspace and all packages
+**Related:** `RULES.md`, `API_CONTRACT.md`, `PACKAGE_LIFECYCLE.md`, `docs/adr/README.md`, `docs/HUMAN_INVOLVEMENT.md`
 
 ---
 
@@ -127,11 +130,53 @@ human-approval process.
 
 ---
 
-## 5. Related Documents
+## 5. Compatibility
+
+Officially supported minimums (floors). **The tested baseline is tracked in
+CI/package.json, not in governance text** — governance must not change when a tool
+version updates.
+
+| Toolchain | Minimum supported |
+|-----------|-------------------|
+| Node.js | ≥ 18 (LTS) |
+| pnpm | ≥ 9 |
+| TypeScript | ≥ 5.4 |
+| ECMAScript target | ES2022 |
+| Browsers | modern evergreen (last 2 versions); no IE |
+| Build tooling | `tsc` + `turbo` |
+
+**Rules:**
+
+- Code MUST compile and run on the minimums above (floors).
+- The **tested** environment is what CI actually runs — that is the source of truth
+  for "known good" (see `package.json` / CI config), and may be newer than the floors.
+- A floor change is a breaking change: it requires an ADR and is announced in a MAJOR
+  release.
+
+---
+
+## 6. Deprecation
+
+Contracts and packages follow the lifecycle
+`Experimental → Stable → Deprecated → Removed`. **Deprecated APIs/events/interfaces
+MUST remain fully tested until removal.**
+
+- Deprecation is announced with a version, a replacement, and a migration path
+  (warnings in the tracer/logs, JSDoc `@deprecated`, changelog entry).
+- Removal happens only in a MAJOR release, after a deprecation cycle.
+- Package-level state (Experimental/Incubating/Stable/Legacy/Deprecated/Archived) is
+  governed by `docs/PACKAGE_LIFECYCLE.md` — this section covers contracts and APIs.
+
+---
+
+## 7. Related Documents
 
 | Document | What it covers |
 |----------|---------------|
 | `ARCHITECTURE.md` | Module layout, package map |
+| `API_CONTRACT.md` | Public contract versioning, semver, migration |
+| `PACKAGE_LIFECYCLE.md` | Package state transitions |
+| `adr/README.md` | ADR index and decision log |
 | `ROADMAP.md` | Phase execution plan |
 | `AGENTS.md` | Release workflow, human approval gate |
 | `scripts/dev-version.mjs` | Dev-version identifier implementation |

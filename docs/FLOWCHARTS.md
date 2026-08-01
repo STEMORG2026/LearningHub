@@ -3,6 +3,11 @@
 **Version:** 3.0.0
 **Purpose:** Visual diagrams of architecture, data flow, and module connections
 
+> **⚠️ SUPERSEDED** — this file is kept for reference only. Architecture diagrams now
+> live in `docs/ARCHITECTURE/` (C4 set: context, containers, components,
+> dependencies, migration). Do not update this file; update `docs/ARCHITECTURE/`
+> instead.
+
 ---
 
 ## 1. System Architecture (High Level)

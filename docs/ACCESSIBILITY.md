@@ -1,6 +1,10 @@
 # Accessibility Guide
 
 **Version:** 3.0.0  
+**Status:** ENFORCED  
+**Owner:** Architecture  
+**Applies To:** All components and pages  
+**Related:** `RULES.md`, `COMPONENT_STANDARDS.md`  
 **Target:** WCAG 2.2 AA  
 **Tooling:** axe-core via Playwright (automated) + manual review
 

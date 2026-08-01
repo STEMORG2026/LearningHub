@@ -2,6 +2,9 @@
 
 **Version:** 3.0.0
 **Status:** Active Evolution
+**Owner:** Architecture
+**Applies To:** All packages, apps, and the root workspace
+**Related:** `RULES.md`, `API_CONTRACT.md`, `EVENT_BUS_CONTRACT.md`, `docs/ARCHITECTURE/`, `docs/adr/README.md`
 **Project:** STEM-TUITION (independent project, not part of LearningHubSTEM)
 
 ---
@@ -9,6 +12,41 @@
 ## Purpose
 
 This document describes the complete architecture of STEM-TUITION — how the code is organized, how modules connect, what each package is responsible for, and the rules that govern those connections.
+
+---
+
+## 1.5 Documentation Map
+
+`RULES.md` is the governance **entry point**; it summarizes each policy and points
+to its owning document (policy text is authored once, never duplicated). Detail
+lives in the docs below. This graph is the current documentation architecture:
+
+```mermaid
+flowchart LR
+  R[RULES.md<br/>principles · rules · enforcement] --> API[API_CONTRACT.md]
+  R --> EB[EVENT_BUS_CONTRACT.md]
+  R --> VER[VERSIONING.md]
+  R --> DEP[DEPENDENCY_POLICY.md]
+  R --> REL[RELIABILITY.md]
+  R --> OBS[OBSERVABILITY.md]
+  R --> PL[PACKAGE_LIFECYCLE.md]
+  R --> AR[adr/README.md]
+  R --> AD[ARCHITECTURE.md]
+  R --> CS[COMPONENT_STANDARDS.md]
+  R --> ACC[ACCESSIBILITY.md]
+  R --> SEC[SECURITY.md]
+  R --> PERF[PERFORMANCE.md]
+  AD --> C4[ARCHITECTURE/<br/>overview · context · containers · components · dependencies · migration]
+  AD --> QS[QUICKSTART.md]
+  AD --> RLM[ROADMAP.md]
+  VER --> PL
+  API --> EB
+  API --> VER
+```
+
+Update triggers: any ADR-trigger change, package-topology change (regenerate the
+graph), public-contract change, or phase completion MUST update the relevant
+diagram (`docs/ARCHITECTURE/overview.md`).
 
 ---
 
@@ -66,18 +104,24 @@ STEM-TUITION/
 │   └── simulation-core/                ← pure physics math (no canvas/DOM)
 │
 ├── docs/                               ← all documentation
+│   ├── RULES.md                        ← governance entry point (principles + rules)
 │   ├── ARCHITECTURE.md                 ← THIS FILE
+│   ├── ARCHITECTURE/                   ← C4 diagram set (context, containers, …)
 │   ├── COMPONENT_STANDARDS.md          ← how to build components
 │   ├── EVENT_BUS_CONTRACT.md           ← how modules communicate
-│   ├── FLOWCHARTS.md                   ← visual diagrams
+│   ├── API_CONTRACT.md                 ← public contract versioning
+│   ├── OBSERVABILITY.md                ← logs/traces/metrics naming
+│   ├── DEPENDENCY_POLICY.md            ← dependency evaluation & approval
+│   ├── RELIABILITY.md                  ← timeouts, retries, error handling
+│   ├── PACKAGE_LIFECYCLE.md            ← package state transitions
+│   ├── VERSIONING.md                   ← semver, compatibility, deprecation, release
 │   ├── QUICKSTART.md                   ← setup guide
 │   ├── DEBUGGING.md                    ← troubleshooting guide
 │   ├── ROADMAP.md                      ← migration phases
 │   ├── GLOSSARY.md                     ← technical terms
 │   ├── HUMAN_INVOLVEMENT.md            ← human vs. automation contract
-│   ├── VERSIONING.md                   ← semver, dev-version, release workflow
 │   ├── component-registry/             ← living map of every component + file:line
-│   └── adr/                            ← Architecture Decision Records
+│   └── adr/                            ← Architecture Decision Records (+ README index)
 │
 ├── scripts/                            ← release pipeline, doc sync, tracked hooks
 │   ├── docs-sync.mjs                   ← deterministic AUTO-section synchronizer
@@ -284,14 +328,15 @@ PHASE 7+: Features     ░░░░░░░░░░ 0%
 
 | Document | What it covers |
 |----------|---------------|
+| `RULES.md` | Governance entry point: principles, mandatory rules, enforcement |
 | `COMPONENT_STANDARDS.md` | How to build a Web Component |
 | `EVENT_BUS_CONTRACT.md` | Event naming, payloads, versioning |
-| `FLOWCHARTS.md` | Visual diagrams of all connections |
+| `API_CONTRACT.md` | Public contract versioning, semver, migration |
+| `ARCHITECTURE/` | C4 diagram set (overview, context, containers, components, dependencies, migration) |
 | `QUICKSTART.md` | Setup and first contribution |
 | `DEBUGGING.md` | Troubleshooting with tracer |
 | `ROADMAP.md` | Phased execution plan |
 | `GLOSSARY.md` | Technical terms defined |
-| `RULES.md` | Non-negotiable coding rules |
 | `SECURITY.md` | Security policies, input validation, CSP, data privacy |
 | `PERFORMANCE.md` | Performance budgets, optimization rules, Core Web Vitals |
 | `DEPLOYMENT.md` | Deployment guide (static → VPS), Nginx, CI/CD |

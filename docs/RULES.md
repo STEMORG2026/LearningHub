@@ -1,18 +1,80 @@
 # 📐 STEM-TUITION: Technical Rules & Coding Standards
 
-> **Version:** 2.1.0 (Modular Edition)  
-> **Status:** 🔒 ENFORCED  
-> **Applies To:** All developers, AI agents, and contributors  
-> **Effective Date:** 2026-07-30  
-> **Current Date:** 2026-07-31
+> **Version:** 2.2.0 (Governance Entry Point)
+> **Status:** 🔒 ENFORCED
+> **Owner:** Architecture
+> **Applies To:** All developers, AI agents, and contributors
+> **Related:** `API_CONTRACT.md` · `OBSERVABILITY.md` · `DEPENDENCY_POLICY.md` · `RELIABILITY.md` · `VERSIONING.md` · `EVENT_BUS_CONTRACT.md` · `PACKAGE_LIFECYCLE.md` · `docs/adr/README.md` · `docs/ARCHITECTURE/`
+> **Effective Date:** 2026-07-30
+> **Current Date:** 2026-08-01
 
 ---
 
 ## 🎯 Purpose
 
-This document defines the **strict technical regulations** that govern all code written in the STEM-TUITION project. These rules are non-negotiable and must be followed to maintain architectural integrity, educational quality, and long-term maintainability.
+This document is the **governance entry point** for STEM-TUITION. It defines the
+**principles**, the **mandatory rules**, and the **enforcement** of all code
+written in the project. Detail policies live in dedicated documents (linked under
+**Related** and in the References section); RULES.md summarizes them and points to
+the source of truth — it never duplicates policy text.
+
+These rules are non-negotiable and must be followed to maintain architectural
+integrity, educational quality, and long-term maintainability.
 
 **Violation of these rules will result in automatic PR rejection.**
+
+### Governance Philosophy
+
+This project is **open-source and contributor-friendly**. Governance is light and
+deterministic:
+
+- ❌ No enterprise frameworks (TOGAF, COBIT, ITIL)
+- ❌ No Architecture Review Boards or heavyweight approval workflows
+- ❌ No ceremony for ceremony's sake
+- ✅ "Architect review" means **one named maintainer** approves the PR/ADR
+- ✅ Rules are written to be **enforced automatically** wherever possible
+- ✅ Policy detail lives in one document only — never duplicated
+
+---
+
+## 🏗️ ARCHITECTURE PRINCIPLES
+
+Long-lived principles that all rules derive from. A rule MUST trace to at least
+one principle (see the `**Principles:**` annotations on the Architectural Rules).
+
+| Principle | Meaning |
+|-----------|---------|
+| **Interface First** | Define public contracts before implementation |
+| **Explicit Dependencies** | Dependencies are declared, versioned, and deliberate |
+| **Loose Coupling** | Modules communicate through contracts, not direct coupling |
+| **Single Responsibility** | One clear responsibility per package/module/file |
+| **Composition over Inheritance** | Build behavior by composing, not subclassing |
+| **Deterministic Behaviour** | Same input ⇒ same output, everywhere, every time |
+| **Fail Fast** | Detect and surface invalid state early |
+| **Immutable Public Contracts** | Accepted contracts change by addition or deprecation, never in place |
+| **Observability First** | New code is instrumentable from day one |
+| **Progressive Migration** | Strangler Fig: migrate incrementally, reversibly |
+| **Simplicity Before Cleverness** | Prefer the simplest correct solution |
+
+---
+
+## 🎯 QUALITY ATTRIBUTES
+
+The primary architectural quality attributes. Each rule supports at least one
+attribute (see the `**Quality:**` annotations on the Architectural Rules).
+
+| Attribute | Meaning |
+|-----------|---------|
+| **Maintainability** | Easy to understand, modify, and extend |
+| **Reliability** | Behave correctly under load, failure, and time |
+| **Extensibility** | Add capabilities without altering existing contracts |
+| **Testability** | Logic testable without a browser or network |
+| **Performance** | Meets explicit budgets (`PERFORMANCE.md`) |
+| **Accessibility** | WCAG 2.2 AA (`ACCESSIBILITY.md`) |
+| **Educational Accuracy** | Content is pedagogically correct (`EDUCATIONAL` registry) |
+| **Security** | Safe against common web threats (`SECURITY.md`) |
+| **Observability** | Instrumentable, diagnosable in production |
+| **Portability** | Runs in any supported browser/runtime (`VERSIONING.md` → Compatibility) |
 
 ---
 
@@ -24,10 +86,12 @@ This document defines the **strict technical regulations** that govern all code 
 import { legacyFunction } from '../legacy/js/stem-effects.js';
 
 // ✅ REQUIRED: Use Anti-Corruption Layer
-import { PhysicsAdapter } from '@stem-tuition/physics-adapter';
+import { PhysicsAdapter } from '@stem-tuition/acl';
 ```
 
 **Rationale:** Prevents legacy coupling from spreading into new modules.  
+**Principles:** Progressive Migration · Loose Coupling · Explicit Dependencies  
+**Quality:** Maintainability · Reliability  
 **Enforcement:** `pnpm lint:arch` blocks builds with violations.
 
 ### Rule 2: Business Logic Purity
@@ -48,20 +112,29 @@ class QuizEngine {
 ```
 
 **Rationale:** Enables testing without DOM, supports multiple UI frameworks.  
+**Principles:** Interface First · Testability · Loose Coupling  
+**Quality:** Testability · Maintainability · Portability  
 **Enforcement:** `pnpm lint:dom` (ESLint `no-restricted-properties`, scoped to pure-logic packages) blocks violations.
 
 ### Rule 3: No Global Mutable State
 ```typescript
-// ❌ FORBIDDEN: Global variables
+// ❌ FORBIDDEN: Global mutable state
 let currentGrade = 10;
 window.userProgress = {};
 
-// ✅ REQUIRED: Encapsulated state with signals/store
-import { signal } from '@preact/signals-core';
-const currentGrade = signal(10);
+// ✅ REQUIRED: Encapsulated state (module-level singleton with guard)
+let defaultInstance: EventBus | null = null;
+export function getDefaultEventBus(): EventBus {
+  if (!defaultInstance) {
+    defaultInstance = new EventBus();
+  }
+  return defaultInstance;
+}
 ```
 
-**Rationale:** Prevents race conditions, enables time-travel debugging.  
+**Rationale:** Prevents race conditions, enables deterministic behaviour.  
+**Principles:** Deterministic Behaviour · Fail Fast  
+**Quality:** Reliability · Testability  
 **Enforcement:** `pnpm lint:state` (ESLint `no-restricted-globals: window/globalThis`, scoped to pure-logic packages) blocks violations.
 
 ### Rule 4: Interface-First Development
@@ -83,12 +156,18 @@ interface IQuizQuestion {
 ```
 
 **Rationale:** Ensures loose coupling, enables mock testing.  
-**Enforcement:** Code review checklist.
+**Principles:** Interface First · Immutable Public Contracts  
+**Quality:** Maintainability · Extensibility · Testability  
+**Enforcement:** Code review checklist + public-contract governance (`API_CONTRACT.md`).
 
 ### Rule 5: Strangler Fig Compliance
 - New functionality MUST be created in `packages/` or `apps/`
 - Legacy code MAY ONLY be modified for critical security patches
 - Every migration MUST have a rollback plan documented in the PR
+
+**Principles:** Progressive Migration · Fail Fast  
+**Quality:** Maintainability · Reliability  
+**Enforcement:** Review checklist (`docs/RULES.md` → Migration Protocols).
 
 ---
 
@@ -139,8 +218,8 @@ interface IQuizQuestion {
 // packages/learning-engine/src/quiz-everything.ts
 ```
 
-**Maximum file size:** 500 lines (excluding tests and comments)  
-**Enforcement:** `pnpm lint:size`
+**Maximum file size:** 500 lines (excluding tests and comments) — review-checklist
+item (this is not automated; `pnpm lint:size` enforces bundle size, not file size).
 
 ### Documentation Requirements
 ```typescript
@@ -262,6 +341,9 @@ button:focus-visible {
   outline-offset: 2px;
 }
 ```
+
+> Accessibility-in-CSS is one facet of `Rule EDU-4` / `ACCESSIBILITY.md` — the two
+> are complementary, not duplicates. Keep both in sync with `docs/ACCESSIBILITY.md`.
 
 ---
 
@@ -553,6 +635,154 @@ All AI-generated code MUST pass:
 
 ---
 
+## 📋 GOVERNANCE POLICIES
+
+This section is the **summary layer** of the governance graph. Each policy below is
+a short summary — the normative detail lives in the linked document. Per the
+governance philosophy, policy text is authored **once** in its owning document.
+
+### Public Contract Governance
+
+Public contracts are versioned and immutable once accepted. The eight contract
+classes are **API, Interface, Event, Adapter, Schema, Configuration, CLI, and
+Environment Variables**.
+
+- Additive changes are always safe; breaking changes require a MAJOR + migration path
+- Stable contracts are never edited in place — change by addition or deprecation
+- Events require Event Bus review before use
+
+> **Full policy:** `docs/API_CONTRACT.md`
+
+### ADR Governance
+
+An ADR is mandatory for: new packages, public interfaces/contracts, Event Bus
+changes, dependency introduction, architectural pattern changes, major refactors,
+and phase-level decisions.
+
+- Lifecycle: `Draft → Accepted → Superseded/Rejected`
+- **Accepted ADRs are immutable** — change requires a new ADR
+- Ownership: one named maintainer (architect) approves — no board
+
+> **Full policy + index:** `docs/adr/README.md`
+
+### Dependency Governance
+
+Dependencies are introduced deliberately, evaluated against a fixed checklist, and
+removed when possible. **Prefer removing a dependency over adding one.**
+
+- Every new dependency requires an ADR + maintainer approval
+- Workspace packages and devDependencies are preferred over runtime deps
+- Bundle impact must fit `lint:size` budgets
+
+> **Full policy:** `docs/DEPENDENCY_POLICY.md`
+
+### Observability
+
+All observability output MUST follow the project naming convention and MUST carry
+no PII. Events, trace spans, and log categories share one `domain:action` scheme.
+
+- Structured logs at `debug/info/warn/error`; spans correlated by `traceId`
+- Metrics follow the project naming convention (defined in the owning doc)
+- Debug flags follow `?<area>=true` and are off by default
+
+> **Full policy (naming + conventions):** `docs/OBSERVABILITY.md`
+
+### Reliability
+
+Asynchronous and fallible code follows project-wide expectations:
+
+- Bounded timeouts; `AbortSignal` cancellation
+- Bounded retries with backoff+jitter on idempotent operations only
+- Graceful degradation; typed errors — never swallowed
+
+> **Full policy:** `docs/RELIABILITY.md`
+
+### Compatibility
+
+Officially supported minimums (floors). **Tested baseline is tracked in
+CI/package.json, not in governance text** — governance must not change when a tool
+version updates.
+
+| Toolchain | Minimum supported |
+|-----------|-------------------|
+| Node.js | ≥ 18 (LTS) |
+| pnpm | ≥ 9 |
+| TypeScript | ≥ 5.4 |
+| ECMAScript target | ES2022 |
+| Browsers | modern evergreen (last 2 versions); no IE |
+| Build tooling | `tsc` + `turbo` |
+
+> **Full policy:** `docs/VERSIONING.md` → Compatibility
+
+### Deprecation
+
+Contracts and packages follow the lifecycle
+`Experimental → Stable → Deprecated → Removed`. **Deprecated APIs/events/interfaces
+MUST remain fully tested until removal.**
+
+- Deprecation is announced with a version + replacement and a migration path
+- Removal happens only in a MAJOR release, after a deprecation cycle
+
+> **Full policy:** `docs/VERSIONING.md` → Deprecation
+
+### Package Lifecycle
+
+Packages (not APIs) move through
+`Experimental → Incubating → Stable → Legacy → Deprecated → Archived`.
+
+- New packages start at **Experimental**, never Stable
+- State changes require an ADR; deprecated packages stay tested until archived
+
+> **Full policy:** `docs/PACKAGE_LIFECYCLE.md`
+
+### Plugin / Extension Governance — RESERVED
+
+*Planned, not active.* Future student/teacher/third-party extensions will be
+governed here: extension contract, plugin API, plugin versioning, sandboxing, and
+compatibility guarantees. No plugin system exists today; this section is reserved
+so the architecture keeps it in mind.
+
+### Architecture Documentation
+
+The project maintains a C4-style diagram set under `docs/ARCHITECTURE/`:
+
+- `overview.md` (index), `context.md` (L1), `containers.md` (L2),
+  `components.md` (L3), `dependencies.md` (import rules), `migration.md`
+- A generated dependency graph (`pnpm generate:graph` → `docs/dependency-graph.svg`)
+- A decision log (`docs/adr/README.md`)
+
+**Update triggers:** any ADR-trigger change, package-topology change (regenerate
+the graph), public-contract change, or phase completion MUST update the relevant
+diagram.
+
+> **Full guidance:** `docs/ARCHITECTURE/overview.md`
+
+---
+
+## ⚖️ DECISION MATRIX
+
+Use this to decide what a change requires. `✅` = required, `◻` = as applicable,
+`—` = not required. `verify-governance` runs on every change regardless.
+
+| Change type | ADR | Architect | Event Bus | Performance | Educational | Security |
+|-------------|-----|-----------|-----------|-------------|-------------|----------|
+| New package | ✅ | ✅ | — | ◻ | ◻ if learning | ◻ if data |
+| New public API / interface | ✅ | ✅ | — | ◻ | — | ◻ |
+| **New Event / event change** | ✅ | ✅ | ✅ | — | — | — |
+| New dependency | ✅ | ✅ | — | ✅ | — | ✅ |
+| Major refactor | ✅ | ✅ | — | ◻ | ◻ | ◻ |
+| Legacy migration | ◻ | ✅ | — | ◻ | ◻ | — |
+| Security-sensitive change | — | ✅ | — | — | — | ✅ |
+| Educational content / module | — | — | — | — | ✅ | — |
+| Package >50KB (bundle) | — | — | — | ✅ | — | — |
+
+Notes:
+- "Architect review" = one named maintainer, not a board.
+- "Event Bus review" = verify against `docs/EVENT_BUS_CONTRACT.md` + ADR-003.
+- When in doubt, prefer the stronger column.
+
+---
+
 ## 📋 ENFORCEMENT MECHANISMS
 
 ### Automated Checks (Local — `pnpm verify-governance`)
@@ -592,9 +822,9 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
       
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -608,7 +838,7 @@ jobs:
         continue-on-error: false
       
       - name: Bundle Size Check
-        run: pnpm build:size
+        run: pnpm lint:size
         continue-on-error: false
       
       - name: Educational Metadata
@@ -616,7 +846,7 @@ jobs:
         continue-on-error: false
       
       - name: Accessibility Audit
-        run: pnpm a11y:audit
+        run: pnpm test:a11y
         continue-on-error: false
       
       - name: Type Check
@@ -675,12 +905,6 @@ The following release rules are **normative** (see `docs/VERSIONING.md` and
    markers; `release:finalize` enforces a strict mutation allowlist and supports
    **docs-only** releases (completed phase, zero changesets).
 
-### Manual Review Requirements
-- All ADRs (Architecture Decision Records) require architect approval
-- Any package >50KB requires performance justification
-- New interfaces require ecosystem impact assessment
-- Educational content requires pedagogy review
-
 ### Violation Escalation Matrix
 | Level | Violation Type | Response |
 |-------|---------------|----------|
@@ -733,14 +957,31 @@ Every migration PR MUST include:
 
 ## 📚 REFERENCES
 
-### Core Documents
-- [Architecture Charter](../README.md)
-- [ADR Index](./adr/)
-- [Educational Guidelines](./EDUCATIONAL_GUIDELINES.md)
-- [Migration Strategy](./MIGRATION_STRATEGY.md)
+### Governance Entry Points (normative)
+- [RULES.md](./RULES.md) — this file (principles, mandatory rules, enforcement)
+- [API Contract](./API_CONTRACT.md) — public contracts, semver, migration
+- [Event Bus Contract](./EVENT_BUS_CONTRACT.md) — event naming, payloads, versioning
+- [Versioning](./VERSIONING.md) — semver, compatibility, deprecation, release workflow
+- [Dependency Policy](./DEPENDENCY_POLICY.md) — dependency evaluation & approval
+- [Reliability](./RELIABILITY.md) — timeouts, cancellation, retries, errors
+- [Observability](./OBSERVABILITY.md) — naming conventions for logs/traces/metrics
+- [Package Lifecycle](./PACKAGE_LIFECYCLE.md) — package states and transitions
+- [ADR Index & Governance](./adr/README.md) — decision log and ADR process
+- [Architecture Diagrams](./ARCHITECTURE/overview.md) — C4 diagram set
+
+### Standards & Guides
+- [Architecture Charter](./ARCHITECTURE.md) — module layout, import rules, data flow
+- [Component Standards](./COMPONENT_STANDARDS.md) — how to build a Web Component
+- [Accessibility](./ACCESSIBILITY.md) — WCAG 2.2 AA standards, audit checklist
+- [Security](./SECURITY.md) — input validation, CSP, data privacy, dependency audit
+- [Performance](./PERFORMANCE.md) — budgets, optimization rules, Core Web Vitals
+- [Human Involvement](./HUMAN_INVOLVEMENT.md) — human vs. automation contract
+- [Quickstart](./QUICKSTART.md) — setup and first contribution
+- [Debugging](./DEBUGGING.md) — troubleshooting with the tracer
 
 ### External Standards
 - [WCAG 2.2 AA](https://www.w3.org/WAI/WCAG22/quickref/)
+- [Semantic Versioning 2.0](https://semver.org/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Web Dev Guidelines](https://web.dev/learn/)
 - [MDN Web Docs](https://developer.mozilla.org/)
@@ -751,13 +992,14 @@ Every migration PR MUST include:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.2.0 | 2026-08-01 | Restructured as governance **entry point**: added Architecture Principles, Quality Attributes, governance-policy summaries (public contracts, ADR, dependencies, observability, reliability, compatibility, deprecation, package lifecycle, reserved plugin section, architecture documentation), Decision Matrix, and Governance Philosophy. Detail moved to dedicated docs; fixed stale CI script names and broken references. |
 | 2.1.0 | 2026-07-31 | Git hooks documented as `core.hooksPath` pre-commit (`docs:sync` + `git add -u`); CI marked as planned; added Release & Versioning Governance rules |
 | 2.0.0 | 2026-07-30 | Rebrand to STEM-TUITION (independent project), replace all `@learninghub` → `@stem-tuition` |
 | 1.0.0 | 2024-01-15 | Initial static site rules (archived) |
 
 ---
 
-*Last Updated: 2026-07-31*  
+*Last Updated: 2026-08-01*  
 *Approved by: Chief Software Architect*  
 *Status: 🔒 ENFORCED*  
-*Next Review: 2026-10-30*
+*Next Review: 2026-11-01*

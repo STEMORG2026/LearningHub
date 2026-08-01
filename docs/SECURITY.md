@@ -2,7 +2,9 @@
 
 **Version:** 3.0.0  
 **Status:** ENFORCED  
-**Applies to:** All code in `packages/*` and `apps/*`
+**Owner:** Architecture  
+**Applies To:** All code in `packages/*` and `apps/*`  
+**Related:** `RULES.md`, `DEPENDENCY_POLICY.md`
 
 ---
 

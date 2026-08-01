@@ -10,13 +10,13 @@
 | Tool | Version | Why |
 |------|---------|-----|
 | Node.js | >= 18 | JavaScript runtime for build tools |
-| pnpm | >= 8 | Package manager (faster, stricter than npm) |
+| pnpm | >= 9 | Package manager (faster, stricter than npm) |
 
 Check versions:
 
 ```bash
 node --version   # should be >= 18
-pnpm --version   # should be >= 8
+pnpm --version   # should be >= 9
 ```
 
 ---
@@ -69,16 +69,22 @@ STEM-TUITION/
 │   └── shell/                      Future app shell (routing)
 │
 ├── docs/                           All documentation
+│   ├── RULES.md                    Governance entry point (principles + rules)
 │   ├── ARCHITECTURE.md
-│   ├── RULES.md
+│   ├── ARCHITECTURE/               C4 diagram set
 │   ├── COMPONENT_STANDARDS.md
-│   ├── FLOWCHARTS.md
+│   ├── EVENT_BUS_CONTRACT.md
+│   ├── API_CONTRACT.md
+│   ├── OBSERVABILITY.md
+│   ├── DEPENDENCY_POLICY.md
+│   ├── RELIABILITY.md
+│   ├── PACKAGE_LIFECYCLE.md
 │   ├── QUICKSTART.md              ← You are here
 │   ├── DEBUGGING.md
 │   ├── ROADMAP.md
 │   ├── GLOSSARY.md
 │   ├── HUMAN_INVOLVEMENT.md        Human vs. automation contract
-│   ├── VERSIONING.md               Semver, dev-version, release workflow
+│   ├── VERSIONING.md               Semver, compatibility, release workflow
 │   ├── component-registry/         Living map of code locations
 │   └── adr/                        Architecture Decision Records
 │
@@ -151,7 +157,7 @@ pnpm docs:sync
 # Check Component Registry is up to date
 pnpm lint:registry
 
-# Generate dependency graph (updates FLOWCHARTS.md)
+# Generate dependency graph (updates docs/dependency-graph.svg)
 pnpm generate:graph
 
 # Show dev-version identifier (git describe → vX.Y.Z-dev.N)

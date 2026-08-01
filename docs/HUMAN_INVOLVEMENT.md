@@ -1,6 +1,10 @@
 # Human Involvement in the Development Process
 
 **Version:** 3.0.0
+**Status:** Active
+**Owner:** Architecture
+**Applies To:** Release pipeline, docs ownership, decision authority
+**Related:** `RULES.md`, `VERSIONING.md`, `AGENTS.md`
 
 ## The one-line rule
 

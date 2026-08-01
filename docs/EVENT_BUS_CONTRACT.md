@@ -2,7 +2,9 @@
 
 **Version:** 3.0.0
 **Status:** ENFORCED
-**Applies to:** All cross-module communication in `packages/*`
+**Owner:** Architecture
+**Applies To:** All cross-module communication in `packages/*`
+**Related:** `RULES.md`, `API_CONTRACT.md`, `docs/adr/003-event-bus-communication.md`
 
 ---
 
