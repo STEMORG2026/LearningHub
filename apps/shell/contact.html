@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – STEM Tuition Pokhara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div id="scroll-progress"></div>
+  <site-header active="contact"></site-header>
+
+  <div class="page-hero reveal-on-scroll">
+    <span class="section-tag"><icon-phone name="phone"></icon-phone> Direct Admissions &amp; Inquiry</span>
+    <h1>Get in Touch with <span class="accent">STEM Tuition</span></h1>
+    <p class="page-sub">Have questions regarding batch timings, fee structures, or home tuition in Pokhara? We respond within 24 hours.</p>
+  </div>
+
+  <section>
+    <div class="contact-layout">
+      <div class="reveal-on-scroll">
+        <div class="soft-card" style="margin-bottom:1.5rem;">
+          <h3 style="font-size:1.2rem;margin-bottom:1.2rem;">Contact Channels</h3>
+
+          <a href="tel:+9779768021317" class="contact-item">
+            <div class="contact-icon"><icon-phone name="phone"></icon-phone></div>
+            <div>
+              <div style="font-weight:700;">Phone Call</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">+977 9768021317</div>
+            </div>
+          </a>
+
+          <a href="https://wa.me/9779768021317" target="_blank" rel="noopener" class="contact-item">
+            <div class="contact-icon" style="background:rgba(52,211,153,0.12);color:var(--green);"><icon-chat name="chat"></icon-chat></div>
+            <div>
+              <div style="font-weight:700;">WhatsApp Direct</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">Instant Messaging Chat</div>
+            </div>
+          </a>
+
+          <a href="mailto:gurungsajan0228@gmail.com" class="contact-item">
+            <div class="contact-icon" style="background:rgba(192,132,252,0.12);color:var(--purple);"><icon-mail name="mail"></icon-mail></div>
+            <div>
+              <div style="font-weight:700;">Email Address</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">gurungsajan0228@gmail.com</div>
+            </div>
+          </a>
+
+          <div class="contact-item" style="margin-bottom:0;">
+            <div class="contact-icon"><icon-pin name="pin"></icon-pin></div>
+            <div>
+              <div style="font-weight:700;">Pokhara, Nepal</div>
+              <div style="color:var(--text-muted);font-size:0.85rem;">Home Tuition &amp; Group Batches</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-on-scroll">
+        <div class="soft-card">
+          <h3 style="font-size:1.2rem;margin-bottom:1.2rem;">Send Direct Inquiry</h3>
+          <form id="contactForm">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="cName" required class="form-input" placeholder="e.g. Aarav Sharma">
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp *</label>
+              <input type="tel" id="cPhone" required class="form-input" placeholder="+977 98XXXXXXXX">
+            </div>
+            <div class="form-group">
+              <label>Interested Program *</label>
+              <select id="cGrade" class="form-select" required>
+                <option value="Grade 1-8">Grade 1-8 (Foundation)</option>
+                <option value="SEE Board">Grade 9-10 (SEE Board)</option>
+                <option value="NEB Science">Grade 11-12 (NEB Science)</option>
+                <option value="Cambridge A-Level">Cambridge A-Level</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message / Specific Requirements</label>
+              <textarea id="cMsg" class="form-textarea" rows="3" placeholder="Tell us your preferred mode (Home/Group/Online)..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Send Inquiry Message <icon-rocket name="rocket"></icon-rocket></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="max-width:800px;margin:0 auto;" class="reveal-on-scroll">
+      <h2 style="font-size:1.6rem;text-align:center;margin-bottom:1.5rem;">Frequently Asked Questions</h2>
+      <faq-list></faq-list>
+    </div>
+  </section>
+
+  <site-footer></site-footer>
+  <enroll-modal></enroll-modal>
+  <did-you-know></did-you-know>
+
+  <script type="module" src="/src/pages/contact.ts"></script>
+</body>
+</html>

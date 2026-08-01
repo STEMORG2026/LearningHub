@@ -46,6 +46,25 @@ importers:
         version: 1.6.1(jsdom@30.0.1)(supports-color@7.2.0)
 
   apps/shell:
+    dependencies:
+      '@stem-tuition/acl':
+        specifier: workspace:*
+        version: link:../../packages/acl
+      '@stem-tuition/audio-synth':
+        specifier: workspace:*
+        version: link:../../packages/audio-synth
+      '@stem-tuition/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@stem-tuition/hover-engine':
+        specifier: workspace:*
+        version: link:../../packages/hover-engine
+      '@stem-tuition/quiz-engine':
+        specifier: workspace:*
+        version: link:../../packages/quiz-engine
+      '@stem-tuition/tracer':
+        specifier: workspace:*
+        version: link:../../packages/tracer
     devDependencies:
       typescript:
         specifier: ^5.4.0

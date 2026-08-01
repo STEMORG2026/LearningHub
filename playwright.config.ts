@@ -3,11 +3,11 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './e2e',
   webServer: {
-    command: 'pnpm dev:legacy',
-    url: 'http://localhost:8085',
+    command: 'pnpm dev:shell',
+    url: 'http://localhost:5173',
     reuseExistingServer: true,
   },
   use: {
-    baseURL: 'http://localhost:8085',
+    baseURL: 'http://localhost:5173',
   },
 });

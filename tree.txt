@@ -1,4 +1,4 @@
-STEM-TUITION/  7e8d3fa
+STEM-TUITION/  9f77eaf
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -7,13 +7,50 @@ STEM-TUITION/  7e8d3fa
 │   └── shell/
 │       ├── public/
 │       ├── src/
+│       │   ├── components/
+│       │   │   ├── did-you-know.ts
+│       │   │   ├── enroll-modal.ts
+│       │   │   ├── faq-list.ts
+│       │   │   ├── icons.ts
+│       │   │   ├── index.ts
+│       │   │   ├── site-footer.ts
+│       │   │   └── site-header.ts
+│       │   ├── data/
+│       │   │   ├── classes.ts
+│       │   │   ├── faqs.ts
+│       │   │   ├── pioneers.ts
+│       │   │   ├── site.ts
+│       │   │   └── videos.ts
+│       │   ├── lib/
+│       │   │   ├── engine-init.ts
+│       │   │   ├── enroll.ts
+│       │   │   ├── hover-effects.ts
+│       │   │   ├── interactive.ts
+│       │   │   ├── render.ts
+│       │   │   └── scroll.ts
+│       │   ├── pages/
+│       │   │   ├── about.ts
+│       │   │   ├── classes.ts
+│       │   │   ├── contact.ts
+│       │   │   └── videos.ts
+│       │   ├── styles/
+│       │   │   ├── base.css
+│       │   │   ├── components.css
+│       │   │   ├── layout.css
+│       │   │   ├── main.css
+│       │   │   ├── tokens.css
+│       │   │   └── widgets.css
 │       │   └── index.ts  [entry]
+│       ├── about.html
 │       ├── ARCHITECTURE.toml
 │       ├── CHANGELOG.md
+│       ├── classes.html
+│       ├── contact.html
 │       ├── index.html
 │       ├── package.json
 │       ├── README.md
 │       ├── tsconfig.json
+│       ├── videos.html
 │       └── vite.config.ts
 ├── docs/
 │   ├── adr/
@@ -71,8 +108,7 @@ STEM-TUITION/  7e8d3fa
 │   ├── ROADMAP.md
 │   └── RULES.md
 ├── e2e/
-│   └── legacy-loads.spec.ts  [test]
-├── legacy/  [frozen] read-only, never edit
+│   └── shell-pages.spec.ts  [test]
 ├── packages/
 │   ├── acl/
 │   │   ├── src/

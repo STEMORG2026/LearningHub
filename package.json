@@ -5,7 +5,6 @@
   "packageManager": "pnpm@11.18.0",
   "description": "STEM-TUITION — Modular STEM education platform",
   "scripts": {
-    "dev:legacy": "python3 -m http.server 8085 --directory legacy/",
     "dev:shell": "turbo dev --filter=@stem-tuition/shell",
     "build": "turbo build",
     "test": "turbo test",

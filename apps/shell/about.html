@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About – STEM Tuition Pokhara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div id="scroll-progress"></div>
+  <site-header></site-header>
+
+  <div class="page-hero reveal-on-scroll">
+    <span class="section-tag"><icon-rocket name="rocket"></icon-rocket> About Our Center</span>
+    <h1>Conceptual STEM Excellence in <span class="accent">Pokhara</span></h1>
+    <p class="page-sub" style="margin-top:0.8rem;">Focusing on deep conceptual understanding rather than rote memorization.</p>
+  </div>
+
+  <section>
+    <div class="section-header-row reveal-on-scroll">
+      <div>
+        <span class="section-tag"><icon-star name="star"></icon-star> Why STEM Tuition</span>
+        <h2 style="font-size:1.8rem;">Our Teaching Principles</h2>
+      </div>
+    </div>
+
+    <div class="h-scroll-wrapper reveal-on-scroll">
+      <div class="h-scroll-container">
+        <div class="why-card soft-card" style="flex:0 0 280px;">
+          <div style="font-size:2rem;margin-bottom:0.5rem;color:var(--cyan);"><icon-target name="target"></icon-target></div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Concept-First Approach</div>
+          <p style="color:var(--text-muted);font-size:0.85rem;">Building strong logical foundations so knowledge sticks for board exams and university entrance.</p>
+        </div>
+
+        <div class="why-card soft-card" style="flex:0 0 280px;">
+          <div style="font-size:2rem;margin-bottom:0.5rem;color:var(--green);"><icon-users name="users"></icon-users></div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">Small Batch Guarantee</div>
+          <p style="color:var(--text-muted);font-size:0.85rem;">Maximum 5–8 students per group class to ensure direct personalized tutor interaction.</p>
+        </div>
+
+        <div class="why-card soft-card" style="flex:0 0 280px;">
+          <div style="font-size:2rem;margin-bottom:0.5rem;color:var(--amber);"><icon-telescope name="telescope"></icon-telescope></div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">95%+ Pass Rate</div>
+          <p style="color:var(--text-muted);font-size:0.85rem;">Consistently high scores in SEE and NEB board exams through regular mock testing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="text-align:center;" class="reveal-on-scroll">
+    <h2 style="font-size:1.8rem;margin-bottom:0.8rem;">Ready to Begin Your Learning Journey?</h2>
+    <p style="color:var(--text-muted);margin-bottom:1.5rem;">Get in touch for a free level assessment and program consultation.</p>
+    <a href="contact.html" class="btn-primary">Contact Admissions Now <icon-rocket name="rocket"></icon-rocket></a>
+  </section>
+
+  <site-footer></site-footer>
+  <enroll-modal></enroll-modal>
+  <did-you-know></did-you-know>
+
+  <script type="module" src="/src/pages/about.ts"></script>
+</body>
+</html>
