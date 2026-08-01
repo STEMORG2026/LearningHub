@@ -271,6 +271,14 @@ describe('applyBlackholePull', () => {
     const next = applyBlackholePull(b, blackhole);
     expect(Math.abs(next.vx)).toBeLessThanOrEqual(4.0);
   });
+
+  it('scales pull distance with blackhole radius', () => {
+    const bigBh = makeBody({ id: 'bh', x: 500, y: 500, radius: 500 });
+    const b = makeBody({ id: 'b', x: 1000, y: 500, vx: 0, vy: 0 });
+    const next = applyBlackholePull(b, bigBh);
+    expect(next.vx).toBeLessThan(0);
+    expect(next.vy).toBe(0);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -296,19 +304,27 @@ describe('applyBlackholeDevour', () => {
     expect(result.blackhole).toBe(bh);
   });
 
-  it('respawns devoured body at edge', () => {
+  it('consumes devoured body (marks isExploded)', () => {
     const bh = makeBody({ id: 'bh', x: 500, y: 500, radius: 40 });
     const b = makeBody({ id: 'b', x: 520, y: 500, radius: 20 });
     const result = applyBlackholeDevour(b, bh, W, H);
-    expect(result.body.x).toBeLessThanOrEqual(W + 20);
-    expect(result.body.y).toBeGreaterThanOrEqual(0);
-    expect(result.body.y).toBeLessThanOrEqual(H);
+    expect(result.devoured).toBe(true);
+    expect(result.body.isExploded).toBe(true);
   });
 
   it('explodes blackhole when it grows too large', () => {
     const bh = makeBody({ id: 'bh', x: 500, y: 500, radius: 750 });
     const b = makeBody({ id: 'b', x: 520, y: 500, radius: 100 });
     const result = applyBlackholeDevour(b, bh, W, H);
+    expect(result.exploded).toBe(true);
+    expect(result.blackhole.isExploded).toBe(true);
+    expect(result.blackhole.radius).toBe(40);
+  });
+
+  it('uses a custom explode radius when provided', () => {
+    const bh = makeBody({ id: 'bh', x: 500, y: 500, radius: 240 });
+    const b = makeBody({ id: 'b', x: 520, y: 500, radius: 100 });
+    const result = applyBlackholeDevour(b, bh, W, H, 250);
     expect(result.exploded).toBe(true);
     expect(result.blackhole.isExploded).toBe(true);
     expect(result.blackhole.radius).toBe(40);
@@ -401,6 +417,34 @@ describe('updatePhysics', () => {
     const result: DevourResult = applyBlackholeDevour(b, bh, 1000, 800);
     expect(result.exploded).toBe(true);
     expect(result.blackhole.isExploded).toBe(true);
+  });
+
+  it('honors a custom blackhole explode radius in updatePhysics', () => {
+    const bh = makeBody({ id: 'bh', x: 500, y: 500, radius: 430, type: 'super_blackhole' });
+    const b = makeBody({ id: 'b', x: 520, y: 500, radius: 100 });
+    const input = defaultInput({
+      bodies: [bh, b],
+      blackholeDisabled: false,
+      blackholeExplodeRadius: 450,
+    });
+    const result = updatePhysics(input);
+    expect(result.blackholeExploded).toBe(true);
+    const exploded = result.bodies.find((bdy) => bdy.id === 'bh')!;
+    expect(exploded.isExploded).toBe(true);
+  });
+
+  it('devours bodies with multiple blackholes', () => {
+    const bh1 = makeBody({ id: 'bh1', x: 300, y: 500, radius: 40, type: 'super_blackhole' });
+    const bh2 = makeBody({ id: 'bh2', x: 700, y: 500, radius: 40, type: 'super_blackhole' });
+    const b = makeBody({ id: 'b', x: 310, y: 500, radius: 10 });
+    const input = defaultInput({
+      bodies: [bh1, bh2, b],
+      blackholeDisabled: false,
+    });
+    const result = updatePhysics(input);
+    expect(result.devours.length).toBeGreaterThanOrEqual(1);
+    const consumed = result.bodies.find((bdy) => bdy.id === 'b')!;
+    expect(consumed.isExploded).toBe(true);
   });
 });
 

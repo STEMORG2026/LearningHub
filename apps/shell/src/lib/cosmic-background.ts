@@ -39,7 +39,11 @@ const MOTION_SPEED = 0.6;
 const SUN_SCALE = 2;
 const ORBIT_SCALE = 1.6;
 const ORBIT_SPEED_SCALE = 0.7;
-const BLACKHOLE_EXPLODE_RADIUS = 1.5 * SUN_RADIUS * SUN_SCALE;
+const MOON_SPEED_SCALE = 0.25;
+const BLACKHOLE_FADE_MS = 2400;
+const BLACKHOLE_COPY_DELAY_MS = 9000;
+const PASSIVE_BLACKHOLE_GROWTH = 0.15;
+const FALLBACK_ITEM: [BodyType, string] = ['rocket', '🚀'];
 
 interface Star {
   x: number;
@@ -75,6 +79,10 @@ interface Particle {
 interface MoonSim {
   config: MoonConfig;
   angle: number;
+}
+
+interface BlackholeSim extends CelestialBody {
+  bornAt: number;
 }
 
 function wrapCoord(value: number, max: number): number {
@@ -153,27 +161,6 @@ export function initCosmicBackground(): void {
   const centerX = viewW / 2 + offsetX;
   const centerY = viewH / 2 + offsetY;
 
-  const sun = createSun(physicsW, physicsH);
-  sun.x = centerX;
-  sun.y = centerY;
-  sun.radius = SUN_RADIUS * SUN_SCALE;
-  sun.mass = sun.radius * sun.radius * SUN_MASS_FACTOR;
-
-  const planets: CelestialBody[] = PLANET_CONFIGS.map((config, i) => {
-    const planet = createPlanet(config, i, PLANET_CONFIGS.length, centerX, centerY);
-    const dx = planet.x - centerX;
-    const dy = planet.y - centerY;
-    planet.x = centerX + dx * ORBIT_SCALE;
-    planet.y = centerY + dy * ORBIT_SCALE;
-    planet.vx *= ORBIT_SPEED_SCALE;
-    planet.vy *= ORBIT_SPEED_SCALE;
-    return planet;
-  });
-
-  const moons: MoonSim[][] = PLANET_CONFIGS.map((config) =>
-    config.moons.map((m) => ({ config: m, angle: Math.random() * Math.PI * 2 })),
-  );
-
   const smallItemTypes: Array<[BodyType, string]> = [
     ['rocket', '🚀'],
     ['rocket', '🚀'],
@@ -182,21 +169,50 @@ export function initCosmicBackground(): void {
     ['circuit', '⚡'],
     ['circuit', '🔌'],
   ];
-  const items: CelestialBody[] = [];
-  for (const [type, text] of smallItemTypes) {
-    items.push(createSmallItem(type, text, physicsW, physicsH));
-  }
-  const symbolPool = [...MATH_SYMBOLS].sort(() => Math.random() - 0.5);
-  let poolIndex = 0;
-  while (items.length < SMALL_ITEM_COUNT) {
-    const symbol = symbolPool[poolIndex % symbolPool.length] ?? 'π';
-    items.push(createSmallItem('math_symbol', symbol, physicsW, physicsH));
-    poolIndex++;
+
+  let sun: CelestialBody = createSun(physicsW, physicsH);
+  let planets: CelestialBody[] = [];
+  let moons: MoonSim[][] = [];
+  let items: CelestialBody[] = [];
+  let blackholes: BlackholeSim[] = [];
+  let nextBlackholeAt = performance.now() + randomBetween(BLACKHOLE_MIN_GAP_MS, BLACKHOLE_MAX_GAP_MS);
+
+  function buildScene(): void {
+    sun = createSun(physicsW, physicsH);
+    sun.x = centerX;
+    sun.y = centerY;
+    sun.radius = SUN_RADIUS * SUN_SCALE;
+    sun.mass = sun.radius * sun.radius * SUN_MASS_FACTOR;
+
+    planets = PLANET_CONFIGS.map((config, i) => {
+      const planet = createPlanet(config, i, PLANET_CONFIGS.length, centerX, centerY);
+      const dx = planet.x - centerX;
+      const dy = planet.y - centerY;
+      planet.x = centerX + dx * ORBIT_SCALE;
+      planet.y = centerY + dy * ORBIT_SCALE;
+      planet.vx *= ORBIT_SPEED_SCALE;
+      planet.vy *= ORBIT_SPEED_SCALE;
+      return planet;
+    });
+
+    moons = PLANET_CONFIGS.map((config) =>
+      config.moons.map((m) => ({ config: m, angle: Math.random() * Math.PI * 2 })),
+    );
+
+    items = [];
+    for (const [type, text] of smallItemTypes) {
+      items.push(createSmallItem(type, text, physicsW, physicsH));
+    }
+    const symbolPool = [...MATH_SYMBOLS].sort(() => Math.random() - 0.5);
+    let poolIndex = 0;
+    while (items.length < SMALL_ITEM_COUNT) {
+      const symbol = symbolPool[poolIndex % symbolPool.length] ?? 'π';
+      items.push(createSmallItem('math_symbol', symbol, physicsW, physicsH));
+      poolIndex++;
+    }
   }
 
-  let blackhole: CelestialBody | null = null;
-  let blackholeActive = false;
-  let nextBlackholeAt = performance.now() + randomBetween(BLACKHOLE_MIN_GAP_MS, BLACKHOLE_MAX_GAP_MS);
+  buildScene();
 
   let stars: Star[] = [];
   let nebulae: Nebula[] = [];
@@ -277,6 +293,10 @@ export function initCosmicBackground(): void {
     fn();
   }
 
+  function blackholeExplodeRadius(): number {
+    return 2.5 * Math.hypot(viewW, viewH);
+  }
+
   function fireGravitationalWave(): void {
     const diag = Math.hypot(viewW, viewH);
     const edges: Array<[number, number, string]> = [
@@ -287,13 +307,13 @@ export function initCosmicBackground(): void {
       [viewW * 0.12, viewH * 0.12, 'rgba(236,72,153,0.45)'],
       [viewW * 0.88, viewH * 0.88, 'rgba(236,72,153,0.45)'],
     ];
-    for (const [ex, ey, color] of edges) {
-      spawnRing(ex, ey, diag * 0.7, color, 1600);
-    }
+    const [ex, ey, color] = edges[Math.floor(Math.random() * edges.length)] ?? edges[0]!;
+    spawnRing(ex, ey, diag * 0.7, color, 1600);
     const cx = viewW / 2;
     const cy = viewH / 2;
     const impulse = 1.6;
-    for (const body of [sun, ...planets, ...items]) {
+    const movable = [sun, ...planets, ...items, ...blackholes].filter((b) => !b.isExploded);
+    for (const body of movable) {
       const dx = cx - (body.x - offsetX);
       const dy = cy - (body.y - offsetY);
       const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
@@ -316,7 +336,8 @@ export function initCosmicBackground(): void {
     spawnParticles('spark', 10, e.clientX, e.clientY, '#c4b5fd', 1);
     maybePlaySound(() => playSpark());
     const burst = 0.9;
-    for (const body of [sun, ...planets, ...items]) {
+    const movable = [sun, ...planets, ...items, ...blackholes].filter((b) => !b.isExploded);
+    for (const body of movable) {
       const dx = body.x - x;
       const dy = body.y - y;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -342,22 +363,39 @@ export function initCosmicBackground(): void {
   }
 
   function spawnBlackhole(): void {
-    blackhole = createBlackhole(physicsW, physicsH);
-    blackhole.x = randomBetween(offsetX + 60, offsetX + viewW - 60);
-    blackhole.y = randomBetween(offsetY + 60, offsetY + viewH - 60);
-    blackhole.radius = SUN_RADIUS * 0.5;
-    blackholeActive = true;
+    const bh = createBlackhole(physicsW, physicsH);
+    bh.x = randomBetween(offsetX + 60, offsetX + viewW - 60);
+    bh.y = randomBetween(offsetY + 60, offsetY + viewH - 60);
+    bh.radius = SUN_RADIUS * 0.5;
+    blackholes.push({ ...bh, bornAt: performance.now() });
+  }
+
+  function spawnBlackholeCopy(): void {
+    const bh = createBlackhole(physicsW, physicsH);
+    let x = 0;
+    let y = 0;
+    let tries = 0;
+    do {
+      x = randomBetween(offsetX + 60, offsetX + viewW - 60);
+      y = randomBetween(offsetY + 60, offsetY + viewH - 60);
+      tries++;
+    } while (tries < 8 && blackholes.some((b) => Math.hypot(b.x - x, b.y - y) < viewW * 0.4));
+    bh.x = x;
+    bh.y = y;
+    bh.radius = SUN_RADIUS * 0.5;
+    blackholes.push({ ...bh, bornAt: performance.now() });
   }
 
   function explodeBlackhole(x: number, y: number): void {
     const diag = Math.hypot(viewW, viewH);
-    spawnParticles('debris', 50, x, y, '#c4b5fd', 2.6);
-    spawnParticles('spark', 40, x, y, '#ffffff', 2.4);
-    spawnRing(x, y, diag * 0.65, 'rgba(216,180,254,0.8)', 1200);
-    spawnRing(x, y, diag * 0.45, 'rgba(255,255,255,0.7)', 1000);
-    spawnRing(x, y, diag * 0.25, 'rgba(255,170,0,0.7)', 800);
+    spawnParticles('debris', 60, x, y, '#c4b5fd', 3);
+    spawnParticles('spark', 50, x, y, '#ffffff', 2.8);
+    spawnRing(x, y, diag * 2.5, 'rgba(216,180,254,0.8)', 1400);
+    spawnRing(x, y, diag * 1.7, 'rgba(255,255,255,0.7)', 1200);
+    spawnRing(x, y, diag * 1.0, 'rgba(255,170,0,0.7)', 1000);
     maybePlaySound(() => playExplosion());
-    for (const body of [sun, ...planets, ...items]) {
+    const movable = [sun, ...planets, ...items].filter((b) => !b.isExploded);
+    for (const body of movable) {
       const dx = body.x - x;
       const dy = body.y - y;
       const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
@@ -368,8 +406,9 @@ export function initCosmicBackground(): void {
   }
 
   function wrapSmallItems(): void {
-    for (const body of [sun, ...planets, ...items, ...(blackhole ? [blackhole] : [])]) {
-      if (body.type === 'big_sun' || body.type === 'giant_planet') continue;
+    for (const body of [sun, ...planets, ...items, ...blackholes]) {
+      if (body.type === 'big_sun' || body.type === 'giant_planet' || body.type === 'super_blackhole') continue;
+      if (body.isExploded) continue;
       const sx = wrapCoord(body.x - offsetX, viewW);
       const sy = wrapCoord(body.y - offsetY, viewH);
       body.x = sx + offsetX;
@@ -380,13 +419,13 @@ export function initCosmicBackground(): void {
   function advanceMoons(dt: number): void {
     for (let p = 0; p < moons.length; p++) {
       for (let m = 0; m < moons[p]!.length; m++) {
-        moons[p]![m]!.angle += (moons[p]![m]!.config.speed ?? 0.02) * dt;
+        moons[p]![m]!.angle += (moons[p]![m]!.config.speed ?? 0.02) * dt * MOON_SPEED_SCALE;
       }
     }
   }
 
   function drawElectricField(now: number): void {
-    const near = [sun, ...planets, ...items, ...(blackhole ? [blackhole] : [])];
+    const near = [sun, ...planets, ...items, ...blackholes];
     for (let i = 0; i < near.length; i++) {
       for (let j = i + 1; j < near.length; j++) {
         const a = near[i]!;
@@ -419,6 +458,7 @@ export function initCosmicBackground(): void {
     const charged = [sun, ...planets, ...items];
     for (let i = 0; i < charged.length; i++) {
       const body = charged[i]!;
+      if (body.isExploded) continue;
       const x = body.x - offsetX;
       const y = body.y - offsetY;
       if (x < -60 || x > viewW + 60 || y < -60 || y > viewH + 60) continue;
@@ -674,15 +714,21 @@ export function initCosmicBackground(): void {
 
     drawElectricField(now);
     drawMagneticRings(now);
-    drawSun(now);
+    if (!sun.isExploded) {
+      drawSun(now);
+    }
     for (let i = 0; i < planets.length; i++) {
+      if (planets[i]!.isExploded) continue;
       drawPlanet(planets[i]!, i);
     }
     for (const body of items) {
       drawSmallItem(body);
     }
-    if (blackhole && blackholeActive) {
-      drawBlackhole(blackhole, now);
+    for (const bh of blackholes) {
+      const fade = Math.min((now - bh.bornAt) / BLACKHOLE_FADE_MS, 1);
+      ctx.globalAlpha = fade;
+      drawBlackhole(bh, now);
+      ctx.globalAlpha = 1;
     }
     drawParticles();
   }
@@ -696,12 +742,21 @@ export function initCosmicBackground(): void {
     lastFrame = now;
     const timeScale = (dt / 16.667) * MOTION_SPEED;
 
-    if (!blackholeActive && blackholeEnabled() && now > nextBlackholeAt) {
-      spawnBlackhole();
+    if (blackholeEnabled()) {
+      if (blackholes.length === 0 && now > nextBlackholeAt) {
+        spawnBlackhole();
+      } else if (blackholes.length === 1 && now - blackholes[0]!.bornAt > BLACKHOLE_COPY_DELAY_MS) {
+        spawnBlackholeCopy();
+      }
+    } else if (blackholes.length > 0) {
+      blackholes = [];
+      if (sun.isExploded) buildScene();
     }
 
+    const bodies: CelestialBody[] = [sun, ...planets, ...items, ...blackholes];
+
     const result = updatePhysics({
-      bodies: [sun, ...planets, ...items, ...(blackholeActive && blackhole ? [blackhole] : [])],
+      bodies,
       width: physicsW,
       height: physicsH,
       mouseX,
@@ -709,30 +764,18 @@ export function initCosmicBackground(): void {
       mouseRadius: DEFAULT_MOUSE_RADIUS,
       timeScale,
       halfIntensity: false,
-      blackholeDisabled: !blackholeActive,
+      blackholeDisabled: blackholes.length === 0,
       cosmicViewActive: true,
+      blackholeExplodeRadius: blackholeExplodeRadius(),
     });
 
-    sun.x = result.bodies[0]!.x;
-    sun.y = result.bodies[0]!.y;
-    for (let i = 0; i < planets.length; i++) {
-      planets[i]!.x = result.bodies[i + 1]!.x;
-      planets[i]!.y = result.bodies[i + 1]!.y;
-      planets[i]!.vx = result.bodies[i + 1]!.vx;
-      planets[i]!.vy = result.bodies[i + 1]!.vy;
-    }
-    for (let i = 0; i < items.length; i++) {
-      items[i]!.x = result.bodies[1 + planets.length + i]!.x;
-      items[i]!.y = result.bodies[1 + planets.length + i]!.y;
-      items[i]!.vx = result.bodies[1 + planets.length + i]!.vx;
-      items[i]!.vy = result.bodies[1 + planets.length + i]!.vy;
-    }
-    if (blackholeActive && blackhole) {
-      blackhole.x = result.bodies[1 + planets.length + items.length]!.x;
-      blackhole.y = result.bodies[1 + planets.length + items.length]!.y;
-      blackhole.radius = result.bodies[1 + planets.length + items.length]!.radius;
-      blackhole.rotation = result.bodies[1 + planets.length + items.length]!.rotation;
-    }
+    sun = result.bodies.find((b) => b.id === sun.id) ?? sun;
+    planets = planets.map((p) => result.bodies.find((b) => b.id === p.id) ?? p);
+    items = items.map((i) => result.bodies.find((b) => b.id === i.id) ?? i);
+    blackholes = blackholes.map((bh) => {
+      const synced = result.bodies.find((b) => b.id === bh.id);
+      return synced ? { ...(synced as CelestialBody), bornAt: bh.bornAt } : bh;
+    });
 
     for (const collision of result.collisions) {
       const chance = Math.random();
@@ -748,22 +791,33 @@ export function initCosmicBackground(): void {
       }
     }
 
-    if (blackholeActive && blackhole) {
-      if (result.blackholeExploded) {
-        explodeBlackhole(blackhole.x - offsetX, blackhole.y - offsetY);
-        blackhole = null;
-        blackholeActive = false;
-        nextBlackholeAt = now + BLACKHOLE_RESET_DELAY_MS;
-      } else if (blackhole.radius >= BLACKHOLE_EXPLODE_RADIUS) {
-        explodeBlackhole(blackhole.x - offsetX, blackhole.y - offsetY);
-        blackhole = null;
-        blackholeActive = false;
-        nextBlackholeAt = now + BLACKHOLE_RESET_DELAY_MS;
+    for (const evt of result.devours) {
+      const devouringBh = blackholes.find((bh) => bh.id === evt.blackholeId);
+      if (devouringBh) {
+        spawnParticles('spark', 2, devouringBh.x - offsetX, devouringBh.y - offsetY, '#e9d5ff', 0.8);
       }
     }
 
-    if (result.devours.length > 0 && blackholeActive && blackhole) {
-      spawnParticles('spark', 2, blackhole.x - offsetX, blackhole.y - offsetY, '#e9d5ff', 0.8);
+    let explodedAny = false;
+    for (const bh of blackholes) {
+      if (bh.isExploded || bh.radius >= blackholeExplodeRadius()) {
+        explodeBlackhole(bh.x - offsetX, bh.y - offsetY);
+        explodedAny = true;
+      }
+    }
+    if (explodedAny) {
+      blackholes = [];
+      buildScene();
+      nextBlackholeAt = now + BLACKHOLE_RESET_DELAY_MS;
+    } else {
+      for (const bh of blackholes) {
+        bh.radius += dt * PASSIVE_BLACKHOLE_GROWTH;
+      }
+      items = items.filter((i) => !i.isExploded);
+      while (items.length < SMALL_ITEM_COUNT) {
+        const pick = smallItemTypes[Math.floor(Math.random() * smallItemTypes.length)] ?? FALLBACK_ITEM;
+        items.push(createSmallItem(pick[0], pick[1], physicsW, physicsH));
+      }
     }
 
     wrapSmallItems();
@@ -814,9 +868,9 @@ export function initCosmicBackground(): void {
   bhBtn?.addEventListener('click', () => {
     bhBtn.classList.toggle('active');
     bhBtn.setAttribute('aria-pressed', String(bhBtn.classList.contains('active')));
-    if (!bhBtn.classList.contains('active') && blackholeActive) {
-      blackhole = null;
-      blackholeActive = false;
+    if (!bhBtn.classList.contains('active') && blackholes.length > 0) {
+      blackholes = [];
+      if (sun.isExploded) buildScene();
     }
   });
 

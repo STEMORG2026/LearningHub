@@ -68,6 +68,7 @@ export interface PhysicsInput {
   halfIntensity: boolean;
   blackholeDisabled: boolean;
   cosmicViewActive: boolean;
+  blackholeExplodeRadius?: number;
 }
 
 export interface CollisionEvent {
