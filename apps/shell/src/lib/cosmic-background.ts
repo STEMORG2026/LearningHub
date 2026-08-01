@@ -10,11 +10,22 @@ import {
   DEFAULT_MOUSE_RADIUS,
   BLACKHOLE_RESET_DELAY_MS,
   COLLISION_SOUND_CHANCE,
+  SUN_RADIUS,
+  SUN_MASS_FACTOR,
   type CelestialBody,
   type MoonConfig,
   type BodyType,
 } from '@stem-tuition/simulation-core';
-import { playSpark, playCollision, playExplosion, playMotionHum } from '@stem-tuition/acl';
+import {
+  playSpark,
+  playCollision,
+  playExplosion,
+  playMotionHum,
+  syncMutedState,
+  getSimulationState,
+  enableBackground,
+  disableBackground,
+} from '@stem-tuition/acl';
 
 const STAR_COUNT = 140;
 const NEBULA_COUNT = 3;
@@ -24,6 +35,11 @@ const WAVE_COOLDOWN_MS = 5000;
 const SOUND_MIN_GAP_MS = 90;
 const BLACKHOLE_MIN_GAP_MS = 18000;
 const BLACKHOLE_MAX_GAP_MS = 42000;
+const MOTION_SPEED = 0.6;
+const SUN_SCALE = 2;
+const ORBIT_SCALE = 1.6;
+const ORBIT_SPEED_SCALE = 0.7;
+const BLACKHOLE_EXPLODE_RADIUS = 1.5 * SUN_RADIUS * SUN_SCALE;
 
 interface Star {
   x: number;
@@ -79,6 +95,37 @@ export function initCosmicBackground(): void {
   if (!rawCtx) return;
   const ctx = rawCtx;
 
+  const stage = document.createElement('div');
+  stage.id = 'cosmicStage';
+  stage.className = 'cosmic-stage';
+  const parent = canvas.parentElement;
+  if (parent) parent.replaceChild(stage, canvas);
+  stage.appendChild(canvas);
+
+  const controls = document.createElement('div');
+  controls.id = 'cosmicControls';
+  controls.className = 'cosmic-controls';
+  controls.innerHTML = `
+    <button type="button" class="cosmic-ctl active" id="ctrlBackgroundBtn" aria-pressed="true" aria-label="Toggle background" title="Background">
+      <icon-monitor name="monitor"></icon-monitor>
+    </button>
+    <button type="button" class="cosmic-ctl active" id="ctrlSoundBtn" aria-pressed="true" aria-label="Toggle sound" title="Sound">
+      <icon-volume name="volume"></icon-volume>
+    </button>
+    <button type="button" class="cosmic-ctl active" id="ctrlBlackholeBtn" aria-pressed="true" aria-label="Toggle black hole" title="Black hole">
+      <icon-target name="target"></icon-target>
+    </button>
+    <button type="button" class="cosmic-ctl" id="ctrlFullscreenBtn" aria-label="Enter fullscreen" title="Fullscreen">
+      <icon-maximize name="maximize"></icon-maximize>
+    </button>
+  `;
+  stage.appendChild(controls);
+
+  const bgBtn = controls.querySelector<HTMLButtonElement>('#ctrlBackgroundBtn');
+  const soundBtn = controls.querySelector<HTMLButtonElement>('#ctrlSoundBtn');
+  const bhBtn = controls.querySelector<HTMLButtonElement>('#ctrlBlackholeBtn');
+  const fsBtn = controls.querySelector<HTMLButtonElement>('#ctrlFullscreenBtn');
+
   let viewW = 0;
   let viewH = 0;
   let dpr = 1;
@@ -109,10 +156,19 @@ export function initCosmicBackground(): void {
   const sun = createSun(physicsW, physicsH);
   sun.x = centerX;
   sun.y = centerY;
+  sun.radius = SUN_RADIUS * SUN_SCALE;
+  sun.mass = sun.radius * sun.radius * SUN_MASS_FACTOR;
 
-  const planets: CelestialBody[] = PLANET_CONFIGS.map((config, i) =>
-    createPlanet(config, i, PLANET_CONFIGS.length, centerX, centerY),
-  );
+  const planets: CelestialBody[] = PLANET_CONFIGS.map((config, i) => {
+    const planet = createPlanet(config, i, PLANET_CONFIGS.length, centerX, centerY);
+    const dx = planet.x - centerX;
+    const dy = planet.y - centerY;
+    planet.x = centerX + dx * ORBIT_SCALE;
+    planet.y = centerY + dy * ORBIT_SCALE;
+    planet.vx *= ORBIT_SPEED_SCALE;
+    planet.vy *= ORBIT_SPEED_SCALE;
+    return planet;
+  });
 
   const moons: MoonSim[][] = PLANET_CONFIGS.map((config) =>
     config.moons.map((m) => ({ config: m, angle: Math.random() * Math.PI * 2 })),
@@ -198,7 +254,7 @@ export function initCosmicBackground(): void {
     }
   }
 
-  function spawnRing(x: number, y: number, maxRadius: number, color: string): void {
+  function spawnRing(x: number, y: number, maxRadius: number, color: string, maxLife = 1400): void {
     particles.push({
       kind: 'ring',
       x,
@@ -206,7 +262,7 @@ export function initCosmicBackground(): void {
       vx: 0,
       vy: 0,
       life: 0,
-      maxLife: 1400,
+      maxLife,
       size: maxRadius,
       color,
       rot: 0,
@@ -222,21 +278,36 @@ export function initCosmicBackground(): void {
   }
 
   function fireGravitationalWave(): void {
-    spawnRing(centerX - offsetX, centerY - offsetY, Math.max(viewW, viewH) * 0.75, 'rgba(168,85,247,0.6)');
-    const impulse = 2.2;
+    const diag = Math.hypot(viewW, viewH);
+    const edges: Array<[number, number, string]> = [
+      [viewW * 0.5, 0, 'rgba(168,85,247,0.55)'],
+      [viewW * 0.5, viewH, 'rgba(168,85,247,0.55)'],
+      [0, viewH * 0.5, 'rgba(0,212,255,0.55)'],
+      [viewW, viewH * 0.5, 'rgba(0,212,255,0.55)'],
+      [viewW * 0.12, viewH * 0.12, 'rgba(236,72,153,0.45)'],
+      [viewW * 0.88, viewH * 0.88, 'rgba(236,72,153,0.45)'],
+    ];
+    for (const [ex, ey, color] of edges) {
+      spawnRing(ex, ey, diag * 0.7, color, 1600);
+    }
+    const cx = viewW / 2;
+    const cy = viewH / 2;
+    const impulse = 1.6;
     for (const body of [sun, ...planets, ...items]) {
-      const dx = body.x - centerX;
-      const dy = body.y - centerY;
+      const dx = cx - (body.x - offsetX);
+      const dy = cy - (body.y - offsetY);
       const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
-      body.vx += (dx / dist) * impulse;
-      body.vy += (dy / dist) * impulse;
-      body.vx += (Math.random() - 0.5) * 0.6;
-      body.vy += (Math.random() - 0.5) * 0.6;
+      const inward = Math.min(dist / (Math.max(viewW, viewH) * 0.5), 1);
+      body.vx += (dx / dist) * impulse * inward;
+      body.vy += (dy / dist) * impulse * inward;
+      body.vx += (Math.random() - 0.5) * 0.5;
+      body.vy += (Math.random() - 0.5) * 0.5;
     }
     maybePlaySound(() => playMotionHum());
   }
 
   function handlePointerDown(e: PointerEvent): void {
+    if ((e.target as HTMLElement).closest('#cosmicControls')) return;
     lastActivityAt = performance.now();
     waveReadyAt = performance.now() + WAVE_COOLDOWN_MS;
     const x = e.clientX + offsetX;
@@ -244,7 +315,7 @@ export function initCosmicBackground(): void {
     spawnParticles('spark', 14, e.clientX, e.clientY, '#7dd3fc', 1);
     spawnParticles('spark', 10, e.clientX, e.clientY, '#c4b5fd', 1);
     maybePlaySound(() => playSpark());
-    const burst = 1.4;
+    const burst = 0.9;
     for (const body of [sun, ...planets, ...items]) {
       const dx = body.x - x;
       const dy = body.y - y;
@@ -266,11 +337,34 @@ export function initCosmicBackground(): void {
     lastActivityAt = performance.now();
   }
 
+  function blackholeEnabled(): boolean {
+    return Boolean(bhBtn && bhBtn.classList.contains('active'));
+  }
+
   function spawnBlackhole(): void {
     blackhole = createBlackhole(physicsW, physicsH);
     blackhole.x = randomBetween(offsetX + 60, offsetX + viewW - 60);
     blackhole.y = randomBetween(offsetY + 60, offsetY + viewH - 60);
+    blackhole.radius = SUN_RADIUS * 0.5;
     blackholeActive = true;
+  }
+
+  function explodeBlackhole(x: number, y: number): void {
+    const diag = Math.hypot(viewW, viewH);
+    spawnParticles('debris', 50, x, y, '#c4b5fd', 2.6);
+    spawnParticles('spark', 40, x, y, '#ffffff', 2.4);
+    spawnRing(x, y, diag * 0.65, 'rgba(216,180,254,0.8)', 1200);
+    spawnRing(x, y, diag * 0.45, 'rgba(255,255,255,0.7)', 1000);
+    spawnRing(x, y, diag * 0.25, 'rgba(255,170,0,0.7)', 800);
+    maybePlaySound(() => playExplosion());
+    for (const body of [sun, ...planets, ...items]) {
+      const dx = body.x - x;
+      const dy = body.y - y;
+      const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
+      const kick = 2.4 * (1 - Math.min(dist / diag, 1));
+      body.vx += (dx / dist) * kick + (Math.random() - 0.5) * 0.6;
+      body.vy += (dy / dist) * kick + (Math.random() - 0.5) * 0.6;
+    }
   }
 
   function wrapSmallItems(): void {
@@ -518,10 +612,10 @@ export function initCosmicBackground(): void {
       const t = p.life / p.maxLife;
       const alpha = 1 - t;
       if (p.kind === 'ring') {
-        const radius = (t * 0.55 + 0.1) * p.size;
+        const radius = (t * 0.9 + 0.05) * p.size;
         ctx.strokeStyle = p.color;
         ctx.globalAlpha = alpha;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
         ctx.stroke();
@@ -594,14 +688,15 @@ export function initCosmicBackground(): void {
   }
 
   function frame(now: number): void {
+    if (canvas.style.display === 'none') {
+      requestAnimationFrame(frame);
+      return;
+    }
     const dt = Math.min(now - lastFrame, 50);
     lastFrame = now;
-    const timeScale = dt / 16.667;
+    const timeScale = (dt / 16.667) * MOTION_SPEED;
 
-    if (blackholeActive && !blackhole) {
-      blackholeActive = false;
-    }
-    if (!blackholeActive && now > nextBlackholeAt) {
+    if (!blackholeActive && blackholeEnabled() && now > nextBlackholeAt) {
       spawnBlackhole();
     }
 
@@ -653,18 +748,22 @@ export function initCosmicBackground(): void {
       }
     }
 
-    if (result.blackholeExploded && blackholeActive && blackhole) {
-      spawnParticles('debris', 40, blackhole.x - offsetX, blackhole.y - offsetY, '#c4b5fd', 2.2);
-      spawnParticles('spark', 30, blackhole.x - offsetX, blackhole.y - offsetY, '#ffffff', 2);
-      spawnRing(blackhole.x - offsetX, blackhole.y - offsetY, 260, 'rgba(216,180,254,0.7)');
-      maybePlaySound(() => playExplosion());
-      blackhole = null;
-      blackholeActive = false;
-      nextBlackholeAt = now + BLACKHOLE_RESET_DELAY_MS;
+    if (blackholeActive && blackhole) {
+      if (result.blackholeExploded) {
+        explodeBlackhole(blackhole.x - offsetX, blackhole.y - offsetY);
+        blackhole = null;
+        blackholeActive = false;
+        nextBlackholeAt = now + BLACKHOLE_RESET_DELAY_MS;
+      } else if (blackhole.radius >= BLACKHOLE_EXPLODE_RADIUS) {
+        explodeBlackhole(blackhole.x - offsetX, blackhole.y - offsetY);
+        blackhole = null;
+        blackholeActive = false;
+        nextBlackholeAt = now + BLACKHOLE_RESET_DELAY_MS;
+      }
     }
 
     if (result.devours.length > 0 && blackholeActive && blackhole) {
-      spawnParticles('spark', 3, blackhole.x - offsetX, blackhole.y - offsetY, '#e9d5ff', 0.8);
+      spawnParticles('spark', 2, blackhole.x - offsetX, blackhole.y - offsetY, '#e9d5ff', 0.8);
     }
 
     wrapSmallItems();
@@ -681,6 +780,65 @@ export function initCosmicBackground(): void {
 
     requestAnimationFrame(frame);
   }
+
+  bgBtn?.addEventListener('click', () => {
+    const disabled = getSimulationState().backgroundDisabled;
+    if (disabled) {
+      enableBackground();
+      bgBtn.classList.add('active');
+      bgBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      disableBackground();
+      bgBtn.classList.remove('active');
+      bgBtn.setAttribute('aria-pressed', 'false');
+    }
+  });
+
+  soundBtn?.addEventListener('click', () => {
+    const w = window as unknown as Record<string, unknown>;
+    const current = w.isAudioMuted as boolean | undefined;
+    const nowMuted = current === undefined ? true : !current;
+    w.isAudioMuted = nowMuted;
+    syncMutedState();
+    soundBtn.classList.toggle('active', !nowMuted);
+    soundBtn.setAttribute('aria-pressed', String(!nowMuted));
+    const icon = soundBtn.querySelector('icon-volume, icon-volumeOff');
+    if (icon) {
+      const name = nowMuted ? 'volumeOff' : 'volume';
+      icon.setAttribute('name', name);
+      icon.innerHTML = '';
+      soundBtn.innerHTML = `<icon-${name} name="${name}"></icon-${name}>`;
+    }
+  });
+
+  bhBtn?.addEventListener('click', () => {
+    bhBtn.classList.toggle('active');
+    bhBtn.setAttribute('aria-pressed', String(bhBtn.classList.contains('active')));
+    if (!bhBtn.classList.contains('active') && blackholeActive) {
+      blackhole = null;
+      blackholeActive = false;
+    }
+  });
+
+  function updateFsButton(): void {
+    const isFs = document.fullscreenElement === stage;
+    fsBtn?.setAttribute('aria-label', isFs ? 'Exit fullscreen' : 'Enter fullscreen');
+    fsBtn?.setAttribute('title', isFs ? 'Exit fullscreen' : 'Fullscreen');
+    if (fsBtn) {
+      const name = isFs ? 'minimize' : 'maximize';
+      fsBtn.innerHTML = `<icon-${name} name="${name}"></icon-${name}>`;
+    }
+  }
+
+  fsBtn?.addEventListener('click', () => {
+    if (document.fullscreenElement === stage) {
+      void document.exitFullscreen().catch(() => undefined);
+    } else {
+      void stage.requestFullscreen().catch(() => undefined);
+    }
+  });
+  document.addEventListener('fullscreenchange', updateFsButton);
+  updateFsButton();
 
   window.addEventListener('pointerdown', handlePointerDown);
   window.addEventListener('pointermove', handlePointerMove);
