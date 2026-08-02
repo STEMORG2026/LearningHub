@@ -121,7 +121,7 @@ export function initCosmicBackground(): void {
   const controls = document.createElement('div');
   controls.id = 'cosmicControls';
   controls.className = 'cosmic-controls';
-  controls.setAttribute('role', 'group');
+  controls.setAttribute('role', 'complementary');
   controls.setAttribute('aria-label', 'Canvas controls');
   controls.innerHTML = `
     <button type="button" class="cosmic-ctl-toggle" id="cosmicCtlToggle" aria-expanded="false" aria-controls="cosmicCtlStack">

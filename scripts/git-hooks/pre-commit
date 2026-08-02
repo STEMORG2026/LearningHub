@@ -1,3 +1,5 @@
 #!/bin/sh
+set -e
+pnpm quick
 pnpm docs:sync
 git add -u

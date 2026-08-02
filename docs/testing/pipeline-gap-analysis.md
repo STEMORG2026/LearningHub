@@ -89,25 +89,25 @@ integrations are the weakest, highest-leverage gap.
 
 ## 5. Priority Gaps (Ranked by Risk)
 
-| # | Gap | Risk | Checklist ref | Recommended action | Target gate | Owner |
-|---|-----|------|---------------|--------------------|-------------|-------|
-| G-1 | No real accessibility scan (a11y suite is smoke-only) | **High** — legal + usability | A-01, A-03, A-04 | Inject `@axe-core/playwright` into every page test; add focus-management + keyboard tests; rename suite | PR | Dev |
-| G-2 | No CI platform — governance is hand-run | **High** — nothing is actually enforced | all | Add GitHub Actions running `verify-governance` on PR + merge | PR/Merge | Dev |
-| G-3 | No critical-path E2E for core flows | **High** — money paths | F-01, F-03, F-04, F-09 | E2E for estimator, quiz attempt, class filter, payment (once backend) | Nightly | QA |
-| G-4 | Component tests near zero | High | V-01, U-02 | jsdom tests for hover-effects, render templates, DYK/enroll-modal/faq components | PR | Dev |
-| G-5 | No visual regression | Medium | V-05 | Playwright screenshot baselines for 5 routes + component states | Nightly | QA |
-| G-6 | No performance budget beyond bundle size | Medium | P-01, P-04, P-06 | Lighthouse CI with CWV budgets; keep `lint:size` | Nightly | Dev |
-| G-7 | No dependency audit | Medium | S-04 | `pnpm audit` in CI (fail on high/critical) | PR | Security |
-| G-8 | No scheduled/nightly pipeline | Medium | — | Nightly cron for full E2E + perf + audit | Nightly | Dev |
-| G-9 | Pre-commit runs only docs:sync | Low-Med | — | Add `quick` (lints + typecheck) to pre-commit hook | Local | Dev |
-| G-10 | No prod verification (smoke/health) | Low-Med (until backend) | OB-01, OB-05 | Health endpoint + synthetic smoke once a server exists | Prod Verify | Dev |
-| G-11 | Contract/API tests | Deferred | — | Required at first backend/payment integration | PR | Dev |
+| # | Gap | Risk | Checklist ref | Recommended action | Target gate | Owner | Status |
+|---|-----|------|---------------|--------------------|-------------|-------|--------|
+| G-1 | No real accessibility scan (a11y suite is smoke-only) | **High** — legal + usability | A-01, A-03, A-04 | Inject `@axe-core/playwright` into every page test; add focus-management + keyboard tests; rename suite | PR | Dev | ✅ DONE (2026-08-02) |
+| G-2 | No CI platform — governance is hand-run | **High** — nothing is actually enforced | all | Add GitHub Actions running `verify-governance` on PR + merge | PR/Merge | Dev | ✅ DONE (2026-08-02) |
+| G-3 | No critical-path E2E for core flows | **High** — money paths | F-01, F-03, F-04, F-09 | E2E for estimator, quiz attempt, class filter, payment (once backend) | Nightly | QA | Open |
+| G-4 | Component tests near zero | High | V-01, U-02 | jsdom tests for hover-effects, render templates, DYK/enroll-modal/faq components | PR | Dev | Open |
+| G-5 | No visual regression | Medium | V-05 | Playwright screenshot baselines for 5 routes + component states | Nightly | QA | Open |
+| G-6 | No performance budget beyond bundle size | Medium | P-01, P-04, P-06 | Lighthouse CI with CWV budgets; keep `lint:size` | Nightly | Dev | Open |
+| G-7 | No dependency audit | Medium | S-04 | `pnpm audit` in CI (fail on high/critical) | PR | Security | ✅ DONE (2026-08-02) |
+| G-8 | No scheduled/nightly pipeline | Medium | — | Nightly cron for full E2E + perf + audit | Nightly | Dev | Open |
+| G-9 | Pre-commit runs only docs:sync | Low-Med | — | Add `quick` (lints + typecheck) to pre-commit hook | Local | Dev | ✅ DONE (2026-08-02) |
+| G-10 | No prod verification (smoke/health) | Low-Med (until backend) | OB-01, OB-05 | Health endpoint + synthetic smoke once a server exists | Prod Verify | Dev | Open |
+| G-11 | Contract/API tests | Deferred | — | Required at first backend/payment integration | PR | Dev | Open |
 
 ---
 
 ## 6. Recommended Roadmap
 
-**Phase A — Fix enforcement (1–2 sprints)**
+**Phase A — Fix enforcement (1–2 sprints)** — ✅ DONE (2026-08-02)
 1. Add CI workflow (G-2) running `verify-governance` + `pnpm audit` (G-7).
 2. Add axe scan + keyboard/focus tests; rename the a11y suite (G-1).
 3. Extend pre-commit hook with `quick` (G-9).
@@ -132,7 +132,12 @@ integrations are the weakest, highest-leverage gap.
 - Unit test counts: core 103, tracer 24, audio-synth 14, quiz-engine 16,
   hover-engine 12, acl 14, simulation-core 65 (total ≈ 248).
 - E2E: `e2e/shell-pages.spec.ts`, 10 tests, Chromium default, no axe.
+- Accessibility (post-fix): `e2e/accessibility.spec.ts` adds 5 axe scans
+  (all pages, 0 violations) + landmark, modal focus-trap, and keyboard
+  scroller tests.
 - Coverage: per-package vitest ratchets (simulation-core lines 87, tracer 34).
+- CI: `.github/workflows/ci.yml` runs `verify-governance` + `pnpm audit --prod`
+  on PR and push to `main`; pre-commit hook runs `pnpm quick` then `docs:sync`.
 - `test:a11y` runs the same Playwright suite as the smoke tests — no
   accessibility tooling is invoked.
 - No `.github/workflows`, no `*.yml` CI config beyond workspace/lock files.

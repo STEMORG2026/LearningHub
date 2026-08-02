@@ -14,6 +14,7 @@
   <div id="scroll-progress"></div>
   <site-header active="contact"></site-header>
 
+  <main>
   <div class="page-hero reveal-on-scroll">
     <span class="section-tag"><icon-phone name="phone"></icon-phone> Direct Admissions &amp; Inquiry</span>
     <h1>Get in Touch with <span class="accent">STEM Tuition</span></h1>
@@ -24,7 +25,7 @@
     <div class="contact-layout">
       <div class="reveal-on-scroll">
         <div class="soft-card" style="margin-bottom:1.5rem;">
-          <h3 style="font-size:1.2rem;margin-bottom:1.2rem;">Contact Channels</h3>
+          <h2 style="font-size:1.2rem;margin-bottom:1.2rem;">Contact Channels</h2>
 
           <a href="tel:+9779768021317" class="contact-item">
             <div class="contact-icon"><icon-phone name="phone"></icon-phone></div>
@@ -62,18 +63,18 @@
 
       <div class="reveal-on-scroll">
         <div class="soft-card">
-          <h3 style="font-size:1.2rem;margin-bottom:1.2rem;">Send Direct Inquiry</h3>
+          <h2 style="font-size:1.2rem;margin-bottom:1.2rem;">Send Direct Inquiry</h2>
           <form id="contactForm">
             <div class="form-group">
-              <label>Full Name *</label>
+              <label for="cName">Full Name *</label>
               <input type="text" id="cName" required class="form-input" placeholder="e.g. Aarav Sharma">
             </div>
             <div class="form-group">
-              <label>Phone / WhatsApp *</label>
+              <label for="cPhone">Phone / WhatsApp *</label>
               <input type="tel" id="cPhone" required class="form-input" placeholder="+977 98XXXXXXXX">
             </div>
             <div class="form-group">
-              <label>Interested Program *</label>
+              <label for="cGrade">Interested Program *</label>
               <select id="cGrade" class="form-select" required>
                 <option value="Grade 1-8">Grade 1-8 (Foundation)</option>
                 <option value="SEE Board">Grade 9-10 (SEE Board)</option>
@@ -82,7 +83,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Message / Specific Requirements</label>
+              <label for="cMsg">Message / Specific Requirements</label>
               <textarea id="cMsg" class="form-textarea" rows="3" placeholder="Tell us your preferred mode (Home/Group/Online)..."></textarea>
             </div>
             <button type="submit" class="btn-primary">Send Inquiry Message <icon-rocket name="rocket"></icon-rocket></button>
@@ -98,6 +99,7 @@
       <faq-list></faq-list>
     </div>
   </section>
+  </main>
 
   <site-footer></site-footer>
   <enroll-modal></enroll-modal>

@@ -30,8 +30,8 @@ export class DidYouKnowWidget extends HTMLElement {
     }
 
     this.innerHTML = `
-      <div class="dyk-widget${this.#minimized ? ' minimized' : ''}">
-        <div class="dyk-bar" data-toggle role="button" tabindex="0" aria-label="Toggle STEM Did You Know panel">
+      <div class="dyk-widget${this.#minimized ? ' minimized' : ''}" role="complementary" aria-label="STEM Did You Know">
+        <div class="dyk-bar" data-toggle>
           <div class="dyk-avatar" data-avatar></div>
           <div class="dyk-bar-name"><span data-name></span><span class="dyk-bar-era" data-era></span></div>
           <button type="button" class="dyk-toggle" data-toggle aria-expanded="${!this.#minimized}" aria-label="${this.#minimized ? 'Maximize panel' : 'Minimize panel'}">

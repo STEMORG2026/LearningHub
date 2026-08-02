@@ -14,6 +14,7 @@
   <div id="scroll-progress"></div>
   <site-header active="home" modal></site-header>
 
+  <main>
   <div class="hero">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
@@ -153,11 +154,11 @@
       <div id="tab-converter">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;align-items:center;">
           <div class="form-group">
-            <label>Value</label>
+            <label for="convertValue">Value</label>
             <input type="number" id="convertValue" class="form-input" value="100">
           </div>
           <div class="form-group">
-            <label>Conversion Mode</label>
+            <label for="convertType">Conversion Mode</label>
             <select id="convertType" class="form-input">
               <option value="c2f">Celsius (°C) to Fahrenheit (°F)</option>
               <option value="m2ft">Meters (m) to Feet (ft)</option>
@@ -192,6 +193,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <site-footer></site-footer>
   <enroll-modal></enroll-modal>

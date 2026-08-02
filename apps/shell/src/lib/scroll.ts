@@ -17,6 +17,19 @@ export function initScrollReveal(): void {
 
 export function initMouseWheelScroll(): void {
   document.querySelectorAll<HTMLElement>('.h-scroll-container').forEach((container) => {
+    if (!container.hasAttribute('tabindex')) {
+      container.setAttribute('tabindex', '0');
+    }
+    if (!container.hasAttribute('role')) {
+      container.setAttribute('role', 'region');
+    }
+    if (!container.hasAttribute('aria-label')) {
+      const id = container.id;
+      container.setAttribute(
+        'aria-label',
+        id ? `Scrollable: ${id.replace(/([A-Z])/g, ' $1').toLowerCase()}` : 'Scrollable content',
+      );
+    }
     container.addEventListener(
       'wheel',
       (evt) => {

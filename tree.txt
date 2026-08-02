@@ -1,8 +1,11 @@
-STEM-TUITION/  73b6127
+STEM-TUITION/  171a57d
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
 │   └── README.md
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── apps/
 │   └── shell/
 │       ├── public/
@@ -113,6 +116,7 @@ STEM-TUITION/  73b6127
 │   ├── ROADMAP.md
 │   └── RULES.md
 ├── e2e/
+│   ├── accessibility.spec.ts  [test]
 │   └── shell-pages.spec.ts  [test]
 ├── packages/
 │   ├── acl/
