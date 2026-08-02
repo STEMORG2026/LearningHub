@@ -17,11 +17,13 @@ publicApi = [
   "applyBoundary",
   "applyMouseForce",
   "interactPair",
+  "applySunGravity",
   "applyBlackholePull",
   "applyBlackholeDevour",
   "computeForceMult",
   "updatePhysics",
   "PLANET_CONFIGS",
+  "SUN_GRAVITY_CONSTANT",
 ]
 
 dependencies = ["core", "tracer"]

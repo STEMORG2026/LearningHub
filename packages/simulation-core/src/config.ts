@@ -12,6 +12,11 @@ export const PLANET_ORBIT_STEP = 42;
 export const PLANET_SPEED_BASE = 0.18;
 export const PLANET_SPEED_RANDOM = 0.15;
 
+// Tuned so that G * M_sun equals ORBIT_ANGULAR_BASE^2 * (Mercury orbit radius)^3
+// (see apps/shell/src/lib/cosmic-background.ts) — keeps every planet on a stable
+// circular orbit at its Kepler-scaled angular speed.
+export const SUN_GRAVITY_CONSTANT = 0.0014452;
+
 export const BLACKHOLE_RADIUS = 40;
 export const BLACKHOLE_MASS = 14000;
 export const BLACKHOLE_VROT = 0.02;

@@ -12,6 +12,7 @@ import {
   COLLISION_SOUND_CHANCE,
   SUN_RADIUS,
   SUN_MASS_FACTOR,
+  PLANET_ORBIT_START_RADIUS,
   type CelestialBody,
   type MoonConfig,
   type BodyType,
@@ -31,18 +32,22 @@ const STAR_COUNT = 140;
 const NEBULA_COUNT = 3;
 const MAX_PARTICLES = 240;
 const IDLE_MS = 6000;
-const WAVE_COOLDOWN_MS = 5000;
+const WAVE_MIN_MS = 30000;
+const WAVE_MAX_MS = 45000;
 const SOUND_MIN_GAP_MS = 90;
-const BLACKHOLE_MIN_GAP_MS = 18000;
-const BLACKHOLE_MAX_GAP_MS = 42000;
+const BLACKHOLE_MIN_GAP_MS = 60000;
+const BLACKHOLE_MAX_GAP_MS = 90000;
+const BLACKHOLE_MIN_LIFE_MS = 60000;
+const BLACKHOLE_MAX_LIFE_MS = 90000;
 const MOTION_SPEED = 0.6;
 const SUN_SCALE = 2;
 const ORBIT_SCALE = 1.6;
-const ORBIT_SPEED_SCALE = 0.7;
+const ORBIT_ANGULAR_BASE = 0.0022;
+const ORBIT_REF_RADIUS = PLANET_ORBIT_START_RADIUS * ORBIT_SCALE;
 const MOON_SPEED_SCALE = 0.25;
 const BLACKHOLE_FADE_MS = 2400;
 const BLACKHOLE_COPY_DELAY_MS = 9000;
-const PASSIVE_BLACKHOLE_GROWTH = 0.15;
+const PASSIVE_BLACKHOLE_GROWTH = 0.004;
 const FALLBACK_ITEM: [BodyType, string] = ['rocket', '🚀'];
 
 interface Star {
@@ -83,6 +88,7 @@ interface MoonSim {
 
 interface BlackholeSim extends CelestialBody {
   bornAt: number;
+  expiresAt: number;
 }
 
 function wrapCoord(value: number, max: number): number {
@@ -190,8 +196,10 @@ export function initCosmicBackground(): void {
       const dy = planet.y - centerY;
       planet.x = centerX + dx * ORBIT_SCALE;
       planet.y = centerY + dy * ORBIT_SCALE;
-      planet.vx *= ORBIT_SPEED_SCALE;
-      planet.vy *= ORBIT_SPEED_SCALE;
+      const orbitRadius = Math.hypot(planet.x - centerX, planet.y - centerY);
+      const omega = ORBIT_ANGULAR_BASE * Math.pow(ORBIT_REF_RADIUS / orbitRadius, 1.5);
+      planet.vx = -((planet.y - centerY) / orbitRadius) * omega * orbitRadius;
+      planet.vy = ((planet.x - centerX) / orbitRadius) * omega * orbitRadius;
       return planet;
     });
 
@@ -221,7 +229,7 @@ export function initCosmicBackground(): void {
   let mouseY = centerY;
   let lastSoundAt = 0;
   let lastActivityAt = performance.now();
-  let waveReadyAt = 0;
+  let waveReadyAt = performance.now() + randomBetween(WAVE_MIN_MS, WAVE_MAX_MS);
   let lastFrame = performance.now();
 
   function seedStars(): void {
@@ -294,7 +302,7 @@ export function initCosmicBackground(): void {
   }
 
   function blackholeExplodeRadius(): number {
-    return 2.5 * Math.hypot(viewW, viewH);
+    return 2 * SUN_RADIUS * SUN_SCALE;
   }
 
   function fireGravitationalWave(): void {
@@ -311,7 +319,7 @@ export function initCosmicBackground(): void {
     spawnRing(ex, ey, diag * 0.7, color, 1600);
     const cx = viewW / 2;
     const cy = viewH / 2;
-    const impulse = 1.6;
+    const impulse = 0.9;
     const movable = [sun, ...planets, ...items, ...blackholes].filter((b) => !b.isExploded);
     for (const body of movable) {
       const dx = cx - (body.x - offsetX);
@@ -329,7 +337,7 @@ export function initCosmicBackground(): void {
   function handlePointerDown(e: PointerEvent): void {
     if ((e.target as HTMLElement).closest('#cosmicControls')) return;
     lastActivityAt = performance.now();
-    waveReadyAt = performance.now() + WAVE_COOLDOWN_MS;
+    waveReadyAt = performance.now() + randomBetween(WAVE_MIN_MS, WAVE_MAX_MS);
     const x = e.clientX + offsetX;
     const y = e.clientY + offsetY;
     spawnParticles('spark', 14, e.clientX, e.clientY, '#7dd3fc', 1);
@@ -367,7 +375,8 @@ export function initCosmicBackground(): void {
     bh.x = randomBetween(offsetX + 60, offsetX + viewW - 60);
     bh.y = randomBetween(offsetY + 60, offsetY + viewH - 60);
     bh.radius = SUN_RADIUS * 0.5;
-    blackholes.push({ ...bh, bornAt: performance.now() });
+    const now = performance.now();
+    blackholes.push({ ...bh, bornAt: now, expiresAt: now + randomBetween(BLACKHOLE_MIN_LIFE_MS, BLACKHOLE_MAX_LIFE_MS) });
   }
 
   function spawnBlackholeCopy(): void {
@@ -383,7 +392,8 @@ export function initCosmicBackground(): void {
     bh.x = x;
     bh.y = y;
     bh.radius = SUN_RADIUS * 0.5;
-    blackholes.push({ ...bh, bornAt: performance.now() });
+    const now = performance.now();
+    blackholes.push({ ...bh, bornAt: now, expiresAt: now + randomBetween(BLACKHOLE_MIN_LIFE_MS, BLACKHOLE_MAX_LIFE_MS) });
   }
 
   function explodeBlackhole(x: number, y: number): void {
@@ -774,7 +784,9 @@ export function initCosmicBackground(): void {
     items = items.map((i) => result.bodies.find((b) => b.id === i.id) ?? i);
     blackholes = blackholes.map((bh) => {
       const synced = result.bodies.find((b) => b.id === bh.id);
-      return synced ? { ...(synced as CelestialBody), bornAt: bh.bornAt } : bh;
+      return synced
+        ? { ...(synced as CelestialBody), bornAt: bh.bornAt, expiresAt: bh.expiresAt }
+        : bh;
     });
 
     for (const collision of result.collisions) {
@@ -800,7 +812,7 @@ export function initCosmicBackground(): void {
 
     let explodedAny = false;
     for (const bh of blackholes) {
-      if (bh.isExploded || bh.radius >= blackholeExplodeRadius()) {
+      if (bh.isExploded || bh.radius >= blackholeExplodeRadius() || now >= bh.expiresAt) {
         explodeBlackhole(bh.x - offsetX, bh.y - offsetY);
         explodedAny = true;
       }
@@ -826,7 +838,7 @@ export function initCosmicBackground(): void {
     const idleMs = now - lastActivityAt;
     if (idleMs > IDLE_MS && now > waveReadyAt) {
       fireGravitationalWave();
-      waveReadyAt = now + WAVE_COOLDOWN_MS;
+      waveReadyAt = now + randomBetween(WAVE_MIN_MS, WAVE_MAX_MS);
     }
 
     updateParticles(dt);

@@ -4,6 +4,7 @@ import {
   applyBoundary,
   applyMouseForce,
   interactPair,
+  applySunGravity,
   applyBlackholePull,
   applyBlackholeDevour,
   computeForceMult,
@@ -18,7 +19,7 @@ import {
   createSmallItem,
   resetIdCounter,
 } from '../src/create-body';
-import { PLANET_CONFIGS, MATH_SYMBOLS } from '../src/config';
+import { PLANET_CONFIGS, MATH_SYMBOLS, SUN_GRAVITY_CONSTANT } from '../src/config';
 import {
   BODY_TYPES,
   type CelestialBody,
@@ -254,10 +255,11 @@ describe('applyBlackholePull', () => {
     expect(next.vy).toBe(0);
   });
 
-  it('does nothing when body is far (> 420)', () => {
-    const b = makeBody({ x: 1000, y: 500 });
+  it('pulls from far away (infinite range)', () => {
+    const b = makeBody({ id: 'b', x: 1000, y: 500, vx: 0, vy: 0 });
     const next = applyBlackholePull(b, blackhole);
-    expect(next).toBe(b);
+    expect(next.vx).toBeLessThan(0);
+    expect(next.vx).toBeGreaterThan(-0.02);
   });
 
   it('does nothing when body is too close (<= 10)', () => {
@@ -266,10 +268,26 @@ describe('applyBlackholePull', () => {
     expect(next).toBe(b);
   });
 
+  it('pulls heavier bodies more slowly', () => {
+    const light = makeBody({ id: 'l', x: 700, y: 500, vx: 0, vy: 0, mass: 100 });
+    const heavy = makeBody({ id: 'h', x: 700, y: 500, vx: 0, vy: 0, mass: 10000 });
+    const lightDelta = Math.abs(applyBlackholePull(light, blackhole).vx);
+    const heavyDelta = Math.abs(applyBlackholePull(heavy, blackhole).vx);
+    expect(lightDelta).toBeGreaterThan(heavyDelta);
+  });
+
   it('caps pull force', () => {
-    const b = makeBody({ id: 'b', x: 510, y: 500, vx: 0, vy: 0 });
+    const b = makeBody({ id: 'b', x: 520, y: 500, vx: 0, vy: 0, mass: 100 });
     const next = applyBlackholePull(b, blackhole);
-    expect(Math.abs(next.vx)).toBeLessThanOrEqual(4.0);
+    expect(next.vx).toBe(-4.0);
+  });
+
+  it('pulls harder when closer (inverse-square falloff)', () => {
+    const near = makeBody({ id: 'n', x: 550, y: 500, vx: 0, vy: 0 });
+    const far = makeBody({ id: 'f', x: 700, y: 500, vx: 0, vy: 0 });
+    const nearDelta = Math.abs(applyBlackholePull(near, blackhole).vx);
+    const farDelta = Math.abs(applyBlackholePull(far, blackhole).vx);
+    expect(nearDelta).toBeGreaterThan(farDelta);
   });
 
   it('scales pull distance with blackhole radius', () => {
@@ -278,6 +296,60 @@ describe('applyBlackholePull', () => {
     const next = applyBlackholePull(b, bigBh);
     expect(next.vx).toBeLessThan(0);
     expect(next.vy).toBe(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// applySunGravity
+// ---------------------------------------------------------------------------
+describe('applySunGravity', () => {
+  const sun = makeBody({
+    id: 'sun',
+    type: 'big_sun',
+    x: 500,
+    y: 500,
+    radius: 150,
+    mass: 33750,
+    charge: 0,
+  });
+
+  it('pulls a planet toward the sun', () => {
+    const planet = makeBody({ id: 'p', x: 716, y: 500, vx: 0, vy: 0 });
+    const next = applySunGravity(planet, sun, 1);
+    expect(next.vx).toBeLessThan(0);
+    expect(next.vy).toBe(0);
+  });
+
+  it('scales with inverse-square distance', () => {
+    const near = makeBody({ id: 'n', x: 640, y: 500, vx: 0, vy: 0 });
+    const far = makeBody({ id: 'f', x: 1060, y: 500, vx: 0, vy: 0 });
+    const nearDelta = Math.abs(applySunGravity(near, sun, 1).vx);
+    const farDelta = Math.abs(applySunGravity(far, sun, 1).vx);
+    expect(nearDelta).toBeCloseTo(farDelta * 16, 5);
+  });
+
+  it('scales by timeScale', () => {
+    const planet = makeBody({ id: 'p', x: 716, y: 500, vx: 0, vy: 0 });
+    const full = applySunGravity(planet, sun, 1);
+    const half = applySunGravity(planet, sun, 0.5);
+    expect(half.vx).toBeCloseTo(full.vx * 0.5, 10);
+  });
+
+  it('ignores non-planet bodies', () => {
+    const item = makeBody({ id: 'i', type: 'rocket', x: 716, y: 500, vx: 0, vy: 0 });
+    const next = applySunGravity(item, sun, 1);
+    expect(next).toBe(item);
+  });
+
+  it('ignores the sun itself', () => {
+    const next = applySunGravity(sun, sun, 1);
+    expect(next).toBe(sun);
+  });
+
+  it('uses SUN_GRAVITY_CONSTANT for the acceleration', () => {
+    const planet = makeBody({ id: 'p', x: 716, y: 500, vx: 0, vy: 0 });
+    const next = applySunGravity(planet, sun, 1);
+    expect(next.vx).toBeCloseTo(-(SUN_GRAVITY_CONSTANT * 33750) / (216 * 216), 10);
   });
 });
 
@@ -328,6 +400,23 @@ describe('applyBlackholeDevour', () => {
     expect(result.exploded).toBe(true);
     expect(result.blackhole.isExploded).toBe(true);
     expect(result.blackhole.radius).toBe(40);
+  });
+
+  it('explodes exactly at the 2x sun cap', () => {
+    const bh = makeBody({ id: 'bh', x: 500, y: 500, radius: 285, type: 'super_blackhole' });
+    const b = makeBody({ id: 'b', x: 520, y: 500, radius: 100 });
+    const result = applyBlackholeDevour(b, bh, W, H, 300);
+    expect(result.exploded).toBe(true);
+    expect(result.blackhole.isExploded).toBe(true);
+  });
+
+  it('stops growth at the 2x sun cap without exploding below it', () => {
+    const bh = makeBody({ id: 'bh', x: 500, y: 500, radius: 285, type: 'super_blackhole' });
+    const b = makeBody({ id: 'b', x: 520, y: 500, radius: 50 });
+    const result = applyBlackholeDevour(b, bh, W, H, 300);
+    expect(result.exploded).toBe(false);
+    expect(result.blackhole.radius).toBe(300);
+    expect(result.blackhole.isExploded).toBe(false);
   });
 });
 
@@ -445,6 +534,103 @@ describe('updatePhysics', () => {
     expect(result.devours.length).toBeGreaterThanOrEqual(1);
     const consumed = result.bodies.find((bdy) => bdy.id === 'b')!;
     expect(consumed.isExploded).toBe(true);
+  });
+
+  it('keeps a planet in a stable orbit under sun gravity (shockwave recovery)', () => {
+    const sun = makeBody({
+      id: 'sun',
+      type: 'big_sun',
+      x: 1000,
+      y: 1000,
+      radius: 150,
+      mass: 33750,
+      charge: 0,
+    });
+    const planet = makeBody({
+      id: 'p',
+      type: 'giant_planet',
+      x: 1216,
+      y: 1000,
+      vx: 0,
+      vy: 0.4752,
+      radius: 26,
+      mass: 676,
+      charge: 0,
+    });
+    const input = defaultInput({
+      bodies: [sun, planet],
+      width: 3000,
+      height: 3000,
+      timeScale: 0.6,
+      blackholeDisabled: true,
+    });
+    let bodies = [sun, planet];
+    let minR = Infinity;
+    let maxR = 0;
+    for (let i = 0; i < 10000; i++) {
+      const result = updatePhysics({ ...input, bodies });
+      bodies = result.bodies;
+      const p = bodies.find((b) => b.id === 'p')!;
+      const r = Math.hypot(p.x - 1000, p.y - 1000);
+      minR = Math.min(minR, r);
+      maxR = Math.max(maxR, r);
+    }
+    expect(maxR).toBeLessThan(1200);
+    expect(minR).toBeGreaterThan(170);
+    expect(maxR - minR).toBeLessThan(400);
+  });
+
+  it('recovers a bounded orbit after a shockwave impulse', () => {
+    const sun = makeBody({
+      id: 'sun',
+      type: 'big_sun',
+      x: 1000,
+      y: 1000,
+      radius: 150,
+      mass: 33750,
+      charge: 0,
+    });
+    const planet = makeBody({
+      id: 'p',
+      type: 'giant_planet',
+      x: 1216,
+      y: 1000,
+      vx: 0,
+      vy: 0.4752,
+      radius: 26,
+      mass: 676,
+      charge: 0,
+    });
+    const input = defaultInput({
+      bodies: [sun, planet],
+      width: 3000,
+      height: 3000,
+      timeScale: 0.6,
+      blackholeDisabled: true,
+    });
+    let bodies = [sun, planet];
+    for (let i = 0; i < 400; i++) {
+      const result = updatePhysics({ ...input, bodies });
+      bodies = result.bodies;
+    }
+    let p = bodies.find((b) => b.id === 'p')!;
+    p = { ...p, vx: p.vx - 0.9, vy: p.vy + 0.2 };
+    bodies = bodies.map((b) => (b.id === 'p' ? p : b));
+    let minR = Infinity;
+    let maxR = 0;
+    let lastR = 0;
+    for (let i = 0; i < 12000; i++) {
+      const result = updatePhysics({ ...input, bodies });
+      bodies = result.bodies;
+      const planetBody = bodies.find((b) => b.id === 'p')!;
+      const r = Math.hypot(planetBody.x - 1000, planetBody.y - 1000);
+      minR = Math.min(minR, r);
+      maxR = Math.max(maxR, r);
+      lastR = r;
+    }
+    expect(maxR).toBeLessThan(2500);
+    expect(minR).toBeGreaterThan(170);
+    expect(lastR).toBeLessThan(1500);
   });
 });
 

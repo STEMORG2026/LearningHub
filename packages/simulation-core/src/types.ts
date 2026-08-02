@@ -102,4 +102,6 @@ export const COLLISION_SOUND_CHANCE = 0.25;
 export const LIGHTNING_DRAW_DIST = 125;
 export const BLACKHOLE_PULL_DIST = 420;
 export const BLACKHOLE_PULL_CAP = 4.0;
+export const BLACKHOLE_GRAVITY_REF_MASS = 150;
+export const BLACKHOLE_GRAVITY_MASS_CAP = 3;
 export const SMALL_ITEM_COUNT = 16;
