@@ -1,14 +1,17 @@
-STEM-TUITION/  016afb4
+STEM-TUITION/  f282b8f
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
 │   └── README.md
 ├── .github/
 │   └── workflows/
-│       └── ci.yml
+│       ├── ci.yml
+│       └── nightly.yml
 ├── apps/
 │   └── shell/
 │       ├── public/
+│       │   ├── favicon.svg
+│       │   └── robots.txt
 │       ├── src/
 │       │   ├── components/
 │       │   │   ├── did-you-know.ts
@@ -123,9 +126,18 @@ STEM-TUITION/  016afb4
 │   ├── ROADMAP.md
 │   └── RULES.md
 ├── e2e/
+│   ├── visual-regression.spec.ts-snapshots/
+│   │   ├── about-linux.png
+│   │   ├── classes-linux.png
+│   │   ├── contact-linux.png
+│   │   ├── dyk-expanded-linux.png
+│   │   ├── enroll-modal-open-linux.png
+│   │   ├── home-linux.png
+│   │   └── videos-linux.png
 │   ├── accessibility.spec.ts  [test]
 │   ├── critical-path.spec.ts  [test]
-│   └── shell-pages.spec.ts  [test]
+│   ├── shell-pages.spec.ts  [test]
+│   └── visual-regression.spec.ts  [test]
 ├── packages/
 │   ├── acl/
 │   │   ├── src/
@@ -260,6 +272,7 @@ STEM-TUITION/  016afb4
 ├── eslint.config.mjs
 ├── eslint.config.state.mjs
 ├── index.html  [entry]
+├── lighthouserc.json
 ├── package.json
 ├── playwright.config.ts
 ├── pnpm-workspace.yaml

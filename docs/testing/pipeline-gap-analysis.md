@@ -95,10 +95,10 @@ integrations are the weakest, highest-leverage gap.
 | G-2 | No CI platform — governance is hand-run | **High** — nothing is actually enforced | all | Add GitHub Actions running `verify-governance` on PR + merge | PR/Merge | Dev | ✅ DONE (2026-08-02) |
 | G-3 | No critical-path E2E for core flows | **High** — money paths | F-01, F-03, F-04, F-09 | E2E for estimator, quiz attempt, class filter, payment (once backend) | Nightly | QA | ✅ PARTIAL (estimator, quiz, filters done; payment blocked on backend) |
 | G-4 | Component tests near zero | High | V-01, U-02 | jsdom tests for hover-effects, render templates, DYK/enroll-modal/faq components | PR | Dev | ✅ DONE (2026-08-02) |
-| G-5 | No visual regression | Medium | V-05 | Playwright screenshot baselines for 5 routes + component states | Nightly | QA | Open |
-| G-6 | No performance budget beyond bundle size | Medium | P-01, P-04, P-06 | Lighthouse CI with CWV budgets; keep `lint:size` | Nightly | Dev | Open |
+| G-5 | No visual regression | Medium | V-05 | Playwright screenshot baselines for 5 routes + component states | Nightly | QA | ✅ DONE (2026-08-02) |
+| G-6 | No performance budget beyond bundle size | Medium | P-01, P-04, P-06 | Lighthouse CI with CWV budgets; keep `lint:size` | Nightly | Dev | ✅ DONE (2026-08-02) |
 | G-7 | No dependency audit | Medium | S-04 | `pnpm audit` in CI (fail on high/critical) | PR | Security | ✅ DONE (2026-08-02) |
-| G-8 | No scheduled/nightly pipeline | Medium | — | Nightly cron for full E2E + perf + audit | Nightly | Dev | Open |
+| G-8 | No scheduled/nightly pipeline | Medium | — | Nightly cron for full E2E + perf + audit | Nightly | Dev | ✅ DONE (2026-08-02) |
 | G-9 | Pre-commit runs only docs:sync | Low-Med | — | Add `quick` (lints + typecheck) to pre-commit hook | Local | Dev | ✅ DONE (2026-08-02) |
 | G-10 | No prod verification (smoke/health) | Low-Med (until backend) | OB-01, OB-05 | Health endpoint + synthetic smoke once a server exists | Prod Verify | Dev | Open |
 | G-11 | Contract/API tests | Deferred | — | Required at first backend/payment integration | PR | Dev | Open |
@@ -117,10 +117,21 @@ integrations are the weakest, highest-leverage gap.
 5. Critical-path E2E: estimator, quiz, class filter (G-3) — payment E2E
    stays pending backend integration (Phase D).
 
-**Phase C — Trust & trend (ongoing)**
-6. Visual regression baselines (G-5).
-7. Lighthouse CI budgets (G-6).
-8. Nightly pipeline consolidating full E2E + perf + audit (G-8).
+**Phase C — Trust & trend** — ✅ DONE (2026-08-02)
+6. Visual regression baselines (G-5): 7 screenshot tests for the 5 routes
+   plus enroll-modal and DYK expanded states; `stabilize()` recipe tames
+   the animated canvas/backdrop-filter elements (see `e2e/visual-regression.spec.ts`).
+7. Lighthouse CI budgets (G-6): `lighthouserc.json` asserts a11y ≥ 0.95,
+   best-practices ≥ 0.9, SEO ≥ 0.85 as errors, plus Core Web Vitals as
+   warnings (LCP/TBT can be null in headless runs); runs on every PR/push
+   and uploads `lhci-reports` artifacts. Real fixes shipped: per-page meta
+   description + Open Graph, `robots.txt`, SVG favicon (removed a favicon 404),
+   and a larger 40px DYK toggle that no longer collides with the floating
+   cosmic-controls button on mobile (Lighthouse `target-size` now passes on
+   all 5 pages with a11y = 1.0).
+8. Nightly pipeline consolidating full E2E + perf + audit (G-8):
+   `.github/workflows/nightly.yml` cron at 02:00 UTC runs the full
+   `verify-governance`, Lighthouse CI, and `pnpm audit`.
 
 **Phase D — Backend triggers**
 9. API + contract tests, prod smoke/health, payment E2E the moment any

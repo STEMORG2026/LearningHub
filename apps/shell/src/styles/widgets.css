@@ -90,9 +90,9 @@
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--muted);
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -125,6 +125,13 @@
 
 .dyk-widget.minimized .dyk-body {
   display: none;
+}
+
+/* Keep the floating widget clear of the bottom-right cosmic controls on small screens. */
+@media (max-width: 640px) {
+  .dyk-widget {
+    bottom: 112px;
+  }
 }
 
 .dyk-header {
