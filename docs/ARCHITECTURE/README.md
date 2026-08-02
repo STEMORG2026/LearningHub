@@ -127,6 +127,9 @@ STEM-TUITION/
 │   │   ├── GLOSSARY.md                 ← technical terms
 │   │   ├── FLOWCHARTS.md               ← connection diagrams
 │   │   └── DEPLOYMENT.md               ← deployment guide
+│   ├── testing/                        ← testing standard + domain checklists
+│   │   ├── UNIVERSAL_TESTING_STANDARD.md ← layered taxonomy (levels × attributes × gates)
+│   │   └── education-platform-checklist.md ← domain checklist for this product
 │   ├── ROADMAP.md                      ← migration phases
 │   ├── component-registry/             ← living map of every component + file:line
 │   ├── DOCS.md                         ← docs taxonomy (map + update rules)
@@ -385,3 +388,5 @@ stable for many releases). Lifecycle states follow `PACKAGE_LIFECYCLE.md`
 | `DEVLOG.md` | Development diary with decisions and learnings |
 | `component-registry/` | Living map of every component |
 | `adr/` | Architecture Decision Records |
+| `testing/UNIVERSAL_TESTING_STANDARD.md` | Layered testing taxonomy (levels, attributes, gates) |
+| `testing/education-platform-checklist.md` | Concrete verification checklist for this product |
