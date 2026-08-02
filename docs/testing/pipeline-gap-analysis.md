@@ -93,8 +93,8 @@ integrations are the weakest, highest-leverage gap.
 |---|-----|------|---------------|--------------------|-------------|-------|--------|
 | G-1 | No real accessibility scan (a11y suite is smoke-only) | **High** — legal + usability | A-01, A-03, A-04 | Inject `@axe-core/playwright` into every page test; add focus-management + keyboard tests; rename suite | PR | Dev | ✅ DONE (2026-08-02) |
 | G-2 | No CI platform — governance is hand-run | **High** — nothing is actually enforced | all | Add GitHub Actions running `verify-governance` on PR + merge | PR/Merge | Dev | ✅ DONE (2026-08-02) |
-| G-3 | No critical-path E2E for core flows | **High** — money paths | F-01, F-03, F-04, F-09 | E2E for estimator, quiz attempt, class filter, payment (once backend) | Nightly | QA | Open |
-| G-4 | Component tests near zero | High | V-01, U-02 | jsdom tests for hover-effects, render templates, DYK/enroll-modal/faq components | PR | Dev | Open |
+| G-3 | No critical-path E2E for core flows | **High** — money paths | F-01, F-03, F-04, F-09 | E2E for estimator, quiz attempt, class filter, payment (once backend) | Nightly | QA | ✅ PARTIAL (estimator, quiz, filters done; payment blocked on backend) |
+| G-4 | Component tests near zero | High | V-01, U-02 | jsdom tests for hover-effects, render templates, DYK/enroll-modal/faq components | PR | Dev | ✅ DONE (2026-08-02) |
 | G-5 | No visual regression | Medium | V-05 | Playwright screenshot baselines for 5 routes + component states | Nightly | QA | Open |
 | G-6 | No performance budget beyond bundle size | Medium | P-01, P-04, P-06 | Lighthouse CI with CWV budgets; keep `lint:size` | Nightly | Dev | Open |
 | G-7 | No dependency audit | Medium | S-04 | `pnpm audit` in CI (fail on high/critical) | PR | Security | ✅ DONE (2026-08-02) |
@@ -112,9 +112,10 @@ integrations are the weakest, highest-leverage gap.
 2. Add axe scan + keyboard/focus tests; rename the a11y suite (G-1).
 3. Extend pre-commit hook with `quick` (G-9).
 
-**Phase B — Build the middle (2–3 sprints)**
+**Phase B — Build the middle (2–3 sprints)** — ✅ DONE (2026-08-02)
 4. Component test harness (jsdom) for shell components (G-4).
-5. Critical-path E2E: estimator, quiz, class filter (G-3).
+5. Critical-path E2E: estimator, quiz, class filter (G-3) — payment E2E
+   stays pending backend integration (Phase D).
 
 **Phase C — Trust & trend (ongoing)**
 6. Visual regression baselines (G-5).
@@ -135,6 +136,11 @@ integrations are the weakest, highest-leverage gap.
 - Accessibility (post-fix): `e2e/accessibility.spec.ts` adds 5 axe scans
   (all pages, 0 violations) + landmark, modal focus-trap, and keyboard
   scroller tests.
+- Critical path: `e2e/critical-path.spec.ts` covers estimator, converter,
+  full quiz attempt + retake, class/pioneer filters, enroll-modal launch.
+- Component tests: `apps/shell/tests/` (jsdom, 23 tests) covering
+  hover-effects, render templates, DYK, enroll-modal, faq-list; coverage
+  ratchet scoped to those files.
 - Coverage: per-package vitest ratchets (simulation-core lines 87, tracer 34).
 - CI: `.github/workflows/ci.yml` runs `verify-governance` + `pnpm audit --prod`
   on PR and push to `main`; pre-commit hook runs `pnpm quick` then `docs:sync`.

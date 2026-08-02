@@ -60,7 +60,7 @@ export class DidYouKnowWidget extends HTMLElement {
     this.#era = this.querySelector('[data-era]');
     this.#field = this.querySelector('[data-field]');
     this.#fact = this.querySelector('[data-fact]');
-    this.#toggle = this.querySelector('[data-toggle]') as HTMLButtonElement | null;
+    this.#toggle = this.querySelector('.dyk-toggle');
     const next = this.querySelector('[data-next]') as HTMLButtonElement | null;
 
     this.#renderPioneer();

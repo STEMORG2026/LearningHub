@@ -1,4 +1,4 @@
-STEM-TUITION/  171a57d
+STEM-TUITION/  016afb4
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -45,6 +45,12 @@ STEM-TUITION/  171a57d
 │       │   │   ├── tokens.css
 │       │   │   └── widgets.css
 │       │   └── index.ts  [entry]
+│       ├── tests/
+│       │   ├── did-you-know.test.ts  [test]
+│       │   ├── enroll-modal.test.ts  [test]
+│       │   ├── faq-list.test.ts  [test]
+│       │   ├── hover-effects.test.ts  [test]
+│       │   └── render.test.ts  [test]
 │       ├── about.html
 │       ├── ARCHITECTURE.toml
 │       ├── CHANGELOG.md
@@ -55,7 +61,8 @@ STEM-TUITION/  171a57d
 │       ├── README.md
 │       ├── tsconfig.json
 │       ├── videos.html
-│       └── vite.config.ts
+│       ├── vite.config.ts
+│       └── vitest.config.ts
 ├── docs/
 │   ├── adr/
 │   │   ├── 001-strangler-fig-migration.md
@@ -117,6 +124,7 @@ STEM-TUITION/  171a57d
 │   └── RULES.md
 ├── e2e/
 │   ├── accessibility.spec.ts  [test]
+│   ├── critical-path.spec.ts  [test]
 │   └── shell-pages.spec.ts  [test]
 ├── packages/
 │   ├── acl/

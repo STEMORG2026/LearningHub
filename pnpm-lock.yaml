@@ -69,12 +69,21 @@ importers:
         specifier: workspace:*
         version: link:../../packages/tracer
     devDependencies:
+      '@vitest/coverage-v8':
+        specifier: ^1.6.1
+        version: 1.6.1(supports-color@7.2.0)(vitest@1.6.1(jsdom@30.0.1)(supports-color@7.2.0))
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
       typescript:
         specifier: ^5.4.0
         version: 5.9.3
       vite:
         specifier: ^5.2.0
         version: 5.4.21
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(jsdom@30.0.1)(supports-color@7.2.0)
 
   packages/acl:
     dependencies:
