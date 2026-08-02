@@ -124,28 +124,50 @@ export function initCosmicBackground(): void {
   controls.setAttribute('role', 'group');
   controls.setAttribute('aria-label', 'Canvas controls');
   controls.innerHTML = `
-    <span class="cosmic-ctl-title">Canvas</span>
-    <div class="cosmic-ctl-row">
-      <button type="button" class="cosmic-ctl" id="ctrlBackgroundBtn" aria-pressed="false" aria-label="Toggle background" title="Background">
+    <button type="button" class="cosmic-ctl-toggle" id="cosmicCtlToggle" aria-expanded="false" aria-controls="cosmicCtlStack">
+      <icon-atom name="atom"></icon-atom>
+      <span>Canvas</span>
+      <icon-chevronUp name="chevronUp" class="cosmic-ctl-chev"></icon-chevronUp>
+    </button>
+    <div class="cosmic-ctl-stack" id="cosmicCtlStack">
+      <button type="button" class="cosmic-ctl" id="ctrlBackgroundBtn" aria-pressed="false" aria-label="Toggle background">
         <icon-monitor name="monitor"></icon-monitor>
+        <span>Background</span>
       </button>
-      <button type="button" class="cosmic-ctl active" id="ctrlSoundBtn" aria-pressed="true" aria-label="Toggle sound" title="Sound">
+      <button type="button" class="cosmic-ctl active" id="ctrlSoundBtn" aria-pressed="true" aria-label="Toggle sound">
         <icon-volume name="volume"></icon-volume>
+        <span>Sound</span>
       </button>
-      <button type="button" class="cosmic-ctl active" id="ctrlBlackholeBtn" aria-pressed="true" aria-label="Toggle black hole" title="Black hole">
+      <button type="button" class="cosmic-ctl active" id="ctrlBlackholeBtn" aria-pressed="true" aria-label="Toggle black hole">
         <icon-target name="target"></icon-target>
+        <span>Black hole</span>
       </button>
-      <button type="button" class="cosmic-ctl" id="ctrlFullscreenBtn" aria-label="Enter fullscreen" title="Fullscreen">
+      <button type="button" class="cosmic-ctl" id="ctrlFullscreenBtn" aria-label="Enter fullscreen">
         <icon-maximize name="maximize"></icon-maximize>
+        <span>Fullscreen</span>
       </button>
     </div>
   `;
   stage.appendChild(controls);
 
+  const toggleBtn = controls.querySelector<HTMLButtonElement>('#cosmicCtlToggle');
+  const ctlStack = controls.querySelector<HTMLDivElement>('#cosmicCtlStack');
   const bgBtn = controls.querySelector<HTMLButtonElement>('#ctrlBackgroundBtn');
   const soundBtn = controls.querySelector<HTMLButtonElement>('#ctrlSoundBtn');
   const bhBtn = controls.querySelector<HTMLButtonElement>('#ctrlBlackholeBtn');
   const fsBtn = controls.querySelector<HTMLButtonElement>('#ctrlFullscreenBtn');
+
+  toggleBtn?.addEventListener('click', () => {
+    const open = controls.classList.toggle('open');
+    toggleBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!controls.classList.contains('open')) return;
+    if ((e.target as HTMLElement).closest('#cosmicControls')) return;
+    controls.classList.remove('open');
+    toggleBtn?.setAttribute('aria-expanded', 'false');
+  });
+  void ctlStack;
 
   let viewW = 0;
   let viewH = 0;
@@ -906,9 +928,9 @@ export function initCosmicBackground(): void {
     const icon = soundBtn.querySelector('icon-volume, icon-volumeOff');
     if (icon) {
       const name = nowMuted ? 'volumeOff' : 'volume';
-      icon.setAttribute('name', name);
-      icon.innerHTML = '';
-      soundBtn.innerHTML = `<icon-${name} name="${name}"></icon-${name}>`;
+      const next = document.createElement(`icon-${name}`);
+      next.setAttribute('name', name);
+      icon.replaceWith(next);
     }
   });
 
@@ -925,9 +947,12 @@ export function initCosmicBackground(): void {
     const isFs = document.fullscreenElement === stage;
     fsBtn?.setAttribute('aria-label', isFs ? 'Exit fullscreen' : 'Enter fullscreen');
     fsBtn?.setAttribute('title', isFs ? 'Exit fullscreen' : 'Fullscreen');
-    if (fsBtn) {
+    const fsIcon = fsBtn?.querySelector('icon-maximize, icon-minimize');
+    if (fsIcon) {
       const name = isFs ? 'minimize' : 'maximize';
-      fsBtn.innerHTML = `<icon-${name} name="${name}"></icon-${name}>`;
+      const next = document.createElement(`icon-${name}`);
+      next.setAttribute('name', name);
+      fsIcon.replaceWith(next);
     }
   }
 

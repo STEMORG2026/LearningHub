@@ -159,6 +159,13 @@ nav {
   to { transform: translate(30px, 40px) scale(1.07); }
 }
 
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+}
+
 .hero-tag,
 .header-tag {
   display: inline-flex;
