@@ -1,7 +1,7 @@
-# Universal Testing Standard v1.0
+# Universal Testing Standard v1.1
 
 **Version:** 3.0.0
-**Status:** Stable foundation
+**Status:** Stable foundation (v1.1 execution refinements)
 **Owner:** Architecture
 **Related:** `docs/testing/education-platform-checklist.md`, `docs/RULES.md`
 **Applies To:** All current and future products
@@ -14,6 +14,10 @@ A layered testing standard that separates concerns into orthogonal axes so that
 every product can derive its own concrete checklists without redefining the
 standard. This is the stable conceptual model; operational refinements land in
 later minor versions, tool profiles in v2.0.
+
+**Version lineage:** v1.0 = core taxonomy (stable foundation) · v1.1 = execution
+refinements (this version) · v1.2 = risk engine (planned) · v2.0 = tool profiles
+(planned). See [Version History](#version-history).
 
 ---
 
@@ -33,7 +37,10 @@ Defines the scope and isolation of tests.
 
 **Conditional**
 
-8. Contract Testing (for independently versioned services/microservices)
+8. Contract Testing — required for any **independently versioned API
+   consumer/provider pair**, including frontend↔backend and third-party service
+   boundaries, not only microservices. Applies when each side ships/deploys on
+   its own cadence.
 
 ---
 
@@ -56,7 +63,9 @@ Defines what property is being validated.
 - Layout
 - Styling
 - Responsive design
-- Visual regression
+- Visual regression (two scopes, see mapping A):
+  - Component-level: component library visual baseline (e.g., Storybook/Chromatic)
+  - E2E-level: full-page screenshot baseline on key routes (e.g., Playwright)
 
 ### Compatibility
 - Browsers
@@ -110,12 +119,15 @@ Defines what property is being validated.
 - RTL
 - Locale formatting
 
-### Observability *(Conditional)*
+### Observability
 - Logs
 - Metrics
 - Traces
 - Health checks
 - Alerts
+
+*(Core — every production system needs health checks, structured logs, and
+error capture; treated as Conditional only for pre-production prototypes.)*
 
 ---
 
@@ -164,8 +176,21 @@ These apply across every level, quality attribute, and lifecycle gate.
 - Test Data Management
 - Traceability
 - Coverage & Metrics
-- Mutation Testing (Advanced)
+- Mutation Testing (Advanced) — *Conditional: required for core business-logic
+  packages (e.g., simulation, quiz, scoring engines); optional elsewhere*
 - Chaos Engineering (Advanced)
+
+### Governance rules (v1.1)
+
+- **Test Pyramid** — by test count, enforce `Unit ≥ 10 × Component ≥ 5 × E2E`.
+  E2E is reserved for critical user paths; deep behavior belongs in lower layers.
+- **Flakiness budget** — per-suite flake rate ≤ 1%. A flaky test is quarantined,
+  fixed, and re-enabled; it never blocks a healthy pipeline by re-run gambling.
+- **Test Data Management (TDM)** — data strategy is mapped per level (see B):
+  unit fixtures, component/API fixtures, seeded staging DB for E2E, synthetic
+  data for production smoke. TDM is a first-class gate input, not an afterthought.
+- **Visual regression gate** — component baselines gate PRs; full-page baselines
+  gate on Nightly (fast full-page sets are too brittle for every commit).
 
 ---
 
@@ -178,23 +203,25 @@ These make the taxonomy actionable.
 | Quality       | Primary Levels                        |
 | ------------- | ------------------------------------- |
 | Functional    | Unit → Integration → API → E2E        |
-| Visual        | Component → E2E                       |
+| Visual (component) | Component                          |
+| Visual (E2E page)  | E2E                                |
 | Accessibility | Static → Component → E2E              |
 | Security      | Static → Integration → API → E2E      |
 | Performance   | Integration → API → E2E               |
 | Observability | Integration → Production Verification |
+| Contract      | API (consumer/provider pairs)         |
 
-### B. Lifecycle Gate × Test Level
+### B. Lifecycle Gate × Test Level (+ Test Data)
 
-| Gate                    | Typical Tests                           |
-| ----------------------- | --------------------------------------- |
-| Local                   | Static, Unit                            |
-| Pull Request            | Unit, Component, Integration, API       |
-| Merge                   | Integration, API, Baseline E2E          |
-| Nightly                 | Full E2E, Performance, Security, Visual |
-| Staging                 | Full Regression, Manual, UAT            |
-| Production Verification | Smoke, Synthetic Monitoring             |
-| Rollback                | Rollback Tests                          |
+| Gate                    | Typical Tests                           | Test Data                          |
+| ----------------------- | --------------------------------------- | ---------------------------------- |
+| Local                   | Static, Unit                            | Inline fixtures                    |
+| Pull Request            | Unit, Component, Integration, API       | Fixtures + mocked services         |
+| Merge                   | Integration, API, Baseline E2E          | Seeded shared DB (ephemeral)       |
+| Nightly                 | Full E2E, Performance, Security, Visual | Fresh seeded staging DB            |
+| Staging                 | Full Regression, Manual, UAT            | Representative/anonymized data    |
+| Production Verification | Smoke, Synthetic Monitoring             | Synthetic production-safe records  |
+| Rollback                | Rollback Tests                          | Snapshot of pre-release state      |
 
 ### C. Ownership Matrix
 
@@ -248,6 +275,18 @@ Examples:
 
 Each checklist expands the relevant Quality Attributes with actionable
 verification items.
+
+---
+
+## Version History
+
+> The `**Version:**` header above tracks the project release (set by
+> `sync-versions`); this table tracks the standard's own semantic versions.
+
+| Version | Date | Changes |
+|---------|------|---------|
+| **1.1.0** | 2026-08-02 | Execution refinements: refined Contract Testing trigger (any versioned consumer/provider pair); Observability promoted to Core; Visual regression split into component-level and E2E page-level scopes; added governance rules (test pyramid ratios, flakiness budget ≤1%, TDM mapping into Gate × Level, visual gate policy); Mutation Testing classified as conditional-required for core logic packages; mapping A/B updated to match |
+| **1.0.0** | 2026-08-02 | Baseline taxonomy: levels, quality attributes, lifecycle gates, domain extensions, cross-cutting practices, reference mappings, domain checklist pattern |
 
 ---
 
