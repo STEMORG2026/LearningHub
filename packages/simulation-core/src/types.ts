@@ -93,7 +93,7 @@ export interface PhysicsResult {
 export const DEFAULT_MOUSE_RADIUS = 180;
 export const BOUNCE_DAMPING = 0.85;
 export const MOUSE_FORCE_COEFFICIENT = 0.45;
-export const COULOMB_CONSTANT = 18;
+export const COULOMB_CONSTANT = 0.5;
 export const INTERACTION_MIN_DIST = 10;
 export const INTERACTION_MAX_DIST = 320;
 export const BLACKHOLE_MAX_RADIUS_RATIO = 0.7;

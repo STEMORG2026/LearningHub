@@ -418,6 +418,15 @@ describe('applyBlackholeDevour', () => {
     expect(result.blackhole.radius).toBe(300);
     expect(result.blackhole.isExploded).toBe(false);
   });
+
+  it('devours the sun when the blackhole reaches it', () => {
+    const sun = makeBody({ id: 'sun', type: 'big_sun', x: 500, y: 500, radius: 150, mass: 33750 });
+    const bh = makeBody({ id: 'bh', type: 'super_blackhole', x: 620, y: 500, radius: 300 });
+    const result = applyBlackholeDevour(sun, bh, W, H, 300);
+    expect(result.devoured).toBe(true);
+    expect(result.body.isExploded).toBe(true);
+    expect(result.exploded).toBe(true);
+  });
 });
 
 // ---------------------------------------------------------------------------

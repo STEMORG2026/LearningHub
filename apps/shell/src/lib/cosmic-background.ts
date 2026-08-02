@@ -8,7 +8,6 @@ import {
   MATH_SYMBOLS,
   SMALL_ITEM_COUNT,
   DEFAULT_MOUSE_RADIUS,
-  BLACKHOLE_RESET_DELAY_MS,
   COLLISION_SOUND_CHANCE,
   SUN_RADIUS,
   SUN_MASS_FACTOR,
@@ -39,15 +38,18 @@ const BLACKHOLE_MIN_GAP_MS = 60000;
 const BLACKHOLE_MAX_GAP_MS = 90000;
 const BLACKHOLE_MIN_LIFE_MS = 60000;
 const BLACKHOLE_MAX_LIFE_MS = 90000;
-const MOTION_SPEED = 0.6;
+const MOTION_SPEED = 0.4;
 const SUN_SCALE = 2;
 const ORBIT_SCALE = 1.6;
 const ORBIT_ANGULAR_BASE = 0.0022;
 const ORBIT_REF_RADIUS = PLANET_ORBIT_START_RADIUS * ORBIT_SCALE;
 const MOON_SPEED_SCALE = 0.25;
 const BLACKHOLE_FADE_MS = 2400;
-const BLACKHOLE_COPY_DELAY_MS = 9000;
 const PASSIVE_BLACKHOLE_GROWTH = 0.004;
+const BLACKHOLE_HUNGER_FRACTION = 0.55;
+const BLACKHOLE_REBUILD_DELAY_MS = 3000;
+const SUN_ANCHOR_STRENGTH = 0.0006;
+const SUN_ANCHOR_DAMPING = 0.98;
 const FALLBACK_ITEM: [BodyType, string] = ['rocket', '🚀'];
 
 interface Star {
@@ -119,19 +121,24 @@ export function initCosmicBackground(): void {
   const controls = document.createElement('div');
   controls.id = 'cosmicControls';
   controls.className = 'cosmic-controls';
+  controls.setAttribute('role', 'group');
+  controls.setAttribute('aria-label', 'Canvas controls');
   controls.innerHTML = `
-    <button type="button" class="cosmic-ctl active" id="ctrlBackgroundBtn" aria-pressed="true" aria-label="Toggle background" title="Background">
-      <icon-monitor name="monitor"></icon-monitor>
-    </button>
-    <button type="button" class="cosmic-ctl active" id="ctrlSoundBtn" aria-pressed="true" aria-label="Toggle sound" title="Sound">
-      <icon-volume name="volume"></icon-volume>
-    </button>
-    <button type="button" class="cosmic-ctl active" id="ctrlBlackholeBtn" aria-pressed="true" aria-label="Toggle black hole" title="Black hole">
-      <icon-target name="target"></icon-target>
-    </button>
-    <button type="button" class="cosmic-ctl" id="ctrlFullscreenBtn" aria-label="Enter fullscreen" title="Fullscreen">
-      <icon-maximize name="maximize"></icon-maximize>
-    </button>
+    <span class="cosmic-ctl-title">Canvas</span>
+    <div class="cosmic-ctl-row">
+      <button type="button" class="cosmic-ctl" id="ctrlBackgroundBtn" aria-pressed="false" aria-label="Toggle background" title="Background">
+        <icon-monitor name="monitor"></icon-monitor>
+      </button>
+      <button type="button" class="cosmic-ctl active" id="ctrlSoundBtn" aria-pressed="true" aria-label="Toggle sound" title="Sound">
+        <icon-volume name="volume"></icon-volume>
+      </button>
+      <button type="button" class="cosmic-ctl active" id="ctrlBlackholeBtn" aria-pressed="true" aria-label="Toggle black hole" title="Black hole">
+        <icon-target name="target"></icon-target>
+      </button>
+      <button type="button" class="cosmic-ctl" id="ctrlFullscreenBtn" aria-label="Enter fullscreen" title="Fullscreen">
+        <icon-maximize name="maximize"></icon-maximize>
+      </button>
+    </div>
   `;
   stage.appendChild(controls);
 
@@ -221,6 +228,10 @@ export function initCosmicBackground(): void {
   }
 
   buildScene();
+
+  let sceneActive = true;
+  let rebuildAt = 0;
+  disableBackground();
 
   let stars: Star[] = [];
   let nebulae: Nebula[] = [];
@@ -379,23 +390,6 @@ export function initCosmicBackground(): void {
     blackholes.push({ ...bh, bornAt: now, expiresAt: now + randomBetween(BLACKHOLE_MIN_LIFE_MS, BLACKHOLE_MAX_LIFE_MS) });
   }
 
-  function spawnBlackholeCopy(): void {
-    const bh = createBlackhole(physicsW, physicsH);
-    let x = 0;
-    let y = 0;
-    let tries = 0;
-    do {
-      x = randomBetween(offsetX + 60, offsetX + viewW - 60);
-      y = randomBetween(offsetY + 60, offsetY + viewH - 60);
-      tries++;
-    } while (tries < 8 && blackholes.some((b) => Math.hypot(b.x - x, b.y - y) < viewW * 0.4));
-    bh.x = x;
-    bh.y = y;
-    bh.radius = SUN_RADIUS * 0.5;
-    const now = performance.now();
-    blackholes.push({ ...bh, bornAt: now, expiresAt: now + randomBetween(BLACKHOLE_MIN_LIFE_MS, BLACKHOLE_MAX_LIFE_MS) });
-  }
-
   function explodeBlackhole(x: number, y: number): void {
     const diag = Math.hypot(viewW, viewH);
     spawnParticles('debris', 60, x, y, '#c4b5fd', 3);
@@ -413,6 +407,17 @@ export function initCosmicBackground(): void {
       body.vx += (dx / dist) * kick + (Math.random() - 0.5) * 0.6;
       body.vy += (dy / dist) * kick + (Math.random() - 0.5) * 0.6;
     }
+  }
+
+  function wipeScene(now: number): void {
+    blackholes = [];
+    sun = { ...sun, isExploded: true };
+    planets = planets.map((p) => ({ ...p, isExploded: true }));
+    items = [];
+    moons = [];
+    sceneActive = false;
+    rebuildAt = now + BLACKHOLE_REBUILD_DELAY_MS;
+    nextBlackholeAt = now + randomBetween(BLACKHOLE_MIN_GAP_MS, BLACKHOLE_MAX_GAP_MS);
   }
 
   function wrapSmallItems(): void {
@@ -753,17 +758,25 @@ export function initCosmicBackground(): void {
     const timeScale = (dt / 16.667) * MOTION_SPEED;
 
     if (blackholeEnabled()) {
-      if (blackholes.length === 0 && now > nextBlackholeAt) {
+      if (sceneActive && blackholes.length === 0 && now > nextBlackholeAt) {
         spawnBlackhole();
-      } else if (blackholes.length === 1 && now - blackholes[0]!.bornAt > BLACKHOLE_COPY_DELAY_MS) {
-        spawnBlackholeCopy();
       }
     } else if (blackholes.length > 0) {
       blackholes = [];
-      if (sun.isExploded) buildScene();
+      if (sun.isExploded) {
+        buildScene();
+        sceneActive = true;
+        rebuildAt = 0;
+      }
     }
 
-    const bodies: CelestialBody[] = [sun, ...planets, ...items, ...blackholes];
+    if (!sceneActive && rebuildAt !== 0 && now >= rebuildAt) {
+      buildScene();
+      sceneActive = true;
+      rebuildAt = 0;
+    }
+
+    const bodies: CelestialBody[] = sceneActive ? [sun, ...planets, ...items, ...blackholes] : [];
 
     const result = updatePhysics({
       bodies,
@@ -774,7 +787,7 @@ export function initCosmicBackground(): void {
       mouseRadius: DEFAULT_MOUSE_RADIUS,
       timeScale,
       halfIntensity: false,
-      blackholeDisabled: blackholes.length === 0,
+      blackholeDisabled: !sceneActive || blackholes.length === 0,
       cosmicViewActive: true,
       blackholeExplodeRadius: blackholeExplodeRadius(),
     });
@@ -788,6 +801,13 @@ export function initCosmicBackground(): void {
         ? { ...(synced as CelestialBody), bornAt: bh.bornAt, expiresAt: bh.expiresAt }
         : bh;
     });
+
+    if (sceneActive && !sun.isExploded) {
+      sun.vx += (centerX - sun.x) * SUN_ANCHOR_STRENGTH;
+      sun.vy += (centerY - sun.y) * SUN_ANCHOR_STRENGTH;
+      sun.vx *= SUN_ANCHOR_DAMPING;
+      sun.vy *= SUN_ANCHOR_DAMPING;
+    }
 
     for (const collision of result.collisions) {
       const chance = Math.random();
@@ -810,6 +830,21 @@ export function initCosmicBackground(): void {
       }
     }
 
+    if (sceneActive && !sun.isExploded) {
+      for (const bh of blackholes) {
+        const lifetime = bh.expiresAt - bh.bornAt;
+        const hungerAt = bh.bornAt + lifetime * BLACKHOLE_HUNGER_FRACTION;
+        if (now < hungerAt) continue;
+        const dx = sun.x - bh.x;
+        const dy = sun.y - bh.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist <= 1) continue;
+        const pull = Math.min(dist * 0.0015, 1);
+        bh.vx += (dx / dist) * pull;
+        bh.vy += (dy / dist) * pull;
+      }
+    }
+
     let explodedAny = false;
     for (const bh of blackholes) {
       if (bh.isExploded || bh.radius >= blackholeExplodeRadius() || now >= bh.expiresAt) {
@@ -818,10 +853,8 @@ export function initCosmicBackground(): void {
       }
     }
     if (explodedAny) {
-      blackholes = [];
-      buildScene();
-      nextBlackholeAt = now + BLACKHOLE_RESET_DELAY_MS;
-    } else {
+      wipeScene(now);
+    } else if (sceneActive) {
       for (const bh of blackholes) {
         bh.radius += dt * PASSIVE_BLACKHOLE_GROWTH;
       }
@@ -832,11 +865,13 @@ export function initCosmicBackground(): void {
       }
     }
 
-    wrapSmallItems();
-    advanceMoons(dt);
+    if (sceneActive) {
+      wrapSmallItems();
+      advanceMoons(dt);
+    }
 
     const idleMs = now - lastActivityAt;
-    if (idleMs > IDLE_MS && now > waveReadyAt) {
+    if (sceneActive && idleMs > IDLE_MS && now > waveReadyAt) {
       fireGravitationalWave();
       waveReadyAt = now + randomBetween(WAVE_MIN_MS, WAVE_MAX_MS);
     }
