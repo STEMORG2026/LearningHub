@@ -101,6 +101,7 @@ MUST be updated when the tree gains or loses a top-level entry.
 | `adr/` | Decision log | Architect | One file per ADR |
 | `testing/UNIVERSAL_TESTING_STANDARD.md` | Standard | Maintainer | Human |
 | `testing/education-platform-checklist.md` | Checklist | Product + Dev | Human |
+| `testing/pipeline-gap-analysis.md` | Analysis | Product + Dev | Human (working document) |
 
 ---
 
@@ -108,6 +109,7 @@ MUST be updated when the tree gains or loses a top-level entry.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| — | 2026-08-02 | Add `docs/testing/pipeline-gap-analysis.md` (current-pipeline vs standard mapping) |
 | — | 2026-08-02 | Add `testing/` directory: universal testing standard + education platform checklist |
 | 3.0.1 | 2026-08-01 | Group governance policies under `policies/`, standards/guides under `guides/`; root keeps `RULES.md`, `DOCS.md`, `CHANGELOG.md`, `DEVLOG.md`, `ROADMAP.md`, `REPOSITORY_HEALTH.md` |
 | 3.0.0 | 2026-08-01 | Initial taxonomy: flat-vs-directory rule, ownership table, generated-content policy |
