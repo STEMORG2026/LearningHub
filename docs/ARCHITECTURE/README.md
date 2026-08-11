@@ -40,6 +40,9 @@ flowchart LR
   R --> ACC[ACCESSIBILITY.md]
   R --> SEC[SECURITY.md]
   R --> PERF[PERFORMANCE.md]
+  C[CONSTITUTION.md<br/>development constitution] --> R
+  C --> GOV[governance/<br/>interface-registry · human-checkpoints · ai-prompts · architecture-exceptions]
+  C --> AD
   AD --> C4[ARCHITECTURE/<br/>overview · context · containers · components · dependencies · migration]
   AD --> QS[QUICKSTART.md]
   AD --> RLM[ROADMAP.md]
@@ -369,6 +372,7 @@ stable for many releases). Lifecycle states follow `PACKAGE_LIFECYCLE.md`
 
 | Document | What it covers |
 |----------|---------------|
+| `CONSTITUTION.md` | Development constitution: ecosystem vision, operating principles, governance overview, AI session protocol |
 | `RULES.md` | Governance entry point: principles, mandatory rules, enforcement |
 | `guides/COMPONENT_STANDARDS.md` | How to build a Web Component |
 | `policies/EVENT_BUS_CONTRACT.md` | Event naming, payloads, versioning |

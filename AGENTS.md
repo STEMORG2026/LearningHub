@@ -7,13 +7,14 @@
 ## Required Reading (in this order)
 
 1. **`AGENTS.md`** (this file) — quick reference
-2. **`docs/RULES.md`** — non-negotiable coding rules (697 lines, ENFORCED)
-3. **`docs/policies/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
-4. **`docs/ARCHITECTURE/README.md`** — architecture charter: module layout, import rules, data flow (the charter moved from `docs/ARCHITECTURE.md` to `docs/ARCHITECTURE/README.md`)
-5. **`docs/policies/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (277 lines, ENFORCED)
-6. **`docs/guides/COMPONENT_STANDARDS.md`** — Web Component patterns (414 lines, ENFORCED)
-7. **`docs/adr/001-010`** — architecture decisions (10 files)
-8. **`docs/ROADMAP.md`** — current phase, what's next (258 lines)
+2. **`docs/CONSTITUTION.md`** — development constitution: ecosystem vision, operating principles, governance overview (this file is the development constitution)
+3. **`docs/RULES.md`** — non-negotiable coding rules (697 lines, ENFORCED)
+4. **`docs/policies/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
+5. **`docs/ARCHITECTURE/README.md`** — architecture charter: module layout, import rules, data flow (the charter moved from `docs/ARCHITECTURE.md` to `docs/ARCHITECTURE/README.md`)
+6. **`docs/policies/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (277 lines, ENFORCED)
+7. **`docs/guides/COMPONENT_STANDARDS.md`** — Web Component patterns (414 lines, ENFORCED)
+8. **`docs/adr/001-011`** — architecture decisions (11 files)
+9. **`docs/ROADMAP.md`** — current phase, what's next (258 lines)
 
 ---
 

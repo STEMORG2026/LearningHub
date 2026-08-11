@@ -4,7 +4,7 @@
 > **Status:** 🔒 ENFORCED
 > **Owner:** Architecture
 > **Applies To:** All developers, AI agents, and contributors
-> **Related:** `policies/API_CONTRACT.md` · `policies/OBSERVABILITY.md` · `policies/DEPENDENCY_POLICY.md` · `policies/RELIABILITY.md` · `policies/VERSIONING.md` · `policies/EVENT_BUS_CONTRACT.md` · `policies/PACKAGE_LIFECYCLE.md` · `policies/PACKAGE_METADATA.md` · `REPOSITORY_HEALTH.md` · `DOCS.md` · `docs/adr/README.md` · `docs/ARCHITECTURE/`
+> **Related:** `CONSTITUTION.md` · `policies/API_CONTRACT.md` · `policies/OBSERVABILITY.md` · `policies/DEPENDENCY_POLICY.md` · `policies/RELIABILITY.md` · `policies/VERSIONING.md` · `policies/EVENT_BUS_CONTRACT.md` · `policies/PACKAGE_LIFECYCLE.md` · `policies/PACKAGE_METADATA.md` · `REPOSITORY_HEALTH.md` · `DOCS.md` · `docs/adr/README.md` · `docs/ARCHITECTURE/`
 > **Effective Date:** 2026-07-30
 > **Current Date:** 2026-08-01
 
@@ -992,6 +992,7 @@ Every migration PR MUST include:
 
 ### Governance Entry Points (normative)
 - [RULES.md](./RULES.md) — this file (principles, mandatory rules, enforcement)
+- [Constitution](./CONSTITUTION.md) — development constitution: ecosystem vision, operating principles, governance overview, AI session protocol
 - [API Contract](./policies/API_CONTRACT.md) — public contracts, semver, migration
 - [Event Bus Contract](./policies/EVENT_BUS_CONTRACT.md) — event naming, payloads, versioning
 - [Versioning](./policies/VERSIONING.md) — semver, compatibility, deprecation, release workflow
@@ -1028,6 +1029,7 @@ Every migration PR MUST include:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.5.0 | 2026-08-11 | Add `CONSTITUTION.md` as the development constitution (vision + operating principles + governance overview); `RULES.md` remains the normative enforcement entry point; register governance registries under `docs/governance/` (ADR-011) |
 | 2.4.0 | 2026-08-01 | Docs/scripts reorganization: governance policies → `docs/policies/`, standards & guides → `docs/guides/`; scripts grouped under `scripts/checks/`, `scripts/generate/`, `scripts/release/`; added `pnpm quick`, `pnpm check`, `pnpm size` shortcuts; all references re-pointed to new paths |
 | 2.3.0 | 2026-08-01 | Docs governance hardening: coverage ratchet policy (thresholds move only up, per `vitest.config.*.ts`), bundle-budget policy (raw bytes for libraries, gzip for apps, internal `size-check.cjs` replaces `bundlesize`), package-metadata policy (`ARCHITECTURE.toml`), build stage added to the enforcement chain, new docs registered (DOCS.md, REPOSITORY_HEALTH.md, policies/PACKAGE_METADATA.md); architecture charter moved to `docs/ARCHITECTURE/README.md` |
 | 2.2.0 | 2026-08-01 | Restructured as governance **entry point**: added Architecture Principles, Quality Attributes, governance-policy summaries (public contracts, ADR, dependencies, observability, reliability, compatibility, deprecation, package lifecycle, reserved plugin section, architecture documentation), Decision Matrix, and Governance Philosophy. Detail moved to dedicated docs; fixed stale CI script names and broken references. |

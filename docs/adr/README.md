@@ -31,6 +31,7 @@ way it is.
 | [ADR-008](008-built-in-observability-tracer.md) | Built-in Observability (Tracer Package) | Accepted |
 | [ADR-009](009-component-registry-enforcement.md) | Component Registry Enforcement | Accepted |
 | [ADR-010](010-release-doc-governance.md) | Automated Release & Documentation Governance Pipeline | Accepted |
+| [ADR-011](011-constitution-adoption.md) | Adoption of the Development Constitution | Accepted |
 
 ---
 

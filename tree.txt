@@ -1,4 +1,4 @@
-STEM-TUITION/  f282b8f
+STEM-TUITION/  a657185
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -78,6 +78,7 @@ STEM-TUITION/  f282b8f
 │   │   ├── 008-built-in-observability-tracer.md
 │   │   ├── 009-component-registry-enforcement.md
 │   │   ├── 010-release-doc-governance.md
+│   │   ├── 011-constitution-adoption.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -95,6 +96,13 @@ STEM-TUITION/  f282b8f
 │   │   ├── STATE.md
 │   │   ├── TESTING.md
 │   │   └── TRACE.md
+│   ├── governance/
+│   │   ├── ai-prompts/
+│   │   │   └── README.md
+│   │   ├── architecture-exceptions.md
+│   │   ├── change-log.md
+│   │   ├── human-checkpoints.md
+│   │   └── interface-registry.md
 │   ├── guides/
 │   │   ├── COMPONENT_STANDARDS.md
 │   │   ├── DEBUGGING.md
@@ -120,6 +128,7 @@ STEM-TUITION/  f282b8f
 │   │   ├── pipeline-gap-analysis.md
 │   │   └── UNIVERSAL_TESTING_STANDARD.md
 │   ├── CHANGELOG.md
+│   ├── CONSTITUTION.md
 │   ├── DEVLOG.md
 │   ├── DOCS.md
 │   ├── REPOSITORY_HEALTH.md

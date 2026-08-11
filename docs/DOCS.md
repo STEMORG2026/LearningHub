@@ -72,6 +72,7 @@ MUST be updated when the tree gains or loses a top-level entry.
 | Document | Kind | Owner | Updated by |
 |----------|------|-------|------------|
 | `RULES.md` | Governance entry point | Architect | Human + `docs:sync` |
+| `CONSTITUTION.md` | Development constitution (vision, operating principles, governance overview) | Architect | Human |
 | `DOCS.md` | Taxonomy | Architect | Human (this file) |
 | `REPOSITORY_HEALTH.md` | Generated | Automation | `docs:sync` |
 | `dependency-graph.svg` | Generated | Automation | `generate:graph` |
@@ -91,6 +92,11 @@ MUST be updated when the tree gains or loses a top-level entry.
 | `policies/ACCESSIBILITY.md` | Standard | Maintainer | Human |
 | `policies/PERFORMANCE.md` | Standard | Maintainer | Human |
 | `policies/HUMAN_INVOLVEMENT.md` | Contract | Architect | Human |
+| `governance/interface-registry.md` | Registry | Architect | Human (freeze changes need ADR) |
+| `governance/human-checkpoints.md` | Registry | Architect | Human |
+| `governance/ai-prompts/README.md` | Registry | Architect | Human |
+| `governance/architecture-exceptions.md` | Registry | Architect | Human |
+| `governance/change-log.md` | Registry | Architect | Human (points to `CHANGELOG.md`) |
 | `guides/QUICKSTART.md` | Guide | Maintainer | Human |
 | `guides/DEBUGGING.md` | Guide | Maintainer | Human |
 | `guides/COMPONENT_STANDARDS.md` | Standard | Maintainer | Human |
@@ -109,6 +115,7 @@ MUST be updated when the tree gains or loses a top-level entry.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| — | 2026-08-11 | Add `CONSTITUTION.md` (development constitution) and `governance/` registries (interface-registry, human-checkpoints, ai-prompts, architecture-exceptions, change-log) |
 | — | 2026-08-02 | Add `docs/testing/pipeline-gap-analysis.md` (current-pipeline vs standard mapping) |
 | — | 2026-08-02 | Add `testing/` directory: universal testing standard + education platform checklist |
 | 3.0.1 | 2026-08-01 | Group governance policies under `policies/`, standards/guides under `guides/`; root keeps `RULES.md`, `DOCS.md`, `CHANGELOG.md`, `DEVLOG.md`, `ROADMAP.md`, `REPOSITORY_HEALTH.md` |
