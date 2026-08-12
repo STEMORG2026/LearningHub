@@ -7,6 +7,7 @@ import { initEstimator, initToolsWidget } from '../src/lib/interactive';
 import { initEnrollTriggers } from '../src/lib/enroll';
 import { initHoverEffects } from '../src/lib/hover-effects';
 import { initCosmicBackground } from '../src/lib/cosmic-background';
+import { initLhsDemo } from '../src/lib/lhs-demo';
 
 initEngines('home');
 initEnrollTriggers();
@@ -20,3 +21,4 @@ initEstimator();
 initToolsWidget();
 initHoverEffects();
 initCosmicBackground();
+initLhsDemo();
