@@ -24,7 +24,7 @@ way it is.
 | [ADR-001](001-strangler-fig-migration.md) | Strangler Fig Migration | Accepted |
 | [ADR-002](002-web-components-as-default.md) | Web Components as Default Component Architecture | Accepted |
 | [ADR-003](003-event-bus-communication.md) | Event Bus for Cross-Module Communication | Accepted |
-| [ADR-004](004-legacy-frozen-zone.md) | Legacy Frozen Zone | Accepted |
+| [ADR-004](004-legacy-frozen-zone.md) | Legacy Frozen Zone | Superseded by ADR-012 |
 | [ADR-005](005-pnpm-monorepo-turborepo.md) | pnpm + Turborepo Monorepo | Accepted |
 | [ADR-006](006-typescript-strict-mode.md) | TypeScript Strict Mode | Accepted |
 | [ADR-007](007-educational-fitness-functions.md) | Educational Fitness Functions | Accepted |
@@ -32,6 +32,7 @@ way it is.
 | [ADR-009](009-component-registry-enforcement.md) | Component Registry Enforcement | Accepted |
 | [ADR-010](010-release-doc-governance.md) | Automated Release & Documentation Governance Pipeline | Accepted |
 | [ADR-011](011-constitution-adoption.md) | Adoption of the Development Constitution | Accepted |
+| [ADR-012](012-legacy-removal-acl-role.md) | Legacy Removal & Anti-Corruption Layer (ACL) Scope Realignment | Accepted |
 
 ---
 

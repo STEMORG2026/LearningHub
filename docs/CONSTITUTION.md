@@ -830,7 +830,7 @@ Every AI coding session must begin by reading, when relevant:
 ```text
 README.md
 docs/ROADMAP.md
-docs/ARCHITECTURE.md
+docs/ARCHITECTURE/README.md
 docs/governance/human-checkpoints.md
 docs/governance/interface-registry.md
 relevant ADRs
@@ -1556,7 +1556,7 @@ A new AI agent should be able to orient itself by reading:
 ```text
 README.md
 docs/ROADMAP.md
-docs/ARCHITECTURE.md
+docs/ARCHITECTURE/README.md
 docs/governance/human-checkpoints.md
 docs/governance/interface-registry.md
 relevant package README

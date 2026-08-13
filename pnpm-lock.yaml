@@ -90,9 +90,6 @@ importers:
 
   packages/acl:
     dependencies:
-      '@stem-tuition/audio-synth':
-        specifier: workspace:*
-        version: link:../audio-synth
       '@stem-tuition/core':
         specifier: workspace:*
         version: link:../core

@@ -16,12 +16,8 @@ import {
   type MoonConfig,
   type BodyType,
 } from '@stem-tuition/simulation-core';
+import { AudioEngine } from '@stem-tuition/audio-synth';
 import {
-  playSpark,
-  playCollision,
-  playExplosion,
-  playMotionHum,
-  syncMutedState,
   getSimulationState,
   enableBackground,
   disableBackground,
@@ -261,6 +257,8 @@ export function initCosmicBackground(): void {
   let mouseX = centerX;
   let mouseY = centerY;
   let lastSoundAt = 0;
+  let audioMuted: boolean | undefined;
+  const audio = new AudioEngine();
   let lastActivityAt = performance.now();
   let waveReadyAt = performance.now() + randomBetween(WAVE_MIN_MS, WAVE_MAX_MS);
   let lastFrame = performance.now();
@@ -364,7 +362,7 @@ export function initCosmicBackground(): void {
       body.vx += (Math.random() - 0.5) * 0.5;
       body.vy += (Math.random() - 0.5) * 0.5;
     }
-    maybePlaySound(() => playMotionHum());
+    maybePlaySound(() => audio.play('motion-hum'));
   }
 
   function handlePointerDown(e: PointerEvent): void {
@@ -375,7 +373,7 @@ export function initCosmicBackground(): void {
     const y = e.clientY + offsetY;
     spawnParticles('spark', 14, e.clientX, e.clientY, '#7dd3fc', 1);
     spawnParticles('spark', 10, e.clientX, e.clientY, '#c4b5fd', 1);
-    maybePlaySound(() => playSpark());
+    maybePlaySound(() => audio.play('spark'));
     const burst = 0.9;
     const movable = [sun, ...planets, ...items, ...blackholes].filter((b) => !b.isExploded);
     for (const body of movable) {
@@ -419,7 +417,7 @@ export function initCosmicBackground(): void {
     spawnRing(x, y, diag * 2.5, 'rgba(216,180,254,0.8)', 1400);
     spawnRing(x, y, diag * 1.7, 'rgba(255,255,255,0.7)', 1200);
     spawnRing(x, y, diag * 1.0, 'rgba(255,170,0,0.7)', 1000);
-    maybePlaySound(() => playExplosion());
+    maybePlaySound(() => audio.play('explosion'));
     const movable = [sun, ...planets, ...items].filter((b) => !b.isExploded);
     for (const body of movable) {
       const dx = body.x - x;
@@ -834,7 +832,7 @@ export function initCosmicBackground(): void {
     for (const collision of result.collisions) {
       const chance = Math.random();
       if (chance < COLLISION_SOUND_CHANCE) {
-        maybePlaySound(() => playCollision(collision.isGiant));
+        maybePlaySound(() => audio.play('collision', { isGiant: collision.isGiant }));
       }
       if (collision.isGiant) {
         const a = result.bodies.find((b) => b.id === collision.bodyAId);
@@ -918,11 +916,9 @@ export function initCosmicBackground(): void {
   });
 
   soundBtn?.addEventListener('click', () => {
-    const w = window as unknown as Record<string, unknown>;
-    const current = w.isAudioMuted as boolean | undefined;
-    const nowMuted = current === undefined ? true : !current;
-    w.isAudioMuted = nowMuted;
-    syncMutedState();
+    const nowMuted = audioMuted === undefined ? true : !audioMuted;
+    audioMuted = nowMuted;
+    audio.setMuted(nowMuted);
     soundBtn.classList.toggle('active', !nowMuted);
     soundBtn.setAttribute('aria-pressed', String(!nowMuted));
     const icon = soundBtn.querySelector('icon-volume, icon-volumeOff');

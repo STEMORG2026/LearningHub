@@ -15,7 +15,7 @@
 | `packages/tracer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (24 tests) |
 | `packages/audio-synth/` | `tests/*.test.ts` | Unit | — | 🟢 Written (14 tests) |
 | `packages/core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (56 tests) |
-| `packages/acl/` | `tests/*.test.ts` | Unit | — | 🟢 Written (14 tests) |
+| `packages/acl/` | `tests/*.test.ts` | Unit | — | 🟢 Written (19 tests) |
 | `packages/quiz-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (16 tests) |
 | `packages/hover-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
 | `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (65 tests) |

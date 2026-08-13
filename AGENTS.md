@@ -99,7 +99,7 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/tracer/` | Tracer (observability) | `src/dashboard.ts, src/decorator.ts, src/index.ts, src/tracer.ts, src/types.ts` |
 | `packages/audio-synth/` | Audio Synth extraction | `src/engine.ts, src/index.ts, src/synth.ts, src/types.ts` |
 | `packages/core/` | Event Bus + ACL | `src/event-bus.ts, src/index.ts, src/types.ts` |
-| `packages/acl/` | Event Bus + ACL | `src/audio-adapter.ts, src/canvas-adapter.ts, src/index.ts, src/quiz-adapter.ts` |
+| `packages/acl/` | Event Bus + ACL | `src/canvas-adapter.ts, src/index.ts` |
 | `packages/quiz-engine/` | Quiz Engine extraction | `src/data.ts, src/index.ts, src/types.ts` |
 | `packages/hover-engine/` | Hover Engine extraction | `src/hover-state.ts, src/index.ts, src/types.ts` |
 | `packages/simulation-core/` | Physics Core extraction | `src/config.ts, src/create-body.ts, src/index.ts, src/physics.ts, src/types.ts` |

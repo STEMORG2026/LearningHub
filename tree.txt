@@ -1,4 +1,4 @@
-STEM-TUITION/  a657185
+STEM-TUITION/  abbc690
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -33,6 +33,9 @@ STEM-TUITION/  a657185
 │       │   │   ├── enroll.ts
 │       │   │   ├── hover-effects.ts
 │       │   │   ├── interactive.ts
+│       │   │   ├── lhs-adapter.ts
+│       │   │   ├── lhs-demo.ts
+│       │   │   ├── lhs-types.ts
 │       │   │   ├── render.ts
 │       │   │   └── scroll.ts
 │       │   ├── pages/
@@ -44,6 +47,7 @@ STEM-TUITION/  a657185
 │       │   │   ├── base.css
 │       │   │   ├── components.css
 │       │   │   ├── layout.css
+│       │   │   ├── lhs.css
 │       │   │   ├── main.css
 │       │   │   ├── tokens.css
 │       │   │   └── widgets.css
@@ -53,6 +57,8 @@ STEM-TUITION/  a657185
 │       │   ├── enroll-modal.test.ts  [test]
 │       │   ├── faq-list.test.ts  [test]
 │       │   ├── hover-effects.test.ts  [test]
+│       │   ├── lhs-adapter.test.ts  [test]
+│       │   ├── lhs-demo.test.ts  [test]
 │       │   └── render.test.ts  [test]
 │       ├── about.html
 │       ├── ARCHITECTURE.toml
@@ -79,6 +85,7 @@ STEM-TUITION/  a657185
 │   │   ├── 009-component-registry-enforcement.md
 │   │   ├── 010-release-doc-governance.md
 │   │   ├── 011-constitution-adoption.md
+│   │   ├── 012-legacy-removal-acl-role.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -150,10 +157,8 @@ STEM-TUITION/  a657185
 ├── packages/
 │   ├── acl/
 │   │   ├── src/
-│   │   │   ├── audio-adapter.ts
 │   │   │   ├── canvas-adapter.ts
-│   │   │   ├── index.ts  [entry]
-│   │   │   └── quiz-adapter.ts
+│   │   │   └── index.ts  [entry]
 │   │   ├── tests/
 │   │   │   └── acl.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
