@@ -15,6 +15,7 @@ export default defineConfig({
         videos: toPath('videos.html'),
         contact: toPath('contact.html'),
         about: toPath('about.html'),
+        learn: toPath('learn.html'),
       },
     },
   },

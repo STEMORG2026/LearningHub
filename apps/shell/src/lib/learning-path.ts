@@ -46,10 +46,10 @@ export function generateLearningPath(
   const mapping = getCurriculumMapping(curriculum, grade);
   const curriculumInfo = CURRICULUMS[curriculum];
 
-  if (!mapping) {
+  if (!mapping || !curriculumInfo) {
     return {
       curriculum,
-      curriculumName: curriculumInfo.name,
+      curriculumName: 'Unknown',
       grade,
       subject: 'physics',
       steps: [],

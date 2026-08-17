@@ -8,8 +8,6 @@ import { initEnrollTriggers } from '../src/lib/enroll';
 import { initHoverEffects } from '../src/lib/hover-effects';
 import { initCosmicBackground } from '../src/lib/cosmic-background';
 import { initLhsDemo } from '../src/lib/lhs-demo';
-import { initCurriculumSelector } from '../src/lib/curriculum-selector';
-import { initLearningPath } from '../src/lib/learning-path-ui';
 
 initEngines('home');
 initEnrollTriggers();
@@ -24,5 +22,3 @@ initToolsWidget();
 initHoverEffects();
 initCosmicBackground();
 initLhsDemo();
-initCurriculumSelector();
-initLearningPath();

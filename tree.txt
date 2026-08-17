@@ -1,4 +1,4 @@
-STEM-TUITION/  ccdb0f1
+STEM-TUITION/  e27f907
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -47,6 +47,7 @@ STEM-TUITION/  ccdb0f1
 │       │   │   ├── about.ts
 │       │   │   ├── classes.ts
 │       │   │   ├── contact.ts
+│       │   │   ├── learn.ts
 │       │   │   └── videos.ts
 │       │   ├── styles/
 │       │   │   ├── base.css
@@ -63,6 +64,7 @@ STEM-TUITION/  ccdb0f1
 │       │   ├── enroll-modal.test.ts  [test]
 │       │   ├── faq-list.test.ts  [test]
 │       │   ├── hover-effects.test.ts  [test]
+│       │   ├── learning-path.test.ts  [test]
 │       │   ├── lhs-adapter.test.ts  [test]
 │       │   ├── lhs-demo.test.ts  [test]
 │       │   └── render.test.ts  [test]
@@ -72,6 +74,7 @@ STEM-TUITION/  ccdb0f1
 │       ├── classes.html
 │       ├── contact.html
 │       ├── index.html
+│       ├── learn.html
 │       ├── package.json
 │       ├── README.md
 │       ├── tsconfig.json

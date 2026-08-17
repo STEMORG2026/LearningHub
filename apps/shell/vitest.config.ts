@@ -1,4 +1,7 @@
 import { defineConfig } from 'vitest/config';
+import { fileURLToPath, URL } from 'node:url';
+
+const toPath = (p: string): string => fileURLToPath(new URL(p, import.meta.url));
 
 export default defineConfig({
   test: {
@@ -21,6 +24,11 @@ export default defineConfig({
         functions: 75,
         statements: 80,
       },
+    },
+  },
+  resolve: {
+    alias: {
+      '../../../../../LearningHubSTEM/exports/knowledge.json': toPath('../../../LearningHubSTEM/exports/knowledge.json'),
     },
   },
 });
