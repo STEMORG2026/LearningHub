@@ -1,4 +1,4 @@
-STEM-TUITION/  2a1c793
+STEM-TUITION/  be685fa
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -23,6 +23,7 @@ STEM-TUITION/  2a1c793
 │       │   │   └── site-header.ts
 │       │   ├── data/
 │       │   │   ├── classes.ts
+│       │   │   ├── curriculum-mappings.ts
 │       │   │   ├── faqs.ts
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts
