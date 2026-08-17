@@ -58,6 +58,8 @@ Every time you add, move, or change a component's file location, you MUST update
 | Quiz ACL Adapter | `packages/acl/` | `src/quiz-adapter.ts` | See NETWORKING.md |
 | Canvas ACL Adapter | `packages/acl/` | `src/canvas-adapter.ts` | See RENDERING.md |
 | Quiz Engine | `packages/quiz-engine/` | `src/internal/quiz-engine.ts` | See RENDERING.md |
-| <stem-quiz> | `packages/quiz-engine/` | `src/internal/web-component.ts` | See RENDERING.md |
+| &lt;stem-quiz&gt; | `packages/quiz-engine/` | `src/internal/web-component.ts` | See RENDERING.md |
 | Hover Engine | `packages/hover-engine/` | `src/hover-state.ts` | See RENDERING.md |
 | Physics Core | `packages/simulation-core/` | `src/physics.ts` | See RENDERING.md |
+| Content Provider | `packages/content-provider/` | `src/content-provider.ts` | See NETWORKING.md |
+| Local Content Provider | `packages/content-provider/` | `src/local-content-provider.ts` | See NETWORKING.md |

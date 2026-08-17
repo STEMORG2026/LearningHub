@@ -33,6 +33,7 @@ way it is.
 | [ADR-010](010-release-doc-governance.md) | Automated Release & Documentation Governance Pipeline | Accepted |
 | [ADR-011](011-constitution-adoption.md) | Adoption of the Development Constitution | Accepted |
 | [ADR-012](012-legacy-removal-acl-role.md) | Legacy Removal & Anti-Corruption Layer (ACL) Scope Realignment | Accepted |
+| [ADR-013](013-content-provider.md) | Content Provider Implementation | Accepted |
 
 ---
 

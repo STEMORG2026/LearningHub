@@ -1,4 +1,4 @@
-STEM-TUITION/  abbc690
+STEM-TUITION/  2a1c793
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -86,6 +86,7 @@ STEM-TUITION/  abbc690
 │   │   ├── 010-release-doc-governance.md
 │   │   ├── 011-constitution-adoption.md
 │   │   ├── 012-legacy-removal-acl-role.md
+│   │   ├── 013-content-provider.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -177,6 +178,24 @@ STEM-TUITION/  abbc690
 │   │   │   └── synth.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── content-provider/
+│   │   ├── src/
+│   │   │   ├── content-provider.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── lhs-adapter.ts
+│   │   │   ├── local-content-provider.ts
+│   │   │   ├── quiz-mapper.ts
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   ├── fixtures.ts
+│   │   │   ├── lhs-adapter.test.ts  [test]
+│   │   │   ├── local-content-provider.test.ts  [test]
+│   │   │   └── quiz-mapper.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
 │   │   ├── README.md
 │   │   ├── tsconfig.json

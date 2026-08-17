@@ -31,7 +31,7 @@ listed here.
 
 | Seam | Intent | Implemented? |
 |------|--------|--------------|
-| `ContentProvider` | Content access boundary protecting future LearningHubSTEM integration (`CONSTITUTION.md` §11). Local content remains the only current implementation. | No — planned seam only |
+| `ContentProvider` | Content access boundary protecting future LearningHubSTEM integration (`CONSTITUTION.md` §11). Implemented: `LocalContentProvider` (in-memory) + LHS adapter. | Yes — `LocalContentProvider` implemented; `LearningHubStemProvider` planned |
 
 ## Change Log
 
