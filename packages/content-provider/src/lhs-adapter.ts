@@ -44,38 +44,53 @@ export interface LhsEntity {
 
 function entityToSections(entity: LhsEntity): LessonSection[] {
   const sections: LessonSection[] = [];
+  let sectionIdx = 0;
 
-  // Definition as text section
+  // Opening narrative — a hook that makes the concept feel relevant
   sections.push({
-    id: `${entity.id}-definition`,
-    kind: 'text',
+    id: `${entity.id}-narrative-${sectionIdx}`,
+    kind: 'narrative',
     body: entity.definition,
-    heading: 'Definition',
+    heading: 'What It Means',
   });
+  sectionIdx++;
 
   // Equation as equation section (if present)
   if (entity.equation) {
     const section: LessonSection = {
-      id: `${entity.id}-equation`,
+      id: `${entity.id}-equation-${sectionIdx}`,
       kind: 'equation',
       body: entity.equation,
-      heading: 'Formula',
+      heading: 'The Formula',
     };
     if (entity.symbol) {
       section.symbol = entity.symbol;
     }
     sections.push(section);
+    sectionIdx++;
+  }
+
+  // Unit as a fun fact
+  if (entity.unit) {
+    sections.push({
+      id: `${entity.id}-unit-${sectionIdx}`,
+      kind: 'fun-fact',
+      body: `Measured in ${entity.unit}. That's the unit you'll see this quantity labeled with in problems and real-world measurements.`,
+      heading: 'The Unit',
+    });
+    sectionIdx++;
   }
 
   // Misconceptions as misconception sections
   if (entity.common_misconceptions && entity.common_misconceptions.length > 0) {
     for (const miscon of entity.common_misconceptions) {
       sections.push({
-        id: `${entity.id}-miscon-${sections.length}`,
+        id: `${entity.id}-miscon-${sectionIdx}`,
         kind: 'misconception',
         body: miscon,
-        heading: 'Common Misconception',
+        heading: 'Common Trap',
       });
+      sectionIdx++;
     }
   }
 

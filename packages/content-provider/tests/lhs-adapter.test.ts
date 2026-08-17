@@ -21,9 +21,10 @@ describe('mapLhsEntityToLesson', () => {
     ],
   };
 
-  it('maps definition to a text section', () => {
+  it('maps definition to a narrative section', () => {
     const lesson = mapLhsEntityToLesson(forceEntity);
-    expect(lesson.sections[0]!.kind).toBe('text');
+    expect(lesson.sections[0]!.kind).toBe('narrative');
+    expect(lesson.sections[0]!.heading).toBe('What It Means');
     expect(lesson.sections[0]!.body).toBe('An influence that can change the motion of a body.');
   });
 
@@ -69,8 +70,8 @@ describe('mapLhsEntityToLesson', () => {
     // The lesson ID should not contain the colon (which is LHS namespace convention)
     expect(lesson.id).toBe('lesson-lhs-phys.force');
     // The conceptId can reference LHS but the model itself is clean
-    expect((lesson as Record<string, unknown>).provenance).toBeUndefined();
-    expect((lesson as Record<string, unknown>).relationships).toBeUndefined();
+    expect((lesson as unknown as Record<string, unknown>).provenance).toBeUndefined();
+    expect((lesson as unknown as Record<string, unknown>).relationships).toBeUndefined();
   });
 
   it('generates stable lesson ID', () => {

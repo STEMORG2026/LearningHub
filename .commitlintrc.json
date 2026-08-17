@@ -1,0 +1,97 @@
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "build",
+        "ci",
+        "chore",
+        "revert"
+      ]
+    ],
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "core",
+        "tracer",
+        "audio-synth",
+        "acl",
+        "quiz-engine",
+        "hover-engine",
+        "simulation-core",
+        "content-provider",
+        "lesson-renderer",
+        "interactive-simulations",
+        "shell",
+        "release",
+        "docs",
+        "deps",
+        "ci",
+        "security",
+        "a11y",
+        "perf",
+        "edu"
+      ]
+    ],
+    "subject-max-length": [2, "always", 72],
+    "body-max-line-length": [2, "always", 100],
+    "footer-max-line-length": [2, "always", 100]
+  },
+  "prompt": {
+    "questions": {
+      "type": {
+        "description": "Select the type of change",
+        "enum": {
+          "feat": { "description": "A new feature", "title": "Features" },
+          "fix": { "description": "A bug fix", "title": "Bug Fixes" },
+          "docs": { "description": "Documentation only", "title": "Documentation" },
+          "style": { "description": "Formatting, missing semi-colons, etc", "title": "Styles" },
+          "refactor": { "description": "A code change that neither fixes a bug nor adds a feature", "title": "Code Refactoring" },
+          "perf": { "description": "A code change that improves performance", "title": "Performance" },
+          "test": { "description": "Adding missing tests or correcting existing tests", "title": "Tests" },
+          "build": { "description": "Changes that affect the build system or external dependencies", "title": "Builds" },
+          "ci": { "description": "Changes to CI configuration files and scripts", "title": "CI" },
+          "chore": { "description": "Other changes that don't modify src or test files", "title": "Chores" },
+          "revert": { "description": "Reverts a previous commit", "title": "Reverts" }
+        }
+      },
+      "scope": {
+        "description": "What is the scope of this change (e.g. component or file name)"
+      },
+      "subject": {
+        "description": "Write a short, imperative tense description of the change"
+      },
+      "body": {
+        "description": "Provide a longer description of the change"
+      },
+      "isBreaking": {
+        "description": "Are there any breaking changes?"
+      },
+      "breakingBody": {
+        "description": "A BREAKING CHANGE commit requires a body. Enter a longer description of the commit itself"
+      },
+      "breaking": {
+        "description": "Describe the breaking changes"
+      },
+      "isIssueAffected": {
+        "description": "Does this change affect any open issues?"
+      },
+      "issuesBody": {
+        "description": "If issues are affected, the commit requires a body. Enter a longer description of the commit itself"
+      },
+      "issues": {
+        "description": "Add issue references (e.g. \"fix #123\" or \"close #456\")"
+      }
+    }
+  }
+}

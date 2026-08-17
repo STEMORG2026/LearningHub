@@ -22,11 +22,33 @@ const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;
 .section-example{background:rgba(0,255,136,0.03);border-color:rgba(0,255,136,0.1)}
 .section-misconception{background:rgba(255,68,68,0.03);border-color:rgba(255,68,68,0.1)}
 .section-callout{background:rgba(0,255,255,0.04);border-color:rgba(0,255,255,0.12)}
+.section-story{background:linear-gradient(135deg,rgba(255,180,0,0.06),rgba(255,120,0,0.03));border-color:rgba(255,180,0,0.15);border-left:3px solid rgba(255,180,0,0.4)}
+.section-narrative{background:rgba(160,120,255,0.04);border-color:rgba(160,120,255,0.12)}
+.section-analogy{background:rgba(0,200,150,0.04);border-color:rgba(0,200,150,0.12);border-left:3px solid rgba(0,200,150,0.4)}
+.section-fun-fact{background:rgba(255,220,0,0.04);border-color:rgba(255,220,0,0.12)}
+.section-try-this{background:rgba(0,180,255,0.04);border-color:rgba(0,180,255,0.12);border-left:3px solid rgba(0,180,255,0.4)}
+.section-context{background:rgba(180,180,180,0.03);border-color:rgba(180,180,180,0.08);font-style:italic}
 .section-heading{font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;color:#0ff;margin-bottom:.5rem}
+.section-heading-story{color:#ffb400}
+.section-heading-narrative{color:#a078ff}
+.section-heading-analogy{color:#00c896}
+.section-heading-fun-fact{color:#ffdc00}
+.section-heading-try-this{color:#00b4ff}
+.section-heading-context{color:#888}
 .section-body{line-height:1.6;font-size:1rem}
+.section-body-story{font-size:1.05rem;line-height:1.7}
+.section-body-analogy{font-size:1rem;line-height:1.65}
+.section-body-narrative{font-size:1rem;line-height:1.65}
+.section-body-try-this{font-size:1rem;line-height:1.6}
+.section-body-fun-fact{font-size:1rem}
+.section-body-context{font-size:.9rem}
 .equation-display{font-size:1.3rem;text-align:center;padding:1rem;background:rgba(0,255,255,0.06);border-radius:8px;margin:.5rem 0;font-family:'Courier New',monospace;color:#0ff}
 .symbol-display{font-size:.9rem;color:#0f8;text-align:center;margin-top:.3rem}
 .misconception-badge{display:inline-block;background:rgba(255,68,68,0.15);color:#f44;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
+.story-intro{display:inline-block;background:rgba(255,180,0,0.15);color:#ffb400;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
+.analogy-badge{display:inline-block;background:rgba(0,200,150,0.15);color:#00c896;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
+.try-this-badge{display:inline-block;background:rgba(0,180,255,0.15);color:#00b4ff;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
+.fun-fact-badge{display:inline-block;background:rgba(255,220,0,0.15);color:#ffdc00;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
 .section-number{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(0,255,255,0.1);font-size:.75rem;color:#0ff;margin-right:.5rem}
 .qa-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1)}
 .qa-title{font-size:1.2rem;color:#fff;margin-bottom:1rem}
@@ -128,7 +150,11 @@ export class StemLesson extends HTMLElement {
 
   #renderSection(section: LessonSection): string {
     const kindClass = `section-${section.kind}`;
-    const heading = section.heading ? `<div class="section-heading">${section.heading}</div>` : '';
+    const headingClass = `section-heading-${section.kind}`;
+
+    const heading = section.heading
+      ? `<div class="section-heading ${headingClass}">${section.heading}</div>`
+      : '';
     const symbol = section.symbol ? `<div class="symbol-display">${section.symbol}</div>` : '';
 
     if (section.kind === 'equation') {
@@ -148,6 +174,64 @@ export class StemLesson extends HTMLElement {
         <div class="section ${kindClass}">
           <span class="misconception-badge">Common Misconception</span>
           <div class="section-body">${section.body}</div>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'story') {
+      return `
+        <div class="section ${kindClass}">
+          <span class="story-intro">The Setup</span>
+          ${heading}
+          <div class="section-body section-body-story">${section.body}</div>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'analogy') {
+      return `
+        <div class="section ${kindClass}">
+          <span class="analogy-badge">Think of It This Way</span>
+          ${heading}
+          <div class="section-body section-body-analogy">${section.body}</div>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'try-this') {
+      return `
+        <div class="section ${kindClass}">
+          <span class="try-this-badge">Try This</span>
+          ${heading}
+          <div class="section-body section-body-try-this">${section.body}</div>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'fun-fact') {
+      return `
+        <div class="section ${kindClass}">
+          <span class="fun-fact-badge">Mind-Blowing Fact</span>
+          ${heading}
+          <div class="section-body section-body-fun-fact">${section.body}</div>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'narrative') {
+      return `
+        <div class="section ${kindClass}">
+          ${heading}
+          <div class="section-body section-body-narrative">${section.body}</div>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'context') {
+      return `
+        <div class="section ${kindClass}">
+          ${heading}
+          <div class="section-body section-body-context">${section.body}</div>
         </div>
       `;
     }

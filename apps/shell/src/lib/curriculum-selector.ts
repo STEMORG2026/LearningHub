@@ -194,10 +194,10 @@ function renderLesson(container: HTMLElement, lesson: LessonContent): void {
 
 function renderSimulation(type: string): string {
   if (type === 'mechanics') {
-    return '<div class="sim-container"><h3 style="color:#0ff;margin-bottom:1rem;">Interactive Simulation</h3><stem-mechanics-sim></stem-mechanics-sim></div>';
+    return '<div class="sim-container"><h3 style="color:#0ff;margin-bottom:1rem;font-size:1.1rem;">Interactive Simulation</h3><stem-mechanics-sim></stem-mechanics-sim></div>';
   }
   if (type === 'circuit') {
-    return '<div class="sim-container"><h3 style="color:#0ff;margin-bottom:1rem;">Interactive Simulation</h3><stem-circuit-sim></stem-circuit-sim></div>';
+    return '<div class="sim-container"><h3 style="color:#0ff;margin-bottom:1rem;font-size:1.1rem;">Interactive Simulation</h3><stem-circuit-sim></stem-circuit-sim></div>';
   }
   return '';
 }

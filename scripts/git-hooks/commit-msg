@@ -1,0 +1,5 @@
+#!/bin/sh
+# Commit message linting - validates conventional commit format
+if [ -f "$1" ]; then
+  npx --no -- commitlint --edit "$1"
+fi

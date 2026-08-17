@@ -13,7 +13,18 @@
 // LessonSection — one block of lesson content
 // ─────────────────────────────────────────────────────
 
-export type SectionKind = 'text' | 'equation' | 'example' | 'misconception' | 'callout';
+export type SectionKind =
+  | 'text'
+  | 'equation'
+  | 'example'
+  | 'misconception'
+  | 'callout'
+  | 'story'
+  | 'narrative'
+  | 'analogy'
+  | 'fun-fact'
+  | 'try-this'
+  | 'context';
 
 export interface LessonSection {
   /** Unique within the lesson. */
