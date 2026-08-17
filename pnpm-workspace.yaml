@@ -4,3 +4,4 @@ packages:
 allowBuilds:
   esbuild: true
   iltorb: false
+  libxmljs2: set this to true or false

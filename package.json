@@ -33,6 +33,7 @@
     "release:validate": "node scripts/release/release-validate.mjs",
     "release:version": "node scripts/release/release-version.mjs",
     "release:finalize": "node scripts/release/release-finalize.mjs",
+    "release:rollback": "node scripts/release/rollback.mjs",
     "changeset:version": "echo 'ERROR: Direct changeset version is disabled. Use the 4-stage release pipeline:' && echo '  pnpm release:prepare  →  pnpm release:validate  →  pnpm release:version  →  pnpm release:finalize' && exit 1",
     "changeset:publish": "changeset publish",
     "lint:commit": "commitlint --last --verbose"

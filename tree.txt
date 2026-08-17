@@ -1,4 +1,4 @@
-STEM-TUITION/  1cce295
+STEM-TUITION/  64ee90d
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -139,6 +139,7 @@ STEM-TUITION/  1cce295
 │   │   ├── PACKAGE_LIFECYCLE.md
 │   │   ├── PACKAGE_METADATA.md
 │   │   ├── PERFORMANCE.md
+│   │   ├── RELEASE.md
 │   │   ├── RELIABILITY.md
 │   │   ├── SECURITY.md
 │   │   └── VERSIONING.md
@@ -328,7 +329,8 @@ STEM-TUITION/  1cce295
 │   │   ├── release-finalize.mjs
 │   │   ├── release-prepare.mjs
 │   │   ├── release-validate.mjs
-│   │   └── release-version.mjs
+│   │   ├── release-version.mjs
+│   │   └── rollback.mjs
 │   └── eslint-config.mjs
 ├── .commitlintrc.json
 ├── .dependency-cruiser.js

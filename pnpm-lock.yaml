@@ -22,7 +22,7 @@ importers:
         version: 21.2.2
       '@lhci/cli':
         specifier: ^0.15.1
-        version: 0.15.1(supports-color@7.2.0)
+        version: 0.15.1(encoding@0.1.13)(supports-color@7.2.0)
       '@playwright/test':
         specifier: ^1.44.0
         version: 1.62.0
@@ -1573,6 +1573,9 @@ packages:
     resolution: {integrity: sha512-Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg==}
     engines: {node: '>= 0.8'}
 
+  encoding@0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+
   end-of-stream@1.4.5:
     resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
 
@@ -1940,6 +1943,10 @@ packages:
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
+    engines: {node: '>=0.10.0'}
+
+  iconv-lite@0.6.3:
+    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
 
   iconv-lite@0.7.3:
@@ -3984,15 +3991,15 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lhci/cli@0.15.1(supports-color@7.2.0)':
+  '@lhci/cli@0.15.1(encoding@0.1.13)(supports-color@7.2.0)':
     dependencies:
-      '@lhci/utils': 0.15.1(supports-color@7.2.0)
+      '@lhci/utils': 0.15.1(encoding@0.1.13)(supports-color@7.2.0)
       chrome-launcher: 0.13.4(supports-color@7.2.0)
       compression: 1.8.1(supports-color@7.2.0)
       debug: 4.4.3(supports-color@7.2.0)
       express: 4.22.2(supports-color@7.2.0)
       inquirer: 6.5.2
-      isomorphic-fetch: 3.0.0
+      isomorphic-fetch: 3.0.0(encoding@0.1.13)
       lighthouse: 12.6.1(supports-color@7.2.0)
       lighthouse-logger: 1.2.0(supports-color@7.2.0)
       open: 7.4.2
@@ -4010,10 +4017,10 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@lhci/utils@0.15.1(supports-color@7.2.0)':
+  '@lhci/utils@0.15.1(encoding@0.1.13)(supports-color@7.2.0)':
     dependencies:
       debug: 4.4.3(supports-color@7.2.0)
-      isomorphic-fetch: 3.0.0
+      isomorphic-fetch: 3.0.0(encoding@0.1.13)
       js-yaml: 3.15.0
       lighthouse: 12.6.1(supports-color@7.2.0)
       tree-kill: 1.2.2
@@ -4876,6 +4883,11 @@ snapshots:
 
   encodeurl@2.0.0: {}
 
+  encoding@0.1.13:
+    dependencies:
+      iconv-lite: 0.6.3
+    optional: true
+
   end-of-stream@1.4.5:
     dependencies:
       once: 1.4.0
@@ -5356,6 +5368,11 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
+  iconv-lite@0.6.3:
+    dependencies:
+      safer-buffer: 2.1.2
+    optional: true
+
   iconv-lite@0.7.3:
     dependencies:
       safer-buffer: 2.1.2
@@ -5484,9 +5501,9 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-fetch@3.0.0:
+  isomorphic-fetch@3.0.0(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       whatwg-fetch: 3.6.20
     transitivePeerDependencies:
       - encoding
@@ -5822,9 +5839,11 @@ snapshots:
 
   netmask@2.1.1: {}
 
-  node-fetch@2.7.0:
+  node-fetch@2.7.0(encoding@0.1.13):
     dependencies:
       whatwg-url: 5.0.0
+    optionalDependencies:
+      encoding: 0.1.13
 
   node-source-walk@6.0.2:
     dependencies:
