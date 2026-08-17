@@ -52,6 +52,22 @@ jobs:
             npx commitlint --last --verbose
           fi
 
+  signed-tags:
+    name: Verify signed tags
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify GPG signature on tags
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "Verifying tag ${{ github.ref_name }}"
+            git verify-tag "${{ github.ref_name }}" || echo "WARNING: Tag ${{ github.ref_name }} is not GPG-signed"
+          else
+            echo "Skipping — not a tag push"
+          fi
+
   audit:
     name: Dependency audit
     runs-on: ubuntu-latest

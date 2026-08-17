@@ -14,5 +14,21 @@
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "staging": true
+    }
+  },
+  "environments": {
+    "production": {
+      "buildCommand": "pnpm build",
+      "framework": "vite"
+    },
+    "preview": {
+      "buildCommand": "pnpm build",
+      "framework": "vite"
+    }
+  }
 }

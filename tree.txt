@@ -1,4 +1,4 @@
-STEM-TUITION/  64ee90d
+STEM-TUITION/  8a29ba0
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -7,7 +7,8 @@ STEM-TUITION/  64ee90d
 │   ├── workflows/
 │   │   ├── ci.yml
 │   │   ├── nightly.yml
-│   │   └── release.yml
+│   │   ├── release.yml
+│   │   └── smoke.yml
 │   └── dependabot.yml
 ├── apps/
 │   └── shell/
@@ -62,6 +63,8 @@ STEM-TUITION/  64ee90d
 │       │   │   └── widgets.css
 │       │   └── index.ts  [entry]
 │       ├── tests/
+│       │   ├── e2e/
+│       │   │   └── smoke.spec.ts  [test]
 │       │   ├── did-you-know.test.ts  [test]
 │       │   ├── enroll-modal.test.ts  [test]
 │       │   ├── faq-list.test.ts  [test]
@@ -334,10 +337,12 @@ STEM-TUITION/  64ee90d
 │   └── eslint-config.mjs
 ├── .commitlintrc.json
 ├── .dependency-cruiser.js
+├── .dockerignore
 ├── .gitignore
 ├── .phase.json
 ├── AGENTS.md
 ├── bundlesize.config.json
+├── Dockerfile
 ├── eslint.config.dom.mjs
 ├── eslint.config.mjs
 ├── eslint.config.state.mjs
