@@ -15,6 +15,7 @@
   "dependencies": {
     "@stem-tuition/acl": "workspace:*",
     "@stem-tuition/audio-synth": "workspace:*",
+    "@stem-tuition/content-provider": "workspace:*",
     "@stem-tuition/core": "workspace:*",
     "@stem-tuition/hover-engine": "workspace:*",
     "@stem-tuition/quiz-engine": "workspace:*",

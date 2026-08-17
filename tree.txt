@@ -1,4 +1,4 @@
-STEM-TUITION/  be685fa
+STEM-TUITION/  6d6b44e
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -30,10 +30,12 @@ STEM-TUITION/  be685fa
 │       │   │   └── videos.ts
 │       │   ├── lib/
 │       │   │   ├── cosmic-background.ts
+│       │   │   ├── curriculum-selector.ts
 │       │   │   ├── engine-init.ts
 │       │   │   ├── enroll.ts
 │       │   │   ├── hover-effects.ts
 │       │   │   ├── interactive.ts
+│       │   │   ├── learning-path.ts
 │       │   │   ├── lhs-adapter.ts
 │       │   │   ├── lhs-demo.ts
 │       │   │   ├── lhs-types.ts
