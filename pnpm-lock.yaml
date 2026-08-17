@@ -65,6 +65,12 @@ importers:
       '@stem-tuition/hover-engine':
         specifier: workspace:*
         version: link:../../packages/hover-engine
+      '@stem-tuition/interactive-simulations':
+        specifier: workspace:*
+        version: link:../../packages/interactive-simulations
+      '@stem-tuition/lesson-renderer':
+        specifier: workspace:*
+        version: link:../../packages/lesson-renderer
       '@stem-tuition/quiz-engine':
         specifier: workspace:*
         version: link:../../packages/quiz-engine
@@ -160,6 +166,50 @@ importers:
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(jsdom@30.0.1)(supports-color@7.2.0)
+
+  packages/interactive-simulations:
+    dependencies:
+      '@stem-tuition/core':
+        specifier: workspace:*
+        version: link:../core
+      '@stem-tuition/simulation-core':
+        specifier: workspace:*
+        version: link:../simulation-core
+      '@stem-tuition/tracer':
+        specifier: workspace:*
+        version: link:../tracer
+    devDependencies:
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(jsdom@30.0.1)(supports-color@7.2.0)
+
+  packages/lesson-renderer:
+    dependencies:
+      '@stem-tuition/content-provider':
+        specifier: workspace:*
+        version: link:../content-provider
+      '@stem-tuition/core':
+        specifier: workspace:*
+        version: link:../core
+      '@stem-tuition/tracer':
+        specifier: workspace:*
+        version: link:../tracer
+    devDependencies:
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
       typescript:
         specifier: ^5.4.0
         version: 5.9.3

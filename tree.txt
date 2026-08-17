@@ -1,4 +1,4 @@
-STEM-TUITION/  e0987b3
+STEM-TUITION/  ccdb0f1
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -35,10 +35,12 @@ STEM-TUITION/  e0987b3
 │       │   │   ├── enroll.ts
 │       │   │   ├── hover-effects.ts
 │       │   │   ├── interactive.ts
+│       │   │   ├── learning-path-ui.ts
 │       │   │   ├── learning-path.ts
 │       │   │   ├── lhs-adapter.ts
 │       │   │   ├── lhs-demo.ts
 │       │   │   ├── lhs-types.ts
+│       │   │   ├── progress-tracker.ts
 │       │   │   ├── render.ts
 │       │   │   └── scroll.ts
 │       │   ├── pages/
@@ -50,6 +52,7 @@ STEM-TUITION/  e0987b3
 │       │   │   ├── base.css
 │       │   │   ├── components.css
 │       │   │   ├── layout.css
+│       │   │   ├── learning.css
 │       │   │   ├── lhs.css
 │       │   │   ├── main.css
 │       │   │   ├── tokens.css
@@ -229,6 +232,27 @@ STEM-TUITION/  e0987b3
 │   │   ├── CHANGELOG.md
 │   │   ├── package.json
 │   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── interactive-simulations/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── stem-circuit-sim.ts
+│   │   │   └── stem-mechanics-sim.ts
+│   │   ├── tests/
+│   │   │   └── stem-mechanics-sim.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── lesson-renderer/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── stem-lesson.ts
+│   │   ├── tests/
+│   │   │   └── stem-lesson.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── quiz-engine/

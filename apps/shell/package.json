@@ -18,6 +18,8 @@
     "@stem-tuition/content-provider": "workspace:*",
     "@stem-tuition/core": "workspace:*",
     "@stem-tuition/hover-engine": "workspace:*",
+    "@stem-tuition/interactive-simulations": "workspace:*",
+    "@stem-tuition/lesson-renderer": "workspace:*",
     "@stem-tuition/quiz-engine": "workspace:*",
     "@stem-tuition/simulation-core": "workspace:*",
     "@stem-tuition/tracer": "workspace:*"
