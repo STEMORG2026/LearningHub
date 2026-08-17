@@ -40,7 +40,7 @@ describe('lhs-adapter — export metadata', () => {
     const { metadata, entityCount } = loadKnowledge();
     expect(metadata.export_version).toBe('0.1');
     expect(metadata.schema_version).toBe('0.1');
-    expect(entityCount).toBe(5);
+    expect(entityCount).toBe(75);
   });
 });
 
