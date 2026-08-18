@@ -5,12 +5,18 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  contents: read
+
 jobs:
-  github-release:
-    name: Create GitHub Release
+  gate:
+    name: Release gate (signed tag + CI-green)
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
+      checks: read
+    outputs:
+      release-version: ${{ steps.version.outputs.VERSION }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,15 +26,75 @@ jobs:
         id: version
         run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
+      - name: Verify tag is GPG-signed
+        run: |
+          if ! git verify-tag "${{ github.ref_name }}"; then
+            echo "❌ Tag ${{ github.ref_name }} is not GPG-signed. Releases require signed tags."
+            exit 1
+          fi
+          echo "✅ Tag ${{ github.ref_name }} is GPG-signed."
+
+      - name: Verify CI checks passed on tagged commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SHA="${{ github.sha }}"
+          echo "Checking CI status for commit ${SHA}..."
+
+          # Poll check-runs for the tagged commit (up to 10 minutes, every 30s)
+          for i in $(seq 1 20); do
+            CHECK_RUNS=$(gh api "repos/${{ github.repository }}/commits/${SHA}/check-runs" --jq '.check_runs // []')
+            TOTAL=$(echo "$CHECK_RUNS" | jq '. | length')
+            COMPLETED=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed")] | length')
+            SUCCESSFUL=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed" and .conclusion == "success")] | length')
+            FAILED=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed" and .conclusion != "success" and .conclusion != "neutral" and .conclusion != "cancelled" and .conclusion != "skipped")] | length')
+
+            echo "Check-runs: total=${TOTAL}, completed=${COMPLETED}, successful=${SUCCESSFUL}, failed=${FAILED}"
+
+            if [ "$FAILED" -gt 0 ]; then
+              echo "❌ One or more CI check-runs failed on the tagged commit."
+              echo "$CHECK_RUNS" | jq '.[] | select(.status == "completed" and .conclusion != "success" and .conclusion != "neutral" and .conclusion != "cancelled" and .conclusion != "skipped") | {name, conclusion}'
+              exit 1
+            fi
+
+            if [ "$TOTAL" -gt 0 ] && [ "$COMPLETED" -eq "$TOTAL" ]; then
+              if [ "$SUCCESSFUL" -eq "$TOTAL" ]; then
+                echo "✅ All ${TOTAL} CI check-runs succeeded on the tagged commit."
+                exit 0
+              fi
+              # Some checks may be skipped/neutral — still consider it green if none failed
+              NONE_FAILED=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed" and .conclusion != "success" and .conclusion != "neutral" and .conclusion != "cancelled" and .conclusion != "skipped")] | length')
+              if [ "$NONE_FAILED" -eq 0 ]; then
+                echo "✅ All completed CI check-runs are successful on the tagged commit."
+                exit 0
+              fi
+            fi
+
+            echo "Waiting for check-runs to complete... (attempt $i/20)"
+            sleep 30
+          done
+
+          echo "❌ Timed out waiting for CI check-runs to complete on the tagged commit."
+          exit 1
+
+  github-release:
+    name: Create GitHub Release
+    needs: [gate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Extract changelog section
         id: changelog
         run: |
-          VERSION="${{ steps.version.outputs.VERSION }}"
-          # Extract the section for this version from CHANGELOG.md
-          # Looks for ## [VERSION] and captures until the next ## heading
+          VERSION="${{ needs.gate.outputs.release-version }}"
           awk -v ver="$VERSION" '
             BEGIN { found=0; buf="" }
-            /^\[?## \[?"?ver"?/ { found=1; next }
+            /^\[?## \["?ver"?/ { found=1; next }
             found && /^## / { exit }
             found { buf = buf $0 "\n" }
             END { printf "%s", buf }
@@ -43,10 +109,11 @@ jobs:
           body_path: release-notes.md
           generate_release_notes: true
           draft: false
-          prerelease: ${{ contains(steps.version.outputs.VERSION, 'alpha') || contains(steps.version.outputs.VERSION, 'beta') || contains(steps.version.outputs.VERSION, 'rc') }}
+          prerelease: ${{ contains(needs.gate.outputs.release-version, 'alpha') || contains(needs.gate.outputs.release-version, 'beta') || contains(needs.gate.outputs.release-version, 'rc') }}
 
   publish-packages:
     name: Publish to npm
+    needs: [gate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -74,6 +141,7 @@ jobs:
 
   container:
     name: Build container image
+    needs: [gate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -111,15 +179,34 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ github.repository }}:${{ needs.gate.outputs.release-version }}
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          exit-code: 1
+          ignore-unfixed: true
+
+      - name: Upload Trivy scan results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results
+          path: trivy-results.sarif
+          retention-days: 30
+
       - name: Sign image with cosign
         uses: sigstore/cosign-installer@v3
       - name: Sign container image
         run: |
-          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }})
+          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/${{ github.repository }}:${{ needs.gate.outputs.version }})
           cosign sign --yes "$DIGEST"
 
   sbom:
     name: Generate SBOM
+    needs: [gate]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -147,8 +234,9 @@ jobs:
 
   notify:
     name: Notify release
-    runs-on: ubuntu-latest
     needs: [github-release]
+    runs-on: ubuntu-latest
+    if: ${{ secrets.DISCORD_WEBHOOK != '' }}
     steps:
       - name: Send notification
         uses: Ilshidur/action-discord@0.3.2

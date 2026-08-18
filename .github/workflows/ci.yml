@@ -9,6 +9,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     name: Verify governance
@@ -23,11 +26,84 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - run: pnpm install --frozen-lockfile
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+      - run: pnpm exec playwright install --with-deps chromium
       - name: Run governance gate
         run: pnpm verify-governance
+
+  docs-sync:
+    name: Documentation freshness
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Verify generated docs are in sync
+        run: |
+          pnpm docs:sync
+          git diff --exit-code
+          REMAINING="$(git ls-files --others --exclude-standard)"
+          if [ -n "$REMAINING" ]; then
+            echo "❌ Untracked files remain after docs:sync:"
+            echo "$REMAINING"
+            exit 1
+          fi
+          echo "✅ Generated documentation is in sync."
+
+  changeset-check:
+    name: Changeset requirement check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check for changesets when package source changes
+        run: |
+          CHANGED_PKGS="$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^packages/[^/]+/src/' || true)"
+          if [ -n "$CHANGED_PKGS" ]; then
+            echo "📦 Package source changed:"
+            echo "$CHANGED_PKGS"
+            CHANGESETS="$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^\.changeset/.*\.md$' | grep -v 'README.md' | grep -v 'config.json' || true)"
+            if [ -z "$CHANGESETS" ]; then
+              echo "❌ No Changeset found in .changeset/."
+              echo "Run 'pnpm changeset' to record release intent for package changes."
+              exit 1
+            fi
+            echo "✅ Changeset(s) found:"
+            echo "$CHANGESETS"
+          else
+            echo "ℹ️ No package source changes — changeset check skipped."
+          fi
 
   commitlint:
     name: Commit messages
@@ -63,7 +139,11 @@ jobs:
         run: |
           if [ "${{ github.ref_type }}" = "tag" ]; then
             echo "Verifying tag ${{ github.ref_name }}"
-            git verify-tag "${{ github.ref_name }}" || echo "WARNING: Tag ${{ github.ref_name }} is not GPG-signed"
+            if ! git verify-tag "${{ github.ref_name }}"; then
+              echo "❌ Tag ${{ github.ref_name }} is not GPG-signed. Releases require signed tags."
+              exit 1
+            fi
+            echo "✅ Tag ${{ github.ref_name }} is GPG-signed."
           else
             echo "Skipping — not a tag push"
           fi
@@ -82,7 +162,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Audit production dependencies
-        run: pnpm audit --prod
+        run: pnpm audit --audit-level high
 
   lighthouse:
     name: Lighthouse CI
