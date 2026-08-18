@@ -19,15 +19,15 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      # License-free gitleaks scan (works on private repos).
+      # Pinned image; `detect --no-git` scans the working tree and exits non-zero on findings.
       - name: Run gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
-        with:
-          args: --verbose --redact --no-git
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/src" \
+            -w /src \
+            zricethezav/gitleaks:v8.30.1 \
+            detect --source=/src --no-git --verbose --redact
 
   audit:
     name: Dependency audit

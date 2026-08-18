@@ -14,7 +14,7 @@ import { generateLearningPath } from './learning-path';
 import { mapLhsEntitiesToLessons, type LessonContent } from '@stem-tuition/content-provider';
 import { loadKnowledge } from './lhs-adapter';
 import { CURRICULUMS, getAvailableCurricula, type CurriculumId } from '../data/curriculum-mappings';
-import knowledge from '../../../../../LearningHubSTEM/exports/knowledge.json';
+import knowledge from '../data/knowledge.json';
 
 const MOUNT_ID = 'curriculumSelectorMount';
 

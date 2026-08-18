@@ -54,6 +54,7 @@ temp/
 
 # Playwright
 test-results/
+playwright-report/
 
 # Lighthouse CI
 .lighthouseci/
