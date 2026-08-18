@@ -5,7 +5,6 @@
   "packageManager": "pnpm@11.18.0",
   "description": "STEM-TUITION — Modular STEM education platform",
   "scripts": {
-    "dev:legacy": "python3 -m http.server 8085 --directory legacy/",
     "dev:shell": "turbo dev --filter=@stem-tuition/shell",
     "build": "turbo build",
     "test": "turbo test",
@@ -34,12 +33,17 @@
     "release:validate": "node scripts/release/release-validate.mjs",
     "release:version": "node scripts/release/release-version.mjs",
     "release:finalize": "node scripts/release/release-finalize.mjs",
+    "release:rollback": "node scripts/release/rollback.mjs",
     "changeset:version": "echo 'ERROR: Direct changeset version is disabled. Use the 4-stage release pipeline:' && echo '  pnpm release:prepare  →  pnpm release:validate  →  pnpm release:version  →  pnpm release:finalize' && exit 1",
-    "changeset:publish": "changeset publish"
+    "changeset:publish": "changeset publish",
+    "lint:commit": "commitlint --last --verbose"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.0",
     "@changesets/cli": "^2.27.0",
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.44.0",
     "@typescript-eslint/parser": "^8.65.0",
     "@vitest/coverage-v8": "^1.6.1",

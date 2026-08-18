@@ -6,27 +6,19 @@
 
 ---
 
-## Legacy Tests (Frozen)
-
-| Test file | Type | Coverage | Status |
-|-----------|------|----------|--------|
-| `legacy/tests/verify-stem-platform.js` | Static analysis | File existence, casing, string matching | Frozen |
-| `legacy/tests/verify-canvas-bodies-and-controls.js` | Static analysis | Canvas body declarations, control IDs | Frozen |
-| `legacy/tests/verify-background_animation.js` | Static analysis | Animation engine compliance | Frozen |
-
 ## New Module Tests
 
 <!-- AUTO:testing-table -->
 | Package | Test file | Type | Coverage target | Status |
 |---------|-----------|------|----------------|--------|
-| `packages/core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (59 tests) |
+| `packages/core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (56 tests) |
 | `packages/tracer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (24 tests) |
 | `packages/audio-synth/` | `tests/*.test.ts` | Unit | — | 🟢 Written (14 tests) |
-| `packages/core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (59 tests) |
-| `packages/acl/` | `tests/*.test.ts` | Unit | — | 🟢 Written (14 tests) |
+| `packages/core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (56 tests) |
+| `packages/acl/` | `tests/*.test.ts` | Unit | — | 🟢 Written (19 tests) |
 | `packages/quiz-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (16 tests) |
 | `packages/hover-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
-| `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (48 tests) |
+| `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (65 tests) |
 <!-- END AUTO:testing-table -->
 
 ## E2E Tests (Future)

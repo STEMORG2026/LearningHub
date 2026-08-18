@@ -55,7 +55,7 @@
 | `applyGravity()` | `physics:apply-gravity` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/physics.ts` |
 | `detectCollisions()` | `physics:detect-collisions` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/physics.ts` |
 | `updatePositions()` | `physics:update-positions` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/physics.ts` |
-| `renderFrame()` | `canvas:render` | `physics:tick` | ❌ Not yet | `legacy/js/stem-effects.js` |
+| `renderFrame()` | `canvas:render` | `physics:tick` | ❌ Not yet | `apps/shell/src/lib/cosmic-background.ts` |
 
 ## Migration Progress
 

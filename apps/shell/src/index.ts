@@ -1,1 +1,24 @@
-export {};
+import './styles/main.css';
+import '../src/components/index';
+import { initEngines } from '../src/lib/engine-init';
+import { initScrollReveal, initMouseWheelScroll, initScrollProgress } from '../src/lib/scroll';
+import { initClassCarousel, initLearningModes, initPioneerWall } from '../src/lib/render';
+import { initEstimator, initToolsWidget } from '../src/lib/interactive';
+import { initEnrollTriggers } from '../src/lib/enroll';
+import { initHoverEffects } from '../src/lib/hover-effects';
+import { initCosmicBackground } from '../src/lib/cosmic-background';
+import { initLhsDemo } from '../src/lib/lhs-demo';
+
+initEngines('home');
+initEnrollTriggers();
+initScrollReveal();
+initMouseWheelScroll();
+initScrollProgress();
+initClassCarousel();
+initLearningModes();
+initPioneerWall();
+initEstimator();
+initToolsWidget();
+initHoverEffects();
+initCosmicBackground();
+initLhsDemo();

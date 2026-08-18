@@ -1,7 +1,7 @@
 # ADR-004: Legacy Frozen Zone
 
 ## Status
-Accepted
+Superseded by ADR-012
 
 ## Date
 2026-07-30

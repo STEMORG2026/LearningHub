@@ -6,9 +6,11 @@ import {
   INTERACTION_MIN_DIST,
   INTERACTION_MAX_DIST,
   BLACKHOLE_MAX_RADIUS_RATIO,
-  BLACKHOLE_PULL_DIST,
   BLACKHOLE_PULL_CAP,
+  BLACKHOLE_GRAVITY_REF_MASS,
+  BLACKHOLE_GRAVITY_MASS_CAP,
 } from './types';
+import { SUN_GRAVITY_CONSTANT } from './config';
 
 export function stepPosition(body: CelestialBody, timeScale: number): CelestialBody {
   return {
@@ -16,6 +18,25 @@ export function stepPosition(body: CelestialBody, timeScale: number): CelestialB
     x: body.x + body.vx * timeScale,
     y: body.y + body.vy * timeScale,
     rotation: body.rotation + (body.vRot || 0.005) * timeScale,
+  };
+}
+
+export function applySunGravity(
+  body: CelestialBody,
+  sun: CelestialBody,
+  timeScale: number,
+): CelestialBody {
+  if (body.type !== 'giant_planet' || body.isExploded || body.id === sun.id) return body;
+  const dx = sun.x - body.x;
+  const dy = sun.y - body.y;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist <= 0 || dist < sun.radius * 0.5) return body;
+
+  const accel = (SUN_GRAVITY_CONSTANT * sun.mass) / (dist * dist);
+  return {
+    ...body,
+    vx: body.vx + (dx / dist) * accel * timeScale,
+    vy: body.vy + (dy / dist) * accel * timeScale,
   };
 }
 
@@ -74,7 +95,12 @@ export function interactPair(b1: CelestialBody, b2: CelestialBody, forceMult: nu
   let out1 = b1;
   let out2 = b2;
 
-  if (dist > INTERACTION_MIN_DIST && dist < INTERACTION_MAX_DIST) {
+  if (
+    b1.charge !== 0 &&
+    b2.charge !== 0 &&
+    dist > INTERACTION_MIN_DIST &&
+    dist < INTERACTION_MAX_DIST
+  ) {
     const force = (b1.charge * b2.charge < 0 ? -1 : 1) * (COULOMB_CONSTANT / (dist * dist)) * forceMult;
     const fx = (dx / dist) * force;
     const fy = (dy / dist) * force;
@@ -141,9 +167,13 @@ export function applyBlackholePull(
   const dx = blackhole.x - body.x;
   const dy = blackhole.y - body.y;
   const dist = Math.sqrt(dx * dx + dy * dy);
-  if (dist >= BLACKHOLE_PULL_DIST || dist <= 10) return body;
+  if (dist <= 10) return body;
 
-  const pull = (blackhole.radius * 0.5) * (180 / (dist * dist));
+  const massFactor = Math.min(
+    BLACKHOLE_GRAVITY_REF_MASS / Math.max(body.mass, 1),
+    BLACKHOLE_GRAVITY_MASS_CAP,
+  );
+  const pull = (blackhole.radius * 0.5) * (180 / (dist * dist)) * massFactor;
   const capped = Math.min(pull, BLACKHOLE_PULL_CAP);
   return {
     ...body,
@@ -165,31 +195,28 @@ export function applyBlackholeDevour(
   blackhole: CelestialBody,
   width: number,
   height: number,
+  explodeRadius: number = Math.max(width, height) * BLACKHOLE_MAX_RADIUS_RATIO,
 ): DevourResult {
   const dx = blackhole.x - body.x;
   const dy = blackhole.y - body.y;
   const dist = Math.sqrt(dx * dx + dy * dy);
-  const devourDist = blackhole.radius + body.radius * 0.5;
+  const devourDist = blackhole.radius + body.radius;
 
   if (dist >= devourDist || body.isExploded) {
     return { body, blackhole, devoured: false, exploded: false, radiusDelta: 0 };
   }
 
-  let newRadius = blackhole.radius + Math.min(body.radius * 0.05, 4);
+  let newRadius = blackhole.radius + Math.max(body.radius * 0.3, 6);
   let exploded = false;
 
-  if (newRadius > Math.max(width, height) * BLACKHOLE_MAX_RADIUS_RATIO) {
+  if (newRadius > explodeRadius) {
     exploded = true;
     newRadius = 40;
   }
 
-  const resetBody: CelestialBody = {
+  const consumedBody: CelestialBody = {
     ...body,
-    x: Math.random() > 0.5 ? -body.radius : width + body.radius,
-    y: Math.random() * height,
-    vx: (Math.random() - 0.5) * 1.2,
-    vy: (Math.random() - 0.5) * 1.2,
-    isExploded: false,
+    isExploded: true,
   };
 
   const newBlackhole: CelestialBody = {
@@ -199,7 +226,7 @@ export function applyBlackholeDevour(
   };
 
   return {
-    body: resetBody,
+    body: consumedBody,
     blackhole: newBlackhole,
     devoured: true,
     exploded,
@@ -218,7 +245,12 @@ export function updatePhysics(input: PhysicsInput): PhysicsResult {
   let blackholeRadiusDelta = 0;
   let blackholeExploded = false;
 
-  let bodies = input.bodies.map((b) => {
+  let bodies = input.bodies;
+
+  const sunBody = bodies.find((b) => b.type === 'big_sun' && !b.isExploded);
+  bodies = bodies.map((b) => (sunBody ? applySunGravity(b, sunBody, input.timeScale) : b));
+
+  bodies = bodies.map((b) => {
     if (b.isExploded) return b;
     return stepPosition(b, input.timeScale);
   });
@@ -233,6 +265,41 @@ export function updatePhysics(input: PhysicsInput): PhysicsResult {
     return applyMouseForce(b, input.mouseX, input.mouseY, input.mouseRadius, forceMult);
   });
 
+  if (!input.blackholeDisabled) {
+    const explodeRadius = input.blackholeExplodeRadius ?? Math.max(input.width, input.height) * BLACKHOLE_MAX_RADIUS_RATIO;
+    const blackholeIndices: number[] = [];
+    for (let i = 0; i < bodies.length; i++) {
+      if (bodies[i]!.type === 'super_blackhole' && !bodies[i]!.isExploded) {
+        blackholeIndices.push(i);
+      }
+    }
+
+    for (const bhIdx of blackholeIndices) {
+      for (let i = 0; i < bodies.length; i++) {
+        if (i === bhIdx || bodies[i]!.isExploded) continue;
+        bodies[i] = applyBlackholePull(bodies[i]!, bodies[bhIdx]!);
+      }
+
+      for (let i = 0; i < bodies.length; i++) {
+        if (i === bhIdx || bodies[i]!.isExploded) continue;
+        if (bodies[i]!.type === 'super_blackhole') continue;
+        const devourResult = applyBlackholeDevour(bodies[i]!, bodies[bhIdx]!, input.width, input.height, explodeRadius);
+        if (devourResult.devoured) {
+          bodies[i] = devourResult.body;
+          bodies[bhIdx] = devourResult.blackhole;
+          blackholeRadiusDelta += devourResult.radiusDelta;
+          if (devourResult.exploded) {
+            blackholeExploded = true;
+          }
+          devours.push({
+            blackholeId: bodies[bhIdx]!.id,
+            devouredId: bodies[i]!.id,
+          });
+        }
+      }
+    }
+  }
+
   for (let i = 0; i < bodies.length; i++) {
     for (let j = i + 1; j < bodies.length; j++) {
       if (bodies[i]!.isExploded || bodies[j]!.isExploded) continue;
@@ -241,33 +308,6 @@ export function updatePhysics(input: PhysicsInput): PhysicsResult {
       bodies[j] = result.b2;
       if (result.collision) {
         collisions.push(result.collision);
-      }
-    }
-  }
-
-  if (!input.blackholeDisabled) {
-    const blackholeIdx = bodies.findIndex((b) => b.type === 'super_blackhole' && !b.isExploded);
-    if (blackholeIdx !== -1) {
-      for (let i = 0; i < bodies.length; i++) {
-        if (i === blackholeIdx || bodies[i]!.isExploded) continue;
-        bodies[i] = applyBlackholePull(bodies[i]!, bodies[blackholeIdx]!);
-      }
-
-      for (let i = 0; i < bodies.length; i++) {
-        if (i === blackholeIdx || bodies[i]!.isExploded) continue;
-        const devourResult = applyBlackholeDevour(bodies[i]!, bodies[blackholeIdx]!, input.width, input.height);
-        if (devourResult.devoured) {
-          bodies[i] = devourResult.body;
-          bodies[blackholeIdx] = devourResult.blackhole;
-          blackholeRadiusDelta += devourResult.radiusDelta;
-          if (devourResult.exploded) {
-            blackholeExploded = true;
-          }
-          devours.push({
-            blackholeId: bodies[blackholeIdx]!.id,
-            devouredId: bodies[i]!.id,
-          });
-        }
       }
     }
   }

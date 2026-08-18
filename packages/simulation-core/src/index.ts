@@ -21,6 +21,8 @@ export {
   LIGHTNING_DRAW_DIST,
   BLACKHOLE_PULL_DIST,
   BLACKHOLE_PULL_CAP,
+  BLACKHOLE_GRAVITY_REF_MASS,
+  BLACKHOLE_GRAVITY_MASS_CAP,
   SMALL_ITEM_COUNT,
 } from './types';
 export {
@@ -34,6 +36,7 @@ export {
   PLANET_ORBIT_STEP,
   PLANET_SPEED_BASE,
   PLANET_SPEED_RANDOM,
+  SUN_GRAVITY_CONSTANT,
   BLACKHOLE_RADIUS,
   BLACKHOLE_MASS,
   BLACKHOLE_VROT,
@@ -62,6 +65,7 @@ export {
   applyMouseForce,
   interactPair,
   type InteractPairResult,
+  applySunGravity,
   applyBlackholePull,
   applyBlackholeDevour,
   type DevourResult,

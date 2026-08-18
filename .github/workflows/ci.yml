@@ -1,0 +1,204 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify governance
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+      - run: pnpm install --frozen-lockfile
+      - name: Install Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run governance gate
+        run: pnpm verify-governance
+
+  docs-sync:
+    name: Documentation freshness
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Verify generated docs are in sync
+        run: |
+          pnpm docs:sync
+          git diff --exit-code
+          REMAINING="$(git ls-files --others --exclude-standard)"
+          if [ -n "$REMAINING" ]; then
+            echo "❌ Untracked files remain after docs:sync:"
+            echo "$REMAINING"
+            exit 1
+          fi
+          echo "✅ Generated documentation is in sync."
+
+  changeset-check:
+    name: Changeset requirement check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check for changesets when package source changes
+        run: |
+          CHANGED_PKGS="$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^packages/[^/]+/src/' || true)"
+          if [ -n "$CHANGED_PKGS" ]; then
+            echo "📦 Package source changed:"
+            echo "$CHANGED_PKGS"
+            CHANGESETS="$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^\.changeset/.*\.md$' | grep -v 'README.md' | grep -v 'config.json' || true)"
+            if [ -z "$CHANGESETS" ]; then
+              echo "❌ No Changeset found in .changeset/."
+              echo "Run 'pnpm changeset' to record release intent for package changes."
+              exit 1
+            fi
+            echo "✅ Changeset(s) found:"
+            echo "$CHANGESETS"
+          else
+            echo "ℹ️ No package source changes — changeset check skipped."
+          fi
+
+  commitlint:
+    name: Commit messages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint commit messages
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+          else
+            npx commitlint --last --verbose
+          fi
+
+  signed-tags:
+    name: Verify signed tags
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify GPG signature on tags
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "Verifying tag ${{ github.ref_name }}"
+            if ! git verify-tag "${{ github.ref_name }}"; then
+              echo "❌ Tag ${{ github.ref_name }} is not GPG-signed. Releases require signed tags."
+              exit 1
+            fi
+            echo "✅ Tag ${{ github.ref_name }} is GPG-signed."
+          else
+            echo "Skipping — not a tag push"
+          fi
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Audit production dependencies
+        run: pnpm audit --audit-level high
+
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+      - name: Build shell preview
+        run: pnpm --filter @stem-tuition/shell build
+      - name: Resolve Chrome path
+        run: echo "CHROME_PATH=$(node -e \"console.log(require('@playwright/test').chromium.executablePath())\")" >> "$GITHUB_ENV"
+      - name: Start preview server
+        run: |
+          (cd apps/shell && pnpm exec vite preview --port 4173 --strictPort >/tmp/preview.log 2>&1 &)
+          sleep 4
+          curl -sf http://localhost:4173/ -o /dev/null
+      - name: Collect Lighthouse runs
+        run: npx lhci collect --config=./lighthouserc.json --settings.chromePath="$CHROME_PATH"
+      - name: Assert Lighthouse budgets
+        run: npx lhci assert --config=./lighthouserc.json
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lhci-reports
+          path: |
+            lhci-reports/
+            .lighthouseci/*.html
+          if-no-files-found: ignore

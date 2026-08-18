@@ -8,11 +8,27 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@stem-tuition/acl": "workspace:*",
+    "@stem-tuition/audio-synth": "workspace:*",
+    "@stem-tuition/content-provider": "workspace:*",
+    "@stem-tuition/core": "workspace:*",
+    "@stem-tuition/hover-engine": "workspace:*",
+    "@stem-tuition/interactive-simulations": "workspace:*",
+    "@stem-tuition/lesson-renderer": "workspace:*",
+    "@stem-tuition/quiz-engine": "workspace:*",
+    "@stem-tuition/simulation-core": "workspace:*",
+    "@stem-tuition/tracer": "workspace:*"
+  },
   "devDependencies": {
+    "@vitest/coverage-v8": "^1.6.1",
+    "jsdom": "^30.0.1",
     "typescript": "^5.4.0",
-    "vite": "^5.2.0"
+    "vite": "^5.2.0",
+    "vitest": "^1.6.0"
   }
 }

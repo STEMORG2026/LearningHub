@@ -1,0 +1,97 @@
+/* LearningHubSTEM demo slice — minimal styles on top of the design system. */
+
+.lhs-section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 1.2rem 0 0.6rem;
+}
+
+.lhs-section-sub {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 0.6rem;
+}
+
+.lhs-card {
+  padding: 1.1rem;
+}
+
+.lhs-equation {
+  margin: 0.6rem 0;
+  padding: 0.5rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: #fff;
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+}
+
+.lhs-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.lhs-mis-title {
+  margin-top: 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--purple, #a78bfa);
+}
+
+.lhs-misconception {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0.2rem 0;
+}
+
+.lhs-related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.6rem;
+}
+
+.lhs-related-name {
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.lhs-rel-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cyan);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+}
+
+.lhs-grid-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.8rem;
+}
+
+.lhs-footer {
+  margin-top: 1.2rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-align: center;
+}

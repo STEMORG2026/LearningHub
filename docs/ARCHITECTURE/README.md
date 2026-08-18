@@ -40,6 +40,9 @@ flowchart LR
   R --> ACC[ACCESSIBILITY.md]
   R --> SEC[SECURITY.md]
   R --> PERF[PERFORMANCE.md]
+  C[CONSTITUTION.md<br/>development constitution] --> R
+  C --> GOV[governance/<br/>interface-registry · human-checkpoints · ai-prompts · architecture-exceptions]
+  C --> AD
   AD --> C4[ARCHITECTURE/<br/>overview · context · containers · components · dependencies · migration]
   AD --> QS[QUICKSTART.md]
   AD --> RLM[ROADMAP.md]
@@ -127,6 +130,10 @@ STEM-TUITION/
 │   │   ├── GLOSSARY.md                 ← technical terms
 │   │   ├── FLOWCHARTS.md               ← connection diagrams
 │   │   └── DEPLOYMENT.md               ← deployment guide
+│   ├── testing/                        ← testing standard + domain checklists
+│   │   ├── UNIVERSAL_TESTING_STANDARD.md ← layered taxonomy (levels × attributes × gates)
+│   │   ├── education-platform-checklist.md ← domain checklist for this product
+│   │   └── pipeline-gap-analysis.md    ← current pipeline vs standard (working)
 │   ├── ROADMAP.md                      ← migration phases
 │   ├── component-registry/             ← living map of every component + file:line
 │   ├── DOCS.md                         ← docs taxonomy (map + update rules)
@@ -365,6 +372,7 @@ stable for many releases). Lifecycle states follow `PACKAGE_LIFECYCLE.md`
 
 | Document | What it covers |
 |----------|---------------|
+| `CONSTITUTION.md` | Development constitution: ecosystem vision, operating principles, governance overview, AI session protocol |
 | `RULES.md` | Governance entry point: principles, mandatory rules, enforcement |
 | `guides/COMPONENT_STANDARDS.md` | How to build a Web Component |
 | `policies/EVENT_BUS_CONTRACT.md` | Event naming, payloads, versioning |
@@ -385,3 +393,6 @@ stable for many releases). Lifecycle states follow `PACKAGE_LIFECYCLE.md`
 | `DEVLOG.md` | Development diary with decisions and learnings |
 | `component-registry/` | Living map of every component |
 | `adr/` | Architecture Decision Records |
+| `testing/UNIVERSAL_TESTING_STANDARD.md` | Layered testing taxonomy (levels, attributes, gates) |
+| `testing/education-platform-checklist.md` | Concrete verification checklist for this product |
+| `testing/pipeline-gap-analysis.md` | Current pipeline vs standard — ranked gaps and roadmap |

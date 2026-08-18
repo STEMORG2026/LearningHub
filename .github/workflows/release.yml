@@ -1,0 +1,248 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Release gate (signed tag + CI-green)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: read
+    outputs:
+      release-version: ${{ steps.version.outputs.VERSION }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Verify tag is GPG-signed
+        run: |
+          if ! git verify-tag "${{ github.ref_name }}"; then
+            echo "❌ Tag ${{ github.ref_name }} is not GPG-signed. Releases require signed tags."
+            exit 1
+          fi
+          echo "✅ Tag ${{ github.ref_name }} is GPG-signed."
+
+      - name: Verify CI checks passed on tagged commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SHA="${{ github.sha }}"
+          echo "Checking CI status for commit ${SHA}..."
+
+          # Poll check-runs for the tagged commit (up to 10 minutes, every 30s)
+          for i in $(seq 1 20); do
+            CHECK_RUNS=$(gh api "repos/${{ github.repository }}/commits/${SHA}/check-runs" --jq '.check_runs // []')
+            TOTAL=$(echo "$CHECK_RUNS" | jq '. | length')
+            COMPLETED=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed")] | length')
+            SUCCESSFUL=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed" and .conclusion == "success")] | length')
+            FAILED=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed" and .conclusion != "success" and .conclusion != "neutral" and .conclusion != "cancelled" and .conclusion != "skipped")] | length')
+
+            echo "Check-runs: total=${TOTAL}, completed=${COMPLETED}, successful=${SUCCESSFUL}, failed=${FAILED}"
+
+            if [ "$FAILED" -gt 0 ]; then
+              echo "❌ One or more CI check-runs failed on the tagged commit."
+              echo "$CHECK_RUNS" | jq '.[] | select(.status == "completed" and .conclusion != "success" and .conclusion != "neutral" and .conclusion != "cancelled" and .conclusion != "skipped") | {name, conclusion}'
+              exit 1
+            fi
+
+            if [ "$TOTAL" -gt 0 ] && [ "$COMPLETED" -eq "$TOTAL" ]; then
+              if [ "$SUCCESSFUL" -eq "$TOTAL" ]; then
+                echo "✅ All ${TOTAL} CI check-runs succeeded on the tagged commit."
+                exit 0
+              fi
+              # Some checks may be skipped/neutral — still consider it green if none failed
+              NONE_FAILED=$(echo "$CHECK_RUNS" | jq '[.[] | select(.status == "completed" and .conclusion != "success" and .conclusion != "neutral" and .conclusion != "cancelled" and .conclusion != "skipped")] | length')
+              if [ "$NONE_FAILED" -eq 0 ]; then
+                echo "✅ All completed CI check-runs are successful on the tagged commit."
+                exit 0
+              fi
+            fi
+
+            echo "Waiting for check-runs to complete... (attempt $i/20)"
+            sleep 30
+          done
+
+          echo "❌ Timed out waiting for CI check-runs to complete on the tagged commit."
+          exit 1
+
+  github-release:
+    name: Create GitHub Release
+    needs: [gate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract changelog section
+        id: changelog
+        run: |
+          VERSION="${{ needs.gate.outputs.release-version }}"
+          awk -v ver="$VERSION" '
+            BEGIN { found=0; buf="" }
+            /^\[?## \["?ver"?/ { found=1; next }
+            found && /^## / { exit }
+            found { buf = buf $0 "\n" }
+            END { printf "%s", buf }
+          ' docs/CHANGELOG.md > release-notes.md
+          echo "---RELEASE NOTES---"
+          cat release-notes.md
+          echo "---END---"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: release-notes.md
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(needs.gate.outputs.release-version, 'alpha') || contains(needs.gate.outputs.release-version, 'beta') || contains(needs.gate.outputs.release-version, 'rc') }}
+
+  publish-packages:
+    name: Publish to npm
+    needs: [gate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: "https://registry.npmjs.org"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Publish public packages
+        run: pnpm changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+  container:
+    name: Build container image
+    needs: [gate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ github.repository }}:${{ needs.gate.outputs.release-version }}
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          exit-code: 1
+          ignore-unfixed: true
+
+      - name: Upload Trivy scan results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results
+          path: trivy-results.sarif
+          retention-days: 30
+
+      - name: Sign image with cosign
+        uses: sigstore/cosign-installer@v3
+      - name: Sign container image
+        run: |
+          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/${{ github.repository }}:${{ needs.gate.outputs.version }})
+          cosign sign --yes "$DIGEST"
+
+  sbom:
+    name: Generate SBOM
+    needs: [gate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Generate CycloneDX SBOM
+        run: npx @cyclonedx/cyclonedx-npm --output-format json --output-file sbom.json
+
+      - name: Upload SBOM to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: sbom.json
+
+  notify:
+    name: Notify release
+    needs: [github-release]
+    runs-on: ubuntu-latest
+    if: ${{ secrets.DISCORD_WEBHOOK != '' }}
+    steps:
+      - name: Send notification
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            🚀 STEM-TUITION ${{ github.ref_name }} released
+            🔗 https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}

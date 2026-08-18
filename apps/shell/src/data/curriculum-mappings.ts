@@ -1,0 +1,357 @@
+/**
+ * Curriculum mapping data — consumer-owned layer.
+ *
+ * Maps canonical LearningHubSTEM physics concepts to specific curricula and grades.
+ * This file is owned by STEM-TUITION, not LearningHubSTEM.
+ *
+ * Per CONSTITUTION.md §11 and §35: curriculum relationships are consumer-owned, never canonical.
+ */
+
+export type CurriculumId = 'nepal_see' | 'cbse' | 'uk_gcse' | 'ngss' | 'ib_myp';
+
+export interface CurriculumInfo {
+  id: CurriculumId;
+  name: string;
+  region: string;
+  description: string;
+}
+
+export interface MappedTopic {
+  /** Canonical concept ID from LearningHubSTEM */
+  canonicalId: string;
+  /** Curriculum-specific reference or topic name */
+  curriculumRef: string;
+  /** Recommended sequence order (1-based) */
+  sequence: number;
+  /** Depth in this curriculum */
+  depth: 'core' | 'extended' | 'optional';
+  /** Additional curriculum-specific prerequisites (beyond canonical) */
+  additionalPrereqs?: string[];
+}
+
+export interface GradeCurriculumMapping {
+  curriculum: CurriculumId;
+  grade: number;
+  subject: string;
+  topics: MappedTopic[];
+}
+
+export const CURRICULUMS: Record<CurriculumId, CurriculumInfo> = {
+  nepal_see: {
+    id: 'nepal_see',
+    name: 'Nepal SEE',
+    region: 'Nepal',
+    description: 'Secondary Education Examination (Grade 10) — Nepal',
+  },
+  cbse: {
+    id: 'cbse',
+    name: 'CBSE India',
+    region: 'India',
+    description: 'Central Board of Secondary Education — Class 9-10',
+  },
+  uk_gcse: {
+    id: 'uk_gcse',
+    name: 'UK GCSE',
+    region: 'United Kingdom',
+    description: 'General Certificate of Secondary Education — KS4',
+  },
+  ngss: {
+    id: 'ngss',
+    name: 'US NGSS',
+    region: 'United States',
+    description: 'Next Generation Science Standards — High School',
+  },
+  ib_myp: {
+    id: 'ib_myp',
+    name: 'IB MYP',
+    region: 'International',
+    description: 'International Baccalaureate Middle Years Programme — Years 4-5',
+  },
+};
+
+/**
+ * Nepal SEE Grade 10 Physics mapping.
+ *
+ * Based on Nepal CDC Science Curriculum (SEE level).
+ * Covers all physics topics expected by end of Grade 10.
+ */
+export const NEPAL_SEE_GRADE10: GradeCurriculumMapping = {
+  curriculum: 'nepal_see',
+  grade: 10,
+  subject: 'physics',
+  topics: [
+    { canonicalId: 'lhs:phys.measurement', curriculumRef: 'Units and Measurement', sequence: 1, depth: 'core' },
+    { canonicalId: 'lhs:phys.physical-quantity', curriculumRef: 'Physical Quantities', sequence: 2, depth: 'core' },
+    { canonicalId: 'lhs:phys.unit', curriculumRef: 'SI Units', sequence: 3, depth: 'core' },
+    { canonicalId: 'lhs:phys.distance', curriculumRef: 'Motion — Distance and Displacement', sequence: 4, depth: 'core' },
+    { canonicalId: 'lhs:phys.displacement', curriculumRef: 'Motion — Distance and Displacement', sequence: 5, depth: 'core' },
+    { canonicalId: 'lhs:phys.speed', curriculumRef: 'Motion — Speed', sequence: 6, depth: 'core' },
+    { canonicalId: 'lhs:phys.velocity', curriculumRef: 'Motion — Velocity', sequence: 7, depth: 'core' },
+    { canonicalId: 'lhs:phys.acceleration', curriculumRef: 'Motion — Acceleration', sequence: 8, depth: 'core' },
+    { canonicalId: 'lhs:phys.free-fall', curriculumRef: 'Free Fall', sequence: 9, depth: 'core' },
+    { canonicalId: 'lhs:phys.force', curriculumRef: 'Forces', sequence: 10, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-first-law', curriculumRef: "Newton's First Law", sequence: 11, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-second-law', curriculumRef: "Newton's Second Law", sequence: 12, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-third-law', curriculumRef: "Newton's Third Law", sequence: 13, depth: 'core' },
+    { canonicalId: 'lhs:phys.momentum', curriculumRef: 'Momentum', sequence: 14, depth: 'core' },
+    { canonicalId: 'lhs:phys.work', curriculumRef: 'Work', sequence: 15, depth: 'core' },
+    { canonicalId: 'lhs:phys.energy', curriculumRef: 'Energy', sequence: 16, depth: 'core' },
+    { canonicalId: 'lhs:phys.kinetic-energy', curriculumRef: 'Kinetic Energy', sequence: 17, depth: 'core' },
+    { canonicalId: 'lhs:phys.potential-energy', curriculumRef: 'Potential Energy', sequence: 18, depth: 'core' },
+    { canonicalId: 'lhs:phys.conservation-of-energy', curriculumRef: 'Conservation of Energy', sequence: 19, depth: 'core' },
+    { canonicalId: 'lhs:phys.power', curriculumRef: 'Power', sequence: 20, depth: 'core' },
+    { canonicalId: 'lhs:phys.heat', curriculumRef: 'Heat and Temperature', sequence: 21, depth: 'core' },
+    { canonicalId: 'lhs:phys.temperature', curriculumRef: 'Heat and Temperature', sequence: 22, depth: 'core' },
+    { canonicalId: 'lhs:phys.specific-heat', curriculumRef: 'Specific Heat', sequence: 23, depth: 'core' },
+    { canonicalId: 'lhs:phys.change-of-state', curriculumRef: 'Change of State', sequence: 24, depth: 'core' },
+    { canonicalId: 'lhs:phys.wave', curriculumRef: 'Waves', sequence: 25, depth: 'core' },
+    { canonicalId: 'lhs:phys.sound', curriculumRef: 'Sound', sequence: 26, depth: 'core' },
+    { canonicalId: 'lhs:phys.light', curriculumRef: 'Light', sequence: 27, depth: 'core' },
+    { canonicalId: 'lhs:phys.reflection', curriculumRef: 'Reflection of Light', sequence: 28, depth: 'core' },
+    { canonicalId: 'lhs:phys.refraction', curriculumRef: 'Refraction of Light', sequence: 29, depth: 'core' },
+    { canonicalId: 'lhs:phys.lens', curriculumRef: 'Lenses', sequence: 30, depth: 'core' },
+    { canonicalId: 'lhs:phys.electric-charge', curriculumRef: 'Electricity — Charge', sequence: 31, depth: 'core' },
+    { canonicalId: 'lhs:phys.current', curriculumRef: 'Electricity — Current', sequence: 32, depth: 'core' },
+    { canonicalId: 'lhs:phys.voltage', curriculumRef: 'Electricity — Voltage', sequence: 33, depth: 'core' },
+    { canonicalId: 'lhs:phys.resistance', curriculumRef: 'Electricity — Resistance', sequence: 34, depth: 'core' },
+    { canonicalId: 'lhs:phys.ohms-law', curriculumRef: "Ohm's Law", sequence: 35, depth: 'core' },
+    { canonicalId: 'lhs:phys.magnetism', curriculumRef: 'Magnetism', sequence: 36, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetism', curriculumRef: 'Electromagnetism', sequence: 37, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-induction', curriculumRef: 'Electromagnetic Induction', sequence: 38, depth: 'core' },
+    { canonicalId: 'lhs:phys.gravitation', curriculumRef: 'Gravitation', sequence: 39, depth: 'core' },
+    { canonicalId: 'lhs:phys.pressure', curriculumRef: 'Pressure', sequence: 40, depth: 'core' },
+    { canonicalId: 'lhs:phys.density', curriculumRef: 'Density', sequence: 41, depth: 'core' },
+    { canonicalId: 'lhs:phys.buoyancy', curriculumRef: "Archimedes' Principle", sequence: 42, depth: 'core' },
+    { canonicalId: 'lhs:phys.mechanical-advantage', curriculumRef: 'Machines', sequence: 43, depth: 'core' },
+    { canonicalId: 'lhs:phys.atomic-structure', curriculumRef: 'Atomic Structure', sequence: 44, depth: 'core' },
+    { canonicalId: 'lhs:phys.radioactivity', curriculumRef: 'Radioactivity', sequence: 45, depth: 'core' },
+    { canonicalId: 'lhs:phys.energy-sources', curriculumRef: 'Sources of Energy', sequence: 46, depth: 'core' },
+  ],
+};
+
+/**
+ * CBSE India Class 9-10 Physics mapping.
+ *
+ * Based on CBSE Science curriculum (Physics portion).
+ */
+export const CBSE_GRADE10: GradeCurriculumMapping = {
+  curriculum: 'cbse',
+  grade: 10,
+  subject: 'physics',
+  topics: [
+    { canonicalId: 'lhs:phys.motion', curriculumRef: 'Motion', sequence: 1, depth: 'core' },
+    { canonicalId: 'lhs:phys.distance', curriculumRef: 'Motion — Distance and Displacement', sequence: 2, depth: 'core' },
+    { canonicalId: 'lhs:phys.displacement', curriculumRef: 'Motion — Distance and Displacement', sequence: 3, depth: 'core' },
+    { canonicalId: 'lhs:phys.speed', curriculumRef: 'Motion — Speed', sequence: 4, depth: 'core' },
+    { canonicalId: 'lhs:phys.velocity', curriculumRef: 'Motion — Velocity', sequence: 5, depth: 'core' },
+    { canonicalId: 'lhs:phys.acceleration', curriculumRef: 'Motion — Acceleration', sequence: 6, depth: 'core' },
+    { canonicalId: 'lhs:phys.graphical-analysis', curriculumRef: 'Graphical Representation of Motion', sequence: 7, depth: 'core' },
+    { canonicalId: 'lhs:phys.force', curriculumRef: 'Force and Laws of Motion', sequence: 8, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-first-law', curriculumRef: 'Newton\'s First Law', sequence: 9, depth: 'core' },
+    { canonicalId: 'lhs:phys.inertia', curriculumRef: 'Inertia', sequence: 10, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-second-law', curriculumRef: 'Newton\'s Second Law', sequence: 11, depth: 'core' },
+    { canonicalId: 'lhs:phys.momentum', curriculumRef: 'Momentum', sequence: 12, depth: 'core' },
+    { canonicalId: 'lhs:phys.impulse', curriculumRef: 'Impulse', sequence: 13, depth: 'extended' },
+    { canonicalId: 'lhs:phys.newtons-third-law', curriculumRef: 'Newton\'s Third Law', sequence: 14, depth: 'core' },
+    { canonicalId: 'lhs:phys.gravitation', curriculumRef: 'Gravitation', sequence: 15, depth: 'core' },
+    { canonicalId: 'lhs:phys.free-fall', curriculumRef: 'Free Fall', sequence: 16, depth: 'core' },
+    { canonicalId: 'lhs:phys.work', curriculumRef: 'Work and Energy', sequence: 17, depth: 'core' },
+    { canonicalId: 'lhs:phys.energy', curriculumRef: 'Work and Energy', sequence: 18, depth: 'core' },
+    { canonicalId: 'lhs:phys.kinetic-energy', curriculumRef: 'Kinetic Energy', sequence: 19, depth: 'core' },
+    { canonicalId: 'lhs:phys.potential-energy', curriculumRef: 'Potential Energy', sequence: 20, depth: 'core' },
+    { canonicalId: 'lhs:phys.conservation-of-energy', curriculumRef: 'Conservation of Energy', sequence: 21, depth: 'core' },
+    { canonicalId: 'lhs:phys.power', curriculumRef: 'Power', sequence: 22, depth: 'core' },
+    { canonicalId: 'lhs:phys.sound', curriculumRef: 'Sound', sequence: 23, depth: 'core' },
+    { canonicalId: 'lhs:phys.wave', curriculumRef: 'Sound — Wave Nature', sequence: 24, depth: 'core' },
+    { canonicalId: 'lhs:phys.electric-charge', curriculumRef: 'Electricity — Charge', sequence: 25, depth: 'core' },
+    { canonicalId: 'lhs:phys.current', curriculumRef: 'Electricity — Current', sequence: 26, depth: 'core' },
+    { canonicalId: 'lhs:phys.voltage', curriculumRef: 'Electricity — Potential Difference', sequence: 27, depth: 'core' },
+    { canonicalId: 'lhs:phys.resistance', curriculumRef: 'Electricity — Resistance', sequence: 28, depth: 'core' },
+    { canonicalId: 'lhs:phys.ohms-law', curriculumRef: 'Ohm\'s Law', sequence: 29, depth: 'core' },
+    { canonicalId: 'lhs:phys.heating-effect', curriculumRef: 'Heating Effect of Current', sequence: 30, depth: 'core' },
+    { canonicalId: 'lhs:phys.magnetic-field', curriculumRef: 'Magnetic Effects of Current', sequence: 31, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetism', curriculumRef: 'Electromagnetism', sequence: 32, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-induction', curriculumRef: 'Electromagnetic Induction', sequence: 33, depth: 'core' },
+    { canonicalId: 'lhs:phys.light', curriculumRef: 'Light — Reflection and Refraction', sequence: 34, depth: 'core' },
+    { canonicalId: 'lhs:phys.reflection', curriculumRef: 'Reflection of Light', sequence: 35, depth: 'core' },
+    { canonicalId: 'lhs:phys.refraction', curriculumRef: 'Refraction of Light', sequence: 36, depth: 'core' },
+    { canonicalId: 'lhs:phys.lens', curriculumRef: 'Refraction by Lenses', sequence: 37, depth: 'core' },
+    { canonicalId: 'lhs:phys.mirror', curriculumRef: 'Reflection by Spherical Mirrors', sequence: 38, depth: 'core' },
+    { canonicalId: 'lhs:phys.atomic-structure', curriculumRef: 'Structure of Atom', sequence: 39, depth: 'core' },
+    { canonicalId: 'lhs:phys.energy-sources', curriculumRef: 'Sources of Energy', sequence: 40, depth: 'core' },
+  ],
+};
+
+/**
+ * UK GCSE (KS4) Physics mapping.
+ *
+ * Based on AQA/OCR GCSE Physics specification.
+ */
+export const UK_GCSE_GRADE10: GradeCurriculumMapping = {
+  curriculum: 'uk_gcse',
+  grade: 10,
+  subject: 'physics',
+  topics: [
+    { canonicalId: 'lhs:phys.energy', curriculumRef: 'Energy', sequence: 1, depth: 'core' },
+    { canonicalId: 'lhs:phys.kinetic-energy', curriculumRef: 'Energy — Kinetic Store', sequence: 2, depth: 'core' },
+    { canonicalId: 'lhs:phys.potential-energy', curriculumRef: 'Energy — Gravitational Potential Store', sequence: 3, depth: 'core' },
+    { canonicalId: 'lhs:phys.conservation-of-energy', curriculumRef: 'Energy — Conservation', sequence: 4, depth: 'core' },
+    { canonicalId: 'lhs:phys.power', curriculumRef: 'Energy — Power', sequence: 5, depth: 'core' },
+    { canonicalId: 'lhs:phys.work', curriculumRef: 'Energy — Work Done', sequence: 6, depth: 'core' },
+    { canonicalId: 'lhs:phys.efficiency', curriculumRef: 'Energy — Efficiency', sequence: 7, depth: 'core' },
+    { canonicalId: 'lhs:phys.density', curriculumRef: 'Particle Model — Density', sequence: 8, depth: 'core' },
+    { canonicalId: 'lhs:phys.thermal-energy', curriculumRef: 'Particle Model — Internal Energy', sequence: 9, depth: 'core' },
+    { canonicalId: 'lhs:phys.specific-heat', curriculumRef: 'Particle Model — Specific Heat', sequence: 10, depth: 'core' },
+    { canonicalId: 'lhs:phys.change-of-state', curriculumRef: 'Particle Model — Change of State', sequence: 11, depth: 'core' },
+    { canonicalId: 'lhs:phys.pressure', curriculumRef: 'Particle Model — Gas Pressure', sequence: 12, depth: 'core' },
+    { canonicalId: 'lhs:phys.atomic-structure', curriculumRef: 'Atomic Structure', sequence: 13, depth: 'core' },
+    { canonicalId: 'lhs:phys.radioactivity', curriculumRef: 'Atomic Structure — Radiation', sequence: 14, depth: 'core' },
+    { canonicalId: 'lhs:phys.nuclear-fission', curriculumRef: 'Atomic Structure — Fission', sequence: 15, depth: 'core' },
+    { canonicalId: 'lhs:phys.nuclear-fusion', curriculumRef: 'Atomic Structure — Fusion', sequence: 16, depth: 'core' },
+    { canonicalId: 'lhs:phys.electric-charge', curriculumRef: 'Electricity — Charge', sequence: 17, depth: 'core' },
+    { canonicalId: 'lhs:phys.current', curriculumRef: 'Electricity — Current', sequence: 18, depth: 'core' },
+    { canonicalId: 'lhs:phys.voltage', curriculumRef: 'Electricity — Potential Difference', sequence: 19, depth: 'core' },
+    { canonicalId: 'lhs:phys.resistance', curriculumRef: 'Electricity — Resistance', sequence: 20, depth: 'core' },
+    { canonicalId: 'lhs:phys.ohms-law', curriculumRef: "Ohm's Law", sequence: 21, depth: 'core' },
+    { canonicalId: 'lhs:phys.magnetism', curriculumRef: 'Magnetism', sequence: 22, depth: 'core' },
+    { canonicalId: 'lhs:phys.magnetic-field', curriculumRef: 'Magnetism — Fields', sequence: 23, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetism', curriculumRef: 'Electromagnetism', sequence: 24, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-induction', curriculumRef: 'Electromagnetic Induction', sequence: 25, depth: 'core' },
+    { canonicalId: 'lhs:phys.force', curriculumRef: 'Forces', sequence: 26, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-first-law', curriculumRef: 'Forces — First Law', sequence: 27, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-second-law', curriculumRef: 'Forces — Second Law', sequence: 28, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-third-law', curriculumRef: 'Forces — Third Law', sequence: 29, depth: 'core' },
+    { canonicalId: 'lhs:phys.momentum', curriculumRef: 'Forces — Momentum', sequence: 30, depth: 'core' },
+    { canonicalId: 'lhs:phys.wave', curriculumRef: 'Waves', sequence: 31, depth: 'core' },
+    { canonicalId: 'lhs:phys.wavelength', curriculumRef: 'Waves — Wavelength', sequence: 32, depth: 'core' },
+    { canonicalId: 'lhs:phys.frequency', curriculumRef: 'Waves — Frequency', sequence: 33, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-spectrum', curriculumRef: 'Waves — EM Spectrum', sequence: 34, depth: 'core' },
+    { canonicalId: 'lhs:phys.light', curriculumRef: 'Waves — Light', sequence: 35, depth: 'core' },
+    { canonicalId: 'lhs:phys.reflection', curriculumRef: 'Waves — Reflection', sequence: 36, depth: 'core' },
+    { canonicalId: 'lhs:phys.refraction', curriculumRef: 'Waves — Refraction', sequence: 37, depth: 'core' },
+    { canonicalId: 'lhs:phys.sound', curriculumRef: 'Waves — Sound', sequence: 38, depth: 'core' },
+    { canonicalId: 'lhs:phys.gravitation', curriculumRef: 'Space Physics', sequence: 39, depth: 'extended' },
+    { canonicalId: 'lhs:phys.free-fall', curriculumRef: 'Space Physics — Gravitational Field', sequence: 40, depth: 'extended' },
+  ],
+};
+
+/**
+ * US NGSS High School Physics mapping.
+ *
+ * Based on Next Generation Science Standards (Grades 9-12, through Grade 10 equivalent).
+ */
+export const NGSS_GRADE10: GradeCurriculumMapping = {
+  curriculum: 'ngss',
+  grade: 10,
+  subject: 'physics',
+  topics: [
+    { canonicalId: 'lhs:phys.force', curriculumRef: 'Forces and Interactions', sequence: 1, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-first-law', curriculumRef: 'Forces and Interactions', sequence: 2, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-second-law', curriculumRef: 'Forces and Interactions', sequence: 3, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-third-law', curriculumRef: 'Forces and Interactions', sequence: 4, depth: 'core' },
+    { canonicalId: 'lhs:phys.momentum', curriculumRef: 'Forces and Interactions — Momentum', sequence: 5, depth: 'core' },
+    { canonicalId: 'lhs:phys.impulse', curriculumRef: 'Forces and Interactions — Impulse', sequence: 6, depth: 'core' },
+    { canonicalId: 'lhs:phys.energy', curriculumRef: 'Energy', sequence: 7, depth: 'core' },
+    { canonicalId: 'lhs:phys.kinetic-energy', curriculumRef: 'Energy — Kinetic', sequence: 8, depth: 'core' },
+    { canonicalId: 'lhs:phys.potential-energy', curriculumRef: 'Energy — Potential', sequence: 9, depth: 'core' },
+    { canonicalId: 'lhs:phys.conservation-of-energy', curriculumRef: 'Energy — Conservation', sequence: 10, depth: 'core' },
+    { canonicalId: 'lhs:phys.work', curriculumRef: 'Energy — Work', sequence: 11, depth: 'core' },
+    { canonicalId: 'lhs:phys.power', curriculumRef: 'Energy — Power', sequence: 12, depth: 'core' },
+    { canonicalId: 'lhs:phys.wave', curriculumRef: 'Waves and EM Radiation', sequence: 13, depth: 'core' },
+    { canonicalId: 'lhs:phys.wavelength', curriculumRef: 'Waves — Properties', sequence: 14, depth: 'core' },
+    { canonicalId: 'lhs:phys.frequency', curriculumRef: 'Waves — Properties', sequence: 15, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-spectrum', curriculumRef: 'Waves — EM Radiation', sequence: 16, depth: 'core' },
+    { canonicalId: 'lhs:phys.atomic-structure', curriculumRef: 'Structure and Properties of Matter', sequence: 17, depth: 'core' },
+    { canonicalId: 'lhs:phys.radioactivity', curriculumRef: 'Nuclear Processes', sequence: 18, depth: 'core' },
+    { canonicalId: 'lhs:phys.nuclear-fission', curriculumRef: 'Nuclear Processes — Fission', sequence: 19, depth: 'core' },
+    { canonicalId: 'lhs:phys.nuclear-fusion', curriculumRef: 'Nuclear Processes — Fusion', sequence: 20, depth: 'core' },
+    { canonicalId: 'lhs:phys.electric-charge', curriculumRef: 'Electric and Magnetic Forces', sequence: 21, depth: 'core' },
+    { canonicalId: 'lhs:phys.current', curriculumRef: 'Electric and Magnetic Forces', sequence: 22, depth: 'core' },
+    { canonicalId: 'lhs:phys.voltage', curriculumRef: 'Electric and Magnetic Forces', sequence: 23, depth: 'core' },
+    { canonicalId: 'lhs:phys.resistance', curriculumRef: 'Electric and Magnetic Forces', sequence: 24, depth: 'core' },
+    { canonicalId: 'lhs:phys.ohms-law', curriculumRef: 'Electric and Magnetic Forces', sequence: 25, depth: 'core' },
+    { canonicalId: 'lhs:phys.magnetic-field', curriculumRef: 'Electric and Magnetic Forces', sequence: 26, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetism', curriculumRef: 'Electric and Magnetic Forces', sequence: 27, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-induction', curriculumRef: 'Electric and Magnetic Forces', sequence: 28, depth: 'core' },
+    { canonicalId: 'lhs:phys.gravitation', curriculumRef: 'Forces — Gravitational', sequence: 29, depth: 'core' },
+    { canonicalId: 'lhs:phys.free-fall', curriculumRef: 'Forces — Free Fall', sequence: 30, depth: 'core' },
+  ],
+};
+
+/**
+ * IB MYP (Years 4-5) Physics mapping.
+ *
+ * Based on IB MYP Science framework (Physics strand).
+ */
+export const IB_MYP_GRADE10: GradeCurriculumMapping = {
+  curriculum: 'ib_myp',
+  grade: 10,
+  subject: 'physics',
+  topics: [
+    { canonicalId: 'lhs:phys.force', curriculumRef: 'Forces and Motion', sequence: 1, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-first-law', curriculumRef: 'Forces and Motion', sequence: 2, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-second-law', curriculumRef: 'Forces and Motion', sequence: 3, depth: 'core' },
+    { canonicalId: 'lhs:phys.newtons-third-law', curriculumRef: 'Forces and Motion', sequence: 4, depth: 'core' },
+    { canonicalId: 'lhs:phys.momentum', curriculumRef: 'Forces and Motion', sequence: 5, depth: 'core' },
+    { canonicalId: 'lhs:phys.energy', curriculumRef: 'Energy', sequence: 6, depth: 'core' },
+    { canonicalId: 'lhs:phys.kinetic-energy', curriculumRef: 'Energy', sequence: 7, depth: 'core' },
+    { canonicalId: 'lhs:phys.potential-energy', curriculumRef: 'Energy', sequence: 8, depth: 'core' },
+    { canonicalId: 'lhs:phys.conservation-of-energy', curriculumRef: 'Energy', sequence: 9, depth: 'core' },
+    { canonicalId: 'lhs:phys.work', curriculumRef: 'Energy', sequence: 10, depth: 'core' },
+    { canonicalId: 'lhs:phys.power', curriculumRef: 'Energy', sequence: 11, depth: 'core' },
+    { canonicalId: 'lhs:phys.wave', curriculumRef: 'Waves', sequence: 12, depth: 'core' },
+    { canonicalId: 'lhs:phys.wavelength', curriculumRef: 'Waves', sequence: 13, depth: 'core' },
+    { canonicalId: 'lhs:phys.frequency', curriculumRef: 'Waves', sequence: 14, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-spectrum', curriculumRef: 'Waves', sequence: 15, depth: 'core' },
+    { canonicalId: 'lhs:phys.light', curriculumRef: 'Waves', sequence: 16, depth: 'core' },
+    { canonicalId: 'lhs:phys.reflection', curriculumRef: 'Waves', sequence: 17, depth: 'core' },
+    { canonicalId: 'lhs:phys.refraction', curriculumRef: 'Waves', sequence: 18, depth: 'core' },
+    { canonicalId: 'lhs:phys.sound', curriculumRef: 'Waves', sequence: 19, depth: 'core' },
+    { canonicalId: 'lhs:phys.electric-charge', curriculumRef: 'Electricity and Magnetism', sequence: 20, depth: 'core' },
+    { canonicalId: 'lhs:phys.current', curriculumRef: 'Electricity and Magnetism', sequence: 21, depth: 'core' },
+    { canonicalId: 'lhs:phys.voltage', curriculumRef: 'Electricity and Magnetism', sequence: 22, depth: 'core' },
+    { canonicalId: 'lhs:phys.resistance', curriculumRef: 'Electricity and Magnetism', sequence: 23, depth: 'core' },
+    { canonicalId: 'lhs:phys.ohms-law', curriculumRef: 'Electricity and Magnetism', sequence: 24, depth: 'core' },
+    { canonicalId: 'lhs:phys.magnetic-field', curriculumRef: 'Electricity and Magnetism', sequence: 25, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetism', curriculumRef: 'Electricity and Magnetism', sequence: 26, depth: 'core' },
+    { canonicalId: 'lhs:phys.electromagnetic-induction', curriculumRef: 'Electricity and Magnetism', sequence: 27, depth: 'core' },
+    { canonicalId: 'lhs:phys.thermal-energy', curriculumRef: 'Thermal Physics', sequence: 28, depth: 'core' },
+    { canonicalId: 'lhs:phys.heat', curriculumRef: 'Thermal Physics', sequence: 29, depth: 'core' },
+    { canonicalId: 'lhs:phys.temperature', curriculumRef: 'Thermal Physics', sequence: 30, depth: 'core' },
+    { canonicalId: 'lhs:phys.specific-heat', curriculumRef: 'Thermal Physics', sequence: 31, depth: 'core' },
+    { canonicalId: 'lhs:phys.change-of-state', curriculumRef: 'Thermal Physics', sequence: 32, depth: 'core' },
+    { canonicalId: 'lhs:phys.atomic-structure', curriculumRef: 'Atomic and Nuclear Physics', sequence: 33, depth: 'core' },
+    { canonicalId: 'lhs:phys.radioactivity', curriculumRef: 'Atomic and Nuclear Physics', sequence: 34, depth: 'core' },
+    { canonicalId: 'lhs:phys.nuclear-fission', curriculumRef: 'Atomic and Nuclear Physics', sequence: 35, depth: 'core' },
+    { canonicalId: 'lhs:phys.nuclear-fusion', curriculumRef: 'Atomic and Nuclear Physics', sequence: 36, depth: 'core' },
+    { canonicalId: 'lhs:phys.gravitation', curriculumRef: 'Space Physics', sequence: 37, depth: 'extended' },
+    { canonicalId: 'lhs:phys.free-fall', curriculumRef: 'Space Physics', sequence: 38, depth: 'extended' },
+  ],
+};
+
+/**
+ * All curriculum mappings indexed by curriculum ID.
+ */
+export const CURRICULUM_MAPPINGS: Record<CurriculumId, GradeCurriculumMapping> = {
+  nepal_see: NEPAL_SEE_GRADE10,
+  cbse: CBSE_GRADE10,
+  uk_gcse: UK_GCSE_GRADE10,
+  ngss: NGSS_GRADE10,
+  ib_myp: IB_MYP_GRADE10,
+};
+
+/**
+ * Get mapping for a specific curriculum and grade.
+ */
+export function getCurriculumMapping(curriculum: CurriculumId, grade: number): GradeCurriculumMapping | undefined {
+  const mapping = CURRICULUM_MAPPINGS[curriculum];
+  if (!mapping || mapping.grade !== grade) return undefined;
+  return mapping;
+}
+
+/**
+ * Get all available curricula.
+ */
+export function getAvailableCurricula(): CurriculumInfo[] {
+  return Object.values(CURRICULUMS);
+}

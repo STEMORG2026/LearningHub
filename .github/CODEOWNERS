@@ -1,0 +1,42 @@
+# Critical Governance & Architecture
+AGENTS.md @Er-Sajan-PLG
+docs/CONSTITUTION.md @Er-Sajan-PLG
+docs/RULES.md @Er-Sajan-PLG
+docs/policies/ @Er-Sajan-PLG
+docs/adr/ @Er-Sajan-PLG
+
+# Core Infrastructure & Release Pipeline
+scripts/release/ @Er-Sajan-PLG
+scripts/git-hooks/ @Er-Sajan-PLG
+.github/workflows/ @Er-Sajan-PLG
+.github/dependabot.yml @Er-Sajan-PLG
+.phase.json @Er-Sajan-PLG
+
+# Legacy Frozen Zone
+legacy/ @Er-Sajan-PLG
+
+# Shell App
+apps/shell/ @Er-Sajan-PLG
+
+# Packages (each owned by maintainer)
+packages/core/ @Er-Sajan-PLG
+packages/tracer/ @Er-Sajan-PLG
+packages/acl/ @Er-Sajan-PLG
+packages/audio-synth/ @Er-Sajan-PLG
+packages/quiz-engine/ @Er-Sajan-PLG
+packages/hover-engine/ @Er-Sajan-PLG
+packages/simulation-core/ @Er-Sajan-PLG
+packages/content-provider/ @Er-Sajan-PLG
+packages/interactive-simulations/ @Er-Sajan-PLG
+packages/lesson-renderer/ @Er-Sajan-PLG
+
+# Root configuration files
+package.json @Er-Sajan-PLG
+turbo.json @Er-Sajan-PLG
+tsconfig.json @Er-Sajan-PLG
+pnpm-workspace.yaml @Er-Sajan-PLG
+bundlesize.config.json @Er-Sajan-PLG
+lighthouserc.json @Er-Sajan-PLG
+playwright.config.ts @Er-Sajan-PLG
+eslint.config.mjs @Er-Sajan-PLG
+.eslintrc* @Er-Sajan-PLG

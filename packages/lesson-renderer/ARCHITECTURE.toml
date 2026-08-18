@@ -1,0 +1,15 @@
+# @stem-tuition/lesson-renderer — architecture metadata
+
+owner = "Core Team"
+status = "experimental"
+maturity = "incubating"
+
+contracts = ["api", "event"]
+
+publicApi = [
+  "StemLesson",
+]
+
+dependencies = ["content-provider", "core", "tracer"]
+
+adrs = []

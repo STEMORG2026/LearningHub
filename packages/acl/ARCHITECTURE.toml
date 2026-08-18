@@ -5,25 +5,9 @@ owner = "Core Team"
 status = "stable"
 maturity = "proven"
 
-contracts = ["adapter", "event"]
+contracts = ["adapter"]
 
 publicApi = [
-  "playSpark",
-  "playCollision",
-  "playExplosion",
-  "playMotionHum",
-  "syncMutedState",
-  "syncIntensityState",
-  "syncAllStates",
-  "getAudioContext",
-  "AudioEngine",
-  "getQuizState",
-  "getSubjectQuestions",
-  "getAvailableSubjects",
-  "setQuizSubject",
-  "publishQuizStarted",
-  "publishQuizAnswerSubmitted",
-  "publishQuizCompleted",
   "isCanvasActive",
   "isBackgroundDisabled",
   "getCanvasDimensions",
@@ -33,6 +17,6 @@ publicApi = [
   "disableBackground",
 ]
 
-dependencies = ["audio-synth", "core", "tracer"]
+dependencies = ["core", "tracer"]
 
-adrs = ["003", "004"]
+adrs = ["003", "012"]

@@ -47,7 +47,7 @@
 
 | Connection | Purpose | Location | Status |
 |-----------|---------|----------|--------|
-| WhatsApp API | Enrollment booking | `legacy/contact.html` | Legacy (frozen) |
-| Google Fonts | Typography | `legacy/index.html:11` | Legacy (frozen) |
-| YouTube embeds | Video lessons | `legacy/videos.html` | Legacy (frozen) |
-| Google Drive links | Study notes | `legacy/videos.html` | Legacy (frozen) |
+| WhatsApp API | Enrollment booking | `apps/shell/src/data/site.ts` | Active (app shell) |
+| Google Fonts | Typography | `apps/shell/index.html:9` | Active (app shell) |
+| YouTube embeds | Video lessons | `apps/shell/src/data/videos.ts` | Active (app shell) |
+| Google Drive links | Study notes | `apps/shell/src/data/videos.ts` | Active (app shell) |

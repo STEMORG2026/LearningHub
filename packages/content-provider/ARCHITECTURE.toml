@@ -1,0 +1,28 @@
+# @stem-tuition/content-provider — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/policies/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "experimental"
+maturity = "incubating"
+
+contracts = ["api", "interface", "schema"]
+
+publicApi = [
+  "ContentProvider",
+  "LocalContentProvider",
+  "LessonContent",
+  "LessonMetadata",
+  "LessonSection",
+  "Question",
+  "SimulationConfig",
+  "ChallengeConfig",
+  "ContentFilter",
+  "LhsEntity",
+  "LhsRelationship",
+  "mapQuizQuestionsToLessons",
+  "mapLhsEntitiesToLessons",
+]
+
+dependencies = ["core", "tracer"]
+
+adrs = ["003"]

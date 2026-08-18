@@ -1,0 +1,18 @@
+# Cloudflare Pages configuration for STEM-TUITION
+# Docs: https://developers.cloudflare.com/pages/
+#
+# Build and deploy via:
+#   1. Cloudflare Dashboard: connect GitHub repo, set build config
+#   2. OR GitHub Actions: .github/workflows/deploy.yml
+#
+# Both paths use the same build output and directory.
+
+name = "stem-tuition"
+compatibility_date = "2026-08-18"
+
+pages_build_output_dir = "apps/shell/dist"
+
+# Build command uses the shell's build script which builds all workspace deps
+[build]
+command = "pnpm --filter @stem-tuition/shell build"
+output_dir = "apps/shell/dist"

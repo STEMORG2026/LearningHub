@@ -1,0 +1,51 @@
+/* Design tokens — single source for the STEM Tuition visual system. */
+
+:root {
+  /* Brand gradient tokens */
+  --bg-gradient-1: #070b24;
+  --bg-gradient-2: #0d143a;
+  --bg-gradient-3: #05081c;
+  --dynamic-accent-1: #00d4ff;
+  --dynamic-accent-2: #ff7700;
+  --dynamic-accent-3: #00e8a2;
+
+  /* Color palette */
+  --navy: #080d2a;
+  --navy2: #0f1642;
+  --navy3: #16205a;
+  --orange: #ff7700;
+  --amber: #ffaa00;
+  --amber-gold: #ffd700;
+  --cyan: #00d4ff;
+  --blue: #1a6fff;
+  --green: #00e8a2;
+  --pink: #ff5e7e;
+  --purple: #a855f7;
+  --white: #f5f8ff;
+  --muted: #9ba8d0;
+  --card: rgba(20, 28, 75, 0.65);
+  --border: rgba(0, 212, 255, 0.25);
+
+  /* Dark surface tokens */
+  --bg-dark: #070a14;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+
+  /* STEM subject accents */
+  --stem-physics: #1a6fff;
+  --stem-chemistry: #00e8a2;
+  --stem-math: #00d4ff;
+  --stem-tech: #a855f7;
+  --stem-bio: #ff5e7e;
+  --stem-gold: #ffd700;
+  --stem-card-bg: rgba(17, 23, 64, 0.7);
+  --stem-glass-border: rgba(0, 212, 255, 0.15);
+  --stem-glow: 0 0 25px rgba(0, 212, 255, 0.25);
+
+  /* Typography */
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}

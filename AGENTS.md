@@ -7,13 +7,14 @@
 ## Required Reading (in this order)
 
 1. **`AGENTS.md`** (this file) — quick reference
-2. **`docs/RULES.md`** — non-negotiable coding rules (697 lines, ENFORCED)
-3. **`docs/policies/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
-4. **`docs/ARCHITECTURE/README.md`** — architecture charter: module layout, import rules, data flow (the charter moved from `docs/ARCHITECTURE.md` to `docs/ARCHITECTURE/README.md`)
-5. **`docs/policies/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (277 lines, ENFORCED)
-6. **`docs/guides/COMPONENT_STANDARDS.md`** — Web Component patterns (414 lines, ENFORCED)
-7. **`docs/adr/001-010`** — architecture decisions (10 files)
-8. **`docs/ROADMAP.md`** — current phase, what's next (258 lines)
+2. **`docs/CONSTITUTION.md`** — development constitution: ecosystem vision, operating principles, governance overview (this file is the development constitution)
+3. **`docs/RULES.md`** — non-negotiable coding rules (697 lines, ENFORCED)
+4. **`docs/policies/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
+5. **`docs/ARCHITECTURE/README.md`** — architecture charter: module layout, import rules, data flow (the charter moved from `docs/ARCHITECTURE.md` to `docs/ARCHITECTURE/README.md`)
+6. **`docs/policies/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (277 lines, ENFORCED)
+7. **`docs/guides/COMPONENT_STANDARDS.md`** — Web Component patterns (414 lines, ENFORCED)
+8. **`docs/adr/001-011`** — architecture decisions (11 files)
+9. **`docs/ROADMAP.md`** — current phase, what's next (258 lines)
 
 ---
 
@@ -98,7 +99,7 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/tracer/` | Tracer (observability) | `src/dashboard.ts, src/decorator.ts, src/index.ts, src/tracer.ts, src/types.ts` |
 | `packages/audio-synth/` | Audio Synth extraction | `src/engine.ts, src/index.ts, src/synth.ts, src/types.ts` |
 | `packages/core/` | Event Bus + ACL | `src/event-bus.ts, src/index.ts, src/types.ts` |
-| `packages/acl/` | Event Bus + ACL | `src/audio-adapter.ts, src/canvas-adapter.ts, src/index.ts, src/quiz-adapter.ts` |
+| `packages/acl/` | Event Bus + ACL | `src/canvas-adapter.ts, src/index.ts` |
 | `packages/quiz-engine/` | Quiz Engine extraction | `src/data.ts, src/index.ts, src/types.ts` |
 | `packages/hover-engine/` | Hover Engine extraction | `src/hover-state.ts, src/index.ts, src/types.ts` |
 | `packages/simulation-core/` | Physics Core extraction | `src/config.ts, src/create-body.ts, src/index.ts, src/physics.ts, src/types.ts` |

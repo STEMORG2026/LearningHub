@@ -1,0 +1,306 @@
+/* Widgets & page-specific components. */
+
+/* Redesigned floating STEM Pioneer "Did You Know?" widget */
+.dyk-widget {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99999;
+  width: 380px;
+  max-width: calc(100vw - 48px);
+  border-radius: 20px;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(135deg, rgba(14, 25, 58, 0.95), rgba(8, 14, 38, 0.98));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(0, 212, 255, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), var(--stem-glow);
+  overflow: visible;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dyk-widget.minimized {
+  width: auto;
+  padding: 0.7rem 0.9rem;
+  border-radius: 50px;
+}
+
+.dyk-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dyk-avatar {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.dyk-monogram {
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.dyk-avatar-icon {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(10, 15, 46, 0.95);
+  border: 1px solid var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  color: var(--cyan);
+}
+
+.dyk-bar-name {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: #ffffff;
+  line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+}
+
+.dyk-bar-era {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.dyk-toggle {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--muted);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.dyk-toggle:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.dyk-toggle .chev {
+  transition: transform 0.25s ease;
+}
+
+/* chevronDown rotated 180deg becomes the "up" (maximize) arrow */
+.dyk-widget.minimized .dyk-toggle .chev {
+  transform: rotate(180deg);
+}
+
+.dyk-body {
+  padding-top: 0.8rem;
+  margin-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: default;
+}
+
+.dyk-widget.minimized .dyk-body {
+  display: none;
+}
+
+/* Keep the floating widget clear of the bottom-right cosmic controls on small screens. */
+@media (max-width: 640px) {
+  .dyk-widget {
+    bottom: 112px;
+  }
+}
+
+.dyk-header {
+  margin-bottom: 0.5rem;
+}
+
+.dyk-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dyk-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--cyan);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.dyk-fact {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.dyk-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.dyk-next-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 212, 255, 0.15);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  color: var(--cyan);
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dyk-next-btn:hover {
+  background: rgba(0, 212, 255, 0.3);
+  color: #ffffff;
+}
+
+.dyk-footnote {
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Class detail cards (classes page) */
+.class-detail-card {
+  flex: 0 0 380px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.6rem;
+}
+
+.detail-pill {
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  color: var(--text-muted);
+  display: inline-block;
+  margin: 0.2rem;
+}
+
+.detail-pill.highlight {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--cyan);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.resource-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  transition: color 0.2s;
+}
+
+.resource-link:hover {
+  color: var(--cyan);
+}
+
+/* Timing cards */
+.timing-card {
+  flex: 0 0 280px;
+  padding: 1.4rem;
+  height: auto;
+}
+
+/* Video cards (videos page) */
+.video-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  padding: 1.6rem;
+  height: auto;
+}
+
+.video-thumb {
+  height: 160px;
+  border-radius: 14px;
+  background: rgba(56, 189, 248, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: var(--cyan);
+  margin-bottom: 1rem;
+  border: 1px solid var(--glass-border);
+}
+
+.note-card {
+  flex: 0 0 280px;
+  padding: 1.6rem;
+  height: auto;
+}
+
+/* Hero stats */
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: 4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 1s 0.45s ease both;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-num {
+  font-family: var(--font-main);
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--amber), var(--orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}

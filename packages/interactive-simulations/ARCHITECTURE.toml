@@ -1,0 +1,17 @@
+# @stem-tuition/interactive-simulations — architecture metadata
+
+owner = "Core Team"
+status = "experimental"
+maturity = "incubating"
+
+contracts = ["api", "event"]
+
+publicApi = [
+  "StemMechanicsSim",
+  "StemCircuitSim",
+  "StemOpticsSim",
+]
+
+dependencies = ["core", "simulation-core", "tracer"]
+
+adrs = []

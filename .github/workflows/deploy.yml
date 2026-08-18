@@ -1,0 +1,106 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never cancel a deploy in progress — let it finish so the site stays live
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      deploy-url: ${{ steps.deploy.outputs.deployment-url }}
+      deploy-alias: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shell app
+        run: pnpm --filter @stem-tuition/shell build
+
+      - name: Validate build output
+        run: |
+          if [ ! -d "apps/shell/dist" ]; then
+            echo "❌ Build output missing: apps/shell/dist"
+            exit 1
+          fi
+          echo "✅ Build output exists ($(du -sh apps/shell/dist | cut -f1))"
+          ls -la apps/shell/dist/
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy apps/shell/dist --project-name=stem-tuition --branch=${{ github.ref_name }}
+
+      - name: Post-deploy health check
+        id: health
+        run: |
+          URL="${{ steps.deploy.outputs.pages-deployment-alias-url }}"
+          HEALTHY=false
+          echo "Checking: $URL"
+
+          for i in 1 2 3 4 5; do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL/health.json" 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Health check passed (attempt $i)"
+              HEALTHY=true
+              break
+            fi
+            echo "Waiting... (attempt $i, got $HTTP_CODE)"
+            sleep 5
+          done
+
+          if [ "$HEALTHY" = "false" ]; then
+            echo "Health endpoint failed — checking main page as fallback"
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL" 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Main page loads (HTTP $HTTP_CODE)"
+              HEALTHY=true
+            fi
+          fi
+
+          if [ "$HEALTHY" = "true" ]; then
+            echo "status=healthy" >> "$GITHUB_OUTPUT"
+          else
+            echo "❌ Health check failed after all attempts"
+            echo "status=unhealthy" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      - name: Report deployment
+        if: always()
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deploy | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| Health check | ${{ steps.health.outputs.status }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.deploy.outputs.pages-deployment-alias-url }}" >> $GITHUB_STEP_SUMMARY

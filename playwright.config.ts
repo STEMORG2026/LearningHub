@@ -2,12 +2,26 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
-  webServer: {
-    command: 'pnpm dev:legacy',
-    url: 'http://localhost:8085',
-    reuseExistingServer: true,
-  },
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
   use: {
-    baseURL: 'http://localhost:8085',
+    baseURL: 'http://localhost:4173',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
-});
+  projects: [
+    {
+      name: 'chromium',
+      use: { browserName: 'chromium' },
+    },
+  ],
+  webServer: {
+    command: 'pnpm --filter @stem-tuition/shell preview --port 4173',
+    url: 'http://localhost:4173',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
+  },
+} as ReturnType<typeof defineConfig>);

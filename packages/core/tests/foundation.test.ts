@@ -3,10 +3,10 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
 import { resolve, join } from 'path';
 
 const ROOT = resolve(import.meta.dirname, '../../..');
-const LEGACY_DIR = join(ROOT, 'legacy');
 const DOCS_DIR = join(ROOT, 'docs');
 const PACKAGES_DIR = join(ROOT, 'packages');
 const APPS_DIR = join(ROOT, 'apps');
+const SHELL_DIR = join(APPS_DIR, 'shell');
 const SCRIPTS_DIR = join(ROOT, 'scripts');
 
 // ── Helpers ──────────────────────────────────────────────────────
@@ -190,61 +190,51 @@ describe('Root index.html deprecation notice', () => {
 });
 
 // ────────────────────────────────────────────────────────────────
-// SUITE 6: LEGACY FROZEN ZONE
+// SUITE 6: SHELL MIGRATION (replaces the legacy frozen zone)
 // ────────────────────────────────────────────────────────────────
-describe('Legacy frozen zone', () => {
-  it('legacy/index.html exists', () => {
-    expect(isFile(join(LEGACY_DIR, 'index.html'))).toBe(true);
+describe('Shell migration', () => {
+  it('legacy/ frozen zone has been removed', () => {
+    expect(existsSync(join(ROOT, 'legacy'))).toBe(false);
   });
 
-  it('legacy HTML pages exist', () => {
-    const pages = ['stem-tuition.html', 'classes.html', 'contact.html', 'videos.html'];
+  it('shell HTML pages exist', () => {
+    const pages = ['index.html', 'classes.html', 'videos.html', 'contact.html', 'about.html'];
     pages.forEach((p) => {
-      expect(isFile(join(LEGACY_DIR, p))).toBe(true);
+      expect(isFile(join(SHELL_DIR, p))).toBe(true);
     });
   });
 
-  it('legacy CSS files exist', () => {
-    expect(isFile(join(LEGACY_DIR, 'css/main.css'))).toBe(true);
-    expect(isFile(join(LEGACY_DIR, 'css/stem-theme.css'))).toBe(true);
-  });
-
-  it('legacy JS files exist', () => {
-    const files = ['main.js', 'stem-effects.js', 'stem-pioneers.js', 'stem-quiz.js'];
-    files.forEach((f) => {
-      expect(isFile(join(LEGACY_DIR, 'js', f))).toBe(true);
-    });
-  });
-
-  it('legacy test files exist', () => {
-    const tests = ['verify-canvas-bodies-and-controls.js', 'verify-background_animation.js', 'verify-stem-platform.js'];
-    tests.forEach((t) => {
-      expect(isFile(join(LEGACY_DIR, 'tests', t))).toBe(true);
-    });
-  });
-
-  it('legacy docs exist', () => {
-    const docs = ['CURRICULUM_GUIDE.md', 'DEVELOPMENT.md', 'RULES_LEGACY_v1.md', 'TUITION_OPERATIONS.md'];
-    docs.forEach((d) => {
-      expect(isFile(join(LEGACY_DIR, 'docs', d))).toBe(true);
-    });
-  });
-
-  it('legacy ADR exists', () => {
-    expect(isFile(join(LEGACY_DIR, 'docs/adr/001-architecture-charter.md'))).toBe(true);
-  });
-
-  it('legacy architecture decision docs exist', () => {
-    const adFiles = [
-      'ARCHITECTURE_CHARTER.md',
-      'ARCHITECTURE_FITNESS_REPORT.md',
-      'ARCHITECTURE_MIGRATION_STRATEGY.md',
-      'ARCHITECT_MISSION_ACCEPTANCE.md',
-      'UPGRADE_GUIDE.md',
-      'VERSION_FREEZE.md',
+  it('shell page entry modules exist', () => {
+    const entries = [
+      'src/index.ts',
+      'src/pages/classes.ts',
+      'src/pages/videos.ts',
+      'src/pages/contact.ts',
+      'src/pages/about.ts',
     ];
-    adFiles.forEach((f) => {
-      expect(isFile(join(LEGACY_DIR, f))).toBe(true);
+    entries.forEach((e) => {
+      expect(isFile(join(SHELL_DIR, e))).toBe(true);
+    });
+  });
+
+  it('shell styles exist', () => {
+    const styles = ['tokens.css', 'base.css', 'layout.css', 'components.css', 'widgets.css', 'main.css'];
+    styles.forEach((s) => {
+      expect(isFile(join(SHELL_DIR, 'src/styles', s))).toBe(true);
+    });
+  });
+
+  it('shell shared components exist', () => {
+    const components = [
+      'icons.ts',
+      'site-header.ts',
+      'site-footer.ts',
+      'enroll-modal.ts',
+      'did-you-know.ts',
+      'faq-list.ts',
+    ];
+    components.forEach((c) => {
+      expect(isFile(join(SHELL_DIR, 'src/components', c))).toBe(true);
     });
   });
 });
@@ -285,15 +275,16 @@ describe('Documentation completeness', () => {
     });
   });
 
-  it('all docs have Version header', () => {
+  it('all docs have Version header (ADRs use Status/Date template)', () => {
     const walk = (dir: string): string[] =>
-      readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
-        e.isDirectory()
+      readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+        if (e.name === 'adr') return [];
+        return e.isDirectory()
           ? walk(join(dir, e.name))
           : e.name.endsWith('.md')
             ? [join(dir, e.name)]
-            : [],
-      );
+            : [];
+      });
     walk(DOCS_DIR).forEach((f) => {
       expect(read(f)).toMatch(/\*\*Version:\*\*/);
     });

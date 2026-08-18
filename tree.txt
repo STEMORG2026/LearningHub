@@ -1,20 +1,102 @@
-STEM-TUITION/  7e8d3fa
+STEM-TUITION/  cb7714b
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
 │   └── README.md
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml
+│   │   ├── deploy.yml
+│   │   ├── monitor.yml
+│   │   ├── nightly.yml
+│   │   ├── preview.yml
+│   │   ├── release.yml
+│   │   ├── security.yml
+│   │   └── smoke.yml
+│   ├── CODEOWNERS
+│   ├── dependabot.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── SECURITY.md
 ├── apps/
 │   └── shell/
 │       ├── public/
+│       │   ├── .well-known/
+│       │   │   └── security.txt
+│       │   ├── _redirects
+│       │   ├── favicon.svg
+│       │   ├── health.json
+│       │   └── robots.txt
 │       ├── src/
+│       │   ├── components/
+│       │   │   ├── did-you-know.ts
+│       │   │   ├── enroll-modal.ts
+│       │   │   ├── faq-list.ts
+│       │   │   ├── icons.ts
+│       │   │   ├── index.ts
+│       │   │   ├── site-footer.ts
+│       │   │   └── site-header.ts
+│       │   ├── data/
+│       │   │   ├── classes.ts
+│       │   │   ├── curriculum-mappings.ts
+│       │   │   ├── faqs.ts
+│       │   │   ├── pioneers.ts
+│       │   │   ├── site.ts
+│       │   │   └── videos.ts
+│       │   ├── lib/
+│       │   │   ├── cosmic-background.ts
+│       │   │   ├── curriculum-selector.ts
+│       │   │   ├── engine-init.ts
+│       │   │   ├── enroll.ts
+│       │   │   ├── hover-effects.ts
+│       │   │   ├── interactive.ts
+│       │   │   ├── learning-path-ui.ts
+│       │   │   ├── learning-path.ts
+│       │   │   ├── lhs-adapter.ts
+│       │   │   ├── lhs-demo.ts
+│       │   │   ├── lhs-types.ts
+│       │   │   ├── progress-tracker.ts
+│       │   │   ├── render.ts
+│       │   │   └── scroll.ts
+│       │   ├── pages/
+│       │   │   ├── about.ts
+│       │   │   ├── classes.ts
+│       │   │   ├── contact.ts
+│       │   │   ├── learn.ts
+│       │   │   └── videos.ts
+│       │   ├── styles/
+│       │   │   ├── base.css
+│       │   │   ├── components.css
+│       │   │   ├── layout.css
+│       │   │   ├── learning.css
+│       │   │   ├── lhs.css
+│       │   │   ├── main.css
+│       │   │   ├── tokens.css
+│       │   │   └── widgets.css
 │       │   └── index.ts  [entry]
+│       ├── tests/
+│       │   ├── e2e/
+│       │   │   └── smoke.spec.ts  [test]
+│       │   ├── did-you-know.test.ts  [test]
+│       │   ├── enroll-modal.test.ts  [test]
+│       │   ├── faq-list.test.ts  [test]
+│       │   ├── hover-effects.test.ts  [test]
+│       │   ├── learning-path.test.ts  [test]
+│       │   ├── lhs-adapter.test.ts  [test]
+│       │   ├── lhs-demo.test.ts  [test]
+│       │   └── render.test.ts  [test]
+│       ├── about.html
 │       ├── ARCHITECTURE.toml
 │       ├── CHANGELOG.md
+│       ├── classes.html
+│       ├── contact.html
 │       ├── index.html
+│       ├── learn.html
 │       ├── package.json
 │       ├── README.md
 │       ├── tsconfig.json
-│       └── vite.config.ts
+│       ├── videos.html
+│       ├── vite.config.ts
+│       └── vitest.config.ts
 ├── docs/
 │   ├── adr/
 │   │   ├── 001-strangler-fig-migration.md
@@ -27,6 +109,9 @@ STEM-TUITION/  7e8d3fa
 │   │   ├── 008-built-in-observability-tracer.md
 │   │   ├── 009-component-registry-enforcement.md
 │   │   ├── 010-release-doc-governance.md
+│   │   ├── 011-constitution-adoption.md
+│   │   ├── 012-legacy-removal-acl-role.md
+│   │   ├── 013-content-provider.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -44,6 +129,13 @@ STEM-TUITION/  7e8d3fa
 │   │   ├── STATE.md
 │   │   ├── TESTING.md
 │   │   └── TRACE.md
+│   ├── governance/
+│   │   ├── ai-prompts/
+│   │   │   └── README.md
+│   │   ├── architecture-exceptions.md
+│   │   ├── change-log.md
+│   │   ├── human-checkpoints.md
+│   │   └── interface-registry.md
 │   ├── guides/
 │   │   ├── COMPONENT_STANDARDS.md
 │   │   ├── DEBUGGING.md
@@ -61,25 +153,39 @@ STEM-TUITION/  7e8d3fa
 │   │   ├── PACKAGE_LIFECYCLE.md
 │   │   ├── PACKAGE_METADATA.md
 │   │   ├── PERFORMANCE.md
+│   │   ├── RELEASE.md
 │   │   ├── RELIABILITY.md
 │   │   ├── SECURITY.md
 │   │   └── VERSIONING.md
+│   ├── testing/
+│   │   ├── education-platform-checklist.md
+│   │   ├── pipeline-gap-analysis.md
+│   │   └── UNIVERSAL_TESTING_STANDARD.md
 │   ├── CHANGELOG.md
+│   ├── CONSTITUTION.md
 │   ├── DEVLOG.md
 │   ├── DOCS.md
 │   ├── REPOSITORY_HEALTH.md
 │   ├── ROADMAP.md
 │   └── RULES.md
 ├── e2e/
-│   └── legacy-loads.spec.ts  [test]
-├── legacy/  [frozen] read-only, never edit
+│   ├── visual-regression.spec.ts-snapshots/
+│   │   ├── about-linux.png
+│   │   ├── classes-linux.png
+│   │   ├── contact-linux.png
+│   │   ├── dyk-expanded-linux.png
+│   │   ├── enroll-modal-open-linux.png
+│   │   ├── home-linux.png
+│   │   └── videos-linux.png
+│   ├── accessibility.spec.ts  [test]
+│   ├── critical-path.spec.ts  [test]
+│   ├── shell-pages.spec.ts  [test]
+│   └── visual-regression.spec.ts  [test]
 ├── packages/
 │   ├── acl/
 │   │   ├── src/
-│   │   │   ├── audio-adapter.ts
 │   │   │   ├── canvas-adapter.ts
-│   │   │   ├── index.ts  [entry]
-│   │   │   └── quiz-adapter.ts
+│   │   │   └── index.ts  [entry]
 │   │   ├── tests/
 │   │   │   └── acl.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
@@ -98,6 +204,24 @@ STEM-TUITION/  7e8d3fa
 │   │   │   └── synth.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── content-provider/
+│   │   ├── src/
+│   │   │   ├── content-provider.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── lhs-adapter.ts
+│   │   │   ├── local-content-provider.ts
+│   │   │   ├── quiz-mapper.ts
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   ├── fixtures.ts
+│   │   │   ├── lhs-adapter.test.ts  [test]
+│   │   │   ├── local-content-provider.test.ts  [test]
+│   │   │   └── quiz-mapper.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
 │   │   ├── README.md
 │   │   ├── tsconfig.json
@@ -128,6 +252,28 @@ STEM-TUITION/  7e8d3fa
 │   │   ├── CHANGELOG.md
 │   │   ├── package.json
 │   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── interactive-simulations/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── stem-circuit-sim.ts
+│   │   │   └── stem-mechanics-sim.ts
+│   │   ├── tests/
+│   │   │   ├── stem-circuit-sim.test.ts  [test]
+│   │   │   └── stem-mechanics-sim.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── lesson-renderer/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── stem-lesson.ts
+│   │   ├── tests/
+│   │   │   └── stem-lesson.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── quiz-engine/
@@ -190,28 +336,36 @@ STEM-TUITION/  7e8d3fa
 │   │   ├── generate-tree.mjs
 │   │   └── sync-versions.mjs
 │   ├── git-hooks/
+│   │   ├── commit-msg
 │   │   └── pre-commit
 │   ├── release/
 │   │   ├── dev-version.mjs
 │   │   ├── release-finalize.mjs
 │   │   ├── release-prepare.mjs
 │   │   ├── release-validate.mjs
-│   │   └── release-version.mjs
+│   │   ├── release-version.mjs
+│   │   └── rollback.mjs
 │   └── eslint-config.mjs
+├── .commitlintrc.json
 ├── .dependency-cruiser.js
+├── .dockerignore
 ├── .gitignore
 ├── .phase.json
 ├── AGENTS.md
 ├── bundlesize.config.json
+├── Dockerfile
 ├── eslint.config.dom.mjs
 ├── eslint.config.mjs
 ├── eslint.config.state.mjs
 ├── index.html  [entry]
+├── lighthouserc.json
 ├── package.json
 ├── playwright.config.ts
 ├── pnpm-workspace.yaml
 ├── README.md
 ├── tsconfig.json
-└── turbo.json
+├── turbo.json
+├── vercel.json
+└── wrangler.toml
 
 generated by pnpm docs:sync
