@@ -12,16 +12,53 @@ jobs:
   preview-url:
     name: Post preview URL
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
-      - name: Generate preview URL
+      - name: Resolve preview URL from Cloudflare Pages API
         id: url
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          HEAD_REF: ${{ github.head_ref }}
         run: |
-          BRANCH="${{ github.head_ref }}"
-          # Cloudflare Pages preview URL format
-          PREVIEW_URL="https://${BRANCH}.stem-tuition.pages.dev"
-          echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
-          echo "Preview URL: $PREVIEW_URL"
+          PROJECT="stem-tuition"
+          # Cloudflare sanitizes branch names in the alias URL (e.g. / -> -).
+          BRANCH_SAFE="$(echo "${HEAD_REF}" | sed 's#/#-#g')"
+          FALLBACK_URL="https://${BRANCH_SAFE}.${PROJECT}.pages.dev"
+
+          if [ -n "$CF_API_TOKEN" ] && [ -n "$CF_ACCOUNT_ID" ]; then
+            echo "Querying Cloudflare Pages API for deployments of branch '${HEAD_REF}'..."
+            # Deployments are async (usually ~1-2 min), so poll for up to ~5 minutes.
+            for i in $(seq 1 20); do
+              DEPLOYMENTS="$(curl -sf --max-time 20 \
+                "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${PROJECT}/deployments?per_page=100" \
+                -H "Authorization: Bearer ${CF_API_TOKEN}" 2>/dev/null || echo '{"success":false}')"
+
+              URL="$(echo "$DEPLOYMENTS" | jq -r \
+                --arg b "$HEAD_REF" \
+                '.result
+                 | sort_by(.created_on)
+                 | reverse
+                 | .[]
+                 | select(.deployment_trigger.metadata.branch == $b)
+                 | .url
+                 | select(. != null and . != "")' 2>/dev/null | head -1)"
+
+              if [ -n "$URL" ]; then
+                echo "url=$URL" >> "$GITHUB_OUTPUT"
+                echo "Resolved preview URL from API: $URL"
+                exit 0
+              fi
+              echo "No deployment for '${HEAD_REF}' yet (attempt $i/20) — retrying in 15s..."
+              sleep 15
+            done
+            echo "No Cloudflare deployment found — falling back to branch-alias URL."
+          else
+            echo "CF_API_TOKEN/CF_ACCOUNT_ID secrets not configured — using branch-alias URL."
+          fi
+
+          echo "url=$FALLBACK_URL" >> "$GITHUB_OUTPUT"
+          echo "Using fallback preview URL: $FALLBACK_URL"
 
       - name: Find existing comment
         id: find-comment
@@ -29,7 +66,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: github-actions[bot]
-          body-includes: 🌐 Preview URL
+          body-includes: Preview URL
 
       - name: Create or update preview URL comment
         uses: peter-evans/create-or-update-comment@v4
@@ -37,13 +74,14 @@ jobs:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            🌐 **Preview URL**: ${{ steps.url.outputs.url }}
+            Preview URL: ${{ steps.url.outputs.url }}
 
             | Page | Link |
             |------|------|
             | Home | ${{ steps.url.outputs.url }}/ |
             | Classes | ${{ steps.url.outputs.url }}/classes.html |
             | Videos | ${{ steps.url.outputs.url }}/videos.html |
+            | Learn | ${{ steps.url.outputs.url }}/learn.html |
             | About | ${{ steps.url.outputs.url }}/about.html |
             | Contact | ${{ steps.url.outputs.url }}/contact.html |
           edit-mode: replace

@@ -1,6 +1,7 @@
 # Multi-stage build for STEM-TUITION shell app
 # Stage 1: Build the static site
-FROM node:20-alpine AS builder
+# pnpm 11 requires Node >= 22.13 (node:sqlite) — do not downgrade below 22.
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -8,7 +9,7 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@11.18.0 --activate
 
 # Copy workspace files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
 COPY packages ./packages
 COPY apps/shell/package.json ./apps/shell/
 

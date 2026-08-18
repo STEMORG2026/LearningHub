@@ -1,7 +1,8 @@
 /**
  * lhs-adapter — the LearningHubSTEM consumer seam inside STEM-TUITION.
  *
- * Consumes the GENERATED export (`LearningHubSTEM/exports/knowledge.json`), never the
+ * Consumes the GENERATED export (`apps/shell/src/data/knowledge.json`, vendored from
+ * `LearningHubSTEM/exports/knowledge.json` via `pnpm sync:lhs`), never the
  * Markdown sources. The export is the only file this module reads across the seam.
  *
  * Contract: export version must equal SUPPORTED_EXPORT_VERSION; any other version is
@@ -15,7 +16,7 @@ import type {
   LhsKnowledgeExport,
   LhsRelatedEntity,
 } from './lhs-types';
-import knowledge from '../../../../../LearningHubSTEM/exports/knowledge.json';
+import knowledge from '../data/knowledge.json';
 
 export const SUPPORTED_EXPORT_VERSION = '0.1';
 

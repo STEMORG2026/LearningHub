@@ -27,6 +27,7 @@
     "changeset": "changeset",
     "dev-version": "node scripts/release/dev-version.mjs",
     "sync-versions": "node scripts/generate/sync-versions.mjs",
+    "sync:lhs": "node scripts/generate/sync-lhs-knowledge.mjs",
     "docs:sync": "node scripts/generate/docs-sync.mjs && node scripts/generate/sync-versions.mjs && node scripts/generate/generate-health.mjs && node scripts/generate/generate-tree.mjs",
     "setup-hooks": "git config core.hooksPath scripts/git-hooks",
     "release:prepare": "node scripts/release/release-prepare.mjs",
@@ -56,6 +57,6 @@
     "vitest": "^1.6.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22.13"
   }
 }

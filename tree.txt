@@ -1,4 +1,4 @@
-STEM-TUITION/  cb7714b
+STEM-TUITION/  67802e9
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -39,6 +39,7 @@ STEM-TUITION/  cb7714b
 │       │   │   ├── classes.ts
 │       │   │   ├── curriculum-mappings.ts
 │       │   │   ├── faqs.ts
+│       │   │   ├── knowledge.json
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts
 │       │   │   └── videos.ts
@@ -170,13 +171,13 @@ STEM-TUITION/  cb7714b
 │   └── RULES.md
 ├── e2e/
 │   ├── visual-regression.spec.ts-snapshots/
-│   │   ├── about-linux.png
-│   │   ├── classes-linux.png
-│   │   ├── contact-linux.png
-│   │   ├── dyk-expanded-linux.png
-│   │   ├── enroll-modal-open-linux.png
-│   │   ├── home-linux.png
-│   │   └── videos-linux.png
+│   │   ├── about-chromium-linux.png
+│   │   ├── classes-chromium-linux.png
+│   │   ├── contact-chromium-linux.png
+│   │   ├── dyk-expanded-chromium-linux.png
+│   │   ├── enroll-modal-open-chromium-linux.png
+│   │   ├── home-chromium-linux.png
+│   │   └── videos-chromium-linux.png
 │   ├── accessibility.spec.ts  [test]
 │   ├── critical-path.spec.ts  [test]
 │   ├── shell-pages.spec.ts  [test]
@@ -325,6 +326,7 @@ STEM-TUITION/  cb7714b
 │       ├── README.md
 │       ├── tsconfig.json
 │       └── vitest.config.ts
+├── playwright-report/
 ├── scripts/
 │   ├── checks/
 │   │   ├── size-check.cjs
@@ -334,6 +336,7 @@ STEM-TUITION/  cb7714b
 │   │   ├── docs-sync.mjs
 │   │   ├── generate-health.mjs
 │   │   ├── generate-tree.mjs
+│   │   ├── sync-lhs-knowledge.mjs
 │   │   └── sync-versions.mjs
 │   ├── git-hooks/
 │   │   ├── commit-msg
