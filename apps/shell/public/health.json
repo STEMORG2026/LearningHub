@@ -1,0 +1,13 @@
+{
+  "status": "ok",
+  "name": "stem-tuition",
+  "version": "3.0.0",
+  "buildTime": "__BUILD_TIME__",
+  "commitSha": "__COMMIT_SHA__",
+  "environment": "__ENVIRONMENT__",
+  "checks": {
+    "shell": true,
+    "eventBus": true,
+    "tracer": true
+  }
+}

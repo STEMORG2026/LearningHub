@@ -1,46 +1,115 @@
 # Deployment Guide
 
-**Version:** 3.0.0  
+**Version:** 3.0.0
 **Purpose:** How to deploy STEM-TUITION to production at every stage of the migration.
+**Last Updated:** 2026-08-18
 
 ---
 
-## Current State: Static Hosting
+## Current State: Cloudflare Pages (Recommended)
 
-The entire site is static HTML/CSS/JS. Deploy to any static host:
+The entire site is built as static HTML/CSS/JS via Vite + TypeScript. Deploy to
+**Cloudflare Pages** for automatic HTTPS, global CDN, and zero-config SSL.
 
-### GitHub Pages
+### 🚀 Automated Deploy (CI/CD Pipeline)
 
-```bash
-# 1. Push to main branch
+The repository includes a fully automated deployment pipeline:
+
+| Trigger | Workflow | What Happens |
+|---------|----------|-------------|
+| Push to `main` | `.github/workflows/deploy.yml` | Build → Deploy → Health Check |
+| Manual trigger | `deploy.yml` (workflow_dispatch) | Same as above |
+| PR preview | Cloudflare Pages (auto) | Per-branch preview URL |
+
+**How it works:**
+
+```text
 git push origin main
-
-# 2. In GitHub repo Settings → Pages:
-#    Source: GitHub Actions (recommended)
-#    OR: Deploy from branch: main, / (root)
-
-# 3. Site will be at: https://<username>.github.io/STEM-TUITION/
+        │
+        ▼
+  GitHub Actions: ci.yml
+        │  └─ verify-governance (11-stage gate)
+        ▼
+  GitHub Actions: deploy.yml
+        │  └─ pnpm install --frozen-lockfile
+        │  └─ pnpm --filter @stem-tuition/shell build
+        │  └─ wrangler pages deploy apps/shell/dist --project-name=stem-tuition
+        │  └─ curl /health.json → 200 OK
+        ▼
+  Cloudflare Pages → stem-tuition.pages.dev
+        │  └─ Automatic HTTPS (SSL/TLS)
+        │  └─ Global CDN (330+ locations)
+        │  └─ Auto-renewed certificates
+        ▼
+  Uptime Monitor (every 5 min)
+        └─ .github/workflows/monitor.yml
+        └─ Creates GitHub Issue on failure
 ```
 
-### Cloudflare Pages
+### One-Time Setup
 
 ```bash
-# 1. Connect GitHub repo to Cloudflare Pages
-# 2. Build command: (none — static files)
-# 3. Publish directory: ./
-# 4. Deploy
+# 1. Create a Cloudflare Pages project
+#    - Go to https://dash.cloudflare.com/ → Pages → Create a project
+#    - Connect your GitHub repo (private repos work fine)
+#    - Project name: stem-tuition
+#    - Build command: pnpm --filter @stem-tuition/shell build
+#    - Build output: apps/shell/dist
+#    - Deploy!
+
+# 2. Add GitHub Actions secrets for CI/CD deployment
+#    Go to GitHub repo → Settings → Secrets and variables → Actions
+#    Add these secrets:
+#    - CF_API_TOKEN: Cloudflare API token with Pages write permission
+#    - CF_ACCOUNT_ID: Your Cloudflare account ID
+#    - SITE_URL: Your production URL (optional, defaults to stem-tuition.pages.dev)
+
+# 3. Verify
+git push origin main
+# → GitHub Actions runs ci.yml → deploy.yml
+# → Site goes live at https://stem-tuition.pages.dev
 ```
 
-### Manual (Any Static Host)
+### Custom Domain
 
 ```bash
-# Copy the entire project to your host's public directory
-cp -r . /var/www/stem-tuition/
+# In Cloudflare Pages dashboard:
+# 1. Go to your project → Custom domains → Set up a custom domain
+# 2. Enter your domain (e.g., stemtuitionpokhara.com)
+# 3. Cloudflare automatically provisions SSL/TLS certificates
+# 4. Update your DNS records (Cloudflare nameservers or CNAME)
 ```
+
+### Preview Deployments
+
+Every PR gets a unique preview URL automatically:
+
+```text
+https://<branch-name>.stem-tuition.pages.dev
+```
+
+This allows testing changes before merging to main. No extra setup needed.
 
 ---
 
-## Mid-Term: Static + API (VPS)
+## SSL/TLS (Automatic)
+
+Cloudflare provides **free, auto-renewed SSL/TLS certificates** for all Pages
+deployments:
+
+- **Full (strict)** mode by default — end-to-end encryption
+- **Auto-renewal** — Cloudflare handles certificate renewal, no certbot needed
+- **HTTP/2 and HTTP/3** support automatically
+- **HSTS** can be enabled in the Cloudflare dashboard
+
+**No manual SSL setup, certbot, or renewal scripts needed.** This replaces the
+VPS-based Let's Encrypt approach described in the Legacy section below.
+
+---
+
+## Legacy: VPS + Nginx (If Self-Hosting)
+
+If you choose to self-host on a VPS instead of Cloudflare Pages:
 
 When you add a backend (Fastify/Node on port 8085):
 
@@ -94,17 +163,15 @@ server {
 
 ## Future: Full Platform
 
-When the Strangler Fig migration completes and modern modules serve directly:
+The Strangler Fig migration is complete (Phases 0–6). The modern shell app
+(`apps/shell`) serves all content. Future phases will add API-backed features.
 
 ```bash
 # Build all packages
 pnpm build
 
-# Deploy shell (routes to modern modules)
+# Deploy shell (routes to all modern modules)
 cp -r apps/shell/dist/* /var/www/stem-tuition/
-
-# Deploy legacy as fallback
-cp -r legacy/ /var/www/stem-tuition/legacy/
 ```
 
 ---
@@ -130,40 +197,27 @@ SESSION_SECRET=<generate-random-64-char-string>
 
 ---
 
-## CI/CD Pipeline (GitHub Actions) — PLANNED, NOT YET IMPLEMENTED
+## CI/CD Pipeline (GitHub Actions) — ✅ IMPLEMENTED
 
-> ⚠️ There is **no CI/CD in the repository yet** — no `.github/` directory exists.
-> Until this workflow is created, run the governance gate locally on every change:
+The repository has the following CI/CD workflows:
 
-```bash
-pnpm verify-governance
-```
+| Workflow | File | Trigger | What It Does |
+|----------|------|---------|-------------|
+| **CI** | `.github/workflows/ci.yml` | PR, push to main | `verify-governance` (11-stage gate), commitlint, dependency audit, Lighthouse CI |
+| **Deploy** | `.github/workflows/deploy.yml` | Push to main | Build → Cloudflare Pages → Health check |
+| **Smoke** | `.github/workflows/smoke.yml` | PR, push to main | Playwright E2E smoke tests |
+| **Monitor** | `.github/workflows/monitor.yml` | Every 5 min (tuition hours) | Curl `/health.json` → create GitHub Issue on failure |
+| **Release** | `.github/workflows/release.yml` | Tag push `v*.*.*` | GitHub Release, npm publish, Docker build+sign, SBOM, Discord notify |
+| **Nightly** | `.github/workflows/nightly.yml` | 2am daily | Full governance + Lighthouse + audit |
+| **Dependabot** | `.github/dependabot.yml` | Weekly (Monday) | Auto-PR for npm + GitHub Actions updates |
 
-The intended GitHub Actions deployment workflow (not yet committed):
-
-```yaml
-name: Deploy
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm setup-hooks
-      - run: pnpm verify-governance
-      - run: pnpm build
-
-      # Deploy to GitHub Pages
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+**The deploy pipeline is the critical path:**
+```text
+git push origin main
+  → ci.yml (verify)
+  → deploy.yml (cloudflare-pages)
+  → site goes live
+  → monitor.yml (checks every 5 min)
 ```
 
 ---

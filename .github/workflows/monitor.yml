@@ -1,0 +1,125 @@
+name: Uptime Monitor
+
+on:
+  schedule:
+    # Every 5 minutes during tuition hours (NPT = UTC+5:45)
+    # 6:00 AM - 9:00 PM NPT = 00:15 - 15:15 UTC
+    - cron: '*/5 0-15 * * 1-6'
+  workflow_dispatch:
+
+concurrency:
+  group: monitor
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Health check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      is_down: ${{ steps.health.outputs.is_down }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check production site
+        id: health
+        run: |
+          SITE_URL="${{ secrets.SITE_URL || 'https://stem-tuition.pages.dev' }}"
+          CONSECUTIVE_FAILURES=0
+          FAILURE_REASON=""
+
+          for i in 1 2 3; do
+            HTTP_CODE=$(curl -s -o /tmp/health_response.json -w "%{http_code}" \
+              --max-time 15 \
+              --connect-timeout 10 \
+              "$SITE_URL/health.json" 2>/dev/null || echo "000")
+
+            if [ "$HTTP_CODE" = "200" ]; then
+              STATUS=$(python3 -c "import json; print(json.load(open('/tmp/health_response.json')).get('status', 'unknown'))" 2>/dev/null || echo "unknown")
+              if [ "$STATUS" = "ok" ]; then
+                echo "✅ Site is healthy (HTTP 200, status=ok)"
+                echo "is_down=false" >> "$GITHUB_OUTPUT"
+                echo "reason=" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+              FAILURE_REASON="Health endpoint returned status=$STATUS"
+            elif [ "$HTTP_CODE" = "000" ]; then
+              FAILURE_REASON="Connection failed (timeout or unreachable)"
+            else
+              FAILURE_REASON="HTTP $HTTP_CODE"
+            fi
+
+            CONSECUTIVE_FAILURES=$((CONSECUTIVE_FAILURES + 1))
+            echo "Attempt $i: $FAILURE_REASON"
+            sleep 10
+          done
+
+          echo "❌ Site appears down after 3 attempts"
+          echo "is_down=true" >> "$GITHUB_OUTPUT"
+          echo "reason=$FAILURE_REASON" >> "$GITHUB_OUTPUT"
+
+  report:
+    name: Report downtime
+    needs: [check]
+    if: needs.check.outputs.is_down == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for existing open downtime issues
+        id: existing
+        run: |
+          SITE_URL="${{ secrets.SITE_URL || 'https://stem-tuition.pages.dev' }}"
+          gh issue list \
+            --label "downtime" \
+            --state open \
+            --json number,title \
+            --jq 'length' \
+            > /tmp/existing_count.txt 2>/dev/null || echo "0" > /tmp/existing_count.txt
+          echo "count=$(cat /tmp/existing_count.txt)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Create downtime issue
+        if: steps.existing.outputs.count == '0'
+        run: |
+          SITE_URL="${{ secrets.SITE_URL || 'https://stem-tuition.pages.dev' }}"
+          REASON="${{ needs.check.outputs.reason }}"
+
+          cat > /tmp/downtime-body.md << 'EOF'
+          ## 🚨 STEM-TUITION Site Down
+
+          **Detected:** $(date -u)
+
+          **URL:** $SITE_URL
+
+          **Failure reason:** $REASON
+
+          **Consecutive failures:** 3
+
+          ---
+
+          ### Actions to take
+          1. Check [Cloudflare Dashboard](https://dash.cloudflare.com/) for incidents
+          2. Verify the deployment status in [GitHub Actions](https://github.com/${{ github.repository }}/actions)
+          3. Check VPS/Server status if applicable
+          4. Resolve the issue and close this issue — the monitor will stop checking
+
+          ### Next check
+          The monitor will check again in 5 minutes. If the site is back up, close this issue manually.
+          EOF
+
+          gh issue create \
+            --title "🚨 Site Down — $(date -u +'%Y-%m-%d %H:%M UTC')" \
+            --label "downtime" \
+            --body-file /tmp/downtime-body.md
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Alert on existing issue
+        if: steps.existing.outputs.count != '0'
+        run: |
+          echo "⏳ Downtime issue already open — skipping duplicate"
