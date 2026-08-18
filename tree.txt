@@ -1,4 +1,4 @@
-STEM-TUITION/  3cc32a4
+STEM-TUITION/  5fa50ca
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -10,11 +10,17 @@ STEM-TUITION/  3cc32a4
 │   │   ├── monitor.yml
 │   │   ├── nightly.yml
 │   │   ├── release.yml
+│   │   ├── security.yml
 │   │   └── smoke.yml
-│   └── dependabot.yml
+│   ├── CODEOWNERS
+│   ├── dependabot.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── SECURITY.md
 ├── apps/
 │   └── shell/
 │       ├── public/
+│       │   ├── .well-known/
+│       │   │   └── security.txt
 │       │   ├── _redirects
 │       │   ├── favicon.svg
 │       │   ├── health.json
