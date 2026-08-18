@@ -54,7 +54,8 @@
     "madge": "^7.0.0",
     "turbo": "^1.13.0",
     "typescript": "^5.4.0",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "wrangler": "^3.90.0"
   },
   "engines": {
     "node": ">=22.13"
