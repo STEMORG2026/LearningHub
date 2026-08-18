@@ -15,9 +15,13 @@ permissions:
 
 jobs:
   e2e-core:
-    name: E2E core (a11y + critical path + smoke)
+    name: E2E core (shard ${{ matrix.shard }}/2)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     steps:
       - uses: actions/checkout@v4
 
@@ -47,13 +51,13 @@ jobs:
         run: pnpm --filter @stem-tuition/shell build
 
       - name: Run core E2E tests
-        run: pnpm exec playwright test --config=playwright.config.ts --grep-invert "visual-regression"
+        run: pnpm exec playwright test --config=playwright.config.ts --shard=${{ matrix.shard }}/2 --grep-invert "visual-regression"
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-core-results
+          name: e2e-core-results-${{ matrix.shard }}
           path: test-results/
           retention-days: 7
 

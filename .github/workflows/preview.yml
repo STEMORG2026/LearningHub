@@ -1,0 +1,49 @@
+name: PR Preview URL
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview-url:
+    name: Post preview URL
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Generate preview URL
+        id: url
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          # Cloudflare Pages preview URL format
+          PREVIEW_URL="https://${BRANCH}.stem-tuition.pages.dev"
+          echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          echo "Preview URL: $PREVIEW_URL"
+
+      - name: Find existing comment
+        id: find-comment
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: 🌐 Preview URL
+
+      - name: Create or update preview URL comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            🌐 **Preview URL**: ${{ steps.url.outputs.url }}
+
+            | Page | Link |
+            |------|------|
+            | Home | ${{ steps.url.outputs.url }}/ |
+            | Classes | ${{ steps.url.outputs.url }}/classes.html |
+            | Videos | ${{ steps.url.outputs.url }}/videos.html |
+            | About | ${{ steps.url.outputs.url }}/about.html |
+            | Contact | ${{ steps.url.outputs.url }}/contact.html |
+          edit-mode: replace
