@@ -1,4 +1,4 @@
-STEM-TUITION/  cb7714b
+STEM-TUITION/  6a71285
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -170,12 +170,19 @@ STEM-TUITION/  cb7714b
 │   └── RULES.md
 ├── e2e/
 │   ├── visual-regression.spec.ts-snapshots/
+│   │   ├── about-chromium-linux.png
 │   │   ├── about-linux.png
+│   │   ├── classes-chromium-linux.png
 │   │   ├── classes-linux.png
+│   │   ├── contact-chromium-linux.png
 │   │   ├── contact-linux.png
+│   │   ├── dyk-expanded-chromium-linux.png
 │   │   ├── dyk-expanded-linux.png
+│   │   ├── enroll-modal-open-chromium-linux.png
 │   │   ├── enroll-modal-open-linux.png
+│   │   ├── home-chromium-linux.png
 │   │   ├── home-linux.png
+│   │   ├── videos-chromium-linux.png
 │   │   └── videos-linux.png
 │   ├── accessibility.spec.ts  [test]
 │   ├── critical-path.spec.ts  [test]
@@ -325,6 +332,29 @@ STEM-TUITION/  cb7714b
 │       ├── README.md
 │       ├── tsconfig.json
 │       └── vitest.config.ts
+├── playwright-report/
+│   ├── data/
+│   │   ├── 0a688549d7ab01667a62afca9600aeb091005eda.png
+│   │   ├── 0b44c406b411039a25e3d29bd28d535662bad99f.png
+│   │   ├── 101dec80f70d4340720d71ee1b3cea78f68a9dc1.md
+│   │   ├── 1b67becbf842185cd9fdc7119e3d9bd0ac09c61c.png
+│   │   ├── 30237d2a2aeb4201ee41ed1722c52f0ce072ff0d.md
+│   │   ├── 44059f02bf1c70a19f219fc88f13ec6f1dd57d61.md
+│   │   ├── 4eddb9bb8b5d4b9773c6184bafc7af82ce439fdb.png
+│   │   ├── 5caacc5ea543bd4be9df2a17531231dcabf7530f.png
+│   │   ├── 627bf45d52279be8c1112f7e6f0c1fbd6103681e.md
+│   │   ├── 691dce4773d7ac25da151e7f03f27a77c5f500ab.png
+│   │   ├── 7fc90f46e6765a1aadf098b7147345c1ff93c3ab.png
+│   │   ├── aa47e0378a081a2a6b5ff6bbea4c7d2b66c89acc.md
+│   │   ├── b74fbe47f273ff939c0a35b7c4d27dae7e748f72.md
+│   │   ├── c118d01e9adc5dcf093c57d1c0960d786b18d52d.png
+│   │   ├── cd466acc4593d57fa1d54bede677eb4459a4c273.png
+│   │   ├── ce9d3db5dbe8ae42a77b617ea8a7d5e196356d21.md
+│   │   ├── d08a1c2c1794d6e96c9f2c5506d5efe9d73cbc51.png
+│   │   ├── e975956a4b1fa2cd3ce0fc40f654d4296b5e47d2.png
+│   │   ├── f0a9ce6b85e0e16f7d6f8291df640486fc95a0af.png
+│   │   └── f54012434625f54aabee60dee639fc1a5a3ac71b.png
+│   └── index.html
 ├── scripts/
 │   ├── checks/
 │   │   ├── size-check.cjs

@@ -24,7 +24,7 @@ jobs:
           version: 11.18.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - name: Cache turbo
         uses: actions/cache@v4
@@ -57,7 +57,7 @@ jobs:
           version: 11.18.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - name: Cache turbo
         uses: actions/cache@v4
@@ -102,7 +102,7 @@ jobs:
           version: 11.18.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Audit all dependencies
