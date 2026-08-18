@@ -38,7 +38,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build shell app
-        run: turbo build --filter=@stem-tuition/shell
+        run: pnpm exec turbo build --filter=@stem-tuition/shell
 
       - name: Validate build output
         run: |
