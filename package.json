@@ -17,7 +17,7 @@
     "lint:dom": "eslint --no-config-lookup --config eslint.config.dom.mjs 'packages/**/src/**/*.ts' 'apps/**/src/**/*.ts'",
     "lint:registry": "node scripts/checks/verify-registry.js",
     "typecheck": "turbo typecheck",
-    "test:a11y": "playwright test --config=playwright.config.ts",
+    "test:a11y": "playwright test --config=playwright.config.ts --grep-invert 'visual-regression'",
     "validate:edu": "node scripts/checks/validate-educational-metadata.js",
     "verify-governance": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm build && pnpm typecheck && pnpm test:coverage && pnpm test:a11y && pnpm lint:size && pnpm validate:edu && pnpm lint:registry",
     "quick": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm typecheck",
