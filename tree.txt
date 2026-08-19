@@ -1,4 +1,4 @@
-STEM-TUITION/  78c7a40
+STEM-TUITION/  84e516d
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -12,7 +12,8 @@ STEM-TUITION/  78c7a40
 │   │   ├── preview.yml
 │   │   ├── release.yml
 │   │   ├── security.yml
-│   │   └── smoke.yml
+│   │   ├── smoke.yml
+│   │   └── update-visual-baselines.yml
 │   ├── CODEOWNERS
 │   ├── dependabot.yml
 │   ├── PULL_REQUEST_TEMPLATE.md

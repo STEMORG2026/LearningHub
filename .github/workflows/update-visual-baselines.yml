@@ -1,0 +1,52 @@
+name: Update Visual Baselines
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit-message:
+        description: Commit message for the baseline update
+        required: false
+        default: 'test: refresh visual baselines from CI environment'
+
+permissions:
+  contents: write
+
+jobs:
+  update-baselines:
+    name: Regenerate visual baselines in CI environment
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+
+      - name: Build shell and workspace deps
+        run: pnpm turbo build --filter=@stem-tuition/shell
+
+      - name: Regenerate visual baselines
+        run: pnpm exec playwright test --config=playwright.config.ts e2e/visual-regression.spec.ts --update-snapshots
+
+      - name: Commit updated baselines
+        run: |
+          if [ -z "$(git status --porcelain -- '**/*-chromium-linux.png' '**/__snapshots__/**')" ]; then
+            echo "No baseline changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "${{ inputs.commit-message || 'test: refresh visual baselines from CI environment' }}"
+          git push origin HEAD:main
