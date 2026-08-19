@@ -80,6 +80,18 @@
       "completedVersion": null,
       "completedDate": null,
       "packages": []
+    },
+    {
+      "id": 8,
+      "name": "Content & Lessons",
+      "status": "in-progress",
+      "completedVersion": null,
+      "completedDate": null,
+      "packages": [
+        "content-provider",
+        "interactive-simulations",
+        "lesson-renderer"
+      ]
     }
   ]
 }

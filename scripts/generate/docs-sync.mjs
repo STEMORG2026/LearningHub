@@ -14,7 +14,10 @@
  * Properties:
  *   - token-free (no .release-token.json required)
  *   - idempotent (running twice produces no additional changes)
- *   - deterministic (derived from .phase.json + packages/ on disk)
+ *   - deterministic (phase/package structure comes from .phase.json; file
+ *     listings come from packages/ on disk)
+ *   - guards against drift: fails if a packages/* directory is absent from
+ *     .phase.json (see assertNoUnregisteredPackages below)
  *   - cannot mark phases completed
  *   - cannot write completedVersion/completedDate
  *   - never alters human-authored sections outside AUTO regions
@@ -43,11 +46,21 @@ function currentPhaseIdx(phases) {
 function phaseStatusForDoc(phase) {
   if (phase.status === 'completed') return '🟢 Completed';
   if (phase.status === 'planned') return '🔵 Not started';
+  if (phase.status === 'in-progress') return '🟡 In progress';
   return phase.status;
 }
 
 function progressBarFilled(n) {
   return '█'.repeat(Math.min(10, n)) + '░'.repeat(Math.max(0, 10 - n));
+}
+
+// Progress bar segments for a phase. Only `completed` earns a full bar; an
+// in-progress phase shows a partial bar so it is visibly distinct from both a
+// finished phase and an untouched one. Never derive completion from this.
+function phaseBarSegments(phase) {
+  if (phase.status === 'completed') return 10;
+  if (phase.status === 'in-progress') return 5;
+  return 0;
 }
 
 function countTests(pkgDir) {
@@ -98,6 +111,45 @@ function applyRegions(filePath, generators) {
 
 // ──── Read phase state ────
 
+// ──── Drift guard ────
+
+/**
+ * Every directory under packages/ must be registered in .phase.json.
+ *
+ * The AUTO regions are built by walking .phase.json's phase→packages lists, so a
+ * package that exists on disk but is absent from .phase.json is INVISIBLE to every
+ * generated doc — silently. This guard converts that silent drift into a hard
+ * failure. Historical note: content-provider, interactive-simulations and
+ * lesson-renderer shipped 2026-08-17 and went undocumented until 2026-08-19
+ * precisely because nothing checked this.
+ */
+function assertNoUnregisteredPackages(phases) {
+  if (!existsSync(PACKAGES_DIR)) return;
+
+  const onDisk = readdirSync(PACKAGES_DIR, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+    .sort();
+
+  const registered = new Set(phases.flatMap((p) => p.packages ?? []));
+  const missing = onDisk.filter((name) => !registered.has(name));
+
+  if (missing.length > 0) {
+    log('');
+    log('✖ Unregistered packages found on disk:');
+    for (const name of missing) log(`    packages/${name}/`);
+    log('');
+    log('  These exist on disk but are not listed in any .phase.json phase, so');
+    log('  they are invisible to every generated doc region.');
+    log('');
+    log('  Fix: add each package to the "packages" array of the appropriate');
+    log('  phase in .phase.json. Assigning a package to a phase is a human');
+    log('  decision (docs/policies/HUMAN_INVOLVEMENT.md) — do not guess.');
+    log('');
+    process.exit(1);
+  }
+}
+
 let phaseState = { phases: [] };
 if (existsSync(PHASE_PATH)) {
   phaseState = JSON.parse(readFileSync(PHASE_PATH, 'utf8'));
@@ -106,6 +158,8 @@ const phases = Array.isArray(phaseState.phases) ? phaseState.phases : [];
 if (phases.length === 0) {
   log('⚠ No phases found in .phase.json — nothing to regenerate.');
 }
+
+assertNoUnregisteredPackages(phases);
 
 // Phases marked complete but not yet released. These are the only phases whose
 // component-registry AUTO markers are filled — matching the release pipeline.
@@ -123,7 +177,7 @@ applyRegions('docs/ROADMAP.md', [
     build: () => {
       const progressBar = phases
         .map((p) => {
-          const bar = progressBarFilled(p.status === 'completed' ? 10 : 0);
+          const bar = progressBarFilled(phaseBarSegments(p));
           return `PHASE ${p.id} ${bar}  ${p.name}`;
         })
         .join('\n');
@@ -147,7 +201,7 @@ applyRegions('AGENTS.md', [
       const cur = currentPhaseIdx(phases);
       const phaseLines = phases
         .map((p) => {
-          const bar = progressBarFilled(p.status === 'completed' ? 10 : 0);
+          const bar = progressBarFilled(phaseBarSegments(p));
           const isCurrent = cur !== null && p.id === cur;
           const suffix = isCurrent ? '   ← CURRENT' : '';
           return `PHASE ${p.id} ${bar}  ${p.name}${suffix}`;

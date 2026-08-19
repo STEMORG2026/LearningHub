@@ -20,6 +20,7 @@ PHASE 4 ██████████  Quiz Engine extraction
 PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
 PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
+PHASE 8 █████░░░░░  Content & Lessons
 ```
 <!-- END AUTO:phase-progress -->
 
@@ -264,6 +265,31 @@ Each feature gets:
 - Its own ADR documenting the decision
 - Its own component registry entries
 - Tracer instrumentation from day one
+
+---
+
+## Phase 8: Content & Lessons
+
+<!-- AUTO:phase-8-status -->🟡 In progress<!-- END AUTO:phase-8-status -->
+
+Lesson delivery: content sourcing, rendering, and interactive simulations. These
+packages were built ahead of Phase 7's feature work — the roadmap originally
+predicted `auth`/`progress`/`admin` would come next, but content delivery was
+prioritised instead. Phase 8 records what was actually built rather than
+retroactively rewriting Phase 7.
+
+| Package | Responsibility | ADR |
+|---------|---------------|-----|
+| `packages/content-provider/` | Content sourcing and provider abstraction | `docs/adr/013-content-provider.md` |
+| `packages/lesson-renderer/` | Lesson rendering | — |
+| `packages/interactive-simulations/` | Interactive simulation components | — |
+
+**Remaining before this phase can be marked complete:**
+- ADRs for `lesson-renderer` and `interactive-simulations`
+- Component registry entries for all three packages
+- Coverage verified against the ≥95% core-logic threshold
+
+Phase completion is a human decision — see *How to Update This Document* below.
 
 ---
 
