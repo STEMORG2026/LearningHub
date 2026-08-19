@@ -2,65 +2,25 @@ name: Deploy to Cloudflare Pages (gated)
 
 on:
   workflow_run:
-    workflows: [CI, E2E Smoke Tests]
+    workflows: [CI]
     types: [completed]
 
 permissions:
   contents: read
-  actions: read
 
 jobs:
   deploy:
     name: Deploy production
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    # Trigger once per push: only when the CI workflow completes green on main.
-    # The E2E Smoke workflow completion is handled in the sibling-wait step below
-    # (a single deploy that requires BOTH gates to be green).
+    # The CI workflow is the authoritative gate: its "Verify governance" job
+    # runs the full suite (typecheck, unit coverage, build, and the entire
+    # Playwright suite via test:a11y — core, accessibility, and visual
+    # regression). Deploy only when it completes green on main.
     if: >-
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_branch == 'main' &&
-      github.event.workflow_run.name == 'CI'
+      github.event.workflow_run.head_branch == 'main'
     steps:
-      - name: Wait for CI and E2E Smoke to pass on this commit
-        env:
-          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
-        run: |
-          REPO="${{ github.repository }}"
-          DEADLINE=$(( $(date +%s) + 1800 ))
-          while true; do
-            ALL_PASS=1
-            for WF in "CI" "E2E Smoke Tests"; do
-              RES="$(gh api "repos/${REPO}/actions/runs?head_sha=${HEAD_SHA}&per_page=100" \
-                | jq -r --arg wf "$WF" \
-                  '[.workflow_runs[] | select(.name == $wf)][0] | "\(.status)/\(.conclusion)"')"
-              if [ -z "$RES" ] || [ "$RES" = "null/null" ]; then
-                echo "[$WF] no run found for ${HEAD_SHA} yet"
-                ALL_PASS=0
-              elif [ "$RES" = "completed/success" ]; then
-                echo "[$WF] completed/success"
-              else
-                echo "[$WF] $RES"
-                case "$RES" in
-                  completed/*)
-                    echo "❌ $WF did not pass on ${HEAD_SHA} — refusing to deploy."
-                    exit 1
-                    ;;
-                esac
-                ALL_PASS=0
-              fi
-            done
-            if [ "$ALL_PASS" = "1" ]; then
-              echo "✅ CI and E2E Smoke Tests both passed on ${HEAD_SHA}."
-              break
-            fi
-            if [ "$(date +%s)" -gt "$DEADLINE" ]; then
-              echo "❌ Timed out waiting for CI/Smoke on ${HEAD_SHA} — refusing to deploy."
-              exit 1
-            fi
-            sleep 20
-          done
-
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
