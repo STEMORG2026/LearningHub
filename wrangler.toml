@@ -3,16 +3,10 @@
 #
 # Deploying is handled by the Cloudflare Pages GitHub integration
 # (Dashboard -> Workers & Pages -> stem-tution -> Builds & deployments).
-# Build settings live in the dashboard: build command, output dir, NODE_VERSION.
-# This file documents the equivalent CLI configuration.
+# The build command and output dir are configured in the dashboard
+# (pages projects do not support a [build] section in wrangler.toml).
 
 name = "stem-tution"
 compatibility_date = "2026-08-19"
 
 pages_build_output_dir = "apps/shell/dist"
-
-# Build command uses turbo so all workspace dependencies compile first
-# (fresh clones have no packages/*/dist).
-[build]
-command = "pnpm turbo build --filter=@stem-tuition/shell"
-output_dir = "apps/shell/dist"
