@@ -1,4 +1,4 @@
-STEM-TUITION/  e7cade9
+STEM-TUITION/  ccddac4
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -6,7 +6,6 @@ STEM-TUITION/  e7cade9
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml
-│   │   ├── deploy.yml
 │   │   ├── jules-conflict-resolver.yml
 │   │   ├── monitor.yml
 │   │   ├── nightly.yml

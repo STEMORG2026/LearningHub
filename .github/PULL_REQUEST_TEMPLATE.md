@@ -42,4 +42,4 @@
 
 ## Preview URL
 <!-- Cloudflare Pages preview URL (populated automatically by CI) -->
-<!-- Example: https://feat-my-branch.stem-tuition.pages.dev -->
+<!-- Example: https://feat-my-branch.stem-tution.pages.dev -->

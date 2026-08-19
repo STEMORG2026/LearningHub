@@ -21,7 +21,7 @@ jobs:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          PROJECT="stem-tuition"
+          PROJECT="stem-tution"
           # Cloudflare sanitizes branch names in the alias URL (e.g. / -> -).
           BRANCH_SAFE="$(echo "${HEAD_REF}" | sed 's#/#-#g')"
           FALLBACK_URL="https://${BRANCH_SAFE}.${PROJECT}.pages.dev"

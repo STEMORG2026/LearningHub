@@ -7,12 +7,13 @@
 #
 # Both paths use the same build output and directory.
 
-name = "stem-tuition"
+name = "stem-tution"
 compatibility_date = "2026-08-18"
 
 pages_build_output_dir = "apps/shell/dist"
 
-# Build command uses the shell's build script which builds all workspace deps
+# Build command uses turbo so all workspace dependencies compile first
+# (fresh clones have no packages/*/dist).
 [build]
-command = "pnpm --filter @stem-tuition/shell build"
+command = "pnpm turbo build --filter=@stem-tuition/shell"
 output_dir = "apps/shell/dist"

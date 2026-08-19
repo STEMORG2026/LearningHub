@@ -5,3 +5,5 @@ allowBuilds:
   esbuild: true
   iltorb: false
   libxmljs2: set this to true or false
+  sharp: false
+  workerd: false
