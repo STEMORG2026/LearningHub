@@ -1,0 +1,104 @@
+name: Deploy to Cloudflare Pages (gated)
+
+on:
+  workflow_run:
+    workflows: [CI, E2E Smoke Tests]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  deploy:
+    name: Deploy production
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    # Trigger once per push: only when the CI workflow completes green on main.
+    # The E2E Smoke workflow completion is handled in the sibling-wait step below
+    # (a single deploy that requires BOTH gates to be green).
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.name == 'CI'
+    steps:
+      - name: Wait for CI and E2E Smoke to pass on this commit
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          REPO="${{ github.repository }}"
+          DEADLINE=$(( $(date +%s) + 1800 ))
+          while true; do
+            ALL_PASS=1
+            for WF in "CI" "E2E Smoke Tests"; do
+              RES="$(gh api "repos/${REPO}/actions/runs?head_sha=${HEAD_SHA}&per_page=100" \
+                | jq -r --arg wf "$WF" \
+                  '[.workflow_runs[] | select(.name == $wf)][0] | "\(.status)/\(.conclusion)"')"
+              if [ -z "$RES" ] || [ "$RES" = "null/null" ]; then
+                echo "[$WF] no run found for ${HEAD_SHA} yet"
+                ALL_PASS=0
+              elif [ "$RES" = "completed/success" ]; then
+                echo "[$WF] completed/success"
+              else
+                echo "[$WF] $RES"
+                case "$RES" in
+                  completed/*)
+                    echo "❌ $WF did not pass on ${HEAD_SHA} — refusing to deploy."
+                    exit 1
+                    ;;
+                esac
+                ALL_PASS=0
+              fi
+            done
+            if [ "$ALL_PASS" = "1" ]; then
+              echo "✅ CI and E2E Smoke Tests both passed on ${HEAD_SHA}."
+              break
+            fi
+            if [ "$(date +%s)" -gt "$DEADLINE" ]; then
+              echo "❌ Timed out waiting for CI/Smoke on ${HEAD_SHA} — refusing to deploy."
+              exit 1
+            fi
+            sleep 20
+          done
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.18.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build production bundle
+        run: pnpm turbo build --filter=@stem-tuition/shell
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: pnpm exec wrangler pages deploy apps/shell/dist --project-name=stem-tution --branch=main
+
+      - name: Verify production deployment
+        run: |
+          URL="https://stem-tution.pages.dev/"
+          for i in $(seq 1 12); do
+            CODE="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$URL")"
+            if [ "$CODE" = "200" ]; then
+              echo "✅ Production responded 200 at $URL"
+              exit 0
+            fi
+            echo "Production not ready yet (HTTP $CODE) — retry $i/12 in 10s..."
+            sleep 10
+          done
+          echo "❌ Production did not return 200 after retries."
+          exit 1

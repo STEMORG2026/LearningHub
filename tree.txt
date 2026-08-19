@@ -1,4 +1,4 @@
-STEM-TUITION/  293b774
+STEM-TUITION/  138cb68
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -6,6 +6,7 @@ STEM-TUITION/  293b774
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml
+│   │   ├── deploy.yml
 │   │   ├── jules-conflict-resolver.yml
 │   │   ├── monitor.yml
 │   │   ├── nightly.yml
