@@ -139,6 +139,27 @@ Before writing any code, verify:
 
 ---
 
+## Deployment — Gated by CI
+
+Production deploys are **gated**: nothing ships until CI is green.
+
+- Cloudflare Pages git-integration **automatic production deployments are
+  disabled** (dashboard: Builds & deployments → Branch control). The repo's
+  GitHub integration is used for **preview (PR/branch) deployments only**.
+- `Deploy to Cloudflare Pages (gated)` (`.github/workflows/deploy.yml`) is
+  triggered by `workflow_run` on the **CI** workflow and deploys only when:
+  1. CI completes with `conclusion == 'success'`, and
+  2. the run is on `main` (`workflow_run.head_branch`).
+- The CI gate is authoritative: its `Verify governance` job runs the full suite
+  (typecheck, unit coverage, build, and the entire Playwright suite — core,
+  accessibility, visual regression) plus docs-freshness, Lighthouse budgets,
+  dependency audit, and signed-tag/commit-message checks.
+- The deploy itself: `wrangler pages deploy apps/shell/dist --project-name=stem-tution --branch=main`
+  using the `CF_API_TOKEN` / `CF_ACCOUNT_ID` secrets, followed by an HTTP 200
+  health check against `https://stem-tution.pages.dev/`.
+- `workflow_run` runs get a read-only token with no `actions` scope — the deploy
+  workflow must not call the GitHub Actions API (no `gh api .../actions/runs`).
+
 ---
 
 ## Release Workflow — Human Approval Required
