@@ -1,14 +1,13 @@
 # Cloudflare Pages configuration for STEM-TUITION
 # Docs: https://developers.cloudflare.com/pages/
 #
-# Build and deploy via:
-#   1. Cloudflare Dashboard: connect GitHub repo, set build config
-#   2. OR GitHub Actions: .github/workflows/deploy.yml
-#
-# Both paths use the same build output and directory.
+# Deploying is handled by the Cloudflare Pages GitHub integration
+# (Dashboard -> Workers & Pages -> stem-tution -> Builds & deployments).
+# Build settings live in the dashboard: build command, output dir, NODE_VERSION.
+# This file documents the equivalent CLI configuration.
 
 name = "stem-tution"
-compatibility_date = "2026-08-18"
+compatibility_date = "2026-08-19"
 
 pages_build_output_dir = "apps/shell/dist"
 
