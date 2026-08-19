@@ -281,13 +281,15 @@ retroactively rewriting Phase 7.
 | Package | Responsibility | ADR |
 |---------|---------------|-----|
 | `packages/content-provider/` | Content sourcing and provider abstraction | `docs/adr/013-content-provider.md` |
-| `packages/lesson-renderer/` | Lesson rendering | — |
-| `packages/interactive-simulations/` | Interactive simulation components | — |
+| `packages/lesson-renderer/` | Lesson rendering | `docs/adr/014-lesson-renderer.md` |
+| `packages/interactive-simulations/` | Interactive simulation components | `docs/adr/015-interactive-simulations.md` |
 
 **Remaining before this phase can be marked complete:**
-- ADRs for `lesson-renderer` and `interactive-simulations`
 - Component registry entries for all three packages
 - Coverage verified against the ≥95% core-logic threshold
+- Resolve the unused-dependency findings in ADR-014 and ADR-015: both packages
+  declare `core` / `tracer` (and `simulation-core`) but import none of them, so
+  neither carries the tracer instrumentation the roadmap expects
 
 Phase completion is a human decision — see *How to Update This Document* below.
 

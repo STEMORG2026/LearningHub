@@ -34,6 +34,8 @@ way it is.
 | [ADR-011](011-constitution-adoption.md) | Adoption of the Development Constitution | Accepted |
 | [ADR-012](012-legacy-removal-acl-role.md) | Legacy Removal & Anti-Corruption Layer (ACL) Scope Realignment | Accepted |
 | [ADR-013](013-content-provider.md) | Content Provider Implementation | Accepted |
+| [ADR-014](014-lesson-renderer.md) | Lesson Renderer Package | Accepted |
+| [ADR-015](015-interactive-simulations.md) | Interactive Simulations Package | Accepted |
 
 ---
 
