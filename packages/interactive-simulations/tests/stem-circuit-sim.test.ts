@@ -63,4 +63,24 @@ describe('StemCircuitSim', () => {
     expect(detail).toHaveProperty('current');
     expect(detail.current).toBeCloseTo(detail.voltage / detail.resistance, 5);
   });
+
+  it('shows steady-current feedback and dim resistor for low current', () => {
+    const shadow = el.shadowRoot;
+    const voltageInput = shadow?.querySelector('#voltageInput') as HTMLInputElement;
+    const resistanceInput = shadow?.querySelector('#resistanceInput') as HTMLInputElement;
+    voltageInput.value = '5';
+    voltageInput.dispatchEvent(new Event('input'));
+    resistanceInput.value = '90';
+    resistanceInput.dispatchEvent(new Event('input'));
+
+    const runBtn = shadow?.querySelector('#runBtn') as HTMLButtonElement;
+    runBtn.click();
+
+    const ammeter = shadow?.querySelector('.meter-ammeter');
+    expect(ammeter?.textContent).toContain('I = 0.06 A');
+    const resistor = shadow?.querySelector('.resistor-box') as HTMLElement;
+    expect(resistor?.style.opacity).toBe('0.5');
+    const resultNote = shadow?.querySelector('.result-note');
+    expect(resultNote?.textContent).toContain('Current flowing steadily.');
+  });
 });

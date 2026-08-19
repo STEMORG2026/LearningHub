@@ -1,4 +1,4 @@
-STEM-TUITION/  e18ccc3
+STEM-TUITION/  78c7a40
 ├── .changeset/
 │   ├── calm-docs-governance.md
 │   ├── config.json
@@ -329,6 +329,7 @@ STEM-TUITION/  e18ccc3
 ├── playwright-report/
 ├── scripts/
 │   ├── checks/
+│   │   ├── audit-deps.cjs
 │   │   ├── size-check.cjs
 │   │   ├── validate-educational-metadata.js
 │   │   └── verify-registry.js

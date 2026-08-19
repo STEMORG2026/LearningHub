@@ -25,7 +25,6 @@
 | State | Type | Location | Notes |
 |-------|------|----------|-------|
 | AudioEngine | class | `packages/audio-synth/src/engine.ts:8` | Web Audio context + mute/volume |
-| Legacy globals bridge | via ACL | `packages/acl/src/audio-adapter.ts` | Reads `isAudioMuted`, `isHalfIntensity` |
 <!-- END AUTO:state-phase-2 -->
 
 ## Phase 3: Event Bus + ACL (Active)
@@ -35,7 +34,6 @@
 |-------|------|----------|-------|
 | Subscriber registry | SubscriptionEntry[] | `packages/core/src/event-bus.ts:12` | Internal to EventBus |
 | Default EventBus instance | EventBus | `packages/core/src/event-bus.ts:82` | Module-level singleton |
-| Legacy quiz state bridge | via ACL | `packages/acl/src/quiz-adapter.ts` | Reads `window.stemQuizApp`, `STEM_QUIZ_DATA` |
 | Canvas simulation state bridge | via ACL | `packages/acl/src/canvas-adapter.ts` | Reads `#stemBackgroundCanvas` DOM state |
 <!-- END AUTO:state-phase-3 -->
 

@@ -9,7 +9,7 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@11.18.0 --activate
 
 # Copy workspace files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json turbo.json ./
 COPY packages ./packages
 COPY apps/shell/package.json ./apps/shell/
 
@@ -19,8 +19,8 @@ RUN pnpm install --frozen-lockfile
 # Copy source
 COPY apps/shell ./apps/shell
 
-# Build shell app
-RUN pnpm --filter @stem-tuition/shell build
+# Build shell app (turbo builds workspace dependencies first)
+RUN pnpm turbo build --filter=@stem-tuition/shell
 
 # Stage 2: Serve with nginx
 FROM nginx:alpine AS runtime

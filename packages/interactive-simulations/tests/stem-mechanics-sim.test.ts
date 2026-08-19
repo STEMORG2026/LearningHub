@@ -79,4 +79,28 @@ describe('StemMechanicsSim', () => {
     expect(detail).toHaveProperty('acceleration');
     expect(detail).toHaveProperty('predictionCorrect');
   });
+
+  it('marks a correct prediction and ignores selections after run', () => {
+    const shadow = el.shadowRoot;
+    const predictBtns = shadow?.querySelectorAll('.predict-btn') as NodeListOf<HTMLButtonElement>;
+    predictBtns[0]?.click();
+    const runBtn = shadow?.querySelector('#runBtn') as HTMLButtonElement;
+    runBtn.click();
+    predictBtns[1]?.click();
+
+    expect(predictBtns[0]?.classList.contains('correct')).toBe(true);
+    expect(shadow?.querySelector('#comparison')?.innerHTML).toContain('feedback-correct');
+  });
+
+  it('marks an incorrect prediction and highlights the correct option', () => {
+    const shadow = el.shadowRoot;
+    const predictBtns = shadow?.querySelectorAll('.predict-btn') as NodeListOf<HTMLButtonElement>;
+    predictBtns[1]?.click();
+    const runBtn = shadow?.querySelector('#runBtn') as HTMLButtonElement;
+    runBtn.click();
+
+    expect(predictBtns[1]?.classList.contains('incorrect')).toBe(true);
+    expect(predictBtns[0]?.classList.contains('correct')).toBe(true);
+    expect(shadow?.querySelector('#comparison')?.innerHTML).toContain('feedback-incorrect');
+  });
 });

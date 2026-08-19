@@ -21,9 +21,10 @@
 
 | Publisher | Publishes | Handler location | Payload |
 |-----------|----------|-----------------|---------|
-| Quiz ACL Adapter | `quiz:started` | `packages/acl/src/quiz-adapter.ts:72` | `{quizId, conceptId, questionCount, difficulty}` |
-| Quiz ACL Adapter | `quiz:answer-submitted` | `packages/acl/src/quiz-adapter.ts:82` | `{quizId, questionId, answer, timeSpentMs, hintUsed}` |
-| Quiz ACL Adapter | `quiz:completed` | `packages/acl/src/quiz-adapter.ts:92` | `{quizId, conceptId, score, total, percentage}` |
+| Quiz Engine (`<stem-quiz>`) | `quiz:answer-submitted` | `packages/quiz-engine/src/internal/web-component.ts:132` | `{quizId, questionId, answer, timeSpentMs, hintUsed}` |
+| Quiz Engine (engine) | `quiz:completed` | `packages/quiz-engine/src/internal/quiz-engine.ts:62` | `{quizId, conceptId, score, total, percentage}` |
+
+> `quiz:started` is defined in the Event Bus contract but not yet published by any module.
 
 ## Planned Subscriptions (Future Phases)
 

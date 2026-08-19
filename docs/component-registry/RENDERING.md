@@ -20,7 +20,6 @@
 |-----------|---------|-----------|----------|--------|--------|
 | Synth functions | `packages/audio-synth/` | `src/synth.ts` | — | — | Extracted (Phase 2) |
 | AudioEngine | `packages/audio-synth/` | `src/engine.ts` | — | — | Extracted (Phase 2) |
-| Audio adapter | `packages/acl/` | `src/audio-adapter.ts` | — | — | Extracted (Phase 3) |
 <!-- END AUTO:rendering-phase-2 -->
 
 ## Phase 4: Quiz Engine (EXTRACTED)
@@ -63,3 +62,6 @@
 | Enroll modal | `apps/shell/` | `src/components/enroll-modal.ts` | — | `src/styles/widgets.css` | Form modal |
 | FAQ list | `apps/shell/` | `src/components/faq-list.ts` | — | `src/styles/widgets.css` | Accordion |
 | Home page | `apps/shell/` | `index.html` | `src/index.ts` | `src/styles/main.css` | Hero + sections |
+| `<stem-lesson>` | `packages/lesson-renderer/` | `src/stem-lesson.ts` | — | — | Lesson renderer |
+| `<stem-circuit-sim>` | `packages/interactive-simulations/` | `src/stem-circuit-sim.ts` | — | — | Interactive circuit sim |
+| `<stem-mechanics-sim>` | `packages/interactive-simulations/` | `src/stem-mechanics-sim.ts` | — | — | Interactive mechanics sim |

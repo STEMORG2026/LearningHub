@@ -55,7 +55,6 @@ Every time you add, move, or change a component's file location, you MUST update
 | Shared Types | `packages/core/` | `src/types.ts` | See RENDERING.md |
 | Tracer | `packages/tracer/` | `src/tracer.ts` | See RENDERING.md |
 | Audio Synth | `packages/audio-synth/` | `src/synth.ts` | See RENDERING.md |
-| Quiz ACL Adapter | `packages/acl/` | `src/quiz-adapter.ts` | See NETWORKING.md |
 | Canvas ACL Adapter | `packages/acl/` | `src/canvas-adapter.ts` | See RENDERING.md |
 | Quiz Engine | `packages/quiz-engine/` | `src/internal/quiz-engine.ts` | See RENDERING.md |
 | &lt;stem-quiz&gt; | `packages/quiz-engine/` | `src/internal/web-component.ts` | See RENDERING.md |
