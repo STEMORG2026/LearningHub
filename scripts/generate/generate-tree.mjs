@@ -87,6 +87,21 @@ if (checkable.length > 0) {
   }
 }
 
+// Directories get the same gitignore filtering, so environment-specific
+// untracked dirs (e.g. playwright-report/) never leak into the committed tree.
+const ignoredDirs = new Set();
+const checkableDirs = [...dirs].filter((d) => d !== '');
+if (checkableDirs.length > 0) {
+  const res = spawnSync('git', ['check-ignore', '--stdin'], {
+    cwd: ROOT,
+    input: `${checkableDirs.join('\n')}\n`,
+    encoding: 'utf8',
+  });
+  for (const line of (res.stdout || '').split('\n')) {
+    if (line.trim()) ignoredDirs.add(line.trim());
+  }
+}
+
 const visible = [...files].filter((f) => alwaysShow.has(f) || !ignored.has(f));
 
 // ──── Tree construction ────
@@ -101,7 +116,7 @@ function findChild(node, name, isDir) {
 }
 
 for (const d of dirs) {
-  if (d === '') continue;
+  if (d === '' || ignoredDirs.has(d)) continue;
   const parts = d.split('/');
   let node = root;
   for (let i = 0; i < parts.length; i++) {
