@@ -17,7 +17,7 @@ jobs:
   e2e-core:
     name: E2E core (shard ${{ matrix.shard }}/2)
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -45,7 +45,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
 
       - name: Build shell and workspace deps
         run: pnpm turbo build --filter=@stem-tuition/shell

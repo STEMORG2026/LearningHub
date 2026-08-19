@@ -42,7 +42,7 @@ jobs:
             ${{ runner.os }}-playwright-
       - run: pnpm install --frozen-lockfile
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
       - name: Run full governance gate
         run: pnpm verify-governance
 
