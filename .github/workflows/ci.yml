@@ -62,7 +62,15 @@ jobs:
       - name: Verify generated docs are in sync
         run: |
           pnpm docs:sync
-          git diff --exit-code
+          # tree.txt stamps the pre-commit HEAD (one commit behind the pushed
+          # commit) by design, so its SHA line always differs here. Verify
+          # everything else strictly, then allow only that single-line drift.
+          git diff --exit-code -- . ':(exclude)tree.txt'
+          if [ -n "$(git diff --numstat -- tree.txt)" ] && [ "$(git diff tree.txt | grep -cE '^[+-][^+-]')" -gt 2 ]; then
+            echo "❌ tree.txt is out of sync beyond the SHA stamp:"
+            git diff tree.txt
+            exit 1
+          fi
           REMAINING="$(git ls-files --others --exclude-standard)"
           if [ -n "$REMAINING" ]; then
             echo "❌ Untracked files remain after docs:sync:"
@@ -161,8 +169,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Audit production dependencies
-        run: pnpm audit --audit-level high
+      - name: Audit dependencies
+        run: node scripts/checks/audit-deps.cjs
 
   lighthouse:
     name: Lighthouse CI
@@ -183,7 +191,9 @@ jobs:
       - name: Build shell and workspace deps
         run: pnpm turbo build --filter=@stem-tuition/shell
       - name: Resolve Chrome path
-        run: echo "CHROME_PATH=$(node -e \"console.log(require('@playwright/test').chromium.executablePath())\")" >> "$GITHUB_ENV"
+        run: |
+          CHROME_PATH=$(node -e "console.log(require('@playwright/test').chromium.executablePath())")
+          echo "CHROME_PATH=${CHROME_PATH}" >> "$GITHUB_ENV"
       - name: Start preview server
         run: |
           (cd apps/shell && pnpm exec vite preview --port 4173 --strictPort >/tmp/preview.log 2>&1 &)
