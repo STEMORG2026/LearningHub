@@ -8,6 +8,12 @@ on:
         required: false
         default: 'test: refresh visual baselines from CI environment'
 
+# NOTE: This workflow pushes with the repository GITHUB_TOKEN. Commits authored
+# by `github-actions[bot]` do NOT re-trigger workflow runs (GitHub recursion
+# guard), so after a baseline refresh push a follow-up commit from a normal
+# identity (e.g. `git push --force-with-lease` an empty/no-op change) to get a
+# fresh CI + smoke run that validates the new baselines.
+
 permissions:
   contents: write
 
