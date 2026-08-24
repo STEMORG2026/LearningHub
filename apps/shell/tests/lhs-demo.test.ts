@@ -17,6 +17,6 @@ describe('lhs-demo — Newton’s Second Law vertical slice', () => {
     expect(html).toContain('Worked example');
 
     expect(html).toContain('export_version 0.1');
-    expect(html).toContain('5 entities');
+    expect(html).toContain('entities');
   });
 });

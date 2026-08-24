@@ -78,7 +78,7 @@ export const CURRICULUMS: Record<CurriculumId, CurriculumInfo> = {
 export const NEPAL_SEE_GRADE10: GradeCurriculumMapping = {
   curriculum: 'nepal_see',
   grade: 10,
-  subject: 'physics',
+  subject: 'science',
   topics: [
     { canonicalId: 'lhs:phys.measurement', curriculumRef: 'Units and Measurement', sequence: 1, depth: 'core' },
     { canonicalId: 'lhs:phys.physical-quantity', curriculumRef: 'Physical Quantities', sequence: 2, depth: 'core' },
@@ -126,6 +126,43 @@ export const NEPAL_SEE_GRADE10: GradeCurriculumMapping = {
     { canonicalId: 'lhs:phys.atomic-structure', curriculumRef: 'Atomic Structure', sequence: 44, depth: 'core' },
     { canonicalId: 'lhs:phys.radioactivity', curriculumRef: 'Radioactivity', sequence: 45, depth: 'core' },
     { canonicalId: 'lhs:phys.energy-sources', curriculumRef: 'Sources of Energy', sequence: 46, depth: 'core' },
+    // Chemistry
+    { canonicalId: 'lhs:chem.matter', curriculumRef: 'Matter and States', sequence: 47, depth: 'core' },
+    { canonicalId: 'lhs:chem.atom', curriculumRef: 'Atomic Structure and Electrons', sequence: 48, depth: 'core' },
+    { canonicalId: 'lhs:chem.proton', curriculumRef: 'Subatomic Particles — Protons', sequence: 49, depth: 'core' },
+    { canonicalId: 'lhs:chem.electron', curriculumRef: 'Subatomic Particles — Electrons', sequence: 50, depth: 'core' },
+    { canonicalId: 'lhs:chem.element', curriculumRef: 'Chemical Elements', sequence: 51, depth: 'core' },
+    { canonicalId: 'lhs:chem.periodic-table', curriculumRef: 'Periodic Table of Elements', sequence: 52, depth: 'core' },
+    { canonicalId: 'lhs:chem.compound', curriculumRef: 'Chemical Compounds', sequence: 53, depth: 'core' },
+    { canonicalId: 'lhs:chem.ionic-bond', curriculumRef: 'Chemical Bonding — Ionic', sequence: 54, depth: 'core' },
+    { canonicalId: 'lhs:chem.covalent-bond', curriculumRef: 'Chemical Bonding — Covalent', sequence: 55, depth: 'core' },
+    { canonicalId: 'lhs:chem.chemical-reaction', curriculumRef: 'Chemical Reactions and Equations', sequence: 56, depth: 'core' },
+    { canonicalId: 'lhs:chem.acid', curriculumRef: 'Acids, Bases and Salts — Acids', sequence: 57, depth: 'core' },
+    { canonicalId: 'lhs:chem.base', curriculumRef: 'Acids, Bases and Salts — Bases', sequence: 58, depth: 'core' },
+    { canonicalId: 'lhs:chem.ph-scale', curriculumRef: 'pH Scale and Indicators', sequence: 59, depth: 'core' },
+    { canonicalId: 'lhs:chem.neutralization', curriculumRef: 'Acid-Base Neutralization', sequence: 60, depth: 'core' },
+    // Biology
+    { canonicalId: 'lhs:bio.cell', curriculumRef: 'Cell — Basic Unit of Life', sequence: 61, depth: 'core' },
+    { canonicalId: 'lhs:bio.plant-cell', curriculumRef: 'Plant Cell Structure', sequence: 62, depth: 'core' },
+    { canonicalId: 'lhs:bio.animal-cell', curriculumRef: 'Animal Cell Structure', sequence: 63, depth: 'core' },
+    { canonicalId: 'lhs:bio.photosynthesis', curriculumRef: 'Photosynthesis', sequence: 64, depth: 'core' },
+    { canonicalId: 'lhs:bio.cellular-respiration', curriculumRef: 'Cellular Respiration', sequence: 65, depth: 'core' },
+    { canonicalId: 'lhs:bio.enzyme', curriculumRef: 'Enzymes and Biocatalysis', sequence: 66, depth: 'core' },
+    { canonicalId: 'lhs:bio.dna', curriculumRef: 'DNA Structure and Heredity', sequence: 67, depth: 'core' },
+    { canonicalId: 'lhs:bio.gene', curriculumRef: 'Genes and Traits', sequence: 68, depth: 'core' },
+    { canonicalId: 'lhs:bio.natural-selection', curriculumRef: 'Evolution and Natural Selection', sequence: 69, depth: 'core' },
+    { canonicalId: 'lhs:bio.ecosystem', curriculumRef: 'Ecosystems and Environment', sequence: 70, depth: 'core' },
+    // Earth & Space
+    { canonicalId: 'lhs:earth.earth-system', curriculumRef: 'Earth Spheres and Systems', sequence: 71, depth: 'core' },
+    { canonicalId: 'lhs:earth.atmosphere', curriculumRef: 'Atmosphere and Weather', sequence: 72, depth: 'core' },
+    { canonicalId: 'lhs:earth.plate-tectonics', curriculumRef: 'Geology and Plate Tectonics', sequence: 73, depth: 'core' },
+    { canonicalId: 'lhs:earth.greenhouse-effect', curriculumRef: 'Greenhouse Effect and Climate', sequence: 74, depth: 'core' },
+    { canonicalId: 'lhs:earth.seasons-cause', curriculumRef: 'Earth Axis and Seasons', sequence: 75, depth: 'core' },
+    { canonicalId: 'lhs:earth.big-bang-theory', curriculumRef: 'Universe and Big Bang Theory', sequence: 76, depth: 'core' },
+    // Practices & Engineering
+    { canonicalId: 'lhs:practice.scientific-observation', curriculumRef: 'Scientific Practice — Observation', sequence: 77, depth: 'core' },
+    { canonicalId: 'lhs:epist.observation-vs-inference', curriculumRef: 'Nature of Science — Inference', sequence: 78, depth: 'core' },
+    { canonicalId: 'lhs:eng.engineering-design-process', curriculumRef: 'Engineering Design Process', sequence: 79, depth: 'core' },
   ],
 };
 
