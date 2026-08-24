@@ -55,7 +55,7 @@
     "turbo": "^1.13.0",
     "typescript": "^5.4.0",
     "vitest": "^3.2.6",
-    "wrangler": "^4.124.0"
+    "wrangler": "^4.125.0"
   },
   "engines": {
     "node": ">=22.13"
