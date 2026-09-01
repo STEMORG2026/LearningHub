@@ -31,6 +31,10 @@ const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;
 .section-try-this{background:rgba(0,180,255,0.04);border-color:rgba(0,180,255,0.12);border-left:3px solid rgba(0,180,255,0.4)}
 .section-application{background:rgba(0,255,136,0.04);border-color:rgba(0,255,136,0.12);border-left:3px solid rgba(0,255,136,0.4)}
 .section-context{background:rgba(180,180,180,0.03);border-color:rgba(180,180,180,0.08);font-style:italic}
+.section-figure{background:rgba(255,210,60,0.05);border-color:rgba(255,210,60,0.18);border-left:3px solid rgba(255,210,60,0.5)}
+.section-timeline{background:rgba(120,200,255,0.05);border-color:rgba(120,200,255,0.16);border-left:3px solid rgba(120,200,255,0.45)}
+.section-perspective{background:rgba(255,120,200,0.05);border-color:rgba(255,120,200,0.16);border-left:3px solid rgba(255,120,200,0.45)}
+.section-deep-dive{background:rgba(0,255,200,0.05);border-color:rgba(0,255,200,0.18);border-left:3px solid rgba(0,255,200,0.5)}
 .section-heading{font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;color:#0ff;margin-bottom:.5rem}
 .section-heading-story{color:#ffb400}
 .section-heading-narrative{color:#a078ff}
@@ -39,6 +43,39 @@ const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;
 .section-heading-try-this{color:#00b4ff}
 .section-heading-application{color:#0f8}
 .section-heading-context{color:#888}
+.section-heading-figure{color:#ffd23c}
+.section-heading-timeline{color:#78c8ff}
+.section-heading-perspective{color:#ff78c8}
+.section-heading-deep-dive{color:#00ffc8}
+.figure-card{border:1px solid rgba(255,210,60,0.2);border-radius:10px;padding:.8rem 1rem;margin-bottom:.9rem;background:rgba(255,210,60,0.04)}
+.figure-name{font-size:1.05rem;font-weight:600;color:#ffd23c}
+.figure-lifespan{font-size:.8rem;color:#bbb;margin-left:.5rem}
+.figure-role{font-size:.8rem;color:#0ff;text-transform:uppercase;letter-spacing:.4px;margin:.15rem 0 .4rem}
+.figure-contribution{line-height:1.55;font-size:.98rem}
+.figure-statement{font-style:italic;margin-top:.6rem;padding-left:.8rem;border-left:3px solid rgba(255,210,60,0.4);color:#eee}
+.figure-statement-source{font-size:.78rem;color:#999;font-style:normal;display:block;margin-top:.25rem}
+.timeline-list{list-style:none;margin:0;padding:0;position:relative}
+.timeline-list:before{content:'';position:absolute;left:10px;top:4px;bottom:4px;width:2px;background:rgba(120,200,255,0.25)}
+.timeline-item{position:relative;padding:0 0 1rem 2.2rem}
+.timeline-item:before{content:'';position:absolute;left:5px;top:5px;width:12px;height:12px;border-radius:50%;background:#78c8ff;box-shadow:0 0 8px rgba(120,200,255,0.5)}
+.timeline-period{font-size:.75rem;color:#78c8ff;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.timeline-event{font-size:.98rem;line-height:1.5}
+.timeline-figure{font-size:.82rem;color:#ccc}
+.timeline-note{font-size:.85rem;color:#aaa;font-style:italic;margin-top:.15rem}
+.perspective-card{border:1px solid rgba(255,120,200,0.2);border-radius:10px;padding:.8rem 1rem;margin-bottom:.9rem;background:rgba(255,120,200,0.04)}
+.perspective-figure{font-weight:600;color:#ff78c8}
+.perspective-standing{display:inline-block;font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#0f8;background:rgba(0,255,136,0.1);padding:.15rem .5rem;border-radius:8px;margin-left:.5rem}
+.perspective-view{line-height:1.55;margin-top:.4rem;font-size:.98rem}
+.perspective-note{font-size:.85rem;color:#aaa;margin-top:.35rem;border-left:3px solid rgba(255,120,200,0.3);padding-left:.7rem}
+.deep-intro{margin-bottom:1.1rem}
+.deep-rung{border:1px solid rgba(0,255,200,0.18);border-radius:10px;margin-bottom:.8rem;overflow:hidden;background:rgba(0,255,200,0.03)}
+.deep-rung summary{display:flex;align-items:center;gap:.6rem;cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#00ffc8;list-style:none}
+.deep-rung summary::-webkit-details-marker{display:none}
+.deep-rung summary:before{content:'▸';transition:transform .25s}
+.deep-rung[open] summary:before{transform:rotate(90deg)}
+.deep-rung-level{color:#fff;font-weight:700}
+.deep-rung-audience{font-size:.78rem;color:#aaa;margin-left:auto;font-weight:400}
+.deep-rung-body{padding:.2rem 1rem 1rem;font-size:.98rem;line-height:1.7;color:#e6e6e6}
 .section-body{line-height:1.6;font-size:1rem}
 .section-body-story{font-size:1.05rem;line-height:1.7}
 .section-body-analogy{font-size:1rem;line-height:1.65}
@@ -262,6 +299,86 @@ export class StemLesson extends HTMLElement {
           <span class="application-badge">Where You Meet It</span>
           ${heading}
           <div class="section-body section-body-narrative">${section.body}</div>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'figure') {
+      const figures = (section.figures ?? []).map((f) => `
+        <div class="figure-card">
+          <div>
+            <span class="figure-name">${f.name}</span>
+            ${f.lifespan ? `<span class="figure-lifespan">${f.lifespan}</span>` : ''}
+          </div>
+          <div class="figure-role">${f.role}</div>
+          <div class="figure-contribution">${f.contribution}</div>
+          ${f.statement ? `
+            <div class="figure-statement">
+              &ldquo;${f.statement}&rdquo;
+              ${f.statementSource ? `<span class="figure-statement-source">— ${f.statementSource}</span>` : ''}
+            </div>` : ''}
+        </div>
+      `).join('');
+      return `
+        <div class="section ${kindClass}">
+          ${heading}
+          <div class="section-body section-body-narrative">${section.body}</div>
+          ${figures}
+        </div>
+      `;
+    }
+
+    if (section.kind === 'timeline') {
+      const items = (section.timeline ?? []).map((t) => `
+        <li class="timeline-item">
+          <span class="timeline-period">${t.period}</span>
+          <div class="timeline-event">${t.event}</div>
+          ${t.figure ? `<div class="timeline-figure">— ${t.figure}</div>` : ''}
+          ${t.note ? `<div class="timeline-note">${t.note}</div>` : ''}
+        </li>
+      `).join('');
+      return `
+        <div class="section ${kindClass}">
+          ${heading}
+          <div class="section-body section-body-narrative">${section.body}</div>
+          <ul class="timeline-list">${items}</ul>
+        </div>
+      `;
+    }
+
+    if (section.kind === 'perspective') {
+      const cards = (section.perspectives ?? []).map((p) => `
+        <div class="perspective-card">
+          <span class="perspective-figure">${p.figure}</span>
+          <span class="perspective-standing">${p.standing}</span>
+          <div class="perspective-view">${p.view}</div>
+          ${p.note ? `<div class="perspective-note">${p.note}</div>` : ''}
+        </div>
+      `).join('');
+      return `
+        <div class="section ${kindClass}">
+          ${heading}
+          <div class="section-body section-body-narrative">${section.body}</div>
+          ${cards}
+        </div>
+      `;
+    }
+
+    if (section.kind === 'deep-dive') {
+      const rungs = (section.depthRungs ?? []).map((r, i) => `
+        <details class="deep-rung" ${i === 0 ? 'open' : ''}>
+          <summary>
+            <span class="deep-rung-level">${r.level}</span>
+            <span class="deep-rung-audience">${r.audience}</span>
+          </summary>
+          <div class="deep-rung-body">${r.body}</div>
+        </details>
+      `).join('');
+      return `
+        <div class="section ${kindClass}">
+          ${heading}
+          <p class="deep-intro section-body section-body-narrative">${section.body}</p>
+          ${rungs}
         </div>
       `;
     }

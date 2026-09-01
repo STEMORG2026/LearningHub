@@ -1,8 +1,9 @@
-STEM-TUITION/  6c0b8d5
+STEM-TUITION/  e36258c
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── calm-docs-governance.md
 │   ├── config.json
+│   ├── honest-stories-attribute.md
 │   └── README.md
 ├── .github/
 │   ├── workflows/
@@ -78,7 +79,8 @@ STEM-TUITION/  6c0b8d5
 │       │   │   ├── main.css
 │       │   │   ├── tokens.css
 │       │   │   └── widgets.css
-│       │   └── index.ts  [entry]
+│       │   ├── index.ts  [entry]
+│       │   └── vite-env.d.ts
 │       ├── tests/
 │       │   ├── e2e/
 │       │   │   └── smoke.spec.ts  [test]
@@ -147,6 +149,16 @@ STEM-TUITION/  6c0b8d5
 │   │   ├── human-checkpoints.md
 │   │   └── interface-registry.md
 │   ├── guides/
+│   │   ├── task-playbooks/
+│   │   │   ├── templates/
+│   │   │   │   └── checklist.md
+│   │   │   ├── add-content.md
+│   │   │   ├── common.md
+│   │   │   ├── explained.md
+│   │   │   ├── README.md
+│   │   │   ├── review.md
+│   │   │   ├── tests.md
+│   │   │   └── verify.md
 │   │   ├── COMPONENT_STANDARDS.md
 │   │   ├── DEBUGGING.md
 │   │   ├── DEPLOYMENT.md

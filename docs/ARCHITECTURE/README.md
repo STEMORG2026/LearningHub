@@ -388,6 +388,7 @@ stable for many releases). Lifecycle states follow `PACKAGE_LIFECYCLE.md`
 | `policies/SECURITY.md` | Security policies, input validation, CSP, data privacy |
 | `policies/PERFORMANCE.md` | Performance budgets, optimization rules, Core Web Vitals |
 | `guides/DEPLOYMENT.md` | Deployment guide (static → VPS), Nginx, CI/CD |
+| `guides/task-playbooks/` | Recurring-task framework: add-content, verify, review, tests, explained |
 | `policies/ACCESSIBILITY.md` | WCAG 2.2 AA standards, audit checklist, component a11y |
 | `CHANGELOG.md` | Release history |
 | `DEVLOG.md` | Development diary with decisions and learnings |

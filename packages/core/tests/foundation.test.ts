@@ -56,11 +56,13 @@ describe('Root monorepo structure', () => {
 
   it('turbo.json defines build pipeline', () => {
     const cfg = JSON.parse(read(join(ROOT, 'turbo.json')));
-    expect(cfg.pipeline).toHaveProperty('build');
-    expect(cfg.pipeline).toHaveProperty('test');
-    expect(cfg.pipeline).toHaveProperty('typecheck');
-    expect(cfg.pipeline.build.dependsOn).toContain('^build');
-    expect(cfg.pipeline.test.dependsOn).toContain('build');
+    // Turbo 2.x renames the `pipeline` field to `tasks`.
+    const graph = cfg.tasks ?? cfg.pipeline;
+    expect(graph).toHaveProperty('build');
+    expect(graph).toHaveProperty('test');
+    expect(graph).toHaveProperty('typecheck');
+    expect(graph.build.dependsOn).toContain('^build');
+    expect(graph.test.dependsOn).toContain('build');
   });
 
   it('.gitignore exists', () => {
