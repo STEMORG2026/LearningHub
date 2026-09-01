@@ -28,6 +28,7 @@ playbooks govern how we *work with* them here.
 | [`review.md`](review.md) | Before a PR is ready / merged | PR → Merge |
 | [`tests.md`](tests.md) | Writing tests for a new section/feature | Local → PR |
 | [`explained.md`](explained.md) | Authoring an "Explained" deep-dive (Curious→Nerd) | Local → PR |
+| [`narration/`](narration/README.md) | Multi-agent narration pipeline (research → write → review → master-review) | Local → Merge |
 
 Every playbook shares three primitives, defined in `common.md`:
 **gates**, **evidence**, and the **language of "done"**.

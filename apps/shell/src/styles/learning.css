@@ -110,6 +110,16 @@
   font-size: 0.85rem;
   margin: 0.3rem 0 0;
 }
+.path-note {
+  background: rgba(255, 200, 80, 0.12);
+  border: 1px solid rgba(255, 200, 80, 0.35);
+  color: #f0c674;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+}
 .path-layout {
   display: grid;
   grid-template-columns: 280px 1fr;

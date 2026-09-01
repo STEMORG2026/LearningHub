@@ -26,6 +26,9 @@ export interface LearningPath {
   curriculum: CurriculumId;
   curriculumName: string;
   grade: number;
+  /** The grade of the mapping actually used (may be < `grade` when a dedicated
+   *  grade-11/12 mapping is not yet authored and we fall back to the nearest one). */
+  resolvedGrade: number;
   subject: string;
   steps: LearningStep[];
   totalSteps: number;
@@ -51,6 +54,7 @@ export function generateLearningPath(
       curriculum,
       curriculumName: 'Unknown',
       grade,
+      resolvedGrade: grade,
       subject: 'physics',
       steps: [],
       totalSteps: 0,
@@ -79,6 +83,7 @@ export function generateLearningPath(
     curriculum,
     curriculumName: curriculumInfo.name,
     grade,
+    resolvedGrade: mapping.grade,
     subject: mapping.subject,
     steps,
     totalSteps: steps.length,
