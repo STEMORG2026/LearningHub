@@ -13,6 +13,9 @@ describe('integration: composed lessons against the vendored export', () => {
   it('composes a progressive story for every narrated concept in the real export', () => {
     const narrated = entities.filter((e) => NARRATIVES[asEntity(e).id]);
     expect(narrated.length).toBeGreaterThan(0);
+    // The narrated physics set grows as we author; assert a meaningful, current floor
+    // so an accidental loss of a narrated concept is caught.
+    expect(narrated.length).toBeGreaterThanOrEqual(12);
     for (const raw of narrated) {
       const entity = asEntity(raw);
       const lesson = composeNarrativeLesson(entity, NARRATIVES[entity.id]!);
