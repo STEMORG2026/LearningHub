@@ -583,6 +583,73 @@ describe('StemLesson Web Component', () => {
     });
   });
 
+  describe('Reveal & heading branches', () => {
+    afterEach(() => {
+      // Ensure a real observer mock never leaks across tests that assume its absence.
+      vi.unstubAllGlobals();
+    });
+
+    it('reveals all sections at once when IntersectionObserver is unavailable', () => {
+      const before = (globalThis as Record<string, unknown>).IntersectionObserver;
+      try {
+        // Simulate an old engine with no observer support.
+        delete (globalThis as Record<string, unknown>).IntersectionObserver;
+        element.setLessonData(mockLesson);
+        const revealed = element.shadowRoot!.querySelectorAll('.revealed');
+        expect(revealed.length).toBe(mockLesson.sections.length);
+      } finally {
+        if (before !== undefined) {
+          (globalThis as Record<string, unknown>).IntersectionObserver = before;
+        }
+      }
+    });
+
+    it('observes each section via IntersectionObserver when supported', () => {
+      const observed: Element[] = [];
+      const observe = vi.fn((el: Element) => {
+        observed.push(el);
+      });
+      const unobserve = vi.fn();
+
+      // jsdom provides no IntersectionObserver; install a stub so the observer
+      // branch in the render lifecycle is exercised.
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          constructor() {}
+          observe(el: Element) {
+            return observe(el);
+          }
+          unobserve(el: Element) {
+            return unobserve(el);
+          }
+        },
+      );
+
+      element.setLessonData(mockLesson);
+
+      // First section is revealed immediately; every section is observed.
+      const revealed = element.shadowRoot!.querySelectorAll('.revealed');
+      expect(revealed.length).toBeGreaterThanOrEqual(1);
+      expect(observe).toHaveBeenCalled();
+      expect(observed.length).toBe(mockLesson.sections.length);
+      expect(unobserve).not.toHaveBeenCalled();
+    });
+
+    it('skips the section-heading element when a section has no heading', () => {
+      const noHeading = {
+        ...mockLesson,
+        sections: mockLesson.sections.map((s) => {
+          const { heading: _ignored, ...rest } = s;
+          return rest;
+        }),
+      };
+      element.setLessonData(noHeading);
+      // A section without a heading must not emit a `.section-heading` node.
+      expect(element.shadowRoot!.querySelector('.section-heading')).toBeNull();
+    });
+  });
+
   describe('Custom Element Registration', () => {
     it('should register the custom element globally', () => {
       expect(customElements.get('stem-lesson')).toBeDefined();
