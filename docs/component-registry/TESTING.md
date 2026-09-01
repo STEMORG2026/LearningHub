@@ -21,7 +21,7 @@
 | `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (65 tests) |
 | `packages/content-provider/` | `tests/*.test.ts` | Unit | — | 🟢 Written (40 tests) |
 | `packages/interactive-simulations/` | `tests/*.test.ts` | Unit | — | 🟢 Written (19 tests) |
-| `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (51 tests) |
+| `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (54 tests) |
 <!-- END AUTO:testing-table -->
 
 ## E2E Tests (Future)
