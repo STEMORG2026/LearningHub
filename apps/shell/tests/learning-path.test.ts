@@ -120,4 +120,29 @@ describe('LearningPath', () => {
     expect(stepWithLesson).toBeDefined();
     expect(stepWithLesson!.lesson!.metadata.displayName).toBeTruthy();
   });
+
+  it('generates a dedicated NEB Grade 11 senior-secondary path (exact match)', () => {
+    const path = generateLearningPath('neb_nepal', 11, lessons);
+    expect(path.curriculum).toBe('neb_nepal');
+    expect(path.grade).toBe(11);
+    expect(path.resolvedGrade).toBe(11);
+    expect(path.subject).toBe('physics');
+    expect(path.steps.length).toBeGreaterThan(0);
+  });
+
+  it('generates a dedicated NEB Grade 12 senior-secondary path (exact match)', () => {
+    const path = generateLearningPath('neb_nepal', 12, lessons);
+    expect(path.curriculum).toBe('neb_nepal');
+    expect(path.grade).toBe(12);
+    expect(path.resolvedGrade).toBe(12);
+    expect(path.steps.length).toBeGreaterThan(0);
+  });
+
+  it('falls back to nearest syllabus for unauthored senior-secondary grades', () => {
+    // A curriculum with only a Grade-10 mapping served for Grade 12 keeps working,
+    // exposing resolvedGrade < grade so the UI can show a coverage notice.
+    const path = generateLearningPath('cbse', 12, lessons);
+    expect(path.steps.length).toBeGreaterThan(0);
+    expect(path.resolvedGrade).toBeLessThan(path.grade);
+  });
 });
