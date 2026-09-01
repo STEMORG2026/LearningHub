@@ -18,8 +18,10 @@
  * with the canonical fact via `composeNarrativeLesson`.
  */
 import type { NarrativeContent } from '@stem-tuition/content-provider';
+import { NARRATIVES_BATCH2 } from './narratives-batch2';
 
 export const NARRATIVES: Record<string, NarrativeContent> = {
+  ...NARRATIVES_BATCH2,
   'lhs:phys.force': {
     conceptId: 'lhs:phys.force',
     hook:
