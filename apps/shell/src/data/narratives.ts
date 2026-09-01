@@ -20,9 +20,11 @@
 import type { NarrativeContent } from '@stem-tuition/content-provider';
 import { NARRATIVES_BATCH2 } from './narratives-batch2';
 import { NARRATIVES_BATCH3 } from './narratives-batch3';
+import { NARRATIVES_BATCH4 } from './narratives-batch4';
 
 export const NARRATIVES: Record<string, NarrativeContent> = {
   ...NARRATIVES_BATCH3,
+  ...NARRATIVES_BATCH4,
   ...NARRATIVES_BATCH2,
   'lhs:phys.force': {
     conceptId: 'lhs:phys.force',

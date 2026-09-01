@@ -1,4 +1,4 @@
-STEM-TUITION/  9c364da
+STEM-TUITION/  445ce5c
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -47,6 +47,7 @@ STEM-TUITION/  9c364da
 │       │   │   ├── knowledge.json
 │       │   │   ├── narratives-batch2.ts
 │       │   │   ├── narratives-batch3.ts
+│       │   │   ├── narratives-batch4.ts
 │       │   │   ├── narratives.ts
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts
