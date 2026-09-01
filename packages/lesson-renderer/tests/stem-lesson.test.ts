@@ -88,6 +88,13 @@ describe('StemLesson Web Component', () => {
         body: '17th century scientific revolution',
         symbol: undefined,
       },
+      {
+        id: 'sec-11',
+        kind: 'application',
+        heading: 'Where You Meet It',
+        body: 'Braking systems use friction to slow a car.',
+        symbol: undefined,
+      },
     ],
     questions: [
       {
@@ -183,7 +190,7 @@ describe('StemLesson Web Component', () => {
 
     it('should render all sections', () => {
       const sections = shadowRoot.querySelectorAll('.section');
-      expect(sections.length).toBe(10);
+      expect(sections.length).toBe(11);
     });
 
     it('should render text sections with body', () => {
@@ -414,32 +421,39 @@ describe('StemLesson Web Component', () => {
     });
   });
 
-  describe('Common Misconceptions Section', () => {
+  describe('Misconceptions & Applications', () => {
     beforeEach(() => {
       element.setLessonData(mockLesson);
     });
 
-    it('should render misconceptions section', () => {
-      const appSection = shadowRoot.querySelector('.applications');
+    it('should render misconception sections with badge', () => {
+      const miscSection = shadowRoot.querySelector('.section-misconception');
+      expect(miscSection).toBeTruthy();
+      const badge = miscSection?.querySelector('.misconception-badge');
+      expect(badge?.textContent).toContain('Common Misconception');
+    });
+
+    it('should render application sections inline as part of the story', () => {
+      const appSection = shadowRoot.querySelector('.section-application');
       expect(appSection).toBeTruthy();
+      const badge = appSection?.querySelector('.application-badge');
+      expect(badge?.textContent).toContain('Where You Meet It');
     });
 
-    it('should render misconceptions title', () => {
-      const title = shadowRoot.querySelector('.applications-title');
-      expect(title?.textContent).toContain('Common Misconceptions');
+    it('should not render a separate footer applications block (apps live inline)', () => {
+      const footerBlock = shadowRoot.querySelector('.applications');
+      expect(footerBlock).toBeFalsy();
     });
 
-    it('should render all misconceptions', () => {
-      const items = shadowRoot.querySelectorAll('.app-item');
-      expect(items.length).toBe(2);
-    });
-
-    it('should not render misconceptions section if empty', () => {
-      const lessonWithoutMisconceptions = { ...mockLesson, metadata: { ...mockLesson.metadata, commonMisconceptions: [] } };
+    it('should not render misconception block if no misconceptions', () => {
+      const lessonWithoutMisconceptions = {
+        ...mockLesson,
+        metadata: { ...mockLesson.metadata, commonMisconceptions: [] },
+        sections: mockLesson.sections.filter((s) => s.kind !== 'misconception'),
+      };
       element.setLessonData(lessonWithoutMisconceptions);
-      
-      const appSection = shadowRoot.querySelector('.applications');
-      expect(appSection).toBeFalsy();
+      const miscSections = shadowRoot.querySelectorAll('.section-misconception');
+      expect(miscSections.length).toBe(0);
     });
   });
 

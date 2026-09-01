@@ -1,10 +1,1299 @@
 {
   "export_version": "0.1",
   "schema_version": "0.1",
-  "generated_at": "2026-08-17T10:53:36+00:00",
+  "generated_at": "2026-08-24T17:47:57+00:00",
   "source": "content/",
-  "entity_count": 75,
+  "entity_count": 112,
   "entities": [
+    {
+      "id": "lhs:bio.animal-cell",
+      "type": "concept",
+      "name": "Animal Cell",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A eukaryotic cell characteristic of animals, enclosed by a flexible plasma membrane, lacking a cell wall and chloroplasts, and containing membrane-bound organelles such as mitochondria, lysosomes, and a nucleus.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Animal cells have cell walls like plant cells (animal cells only have a flexible cell membrane).",
+        "Animal cells contain chloroplasts (animal cells obtain energy through heterotrophic nutrition and respiration)."
+      ],
+      "learning_objectives": [
+        "Identify major organelles in an animal cell (nucleus, mitochondria, ribosomes, endoplasmic reticulum).",
+        "Describe the function of the plasma membrane in regulating cell transport.",
+        "Compare structural features of animal and plant cells."
+      ],
+      "real_world_applications": [
+        "Stem cell research and regenerative medicine.",
+        "Pharmacology and cellular drug toxicity testing."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.cell",
+      "type": "concept",
+      "name": "Cell",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The basic structural, functional, and biological unit of all known living organisms. Cells carry out essential life processes, contain hereditary material, and arise from pre-existing cells.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Cells are flat two-dimensional structures as seen under standard microscope slides (cells are 3D).",
+        "All cells are identical in size and shape (cells exhibit extreme specialization and diversity)."
+      ],
+      "learning_objectives": [
+        "State the three principles of cell theory.",
+        "Distinguish between unicellular and multicellular organisms.",
+        "Identify major cell components common to all living cells (plasma membrane, cytoplasm, DNA, ribosomes)."
+      ],
+      "real_world_applications": [
+        "Cell culture in medical diagnostics and vaccine production.",
+        "Understanding cancer and cellular pathology."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences / UNESCO Biology Framework"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.cellular-respiration",
+      "type": "concept",
+      "name": "Cellular Respiration",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The metabolic process by which cells break down organic molecules (such as glucose) to release energy stored in ATP molecules, utilizing oxygen in aerobic respiration and producing carbon dioxide and water.",
+      "symbol": null,
+      "unit": null,
+      "equation": "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP energy",
+      "common_misconceptions": [
+        "Cellular respiration is breathing (breathing is gas exchange at the organism level; cellular respiration is energy release at the cell level).",
+        "Plants do not undergo cellular respiration (plants continuously undergo cellular respiration to power cell work)."
+      ],
+      "learning_objectives": [
+        "Write the chemical equation for aerobic cellular respiration.",
+        "Distinguish aerobic respiration (with oxygen) from anaerobic respiration / fermentation (without oxygen).",
+        "Describe the role of mitochondria as the primary site of ATP generation in eukaryotic cells."
+      ],
+      "real_world_applications": [
+        "Exercise physiology, metabolic rate measurement, and athletic training.",
+        "Fermentation in bread baking, brewing, and industrial biotechnology."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biochemistry and Molecular Biology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.photosynthesis"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.dna",
+      "type": "concept",
+      "name": "Deoxyribonucleic Acid (DNA)",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A double-stranded helical nucleic acid molecule storing genetic instructions used in the development, functioning, growth, and reproduction of all known living organisms and many viruses.",
+      "symbol": "DNA",
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "DNA is found in all body cells equally except red blood cells (mature human red blood cells lack nuclei and DNA).",
+        "Genes and DNA are separate materials (genes are specific functional segments of DNA molecules)."
+      ],
+      "learning_objectives": [
+        "Describe the double-helix structure of DNA composed of nucleotide units (sugar, phosphate, nitrogenous bases A, T, C, G).",
+        "Explain complementary base pairing rules (A with T, C with G).",
+        "Describe the role of DNA in genetic inheritance and protein synthesis."
+      ],
+      "real_world_applications": [
+        "Forensic DNA profiling and paternity testing.",
+        "Genetic testing for hereditary medical conditions."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC-IUBMB Joint Commission on Biochemical Nomenclature"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.covalent-bond"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.ecosystem",
+      "type": "concept",
+      "name": "Ecosystem",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A biological community of interacting organisms (biotic factors) together with their non-living physical and chemical environment (abiotic factors), functioning as an integrated ecological system.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Ecosystems are static and unchanging when undisturbed (ecosystems experience continuous dynamic fluctuations and succession).",
+        "Decomposers are unimportant compared to predators (decomposers recycle essential chemical nutrients without which ecosystems collapse)."
+      ],
+      "learning_objectives": [
+        "Distinguish biotic components (producers, consumers, decomposers) from abiotic components (temperature, light, water, nutrients).",
+        "Trace energy flow (one-way) and nutrient cycling (recycled) through ecosystems.",
+        "Analyze how changes in biotic or abiotic factors affect ecosystem stability."
+      ],
+      "real_world_applications": [
+        "Wildlife habitat conservation and restoration ecology.",
+        "Ecosystem service evaluation (water purification, pollination, flood control)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union for Conservation of Nature (IUCN) / UNESCO"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.photosynthesis"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cellular-respiration"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.enzyme",
+      "type": "concept",
+      "name": "Enzyme",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A biological catalyst (typically a protein) that speeds up specific biochemical reactions by lowering activation energy without being consumed in the reaction.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Enzymes are alive or die when heated (enzymes are protein molecules that denature/lose active site shape at extreme heat or pH).",
+        "Enzymes work on any reactant (enzymes demonstrate high substrate specificity via lock-and-key / induced fit active sites)."
+      ],
+      "learning_objectives": [
+        "Explain how enzymes lower activation energy for metabolic reactions.",
+        "Describe the effect of temperature and pH on enzyme activity and denaturation.",
+        "Interpret substrate concentration vs. reaction rate graphs."
+      ],
+      "real_world_applications": [
+        "Digestive enzyme supplements and laundry detergent formulations.",
+        "Industrial biocatalytic synthesis of pharmaceuticals."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biochemistry and Molecular Biology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.gene",
+      "type": "concept",
+      "name": "Gene",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The basic physical and functional unit of heredity, composed of a specific sequence of nucleotides along a DNA molecule that codes for a specific functional polypeptide (protein) or RNA product.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Single genes strictly dictate complex traits like intelligence or behavior (most traits are polygenic and environmentally influenced).",
+        "Mutated genes are always harmful (mutations provide genetic variation essential for natural selection and evolution)."
+      ],
+      "learning_objectives": [
+        "Define a gene as a functional segment of DNA.",
+        "Explain how genes determine physical traits (phenotype) through protein expression.",
+        "Distinguish between dominant and recessive alleles of a gene."
+      ],
+      "real_world_applications": [
+        "Gene editing technologies (CRISPR-Cas9) and gene therapy.",
+        "Agricultural crop breeding for drought and disease resistance."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.dna"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.dna"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.natural-selection",
+      "type": "concept",
+      "name": "Natural Selection",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The evolutionary process by which organisms possessing heritable traits better suited to their environment tend to survive and reproduce at higher rates, passing advantageous alleles to subsequent generations.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Natural selection involves intentional self-adaptation by individual organisms (adaptation occurs across populations over generations).",
+        "Natural selection leads to ultimate perfection in organisms (selection optimizes survival and reproduction relative to current environmental pressures)."
+      ],
+      "learning_objectives": [
+        "State the four conditions required for natural selection: variation, inheritance, overproduction, differential reproductive success.",
+        "Explain how environmental selective pressures drive evolutionary change in populations.",
+        "Describe examples of rapid natural selection (e.g. antibiotic resistance in bacteria, peppered moths)."
+      ],
+      "real_world_applications": [
+        "Managing antibiotic and pesticide resistance in medicine and agriculture.",
+        "Conservation biology and predicting species responses to climate change."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences / UNESCO Biology Framework"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.gene"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.dna"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.photosynthesis",
+      "type": "concept",
+      "name": "Photosynthesis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The biological process by which autotrophic organisms (such as plants and algae) convert light energy into stored chemical energy in glucose, using carbon dioxide and water while releasing oxygen as a byproduct.",
+      "symbol": null,
+      "unit": null,
+      "equation": "6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂",
+      "common_misconceptions": [
+        "Photosynthesis occurs to produce energy for plants instead of storing energy as carbohydrates.",
+        "Photosynthesis occurs during the day while cellular respiration only occurs at night (respiration occurs continuously).",
+        "Plants obtain their primary mass from soil nutrients rather than carbon dioxide gas from air."
+      ],
+      "learning_objectives": [
+        "State the balanced chemical equation for oxygenic photosynthesis.",
+        "Describe the role of chlorophyll in absorbing light energy.",
+        "Explain how photosynthesis drives carbon cycling and energy flow in ecosystems."
+      ],
+      "real_world_applications": [
+        "Global primary agricultural food production.",
+        "Atmospheric oxygen regulation and carbon sequestration."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "UNESCO Science Education Framework / IUPAC"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.plant-cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.light"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.conservation-of-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.plant-cell",
+      "type": "concept",
+      "name": "Plant Cell",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A eukaryotic cell characteristic of plants, distinguished by a rigid cellulose cell wall, a large central vacuole for turgor pressure, and plastids such as chloroplasts for photosynthesis.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Plant cells do not perform cellular respiration (plant cells perform both photosynthesis and respiration).",
+        "Plant cells lack cell membranes (plant cells have a cell membrane inside the rigid cell wall)."
+      ],
+      "learning_objectives": [
+        "Identify key structures unique to plant cells (cell wall, chloroplasts, central vacuole).",
+        "Explain the role of the cell wall and vacuole in providing mechanical support.",
+        "Compare plant cell structures with animal cells."
+      ],
+      "real_world_applications": [
+        "Agriculture and crop yield optimization.",
+        "Biofuel development and plant tissue culture."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.acid",
+      "type": "concept",
+      "name": "Acid",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical substance that releases hydrogen ions (H⁺ or hydronium H₃O⁺) in aqueous solution, tastes sour, turns blue litmus paper red, has a pH less than 7, and reacts with bases to form salts and water.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "All acids burn skin and dissolve everything (many weak acids are safe and essential in biological systems, e.g. citric acid, amino acids).",
+        "Strong acids and concentrated acids mean the same thing (strength is degree of ionization; concentration is amount of acid per volume)."
+      ],
+      "learning_objectives": [
+        "Define an acid according to Arrhenius (H⁺ producer) and Brønsted-Lowry (proton donor) models.",
+        "Distinguish strong acids (fully ionized) from weak acids (partially ionized).",
+        "Describe characteristic acid reactions with metals, carbonates, and bases."
+      ],
+      "real_world_applications": [
+        "Stomach digestion (hydrochloric acid).",
+        "Lead-acid car batteries (sulfuric acid) and food preservation (vinegar/acetic acid)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.proton"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.atom",
+      "type": "concept",
+      "name": "Atom",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The smallest unit of an element that retains the chemical properties of that element. An atom consists of a dense central nucleus of protons and neutrons surrounded by a cloud of electrons.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Atoms are solid spheres with fixed orbits like solar systems (electrons exist in probability clouds).",
+        "Atoms can be seen with optical microscopes (atoms are smaller than wavelengths of visible light)."
+      ],
+      "learning_objectives": [
+        "Describe the internal structure of an atom (protons, neutrons, electrons).",
+        "Explain how the number of protons defines an element's atomic number.",
+        "Relate atomic structure to chemical reactivity."
+      ],
+      "real_world_applications": [
+        "Semiconductor electronics and nanotechnology.",
+        "Nuclear medicine and radiocarbon dating."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electric-charge"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.atomic-structure"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.base",
+      "type": "concept",
+      "name": "Base",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical substance that reacts with acids to form salt and water, accepts protons (H⁺), or releases hydroxide ions (OH⁻) in aqueous solution (alkali). Bases taste bitter, feel slippery, turn red litmus paper blue, and have a pH greater than 7.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Bases are completely harmless compared to acids (strong alkalis like sodium hydroxide cause severe chemical burns).",
+        "All bases are soluble in water (alkalis are water-soluble bases; insoluble bases like copper oxide are not alkalis)."
+      ],
+      "learning_objectives": [
+        "Define a base (proton acceptor / hydroxide producer) and distinguish alkalis from insoluble bases.",
+        "Explain strong vs. weak bases in terms of dissociation.",
+        "Describe neutralization reactions of bases with acids."
+      ],
+      "real_world_applications": [
+        "Antacids for neutralizing stomach acid.",
+        "Household cleaning products (ammonia, drain cleaner / sodium hydroxide)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.acid"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.chemical-reaction",
+      "type": "concept",
+      "name": "Chemical Reaction",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A process in which one or more substances (reactants) are chemically transformed into one or more different substances (products) through the breaking and forming of chemical bonds, conserving total mass and atoms.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Atoms are destroyed or created during chemical reactions (atoms are only rearranged).",
+        "Mass changes significantly during chemical reactions in closed systems (mass is conserved)."
+      ],
+      "learning_objectives": [
+        "Identify evidence of chemical reactions (color change, gas evolution, precipitate, temperature change).",
+        "Write and balance chemical equations demonstrating mass conservation.",
+        "Distinguish between reactants and products."
+      ],
+      "real_world_applications": [
+        "Combustion in engines and power plants.",
+        "Biological metabolism and photosynthesis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.conservation-of-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.compound",
+      "type": "concept",
+      "name": "Chemical Compound",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A pure substance formed when two or more different chemical elements are chemically bonded together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent elements.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Compounds retain the physical and chemical properties of their constituent elements (e.g., sodium and chlorine vs. table salt).",
+        "Mixtures and compounds are identical (mixtures are physically combined without fixed ratios or chemical bonds)."
+      ],
+      "learning_objectives": [
+        "Define a chemical compound and distinguish it from a mixture.",
+        "Interpret chemical formulae representing molecular and ionic compounds.",
+        "Explain how chemical bonding creates compounds with unique properties."
+      ],
+      "real_world_applications": [
+        "Pharmaceuticals and drug formulation.",
+        "Water treatment and agricultural fertilizers."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.atom"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.covalent-bond",
+      "type": "concept",
+      "name": "Covalent Bond",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical bond formed when two non-metal atoms share one or more pairs of valence electrons, achieving stable noble-gas electron configurations through mutual electrostatic attraction between shared electrons and nuclei.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Covalent bonding involves transfer of electrons (covalent bonding involves sharing of electron pairs).",
+        "All covalent compounds are simple small molecules (some form giant covalent network structures like diamond and quartz)."
+      ],
+      "learning_objectives": [
+        "Draw Lewis dot structures for single, double, and triple covalent bonds (e.g. H₂, O₂, N₂).",
+        "Distinguish simple molecular covalent structures from giant covalent networks.",
+        "Relate covalent molecular structures to low melting/boiling points."
+      ],
+      "real_world_applications": [
+        "Organic chemistry, polymers, and plastics manufacturing.",
+        "Molecular biology (DNA backbone and proteins)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.electron"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.electron",
+      "type": "concept",
+      "name": "Electron",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A stable subatomic particle carrying a negative elementary electric charge (-1e) and a mass approximately 1/1836th of a proton (9.109 × 10⁻³¹ kg), occupying atomic orbitals surrounding the nucleus.",
+      "symbol": "e-",
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Electrons orbit the nucleus in fixed circular paths like planets (electrons exist in 3D atomic orbitals/probability clouds).",
+        "Electrons move at the speed of light in wires (electron drift speed is slow, but electromagnetic signal propagates fast)."
+      ],
+      "learning_objectives": [
+        "State the charge, mass, and location of electrons in an atom.",
+        "Explain how valence electrons determine chemical bonding and reactivity.",
+        "Relate electron arrangement to periodic table group properties."
+      ],
+      "real_world_applications": [
+        "Electronics, semiconductors, and integrated circuits.",
+        "Electron microscopy and cathode ray tubes."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Gold Book"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:chem.atom"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electric-charge"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.element",
+      "type": "concept",
+      "name": "Chemical Element",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A pure chemical substance consisting of atoms that all have the same number of protons in their atomic nuclei. Elements cannot be broken down into simpler substances by ordinary chemical reactions.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Elements and compounds are the same thing (compounds contain two or more different elements).",
+        "Molecules can only be compounds (some elements exist naturally as diatomic or polyatomic molecules, e.g., O₂, N₂)."
+      ],
+      "learning_objectives": [
+        "Define a chemical element in terms of atomic number.",
+        "Locate and identify elements on the periodic table.",
+        "Distinguish between elemental substances and chemical compounds."
+      ],
+      "real_world_applications": [
+        "Metallurgy and industrial elemental extraction.",
+        "Chemical synthesis and materials engineering."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Nomenclature of Inorganic Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.atom"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.matter"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.ionic-bond",
+      "type": "concept",
+      "name": "Ionic Bond",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical bond formed through the electrostatic attraction between oppositely charged ions, resulting from the complete transfer of one or more valence electrons from a metal atom to a non-metal atom.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Ionic compounds consist of individual discrete molecules (ionic compounds form continuous 3D giant crystal lattices).",
+        "Ionic bonds exist in liquid solution without ion dissociation (in water, ionic lattices dissociate into solvated free ions)."
+      ],
+      "learning_objectives": [
+        "Describe electron transfer leading to cation and anion formation.",
+        "Explain how electrostatic forces hold ionic crystal lattices together.",
+        "Predict formula units for binary ionic compounds (e.g. NaCl, MgO)."
+      ],
+      "real_world_applications": [
+        "Table salt production and mineralogy.",
+        "Electrolyte solutions in batteries and physiological fluids."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.electron"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.coulombs-law"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.matter",
+      "type": "concept",
+      "name": "Matter",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental particles and exists in various physical states depending on thermal energy and pressure.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Energy and matter are the same thing at introductory levels (energy has no mass or volume).",
+        "Gases do not count as matter because they are invisible (gases have mass and occupy volume)."
+      ],
+      "learning_objectives": [
+        "Define matter in terms of mass and volume.",
+        "Distinguish between physical and chemical properties of matter.",
+        "Classify samples of matter as pure substances or mixtures."
+      ],
+      "real_world_applications": [
+        "Materials science and chemical manufacturing.",
+        "Environmental monitoring of air and water quality."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Gold Book / UNESCO Science Education Framework"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.mass"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.density"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.neutralization",
+      "type": "concept",
+      "name": "Neutralization Reaction",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical reaction between an acid and a base (or alkali) producing a salt and water, in which hydrogen ions (H⁺) from the acid react with hydroxide ions (OH⁻) from the base to form neutral water molecules (H₂O).",
+      "symbol": null,
+      "unit": null,
+      "equation": "H⁺(aq) + OH⁻(aq) → H₂O(l)",
+      "common_misconceptions": [
+        "Neutralization always results in a solution of exactly pH 7 (neutralization of weak acids or bases can produce acidic or basic salt solutions).",
+        "Neutralization destroys energy (neutralization is exothermic and releases heat)."
+      ],
+      "learning_objectives": [
+        "Write word and balanced chemical equations for acid-base neutralization.",
+        "Predict the specific salt formed from given acids and bases (e.g. HCl + NaOH → NaCl + H₂O).",
+        "Explain how neutralization changes solution pH toward neutral."
+      ],
+      "real_world_applications": [
+        "Agricultural liming to neutralize acidic soil.",
+        "Treatment of industrial acidic wastewater prior to discharge."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.acid"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.base"
+        },
+        {
+          "type": "special_case_of",
+          "target": "lhs:chem.chemical-reaction"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.periodic-table",
+      "type": "concept",
+      "name": "Periodic Table of Elements",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A tabular arrangement of chemical elements ordered by increasing atomic number, displaying recurring (periodic) trends in chemical and physical properties across periods (rows) and groups (columns).",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Elements in the periodic table are ordered by atomic mass (they are strictly ordered by atomic number Z).",
+        "All elements in a group have identical physical states (groups share chemical reactivity patterns, but physical states vary)."
+      ],
+      "learning_objectives": [
+        "Locate elements by period number and group number on the periodic table.",
+        "Explain why elements in the same group exhibit similar chemical properties.",
+        "Identify major categories: alkali metals, alkaline earths, transition metals, halogens, noble gases."
+      ],
+      "real_world_applications": [
+        "Predicting chemical reactivity and bond formation in chemistry labs.",
+        "Discovering new materials and semiconductor doping."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Periodic Table of the Elements"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.proton"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.ph-scale",
+      "type": "concept",
+      "name": "pH Scale",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A logarithmic scale measuring the acidity or alkalinity of an aqueous solution, defined as the negative base-10 logarithm of the hydrogen ion concentration (pH = -log₁₀[H⁺]), ranging from 0 (highly acidic) to 14 (highly alkaline), with 7 being neutral.",
+      "symbol": "pH",
+      "unit": null,
+      "equation": "pH = -log₁₀[H⁺]",
+      "common_misconceptions": [
+        "A change of 1 pH unit represents a 1-fold change in acidity (pH is logarithmic: a 1-unit change is a 10-fold change in H⁺ concentration).",
+        "Neutral pH is always 7 regardless of temperature (neutral pH equals 7 at 25 °C, but changes slightly with temperature)."
+      ],
+      "learning_objectives": [
+        "Interpret values on the 0–14 pH scale (acidic < 7, neutral = 7, basic > 7).",
+        "Use indicators (litmus, universal indicator, pH meters) to estimate solution pH.",
+        "Calculate H⁺ concentration from pH and vice versa."
+      ],
+      "real_world_applications": [
+        "Soil testing for agricultural crop suitability.",
+        "Swimming pool and aquarium water quality maintenance."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Quantities, Units and Symbols in Physical Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.acid"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.base"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.proton",
+      "type": "concept",
+      "name": "Proton",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A stable subatomic particle occurring in all atomic nuclei, carrying a positive elementary electric charge (+1e) and a mass of approximately 1 atomic mass unit (1.673 × 10⁻²⁷ kg).",
+      "symbol": "p+",
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Protons leave the nucleus during ordinary chemical reactions (only outer electrons are transferred or shared).",
+        "Changing the number of protons does not change the element (proton count strictly determines elemental identity)."
+      ],
+      "learning_objectives": [
+        "Identify the charge, mass, and location of protons in an atom.",
+        "Relate proton count (atomic number Z) to elemental identity on the periodic table.",
+        "Calculate net atomic/ionic charge from proton and electron numbers."
+      ],
+      "real_world_applications": [
+        "Proton beam radiation therapy in cancer treatment.",
+        "Mass spectrometry for chemical structural analysis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Gold Book"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:chem.atom"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electric-charge"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.atmosphere",
+      "type": "concept",
+      "name": "Earth Atmosphere",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The layer of gases surrounding Earth, retained by Earth's gravity, composed primarily of nitrogen (78%) and oxygen (21%), which absorbs ultraviolet radiation, warms the surface via the greenhouse effect, and regulates weather.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Space begins abruptly where the atmosphere stops (atmospheric density decreases continuously with altitude).",
+        "The greenhouse effect is entirely harmful (the natural greenhouse effect makes Earth habitable)."
+      ],
+      "learning_objectives": [
+        "Describe the gas composition and vertical structure of the atmosphere (troposphere, stratosphere, mesosphere, thermosphere).",
+        "Explain how atmospheric pressure decreases with altitude.",
+        "Analyze the natural greenhouse effect and thermal radiation absorption."
+      ],
+      "real_world_applications": [
+        "Aviation and satellite orbit decay management.",
+        "Climate change mitigation and air quality control."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NOAA / WMO Atmospheric Science Standards"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.pressure"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.gravitation"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.big-bang-theory",
+      "type": "concept",
+      "name": "Big Bang Theory",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The prevailing cosmological model describing the early development and metric expansion of the universe from an extremely hot, dense state approximately 13.8 billion years ago.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "The Big Bang was an explosion into pre-existing space (the Big Bang describes the expansion of space itself everywhere).",
+        "The universe expands into empty outer space (space itself is expanding between distant galaxy clusters)."
+      ],
+      "learning_objectives": [
+        "Summarize key observational evidence supporting the Big Bang: cosmic microwave background radiation (CMB) and galactic redshift (Hubble's law).",
+        "Describe the age and continuous metric expansion of the observable universe.",
+        "Distinguish scientific cosmological consensus from speculative hypotheses."
+      ],
+      "real_world_applications": [
+        "Radio astronomy telescope development and satellite microwave detectors.",
+        "Fundamental physics research into elemental nucleosynthesis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Astronomical Union (IAU) / NASA Cosmology Framework"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electromagnetic-spectrum"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.gravitation"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.earth-system",
+      "type": "concept",
+      "name": "Earth System",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The integrated complex of physical, chemical, biological, and geological processes interacting across Earth's four major interconnected spheres: the geosphere, hydrosphere, atmosphere, and biosphere.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Earth's spheres operate independently of one another (they are constantly exchanging matter and energy).",
+        "Human activity is external to the Earth system (human activities are an integral component of biosphere interactions)."
+      ],
+      "learning_objectives": [
+        "Identify and describe the four primary Earth spheres.",
+        "Explain examples of energy and matter transport between spheres (e.g. water and carbon cycles).",
+        "Analyze human impacts on Earth system feedback mechanisms."
+      ],
+      "real_world_applications": [
+        "Global climate modeling and weather forecasting.",
+        "Natural resource management and environmental policy."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NASA Earth System Science Framework / AGU"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.conservation-of-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.greenhouse-effect",
+      "type": "concept",
+      "name": "Greenhouse Effect",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The process by which greenhouse gases in Earth's atmosphere (such as water vapor, CO₂, CH₄) absorb outgoing infrared radiation emitted by Earth's surface and re-radiate thermal energy in all directions, warming the lower atmosphere.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "The greenhouse effect functions like a physical glass greenhouse preventing convection (the atmospheric effect operates primarily by absorbing and re-emitting infrared radiation).",
+        "The natural greenhouse effect is harmful (without the natural greenhouse effect, Earth's average surface temperature would be approximately -18 °C)."
+      ],
+      "learning_objectives": [
+        "Explain energy balance between incoming solar radiation (shortwave) and outgoing terrestrial radiation (longwave/infrared).",
+        "Identify major greenhouse gases and their relative warming potentials.",
+        "Distinguish the natural greenhouse effect from the enhanced greenhouse effect caused by human activities."
+      ],
+      "real_world_applications": [
+        "Global climate modeling and carbon footprint accounting.",
+        "Renewable energy policy and emission reduction technologies."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IPCC Sixth Assessment Report / WMO"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.atmosphere"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electromagnetic-spectrum"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.earth-system"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.plate-tectonics",
+      "type": "concept",
+      "name": "Plate Tectonics",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The unifying geological theory explaining that Earth's rigid outer shell (lithosphere) is divided into several large plates that move slowly over the asthenosphere, driven by mantle convection currents.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Continents float on liquid ocean magma (tectonic plates consist of rigid lithospheric rock moving over ductile asthenosphere).",
+        "Tectonic plate movement is fast and noticeable daily (plates move at rates of 1–10 cm per year)."
+      ],
+      "learning_objectives": [
+        "Describe the three types of plate boundaries: convergent, divergent, and transform.",
+        "Relate plate tectonics to earthquakes, volcanic activity, mountain building, and oceanic trench formation.",
+        "Explain mantle convection as the primary thermal driving mechanism for plate motion."
+      ],
+      "real_world_applications": [
+        "Earthquake hazard assessment and building code engineering.",
+        "Geothermal energy site exploration and mineral resource discovery."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "USGS / AGU Earth Science Education Framework"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.thermal-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.seasons-cause",
+      "type": "concept",
+      "name": "Cause of Astronomical Seasons",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The cyclical variation in temperature and daylight duration across Earth's year, caused primarily by Earth's 23.5° axial tilt relative to its orbital plane around the Sun, changing solar incidence angle and daylight length.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Seasons are caused by Earth being significantly closer to the Sun in summer (Earth is actually closest to the Sun in January during Northern Hemisphere winter).",
+        "Both Northern and Southern hemispheres experience summer at the same time (hemispheres experience opposite seasons due to axial tilt orientation)."
+      ],
+      "learning_objectives": [
+        "Explain how Earth's 23.5° axial tilt alters solar angle of incidence and daylight duration throughout the year.",
+        "Interpret solstices and equinoxes on orbital diagrams.",
+        "Disprove the distance misconception using orbital data (perihelion vs. aphelion distance differences)."
+      ],
+      "real_world_applications": [
+        "Agricultural crop planting schedules and solar energy system tilt design.",
+        "Climate zone classification and architectural daylighting."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NASA Science Framework / IAU Astronomy Education"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.gravitation"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.earth-system"
+        }
+      ]
+    },
+    {
+      "id": "lhs:eng.engineering-design-process",
+      "type": "concept",
+      "name": "Engineering Design Process",
+      "domain": "engineering",
+      "status": "draft",
+      "definition": "An iterative problem-solving methodology involving problem definition, criteria and constraint identification, concept generation, modeling, prototyping, testing, trade-off evaluation, and design optimization.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Engineering design is a linear step-by-step procedure (it is iterative with multiple feedback loops).",
+        "Engineering design is the same as scientific inquiry (science seeks to explain natural phenomena; engineering solves practical human problems under constraints)."
+      ],
+      "learning_objectives": [
+        "Describe the iterative steps of the engineering design process.",
+        "Distinguish design criteria (requirements) from design constraints (limitations).",
+        "Evaluate trade-offs between competing design criteria (e.g. cost vs safety vs performance)."
+      ],
+      "real_world_applications": [
+        "Civil infrastructure and bridge design.",
+        "Biomedical device development and software engineering."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NGSS Engineering Design Standards / NAE"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:practice.scientific-observation"
+        }
+      ]
+    },
+    {
+      "id": "lhs:epist.observation-vs-inference",
+      "type": "concept",
+      "name": "Observation vs. Inference",
+      "domain": "scientific-practice",
+      "status": "draft",
+      "definition": "The epistemic distinction between direct empirical data gathered through sensing/measurement (observation) and the logical explanation or conclusion derived from those data based on prior knowledge (inference).",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Inferences are facts (inferences are interpretations that require logical justification and testing).",
+        "Scientific theories are just guesses (scientific theories are well-supported explanatory frameworks based on extensive observations)."
+      ],
+      "learning_objectives": [
+        "Distinguish direct observations from logical inferences in scientific reports.",
+        "Explain how multiple inferences can be constructed from the same set of observations.",
+        "Evaluate the strength of evidence supporting a scientific inference."
+      ],
+      "real_world_applications": [
+        "Forensic investigation and evidence evaluation.",
+        "Diagnostic medical reasoning and scientific peer review."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "OECD PISA Epistemic Knowledge Framework / NSTA Nature of Science"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:practice.scientific-observation"
+        }
+      ]
+    },
     {
       "id": "lhs:phys.acceleration",
       "type": "quantity",
@@ -589,6 +1878,49 @@
       ]
     },
     {
+      "id": "lhs:phys.electric-motor",
+      "type": "concept",
+      "name": "Electric Motor",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "An electrical machine that converts electrical energy into mechanical energy through the interaction between a magnetic field and winding currents producing rotational force (torque).",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Motors create energy out of nothing (motors convert electrical energy to mechanical energy with some heat loss).",
+        "Motors operate on electrostatic repulsion (motors operate via magnetic forces on current-carrying conductors)."
+      ],
+      "learning_objectives": [
+        "Explain the motor effect (force on a current-carrying conductor in a magnetic field).",
+        "Describe the roles of the armature, commutator, field magnets, and brushes in a DC motor.",
+        "Apply Fleming's left-hand rule to predict direction of motor rotation."
+      ],
+      "real_world_applications": [
+        "Electric vehicles, trains, and elevator propulsion systems.",
+        "Household appliances (refrigerators, washing machines, fans)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IEEE / UNESCO Engineering & Physics Education Framework"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electromagnetism"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.current"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.magnetic-field"
+        }
+      ]
+    },
+    {
       "id": "lhs:phys.electromagnetic-induction",
       "type": "concept",
       "name": "Electromagnetic Induction",
@@ -1083,6 +2415,45 @@
         {
           "type": "related_to",
           "target": "lhs:phys.energy-loss"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.generator",
+      "type": "concept",
+      "name": "Electric Generator",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "A machine that converts mechanical energy into electrical energy using electromagnetic induction, forcing electric charge to flow through an external circuit by rotating a coil in a magnetic field.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Generators create electric charge (generators move existing free charges in conductors via magnetic induction).",
+        "Generators produce 100% efficient electrical power (some mechanical energy is dissipated as thermal energy)."
+      ],
+      "learning_objectives": [
+        "Explain how mechanical rotation induces an alternating electromotive force (AC voltage).",
+        "Compare alternating current (AC) generators (slip rings) with direct current (DC) generators (split-ring commutator).",
+        "Apply Fleming's right-hand rule to predict direction of induced current."
+      ],
+      "real_world_applications": [
+        "Hydroelectric, wind turbine, and thermal power plant generators.",
+        "Portable emergency power generators and bicycle dynamos."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IEEE / IUPAP Physics Education Standards"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electromagnetic-induction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.magnetic-flux"
         }
       ]
     },
@@ -1596,6 +2967,45 @@
         {
           "type": "related_to",
           "target": "lhs:phys.electromagnetism"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.magnetic-flux",
+      "type": "quantity",
+      "name": "Magnetic Flux",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "A measure of the total magnetic field passing through a given surface area, calculated as the product of magnetic field strength perpendicular to the surface and the surface area.",
+      "symbol": "Φ",
+      "unit": "weber (Wb)",
+      "equation": "Φ = B · A · cos(θ)",
+      "common_misconceptions": [
+        "Magnetic flux and magnetic field strength are identical (flux accounts for total area and orientation).",
+        "A stationary coil in a constant magnetic field has changing flux (flux only changes when field, area, or angle changes)."
+      ],
+      "learning_objectives": [
+        "Define magnetic flux and calculate its value for a surface perpendicular to a uniform field.",
+        "State the SI unit of magnetic flux (weber).",
+        "Relate rate of change of magnetic flux to induced electromotive force."
+      ],
+      "real_world_applications": [
+        "Electric power transformers and induction cooktops.",
+        "Magnetic field sensors and hall-effect probes."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAP Symbols, Units, Nomenclature in Physics"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.magnetic-field"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.electromagnetic-induction"
         }
       ]
     },
@@ -2272,7 +3682,7 @@
       },
       "relationships": [
         {
-          "type": "logically_requires",
+          "type": "related_to",
           "target": "lhs:phys.measurement"
         },
         {
@@ -2516,6 +3926,49 @@
         {
           "type": "related_to",
           "target": "lhs:phys.nuclear-fusion"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.ray-model",
+      "type": "concept",
+      "name": "Ray Model of Light",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "A simplified geometric model of light propagation in which light is represented as straight lines (rays) traveling through transparent media and changing direction at boundaries via reflection or refraction.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Light rays are physical objects (light rays are idealized geometric constructs showing direction of energy travel).",
+        "Light only travels straight when observed (light travels straight in homogeneous media regardless of observation)."
+      ],
+      "learning_objectives": [
+        "Construct ray diagrams showing reflection and refraction.",
+        "Apply the ray model to explain shadow formation and pinhole cameras.",
+        "Explain the limitations of the ray model (e.g. wave phenomena like diffraction)."
+      ],
+      "real_world_applications": [
+        "Camera lens design and optical instrument engineering.",
+        "Eyeglass and contact lens prescription design."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAP / UNESCO Physics Education Standards"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.light"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.reflection"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.refraction"
         }
       ]
     },
@@ -3422,6 +4875,41 @@
         {
           "type": "related_to",
           "target": "lhs:phys.conservation-of-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:practice.scientific-observation",
+      "type": "concept",
+      "name": "Scientific Observation",
+      "domain": "scientific-practice",
+      "status": "draft",
+      "definition": "The systematic gathering of information about natural phenomena using the human senses or scientific instruments. Observation provides the empirical basis for scientific questions, hypotheses, and evidence.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "common_misconceptions": [
+        "Observation is strictly passive watching (scientific observation often involves active measurement and instrumentation).",
+        "Observations and inferences are identical (observations are direct empirical data; inferences are logical interpretations)."
+      ],
+      "learning_objectives": [
+        "Distinguish between qualitative and quantitative observations.",
+        "Differentiate empirical observation from inference and opinion.",
+        "Explain how measurement instruments extend human sensory observation."
+      ],
+      "real_world_applications": [
+        "Field biology, astronomy, and meteorology data collection.",
+        "Medical diagnostics and clinical physical examinations."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "OECD PISA 2025 Science Framework / NGSS Science Practices"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:phys.measurement"
         }
       ]
     }

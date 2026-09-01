@@ -32,6 +32,8 @@ export interface LhsEntity {
   unit?: string | null;
   equation?: string | null;
   common_misconceptions?: string[];
+  learning_objectives?: string[];
+  real_world_applications?: string[];
   provenance?: {
     ai_drafted: boolean;
     source_kind?: string;
@@ -94,6 +96,30 @@ function entityToSections(entity: LhsEntity): LessonSection[] {
     }
   }
 
+  // Learning objectives — what the learner should be able to do
+  if (entity.learning_objectives && entity.learning_objectives.length > 0) {
+    sections.push({
+      id: `${entity.id}-objectives-${sectionIdx}`,
+      kind: 'callout',
+      body: entity.learning_objectives.map((s) => `· ${s}`).join('\n'),
+      heading: "What You'll Be Able to Do",
+    });
+    sectionIdx++;
+  }
+
+  // Real-world applications — where the concept shows up in life
+  if (entity.real_world_applications && entity.real_world_applications.length > 0) {
+    for (const app of entity.real_world_applications) {
+      sections.push({
+        id: `${entity.id}-application-${sectionIdx}`,
+        kind: 'application',
+        body: app,
+        heading: 'Where You Meet It',
+      });
+      sectionIdx++;
+    }
+  }
+
   return sections;
 }
 
@@ -141,9 +167,9 @@ export function mapLhsEntityToLesson(entity: LhsEntity): LessonContent {
     tags.push(...entity.relationships.map((r) => r.type));
   }
 
-  return {
+  const lesson: LessonContent = {
     id: `lesson-${entity.id.replace(':', '-')}`,
-    version: '1.0.0',
+    version: '1.1.0',
     metadata: {
       conceptId: entity.id,
       displayName: entity.name,
@@ -158,6 +184,11 @@ export function mapLhsEntityToLesson(entity: LhsEntity): LessonContent {
     questions: [], // LHS doesn't own questions — that's quiz-engine's domain
     simulations,
   };
+  if (entity.learning_objectives) lesson.metadata.learningObjectives = entity.learning_objectives;
+  if (entity.real_world_applications) {
+    lesson.metadata.realWorldApplications = entity.real_world_applications;
+  }
+  return lesson;
 }
 
 /**

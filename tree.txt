@@ -1,5 +1,6 @@
-STEM-TUITION/  0700357
+STEM-TUITION/  6c0b8d5
 ├── .changeset/
+│   ├── brave-stories-tell-lessons.md
 │   ├── calm-docs-governance.md
 │   ├── config.json
 │   └── README.md
@@ -42,6 +43,7 @@ STEM-TUITION/  0700357
 │       │   │   ├── curriculum-mappings.ts
 │       │   │   ├── faqs.ts
 │       │   │   ├── knowledge.json
+│       │   │   ├── narratives.ts
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts
 │       │   │   └── videos.ts
@@ -54,6 +56,7 @@ STEM-TUITION/  0700357
 │       │   │   ├── interactive.ts
 │       │   │   ├── learning-path-ui.ts
 │       │   │   ├── learning-path.ts
+│       │   │   ├── lesson-builder.ts
 │       │   │   ├── lhs-adapter.ts
 │       │   │   ├── lhs-demo.ts
 │       │   │   ├── lhs-types.ts
@@ -84,8 +87,10 @@ STEM-TUITION/  0700357
 │       │   ├── faq-list.test.ts  [test]
 │       │   ├── hover-effects.test.ts  [test]
 │       │   ├── learning-path.test.ts  [test]
+│       │   ├── lesson-builder.test.ts  [test]
 │       │   ├── lhs-adapter.test.ts  [test]
 │       │   ├── lhs-demo.test.ts  [test]
+│       │   ├── narrative-integration.test.ts  [test]
 │       │   └── render.test.ts  [test]
 │       ├── about.html
 │       ├── ARCHITECTURE.toml
@@ -219,12 +224,14 @@ STEM-TUITION/  0700357
 │   │   │   ├── index.ts  [entry]
 │   │   │   ├── lhs-adapter.ts
 │   │   │   ├── local-content-provider.ts
+│   │   │   ├── narrative.ts
 │   │   │   ├── quiz-mapper.ts
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
 │   │   │   ├── fixtures.ts
 │   │   │   ├── lhs-adapter.test.ts  [test]
 │   │   │   ├── local-content-provider.test.ts  [test]
+│   │   │   ├── narrative.test.ts  [test]
 │   │   │   └── quiz-mapper.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json

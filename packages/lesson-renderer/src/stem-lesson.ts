@@ -17,6 +17,8 @@ const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;
 .prereqs{display:flex;gap:.5rem;flex-wrap:wrap}
 .prereq-tag{background:rgba(255,255,255,0.06);padding:.2rem .5rem;border-radius:8px;font-size:.8rem}
 .section{margin-bottom:1.5rem;padding:1.2rem;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06)}
+.section.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.section.reveal.revealed{opacity:1;transform:none}
 .section-text{background:rgba(255,255,255,0.02)}
 .section-equation{background:rgba(0,255,255,0.03);border-color:rgba(0,255,255,0.1)}
 .section-example{background:rgba(0,255,136,0.03);border-color:rgba(0,255,136,0.1)}
@@ -27,6 +29,7 @@ const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;
 .section-analogy{background:rgba(0,200,150,0.04);border-color:rgba(0,200,150,0.12);border-left:3px solid rgba(0,200,150,0.4)}
 .section-fun-fact{background:rgba(255,220,0,0.04);border-color:rgba(255,220,0,0.12)}
 .section-try-this{background:rgba(0,180,255,0.04);border-color:rgba(0,180,255,0.12);border-left:3px solid rgba(0,180,255,0.4)}
+.section-application{background:rgba(0,255,136,0.04);border-color:rgba(0,255,136,0.12);border-left:3px solid rgba(0,255,136,0.4)}
 .section-context{background:rgba(180,180,180,0.03);border-color:rgba(180,180,180,0.08);font-style:italic}
 .section-heading{font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;color:#0ff;margin-bottom:.5rem}
 .section-heading-story{color:#ffb400}
@@ -34,6 +37,7 @@ const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;
 .section-heading-analogy{color:#00c896}
 .section-heading-fun-fact{color:#ffdc00}
 .section-heading-try-this{color:#00b4ff}
+.section-heading-application{color:#0f8}
 .section-heading-context{color:#888}
 .section-body{line-height:1.6;font-size:1rem}
 .section-body-story{font-size:1.05rem;line-height:1.7}
@@ -49,6 +53,7 @@ const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;
 .analogy-badge{display:inline-block;background:rgba(0,200,150,0.15);color:#00c896;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
 .try-this-badge{display:inline-block;background:rgba(0,180,255,0.15);color:#00b4ff;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
 .fun-fact-badge{display:inline-block;background:rgba(255,220,0,0.15);color:#ffdc00;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
+.application-badge{display:inline-block;background:rgba(0,255,136,0.15);color:#0f8;padding:.15rem .5rem;border-radius:8px;font-size:.75rem;margin-bottom:.5rem}
 .section-number{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(0,255,255,0.1);font-size:.75rem;color:#0ff;margin-right:.5rem}
 .qa-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1)}
 .qa-title{font-size:1.2rem;color:#fff;margin-bottom:1rem}
@@ -108,6 +113,40 @@ export class StemLesson extends HTMLElement {
     this.#render();
   }
 
+  #revealObserver: IntersectionObserver | null = null;
+
+  #setupReveal(): void {
+    // Progressive reveal: sections fade/slide in as they scroll into view.
+    this.#revealObserver?.disconnect();
+    if (!this.#root) return;
+    const sections = this.#root.querySelectorAll<HTMLElement>('.section.reveal');
+    if (sections.length === 0) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      // No observer support (very old engines): reveal everything at once.
+      sections.forEach((s) => s.classList.add('revealed'));
+      return;
+    }
+
+    this.#revealObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            this.#revealObserver?.unobserve(entry.target);
+          }
+        }
+      },
+      { root: null, threshold: 0.15 },
+    );
+    // Reveal the first section immediately so the lesson does not look blank.
+    sections[0]?.classList.add('revealed');
+    this.#revealObserver.observe(sections[0] as Element);
+    for (let i = 1; i < sections.length; i++) {
+      this.#revealObserver.observe(sections[i] as Element);
+    }
+  }
+
   #render(): void {
     if (!this.#root) return;
 
@@ -119,7 +158,6 @@ export class StemLesson extends HTMLElement {
     const lesson = this.#lesson;
     const sectionsHtml = lesson.sections.map((s) => this.#renderSection(s)).join('');
     const questionsHtml = lesson.questions.length > 0 ? this.#renderQuestions(lesson.questions) : '';
-    const applicationsHtml = this.#renderApplications();
     const tagsHtml = this.#renderTags();
 
     this.#root.innerHTML = `
@@ -139,17 +177,17 @@ export class StemLesson extends HTMLElement {
           ` : ''}
         </div>
         ${sectionsHtml}
-        ${applicationsHtml}
         ${tagsHtml}
         ${questionsHtml}
       </div>
     `;
 
     this.#attachQuestionListeners();
+    this.#setupReveal();
   }
 
   #renderSection(section: LessonSection): string {
-    const kindClass = `section-${section.kind}`;
+    const kindClass = `section-${section.kind} reveal`;
     const headingClass = `section-heading-${section.kind}`;
 
     const heading = section.heading
@@ -218,6 +256,16 @@ export class StemLesson extends HTMLElement {
       `;
     }
 
+    if (section.kind === 'application') {
+      return `
+        <div class="section ${kindClass}">
+          <span class="application-badge">Where You Meet It</span>
+          ${heading}
+          <div class="section-body section-body-narrative">${section.body}</div>
+        </div>
+      `;
+    }
+
     if (section.kind === 'narrative') {
       return `
         <div class="section ${kindClass}">
@@ -273,25 +321,6 @@ export class StemLesson extends HTMLElement {
       <div class="qa-section">
         <h2 class="qa-title">Check Your Understanding</h2>
         ${questionCards}
-      </div>
-    `;
-  }
-
-  #renderApplications(): string {
-    const apps = this.#lesson?.metadata.commonMisconceptions;
-    if (!apps || apps.length === 0) return '';
-
-    const appsList = apps.map(a => `
-      <div class="app-item">
-        <span class="app-icon">⚠️</span>
-        <span>${a}</span>
-      </div>
-    `).join('');
-
-    return `
-      <div class="applications">
-        <div class="applications-title">Common Misconceptions</div>
-        <div class="applications-list">${appsList}</div>
       </div>
     `;
   }

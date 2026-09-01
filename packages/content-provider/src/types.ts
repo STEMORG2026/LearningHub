@@ -24,7 +24,8 @@ export type SectionKind =
   | 'analogy'
   | 'fun-fact'
   | 'try-this'
-  | 'context';
+  | 'context'
+  | 'application';
 
 export interface LessonSection {
   /** Unique within the lesson. */
@@ -96,6 +97,12 @@ export interface LessonMetadata {
   estimatedTimeMinutes: number;
   /** Common misconceptions this lesson addresses. */
   commonMisconceptions: string[];
+  /** What a learner should be able to do after the lesson. */
+  learningObjectives?: string[];
+  /** Real-world contexts where this concept shows up (rendered as application sections). */
+  realWorldApplications?: string[];
+  /** Concept IDs that this lesson connects forward to (beyond prerequisites). */
+  connections?: string[];
   /** Search/filter tags. */
   tags: string[];
 }
