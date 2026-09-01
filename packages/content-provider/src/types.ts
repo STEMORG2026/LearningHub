@@ -25,7 +25,68 @@ export type SectionKind =
   | 'fun-fact'
   | 'try-this'
   | 'context'
-  | 'application';
+  | 'application'
+  | 'figure'
+  | 'timeline'
+  | 'perspective'
+  | 'deep-dive';
+
+/**
+ * A historically important person, honoured and respected: who they truly were,
+ * what they established, and — wherever we can — their own words with a source.
+ */
+export interface LessonFigure {
+  /** Full name, as history records it. */
+  name: string;
+  /** Life span, e.g. "1643–1727". */
+  lifespan?: string;
+  /** Their role: who they truly were (mathematician, natural philosopher, …). */
+  role: string;
+  /** What they actually established for this concept, stated respectfully. */
+  contribution: string;
+  /** Their recorded words/statement, with source. */
+  statement?: string;
+  /** Source of the statement, e.g. "Principia, 1687 (trans. Motte)". */
+  statementSource?: string;
+}
+
+/** One entry on a historical timeline for the concept. */
+export interface TimelineEntry {
+  /** When, e.g. "1687" or "c. 350 BCE". */
+  period: string;
+  /** What happened. */
+  event: string;
+  /** Who was behind it, if tied to a specific person. */
+  figure?: string;
+  /** Optional short why-it-matters note. */
+  note?: string;
+}
+
+/**
+ * A viewpoint about or towards the concept — honoured on its own terms even when
+ * it differs from the modern understanding. Gives each respected / differing view
+ * its due weight rather than flattening history.
+ */
+export interface LessonPerspective {
+  /** Whose view this is. */
+  figure: string;
+  /** The view itself, stated as they held it. */
+  view: string;
+  /** How it is regarded today: e.g. "later refined", "superseded but influential". */
+  standing: string;
+  /** Optional note on the relationship to the modern view. */
+  note?: string;
+}
+
+/** A single rung of the progressively-scaling "Explained" deep-dive. */
+export interface LessonDepthRung {
+  /** Audience label: e.g. "Curious", "Enthusiast", "Professional", "Nerd". */
+  level: string;
+  /** Short tagline for who this rung serves. */
+  audience: string;
+  /** The explanation at this depth. Starts simple, scales up. */
+  body: string;
+}
 
 export interface LessonSection {
   /** Unique within the lesson. */
@@ -37,6 +98,14 @@ export interface LessonSection {
   heading?: string;
   /** Optional symbol/equation rendered alongside (e.g. "F = m·a"). */
   symbol?: string;
+  /** Structured people — used when kind === 'figure'. */
+  figures?: LessonFigure[];
+  /** Structured timeline — used when kind === 'timeline'. */
+  timeline?: TimelineEntry[];
+  /** Structured respected/differing views — used when kind === 'perspective'. */
+  perspectives?: LessonPerspective[];
+  /** Structured explaining rungs — used when kind === 'deep-dive'. */
+  depthRungs?: LessonDepthRung[];
 }
 
 // ─────────────────────────────────────────────────────

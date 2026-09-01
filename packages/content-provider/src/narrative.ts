@@ -13,7 +13,15 @@
  * The composer is a pure function: no DOM, no global state.
  */
 import type { LhsEntity } from './lhs-adapter';
-import type { LessonContent, LessonMetadata, LessonSection } from './types';
+import type {
+  LessonContent,
+  LessonDepthRung,
+  LessonFigure,
+  LessonMetadata,
+  LessonPerspective,
+  LessonSection,
+  TimelineEntry,
+} from './types';
 
 // ─────────────────────────────────────────────────────
 // NarrativeContent — authored, consumer-owned narrative
@@ -33,6 +41,31 @@ export interface NarrativeContent {
   hook?: string;
   /** The backstory — what was known before, why the idea arose, who discovered it. */
   history?: string;
+  /**
+   * The people who truly shaped this idea — honoured respectfully, with their
+   * own words where we have them. Rendered as a "Cast" / figure section.
+   */
+  figures?: LessonFigure[];
+  /** A historical timeline showing who did what and when. */
+  timeline?: TimelineEntry[];
+  /**
+   * Respected / differing views about the concept, each given its due weight —
+   * including views the modern field later refined or superseded.
+   */
+  perspectives?: LessonPerspective[];
+  /**
+   * The "Explained" deep-dive: the phenomenon / working principle / hard topic
+   * explained fully, starting simple and scaling up for enthusiasts, professionals
+   * and nerds.
+   */
+  deepDive?: {
+    /** The subject of the deep-dive, e.g. "Why a rocket needs no air to push on". */
+    phenomenon: string;
+    /** Plain-language opener any reader gets. */
+    intro: string;
+    /** Progressively deeper explanations, from simple to advanced. */
+    rungs: LessonDepthRung[];
+  };
   /** How the idea connects to topics the learner has already seen. */
   whatCameBefore?: string;
   /** Connections forward to concepts this unlocks. */
@@ -58,9 +91,10 @@ export interface NarrativeContent {
 // ─────────────────────────────────────────────────────
 
 /**
- * Build a progressive story: hook → history → what came before → the fact →
- * the formula → an analogy → worked examples → applications → misconceptions →
- * try this → fun fact.
+ * Build a progressive story: hook → history → the people who shaped it (figures)
+ * → timeline → respected/differing views → what came before → the fact → the
+ * formula → an analogy → worked examples → applications → connections → the
+ * "Explained" deep-dive → misconceptions → try this → fun fact.
  */
 function narrativeSections(entity: LhsEntity, narrative: NarrativeContent): LessonSection[] {
   const sections: LessonSection[] = [];
@@ -84,6 +118,42 @@ function narrativeSections(entity: LhsEntity, narrative: NarrativeContent): Less
       heading: 'Where It Comes From',
       body: narrative.history,
     });
+  }
+
+  // 2a. The people — respectful attribution of who truly shaped the idea
+  if (narrative.figures && narrative.figures.length > 0) {
+    const section: LessonSection = {
+      id: `${entity.id}-figures-${idx++}`,
+      kind: 'figure',
+      heading: 'The People Behind It',
+      body: 'Who truly built this idea, honoured by name.',
+      figures: narrative.figures,
+    };
+    sections.push(section);
+  }
+
+  // 2b. The timeline — who did what, and when
+  if (narrative.timeline && narrative.timeline.length > 0) {
+    const section: LessonSection = {
+      id: `${entity.id}-timeline-${idx++}`,
+      kind: 'timeline',
+      heading: 'How It Unfolded',
+      body: 'A timeline of the people and steps that made this concept.',
+      timeline: narrative.timeline,
+    };
+    sections.push(section);
+  }
+
+  // 2c. Respected / differing views — each honoured on its own terms
+  if (narrative.perspectives && narrative.perspectives.length > 0) {
+    const section: LessonSection = {
+      id: `${entity.id}-perspectives-${idx++}`,
+      kind: 'perspective',
+      heading: 'Views That Shaped It',
+      body: 'Honest, respectful accounts of views — including those later revised.',
+      perspectives: narrative.perspectives,
+    };
+    sections.push(section);
   }
 
   // 3. What came before — prerequisites told as continuity, not a dry list
@@ -163,6 +233,20 @@ function narrativeSections(entity: LhsEntity, narrative: NarrativeContent): Less
       heading: 'What This Unlocks',
       body: narrative.connections.join(' · '),
     });
+  }
+
+  // 9a. Explained — the deep-dive that starts simple and scales up.
+  // The phenomenon / working principle / hard topic, then progressively deeper
+  // rungs for enthusiasts, professionals and nerds.
+  if (narrative.deepDive && narrative.deepDive.rungs.length > 0) {
+    const section: LessonSection = {
+      id: `${entity.id}-deep-dive-${idx++}`,
+      kind: 'deep-dive',
+      heading: 'Explained',
+      body: narrative.deepDive.intro,
+    };
+    section.depthRungs = narrative.deepDive.rungs;
+    sections.push(section);
   }
 
   // 10. Misconceptions — the traps, told so the reader recognises them

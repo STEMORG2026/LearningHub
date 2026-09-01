@@ -36,4 +36,28 @@ describe('integration: composed lessons against the vendored export', () => {
     const canonical = lesson.sections.find((s) => s.kind === 'narrative');
     expect(canonical?.body).toBe(force.definition);
   });
+
+  it('every narrated concept carries respectful attribution and an Explained deep-dive', () => {
+    const narrated = entities.filter((e) => NARRATIVES[asEntity(e).id]);
+    for (const raw of narrated) {
+      const entity = asEntity(raw);
+      const lesson = composeNarrativeLesson(entity, NARRATIVES[entity.id]!);
+      const kinds = lesson.sections.map((s) => s.kind);
+
+      // Attribution: real people with recorded words, a timeline, and honoured views.
+      const figureSection = lesson.sections.find((s) => s.kind === 'figure');
+      expect(figureSection?.figures?.length ?? 0).toBeGreaterThan(0);
+      expect(figureSection?.figures?.[0]?.name).toBeTruthy();
+      expect(figureSection?.figures?.[0]?.contribution).toBeTruthy();
+      expect(lesson.sections.some((s) => s.kind === 'timeline')).toBe(true);
+      expect(lesson.sections.some((s) => s.kind === 'perspective')).toBe(true);
+
+      // Scaling "Explained" deep-dive present with at least two rungs.
+      const deep = lesson.sections.find((s) => s.kind === 'deep-dive');
+      expect((deep?.depthRungs?.length ?? 0)).toBeGreaterThanOrEqual(2);
+
+      // The deep-dive starts simple (a Curious rung) and scales up.
+      expect(deep?.depthRungs?.[0]?.level).toBe('Curious');
+    }
+  });
 });

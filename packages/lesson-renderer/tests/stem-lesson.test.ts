@@ -95,6 +95,62 @@ describe('StemLesson Web Component', () => {
         body: 'Braking systems use friction to slow a car.',
         symbol: undefined,
       },
+      {
+        id: 'sec-12',
+        kind: 'figure',
+        heading: 'The People Behind It',
+        body: 'Who built this idea.',
+        figures: [
+          {
+            name: 'Isaac Newton',
+            lifespan: '1643–1727',
+            role: 'English natural philosopher',
+            contribution: 'Set out the laws of motion in 1687.',
+            statement: 'The alteration of motion is ever proportional to the motive force impressed.',
+            statementSource: 'Principia (1687)',
+          },
+        ],
+        symbol: undefined,
+      },
+      {
+        id: 'sec-13',
+        kind: 'timeline',
+        heading: 'How It Unfolded',
+        body: 'A timeline of the idea.',
+        timeline: [
+          { period: '1687', event: 'Newton publishes the Principia.', figure: 'Isaac Newton' },
+        ],
+        symbol: undefined,
+      },
+      {
+        id: 'sec-14',
+        kind: 'perspective',
+        heading: 'Views That Shaped It',
+        body: 'Respected and differing views.',
+        perspectives: [
+          {
+            figure: 'Aristotle (c. 350 BCE)',
+            view: 'A force keeps a body moving.',
+            standing: 'Superseded',
+          },
+        ],
+        symbol: undefined,
+      },
+      {
+        id: 'sec-15',
+        kind: 'deep-dive',
+        heading: 'Explained',
+        body: 'Forces are pushes or pulls between things.',
+        depthRungs: [
+          { level: 'Curious', audience: 'Anyone starting out', body: 'A force is a push or pull.' },
+          {
+            level: 'Nerd',
+            audience: 'Physicists',
+            body: 'The force concept ties to Noether’s theorem.',
+          },
+        ],
+        symbol: undefined,
+      },
     ],
     questions: [
       {
@@ -190,7 +246,7 @@ describe('StemLesson Web Component', () => {
 
     it('should render all sections', () => {
       const sections = shadowRoot.querySelectorAll('.section');
-      expect(sections.length).toBe(11);
+      expect(sections.length).toBe(15);
     });
 
     it('should render text sections with body', () => {
@@ -251,6 +307,45 @@ describe('StemLesson Web Component', () => {
       const contextSection = shadowRoot.querySelector('.section-context');
       expect(contextSection).toBeTruthy();
       expect(contextSection?.textContent).toContain('17th century');
+    });
+
+    it('should render figure sections honouring the person and their words', () => {
+      const figureSection = shadowRoot.querySelector('.section-figure');
+      expect(figureSection).toBeTruthy();
+      const name = figureSection?.querySelector('.figure-name');
+      expect(name?.textContent).toBe('Isaac Newton');
+      const statement = figureSection?.querySelector('.figure-statement');
+      expect(statement?.textContent).toContain('alteration of motion');
+      const source = figureSection?.querySelector('.figure-statement-source');
+      expect(source?.textContent).toContain('Principia');
+    });
+
+    it('should render timeline sections in order with periods', () => {
+      const timelineSection = shadowRoot.querySelector('.section-timeline');
+      expect(timelineSection).toBeTruthy();
+      const period = timelineSection?.querySelector('.timeline-period');
+      expect(period?.textContent).toBe('1687');
+      expect(timelineSection?.querySelector('.timeline-event')?.textContent).toContain('Principia');
+    });
+
+    it('should render perspective sections honouring each view', () => {
+      const perspectiveSection = shadowRoot.querySelector('.section-perspective');
+      expect(perspectiveSection).toBeTruthy();
+      const figure = perspectiveSection?.querySelector('.perspective-figure');
+      expect(figure?.textContent).toContain('Aristotle');
+      const standing = perspectiveSection?.querySelector('.perspective-standing');
+      expect(standing?.textContent).toContain('Superseded');
+    });
+
+    it('should render deep-dive sections with a first rung open', () => {
+      const deepSection = shadowRoot.querySelector('.section-deep-dive');
+      expect(deepSection).toBeTruthy();
+      const firstRung = deepSection?.querySelector('.deep-rung');
+      expect(firstRung?.hasAttribute('open')).toBe(true);
+      const rungs = deepSection?.querySelectorAll('.deep-rung');
+      expect(rungs?.length).toBe(2);
+      const levels = deepSection?.querySelectorAll('.deep-rung-level');
+      expect(levels?.[0]?.textContent).toBe('Curious');
     });
 
     it('should render section headings for all section types', () => {
