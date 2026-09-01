@@ -1,4 +1,4 @@
-STEM-TUITION/  606533b
+STEM-TUITION/  e36258c
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── calm-docs-governance.md
@@ -149,6 +149,16 @@ STEM-TUITION/  606533b
 │   │   ├── human-checkpoints.md
 │   │   └── interface-registry.md
 │   ├── guides/
+│   │   ├── task-playbooks/
+│   │   │   ├── templates/
+│   │   │   │   └── checklist.md
+│   │   │   ├── add-content.md
+│   │   │   ├── common.md
+│   │   │   ├── explained.md
+│   │   │   ├── README.md
+│   │   │   ├── review.md
+│   │   │   ├── tests.md
+│   │   │   └── verify.md
 │   │   ├── COMPONENT_STANDARDS.md
 │   │   ├── DEBUGGING.md
 │   │   ├── DEPLOYMENT.md
