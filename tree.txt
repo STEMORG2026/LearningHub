@@ -1,4 +1,4 @@
-STEM-TUITION/  deadf13
+STEM-TUITION/  6c0b8d5
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── calm-docs-governance.md
@@ -90,6 +90,7 @@ STEM-TUITION/  deadf13
 │       │   ├── lesson-builder.test.ts  [test]
 │       │   ├── lhs-adapter.test.ts  [test]
 │       │   ├── lhs-demo.test.ts  [test]
+│       │   ├── narrative-integration.test.ts  [test]
 │       │   └── render.test.ts  [test]
 │       ├── about.html
 │       ├── ARCHITECTURE.toml
