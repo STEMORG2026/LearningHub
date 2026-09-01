@@ -11,8 +11,9 @@
  */
 
 import { generateLearningPath } from './learning-path';
-import { mapLhsEntitiesToLessons, type LessonContent } from '@stem-tuition/content-provider';
+import type { LessonContent } from '@stem-tuition/content-provider';
 import { loadKnowledge } from './lhs-adapter';
+import { buildLessons } from './lesson-builder';
 import { CURRICULUMS, getAvailableCurricula, type CurriculumId } from '../data/curriculum-mappings';
 import knowledge from '../data/knowledge.json';
 
@@ -93,9 +94,9 @@ function renderLearningPath(curriculum: CurriculumId, grade: number): void {
   const mount = document.getElementById('learningPathMount');
   if (!mount) return;
 
-  // Load LHS knowledge and map to lessons
+  // Load LHS knowledge and map to lessons (with narrative enrichment where present)
   loadKnowledge();
-  const lessons = mapLhsEntitiesToLessons(knowledge.entities);
+  const lessons = buildLessons(knowledge.entities);
   const path = generateLearningPath(curriculum, grade, lessons);
   const curriculumInfo = CURRICULUMS[curriculum];
 

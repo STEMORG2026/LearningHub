@@ -22,6 +22,10 @@ export type {
 // LHS types
 export type { LhsEntity, LhsRelationship } from './lhs-adapter';
 
+// Narrative types + composer
+export type { NarrativeContent } from './narrative';
+export { composeNarrativeLesson } from './narrative';
+
 // ContentProvider interface
 export type { ContentProvider } from './content-provider';
 
