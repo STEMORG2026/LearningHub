@@ -1,5 +1,6 @@
 # Task: <short kebab-case title>
 
+**Version:** 3.0.0
 **Scope classification:** `NOW` / `SEAM` / `LATER` / `OUT OF SCOPE`
 **Playbook(s) used:** add-content / verify / review / tests / explained — list which
 **Gate target:** Local → PR → Merge
