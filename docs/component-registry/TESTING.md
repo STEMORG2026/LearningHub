@@ -19,9 +19,9 @@
 | `packages/quiz-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (16 tests) |
 | `packages/hover-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
 | `packages/simulation-core/` | `tests/*.test.ts` | Unit | — | 🟢 Written (65 tests) |
-| `packages/content-provider/` | `tests/*.test.ts` | Unit | — | 🟢 Written (38 tests) |
+| `packages/content-provider/` | `tests/*.test.ts` | Unit | — | 🟢 Written (40 tests) |
 | `packages/interactive-simulations/` | `tests/*.test.ts` | Unit | — | 🟢 Written (19 tests) |
-| `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (47 tests) |
+| `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (51 tests) |
 <!-- END AUTO:testing-table -->
 
 ## E2E Tests (Future)
