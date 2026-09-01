@@ -20,7 +20,7 @@ jobs:
       is_down: ${{ steps.health.outputs.is_down }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Check production site
         id: health
@@ -67,7 +67,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Check for existing open downtime issues
         id: existing
