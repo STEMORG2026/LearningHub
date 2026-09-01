@@ -1,6 +1,7 @@
-STEM-TUITION/  32abfc6
+STEM-TUITION/  3e21159
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
+│   ├── bright-concepts-float.md
 │   ├── calm-docs-governance.md
 │   ├── config.json
 │   ├── honest-stories-attribute.md
