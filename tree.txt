@@ -1,4 +1,4 @@
-STEM-TUITION/  b6676bb
+STEM-TUITION/  9c364da
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -46,6 +46,7 @@ STEM-TUITION/  b6676bb
 │       │   │   ├── faqs.ts
 │       │   │   ├── knowledge.json
 │       │   │   ├── narratives-batch2.ts
+│       │   │   ├── narratives-batch3.ts
 │       │   │   ├── narratives.ts
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts
@@ -152,6 +153,15 @@ STEM-TUITION/  b6676bb
 │   │   └── interface-registry.md
 │   ├── guides/
 │   │   ├── task-playbooks/
+│   │   │   ├── narration/
+│   │   │   │   ├── I-O-CONTRACT.md
+│   │   │   │   ├── QUALITY-RUBRIC.md
+│   │   │   │   ├── README.md
+│   │   │   │   ├── ROLE-ANIMATOR.md
+│   │   │   │   ├── ROLE-MASTER-REVIEWER.md
+│   │   │   │   ├── ROLE-RESEARCHER.md
+│   │   │   │   ├── ROLE-REVIEWER.md
+│   │   │   │   └── ROLE-WRITER.md
 │   │   │   ├── templates/
 │   │   │   │   └── checklist.md
 │   │   │   ├── add-content.md
@@ -366,6 +376,13 @@ STEM-TUITION/  b6676bb
 │   ├── git-hooks/
 │   │   ├── commit-msg
 │   │   └── pre-commit
+│   ├── narrate/
+│   │   ├── prompts/
+│   │   │   ├── role-master-reviewer.txt
+│   │   │   ├── role-researcher.txt
+│   │   │   ├── role-reviewer.txt
+│   │   │   └── role-writer.txt
+│   │   └── assembly-line.mjs
 │   ├── release/
 │   │   ├── dev-version.mjs
 │   │   ├── release-finalize.mjs

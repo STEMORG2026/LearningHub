@@ -15,7 +15,7 @@ describe('integration: composed lessons against the vendored export', () => {
     expect(narrated.length).toBeGreaterThan(0);
     // The narrated physics set grows as we author; assert a meaningful, current floor
     // so an accidental loss of a narrated concept is caught.
-    expect(narrated.length).toBeGreaterThanOrEqual(17);
+    expect(narrated.length).toBeGreaterThanOrEqual(18);
     for (const raw of narrated) {
       const entity = asEntity(raw);
       const lesson = composeNarrativeLesson(entity, NARRATIVES[entity.id]!);

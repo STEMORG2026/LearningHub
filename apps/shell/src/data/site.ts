@@ -17,7 +17,7 @@ export interface ContactInfo {
 export const NAV_LINKS: NavLink[] = [
   { href: 'index.html', label: 'Home', key: 'home' },
   { href: 'classes.html', label: 'Classes', key: 'classes' },
-  { href: 'learn.html', label: 'Learn Physics', key: 'learn' },
+  { href: 'learn.html', label: 'Learn', key: 'learn' },
   { href: 'videos.html', label: 'Videos & Notes', key: 'videos' },
   { href: 'contact.html', label: 'Contact', key: 'contact' },
 ];

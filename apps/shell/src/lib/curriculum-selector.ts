@@ -48,7 +48,7 @@ function renderSelector(mount: HTMLElement): void {
     <div class="curriculum-selector">
       <div class="selector-inner">
         <h2>Choose Your Learning Path</h2>
-        <p class="subtitle">Select your curriculum and grade to get a personalized physics learning experience.</p>
+        <p class="subtitle">Select your curriculum and grade to get a personalized Science learning experience.</p>
         <div class="selector-controls">
           <div class="control-group">
             <label for="curriculumSelect">Curriculum</label>
@@ -60,6 +60,8 @@ function renderSelector(mount: HTMLElement): void {
           <div class="control-group">
             <label for="gradeSelect">Grade</label>
             <select id="gradeSelect">
+              <option value="12">Grade 12</option>
+              <option value="11">Grade 11</option>
               <option value="10">Grade 10</option>
               <option value="9">Grade 9</option>
               <option value="8">Grade 8</option>
@@ -105,6 +107,13 @@ function renderLearningPath(curriculum: CurriculumId, grade: number): void {
     return;
   }
 
+  // Senior-secondary (grade 11/12) coverage is expanding; if we served a fallback
+  // mapping, tell the learner rather than silently showing grade-10 content.
+  const fallbackNote =
+    path.resolvedGrade < path.grade
+      ? `<div class="path-note">Grade ${path.grade} curriculum coverage is in progress — showing the nearest available syllabus (Grade ${path.resolvedGrade}).</div>`
+      : '';
+
   const stepsHtml = path.steps
     .map((step) => {
       const title = step.lesson?.metadata?.displayName || step.curriculumRef;
@@ -134,6 +143,7 @@ function renderLearningPath(curriculum: CurriculumId, grade: number): void {
         </div>
         <button id="backToSelector" class="btn-secondary">Change Curriculum</button>
       </div>
+      ${fallbackNote}
       <div class="path-layout">
         <div class="path-sidebar">
           <div class="steps-list">${stepsHtml}</div>

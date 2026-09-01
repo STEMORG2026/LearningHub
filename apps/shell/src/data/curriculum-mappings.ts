@@ -379,10 +379,18 @@ export const CURRICULUM_MAPPINGS: Record<CurriculumId, GradeCurriculumMapping> =
 
 /**
  * Get mapping for a specific curriculum and grade.
+ *
+ * Grades 11–12 (senior secondary / A-Level) are being expanded topic-by-topic. Until a
+ * dedicated higher-grade mapping exists we fall back to the closest mapping at-or-below
+ * the requested grade so a learner is never left with an empty path. Callers can check
+ * `mapping.grade !== grade` to surface a "senior-secondary coverage in progress" note.
  */
 export function getCurriculumMapping(curriculum: CurriculumId, grade: number): GradeCurriculumMapping | undefined {
   const mapping = CURRICULUM_MAPPINGS[curriculum];
-  if (!mapping || mapping.grade !== grade) return undefined;
+  if (!mapping) return undefined;
+  // Exact match wins; otherwise fall back to the closest available mapping at-or-below.
+  if (mapping.grade <= grade) return mapping;
+  // Requested grade is below the only mapping we have (e.g. someone asks for grade 8): use it.
   return mapping;
 }
 
