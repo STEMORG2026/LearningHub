@@ -1,4 +1,4 @@
-STEM-TUITION/  4eea1a3
+STEM-TUITION/  32e8c35
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -211,6 +211,7 @@ STEM-TUITION/  4eea1a3
 │   ├── CONSTITUTION.md
 │   ├── DEVLOG.md
 │   ├── DOCS.md
+│   ├── IMPLEMENTATION-PLAN.md
 │   ├── REPOSITORY_HEALTH.md
 │   ├── ROADMAP.md
 │   └── RULES.md
@@ -422,6 +423,7 @@ STEM-TUITION/  4eea1a3
 ├── .commitlintrc.json
 ├── .dependency-cruiser.js
 ├── .dockerignore
+├── .git
 ├── .gitignore
 ├── .phase.json
 ├── AGENTS.md
