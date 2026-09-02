@@ -31,13 +31,14 @@ import type { NarrativeContent } from '@stem-tuition/content-provider';
  * here composes the full authored set without bundling it into the initial chunk.
  */
 export async function getNarratives(): Promise<Record<string, NarrativeContent>> {
-  const [b1, b2, b3, b4, b5, b6] = await Promise.all([
+  const [b1, b2, b3, b4, b5, b6, b7] = await Promise.all([
     import('./narratives-batch1'),
     import('./narratives-batch2'),
     import('./narratives-batch3'),
     import('./narratives-batch4'),
     import('./narratives-batch5'),
     import('./narratives-batch6'),
+    import('./narratives-batch7'),
   ]);
   return {
     ...b1.NARRATIVES_BATCH1,
@@ -46,5 +47,6 @@ export async function getNarratives(): Promise<Record<string, NarrativeContent>>
     ...b4.NARRATIVES_BATCH4,
     ...b5.NARRATIVES_BATCH5,
     ...b6.NARRATIVES_BATCH6,
+    ...b7.NARRATIVES_BATCH7,
   };
 }

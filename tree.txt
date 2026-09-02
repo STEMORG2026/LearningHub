@@ -1,4 +1,4 @@
-STEM-TUITION/  adb1a87
+STEM-TUITION/  0b94062
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -51,6 +51,7 @@ STEM-TUITION/  adb1a87
 │       │   │   ├── narratives-batch4.ts
 │       │   │   ├── narratives-batch5.ts
 │       │   │   ├── narratives-batch6.ts
+│       │   │   ├── narratives-batch7.ts
 │       │   │   ├── narratives.ts
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts

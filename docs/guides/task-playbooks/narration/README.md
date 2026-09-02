@@ -117,7 +117,7 @@ any canonically-present concept, not just physics. Current and planned coverage:
 
 | Domain | Concept-ids | Note |
 |---|---|---|
-| Physics | `lhs:phys.*` | Authoring active (79 concepts; 47 narrated+). |
+| Physics | `lhs:phys.*` | Authoring active (79 concepts; 57 narrated+). |
 | Chemistry | `lhs:chem.*` | e.g. atom, element, bond, reaction. |
 | Biology | `lhs:bio.*` | e.g. cell, photosynthesis, DNA, gene. |
 | Earth & Space | `lhs:earth.*` | e.g. plate tectonics, seasons. |
