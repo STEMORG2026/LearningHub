@@ -27,11 +27,11 @@ import type { NarrativeContent } from '@stem-tuition/content-provider';
  * Lazily load every authored narrative, code-splitting each batch into its own
  * chunk so no built asset exceeds the size budget (100 kB gzip per app asset).
  *
- * The batch files (narratives-batch1..6) each export `NARRATIVES_BATCHn`; merging
+ * The batch files (narratives-batch1..8) each export `NARRATIVES_BATCHn`; merging
  * here composes the full authored set without bundling it into the initial chunk.
  */
 export async function getNarratives(): Promise<Record<string, NarrativeContent>> {
-  const [b1, b2, b3, b4, b5, b6, b7] = await Promise.all([
+  const [b1, b2, b3, b4, b5, b6, b7, b8] = await Promise.all([
     import('./narratives-batch1'),
     import('./narratives-batch2'),
     import('./narratives-batch3'),
@@ -39,6 +39,7 @@ export async function getNarratives(): Promise<Record<string, NarrativeContent>>
     import('./narratives-batch5'),
     import('./narratives-batch6'),
     import('./narratives-batch7'),
+    import('./narratives-batch8'),
   ]);
   return {
     ...b1.NARRATIVES_BATCH1,
@@ -48,5 +49,6 @@ export async function getNarratives(): Promise<Record<string, NarrativeContent>>
     ...b5.NARRATIVES_BATCH5,
     ...b6.NARRATIVES_BATCH6,
     ...b7.NARRATIVES_BATCH7,
+    ...b8.NARRATIVES_BATCH8,
   };
 }

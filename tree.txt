@@ -1,4 +1,4 @@
-STEM-TUITION/  958c446
+STEM-TUITION/  47d8653
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -54,6 +54,7 @@ STEM-TUITION/  958c446
 │       │   │   ├── narratives-batch5.ts
 │       │   │   ├── narratives-batch6.ts
 │       │   │   ├── narratives-batch7.ts
+│       │   │   ├── narratives-batch8.ts
 │       │   │   ├── narratives.ts
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts
@@ -262,6 +263,7 @@ STEM-TUITION/  958c446
 │   │   │   └── verification.ts
 │   │   ├── tests/
 │   │   │   ├── content-engine.test.ts  [test]
+│   │   │   ├── engine-gate-batch8.test.ts  [test]
 │   │   │   └── engine-stress.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
