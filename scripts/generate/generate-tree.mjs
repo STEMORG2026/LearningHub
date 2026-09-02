@@ -30,8 +30,12 @@ const HARD_SKIP = new Set([
 // Tier 2 — always show despite gitignore.
 const ALWAYS_SHOW = /^\.env(\.|$)|\.local$/;
 
-// Never appear in the output at all.
-const EXCLUDE = new Set(['pnpm-lock.yaml', 'tree.txt']);
+// Never appear in the output at all. `.git` is listed here (not only in
+// HARD_SKIP) because in a git worktree `.git` is a FILE, not a directory —
+// the dir-only HARD_SKIP check misses it there and the emitted `├── .git`
+// line makes CI's docs-freshness regeneration (normal clone: `.git` is a
+// dir and skipped) fail with an unexplained tree.txt drift.
+const EXCLUDE = new Set(['pnpm-lock.yaml', 'tree.txt', '.git']);
 
 const files = new Set(); // relative paths that survived tiers 1-2
 const alwaysShow = new Set();

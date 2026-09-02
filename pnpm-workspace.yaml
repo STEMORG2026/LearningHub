@@ -7,7 +7,7 @@ overrides:
   vite: ^7.0.0
   "nanoid@<3.3.18": ^3.3.18
   "tmp@<0.2.6": ^0.2.6
-  "fast-uri@<3.1.5": ^3.1.5
+  "fast-uri@<4.1.4": ^4.1.4
   "brace-expansion@<1.1.18": ^1.1.18
   "js-yaml@3": ^3.15.1
   "js-yaml@4": ^4.3.1
@@ -17,3 +17,5 @@ allowBuilds:
   libxmljs2: set this to true or false
   sharp: false
   workerd: false
+minimumReleaseAgeExclude:
+  - fast-uri@4.1.4
