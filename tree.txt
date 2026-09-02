@@ -1,11 +1,12 @@
-STEM-TUITION/  0b94062
+STEM-TUITION/  99b53d3
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
 │   ├── calm-docs-governance.md
 │   ├── config.json
 │   ├── honest-stories-attribute.md
-│   └── README.md
+│   ├── README.md
+│   └── running-quizzes-publish.md
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml
@@ -255,6 +256,7 @@ STEM-TUITION/  0b94062
 │   │   │   ├── blueprint.ts
 │   │   │   ├── formats.ts
 │   │   │   ├── index.ts  [entry]
+│   │   │   ├── pipeline.ts
 │   │   │   ├── request.ts
 │   │   │   └── verification.ts
 │   │   ├── tests/

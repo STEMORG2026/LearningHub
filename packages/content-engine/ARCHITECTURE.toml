@@ -20,6 +20,7 @@ publicApi = [
   "FormatValidationSpec",
   "FormatRegistry",
   "NARRATIVE_LESSON_FORMAT",
+  "QUIZ_FORMAT",
   "Artifact",
   "narrativeArtifact",
   "Blueprint",
@@ -38,6 +39,13 @@ publicApi = [
   "IntentEssenceRunner",
   "routeRepair",
   "repairOrders",
+  "KnowledgeContext",
+  "FormatGenerator",
+  "SemanticVerifier",
+  "RunnerCallbacks",
+  "RunnerConfig",
+  "PublicationDecision",
+  "produce",
 ]
 
 dependencies = ["content-provider"]

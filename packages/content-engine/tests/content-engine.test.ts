@@ -4,6 +4,7 @@ import {
   resolveFormats,
   FormatRegistry,
   NARRATIVE_LESSON_FORMAT,
+  QUIZ_FORMAT,
   narrativeArtifact,
   evaluateGates,
   failGate,
@@ -12,8 +13,10 @@ import {
   validateNarrativeStructure,
   routeRepair,
   repairOrders,
+  produce,
   INTENT_ESSENCE_VERIFIER,
   type ContentRequest,
+  type GateResult,
 } from '../src/index';
 
 function makeRequest(over: Partial<ContentRequest> = {}): ContentRequest {
@@ -195,6 +198,120 @@ describe('content-engine seam (architecture v2, N1–N3)', () => {
     });
     it('resolves an explicit format name', () => {
       expect(resolveFormats('narrative-lesson', [])).toEqual(['narrative-lesson']);
+    });
+  });
+
+  describe('Quiz format — second, non-narrative FormatSpec (N5)', () => {
+    it('registers by default alongside narrative-lesson', () => {
+      const reg = new FormatRegistry();
+      expect(reg.has('narrative-lesson')).toBe(true);
+      expect(reg.has('quiz')).toBe(true);
+      expect(reg.get('quiz')?.outputSchema).toBe('QuizSet');
+    });
+
+    it('is fully declarative — no core change needed to support it', () => {
+      const reg = new FormatRegistry([QUIZ_FORMAT]);
+      expect(reg.list()).toContain('quiz');
+      expect(reg.get('quiz')?.validation.rules.some((r) => r.includes('questions must be non-empty'))).toBe(true);
+    });
+  });
+
+  describe('Pipeline runner — Blueprint → generate → verify → repair → publish (N4)', () => {
+    const context = { knowledgeVersion: 'knowledge-1.0', providedConcepts: ['lhs:phys.wave'] };
+
+    function goodNarrative(conceptId: string) {
+      return {
+        conceptId,
+        hook: 'h',
+        history: 'st',
+        figures: [{ name: 'n', role: 'r', contribution: 'c' }],
+        timeline: [{ period: '1900', event: 'e' }],
+        perspectives: [{ figure: 'f', view: 'v', standing: 's' }],
+        deepDive: { phenomenon: 'p', intro: 'i', rungs: [{ level: 'Curious', audience: 'a', body: 'b' }, { level: 'Nerd', audience: 'a', body: 'b' }] },
+        misconceptions: ['m'],
+      };
+    }
+
+    function passSemantic(): Promise<GateResult> {
+      return Promise.resolve({ gate: 'schema', verdict: 'pass', findings: [] });
+    }
+
+    it('publishes when every hard gate passes', async () => {
+      const reg = new FormatRegistry();
+      const decision = await produce(
+        makeRequest({ format: 'narrative-lesson', contentRequirements: { requiredConcepts: ['lhs:phys.wave'] } }),
+        {
+          registry: reg,
+          callbacks: {
+            generate: async () => ({ format: 'narrative-lesson', payload: goodNarrative('lhs:phys.wave'), provenance: { requestId: 'r1', stages: [{ component: 'generator', action: 'produce' }] } }),
+            verify: passSemantic,
+          },
+          maxRepairRounds: 2,
+        },
+        context,
+      );
+      expect(decision.action).toBe('publish');
+      expect(decision.artifact?.payload.conceptId).toBe('lhs:phys.wave');
+    });
+
+    it('does targeted repair when a semantic gate fails, then publishes', async () => {
+      const reg = new FormatRegistry();
+      let calls = 0;
+      const decision = await produce(
+        makeRequest({ format: 'narrative-lesson' }),
+        {
+          registry: reg,
+          callbacks: {
+            generate: async () => {
+              calls += 1;
+              return { format: 'narrative-lesson', payload: goodNarrative('lhs:phys.wave'), provenance: { requestId: 'r1', stages: [{ component: 'generator', action: 'produce' }] } };
+            },
+            // First pass fails factual; repair pass passes → engine should rerun verify.
+            verify: async (input) => {
+              if (calls === 1) return Promise.resolve({ gate: 'factual', verdict: 'fail', findings: ['equation wrong'] });
+              return Promise.resolve({ gate: 'factual', verdict: 'pass', findings: [] });
+            },
+          },
+          maxRepairRounds: 2,
+        },
+        context,
+      );
+      // The generator is called at least twice (initial + repair), and the decision is a publish.
+      expect(calls).toBeGreaterThanOrEqual(2);
+      expect(decision.action).toBe('publish');
+    });
+
+    it('holds when it cannot pass within the repair budget', async () => {
+      const reg = new FormatRegistry();
+      const decision = await produce(
+        makeRequest({ format: 'narrative-lesson' }),
+        {
+          registry: reg,
+          callbacks: {
+            generate: async () => ({ format: 'narrative-lesson', payload: goodNarrative('lhs:phys.wave'), provenance: { requestId: 'r1', stages: [{ component: 'generator', action: 'produce' }] } }),
+            verify: async () => Promise.resolve({ gate: 'factual', verdict: 'fail', findings: ['still wrong'] }),
+          },
+          maxRepairRounds: 1,
+        },
+        context,
+      );
+      expect(decision.action).toBe('hold');
+      expect(decision.repairRounds).toBe(1);
+    });
+
+    it('rejects when the requested format is not registered', async () => {
+      const reg = new FormatRegistry();
+      const decision = await produce(
+        makeRequest({ format: 'does-not-exist' }),
+        {
+          registry: reg,
+          callbacks: { generate: async () => ({ format: 'x', payload: {}, provenance: { requestId: 'r1', stages: [] } }), verify: passSemantic },
+          maxRepairRounds: 2,
+        },
+        context,
+      );
+      expect(decision.action).toBe('reject');
+      expect(decision.reason).toContain('does-not-exist');
     });
   });
 });

@@ -109,13 +109,51 @@ export const NARRATIVE_LESSON_FORMAT: FormatSpec = {
 };
 
 /**
+ * The quiz format spec — a second, non-narrative format (migration N5) that proves the
+ * extension point is genuinely generic: registering it changes no core engine code, and
+ * the engine drives it through the same Blueprint → generator → verification → repair
+ * pipeline because formats are declarative.
+ */
+export const QUIZ_FORMAT: FormatSpec = {
+  id: 'quiz',
+  name: 'Assessment question set',
+  description:
+    'A coherent set of assessment questions (with answers, distractors, explanations and an objective link) that exercises a concept set.',
+  components: [
+    { id: 'questions', kind: 'list', required: true, guidance: 'At least one question; each has a prompt, correct answer, distractors, and an explanation.' },
+    { id: 'objective', kind: 'text', required: true, guidance: 'What the set assesses, traceable to a learning objective.' },
+    { id: 'difficulty', kind: 'scalar', required: false, guidance: 'Advisory difficulty (e.g. easy/medium/hard), never a gate.' },
+    { id: 'hint', kind: 'text', required: false, guidance: 'Optional per-question scaffolding hint.' },
+  ],
+  validation: {
+    rules: [
+      'components.questions must be non-empty',
+      'each question must have a non-empty prompt and at least two options (one correct)',
+      'each question must have a non-empty explanation',
+      'components.objective must be a non-empty string',
+    ],
+    semanticCriteria: [
+      'concept-aligned-questions',
+      'distractor-quality',
+      'progressive-difficulty',
+    ],
+  },
+  outputSchema: 'QuizSet',
+  generationGuidance: [
+    'Compose questions against the canonical LHS facts for the required concepts.',
+    'Provide plausible distractors that reflect common misconceptions (never misleading-by-accident).',
+    'Give a short explanation of the correct answer for each question.',
+  ],
+};
+
+/**
  * The format registry — resolves a `FormatSpec` by id. New formats register here,
  * additively. This is the single place the engine learns about a new content type.
  */
 export class FormatRegistry {
   private readonly specs = new Map<string, FormatSpec>();
 
-  constructor(initial: FormatSpec[] = [NARRATIVE_LESSON_FORMAT]) {
+  constructor(initial: FormatSpec[] = [NARRATIVE_LESSON_FORMAT, QUIZ_FORMAT]) {
     for (const spec of initial) this.register(spec);
   }
 
