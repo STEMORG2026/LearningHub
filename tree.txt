@@ -1,4 +1,4 @@
-STEM-TUITION/  61d6d15
+STEM-TUITION/  0afba91
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -423,7 +423,6 @@ STEM-TUITION/  61d6d15
 ├── .commitlintrc.json
 ├── .dependency-cruiser.js
 ├── .dockerignore
-├── .git
 ├── .gitignore
 ├── .phase.json
 ├── AGENTS.md
