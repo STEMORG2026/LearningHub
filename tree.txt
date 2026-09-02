@@ -1,9 +1,10 @@
-STEM-TUITION/  99b53d3
+STEM-TUITION/  958c446
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
 │   ├── calm-docs-governance.md
 │   ├── config.json
+│   ├── format-agnostic-gates.md
 │   ├── honest-stories-attribute.md
 │   ├── README.md
 │   └── running-quizzes-publish.md
@@ -260,7 +261,8 @@ STEM-TUITION/  99b53d3
 │   │   │   ├── request.ts
 │   │   │   └── verification.ts
 │   │   ├── tests/
-│   │   │   └── content-engine.test.ts  [test]
+│   │   │   ├── content-engine.test.ts  [test]
+│   │   │   └── engine-stress.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
 │   │   ├── tsconfig.json

@@ -12,6 +12,7 @@
  * 47 published narratives as valid artifacts of that format with no rendering change.
  */
 import type { NarrativeContent } from '@stem-tuition/content-provider';
+import { validateNarrativeStructure } from './verification';
 
 /** The kind of an output component/section, open-ended so new formats can extend. */
 export type FormatComponentKind = string;
@@ -55,6 +56,22 @@ export interface FormatSpec {
   outputSchema?: string;
   /** Free-form generation guidance (never hardcoded counts or product assumptions). */
   generationGuidance?: string[];
+  /**
+   * Deterministic, LLM-free extractor of the concept ids an artifact of this format
+   * *covers* (defaults to none). The engine uses this for the hard-gate `coverage` check
+   * so coverage is format-agnostic — a narrative covers its `conceptId`, a quiz covers the
+   * concepts its questions link to, etc. Return `[]` if the format does not announce
+   * concept coverage (then a request that demands `requiredConcepts` will fail coverage.
+   */
+  coverage?: (payload: unknown) => string[];
+  /**
+   * Deterministic, LLM-free validator for payload shape (returns findings; empty = pass).
+   * Provides the format's part of the hard-gate `schema` check. When absent the engine
+   * falls back to a generic check that every `required: true` component is present and
+   * non-empty. (Semantic rules live in `validation.semanticCriteria` and run via the LLM
+   * verifier seam, not here.)
+   */
+  validate?: (payload: unknown) => string[];
 }
 
 /**
@@ -106,6 +123,13 @@ export const NARRATIVE_LESSON_FORMAT: FormatSpec = {
     'Honour real people by name with their true roles and recorded words (sourced).',
     'Give respected/differing views their due weight rather than flattening history.',
   ],
+  // A narrative-lesson covers the single concept its `conceptId` names.
+  coverage: (payload) =>
+    typeof payload === 'object' && payload !== null && 'conceptId' in payload && (payload as { conceptId?: unknown }).conceptId
+      ? [String((payload as { conceptId: unknown }).conceptId)]
+      : [],
+  // Deterministic schema check, reusing the existing narrative structure validator.
+  validate: (payload) => validateNarrativeStructure({ payload: payload as never }).findings,
 };
 
 /**
@@ -144,6 +168,39 @@ export const QUIZ_FORMAT: FormatSpec = {
     'Provide plausible distractors that reflect common misconceptions (never misleading-by-accident).',
     'Give a short explanation of the correct answer for each question.',
   ],
+  // A quiz covers the union of concepts its questions are linked to (field `conceptId`).
+  coverage: (payload) => {
+    if (
+      typeof payload !== 'object' ||
+      payload === null ||
+      !Array.isArray((payload as { questions?: unknown[] }).questions)
+    ) {
+      return [];
+    }
+    const ids = (payload as { questions: Array<{ conceptId?: unknown }> }).questions
+      .map((q) => (q && typeof q.conceptId === 'string' ? q.conceptId : undefined))
+      .filter((c): c is string => c != null && c !== '');
+    return [...new Set(ids)];
+  },
+  // Deterministic schema check: required components present + question shape.
+  validate: (payload) => {
+    const problems: string[] = [];
+    if (typeof payload !== 'object' || payload === null) {
+      return ['payload must be an object'];
+    }
+    const p = payload as {
+      questions?: Array<{ prompt?: unknown; options?: unknown[]; explanation?: unknown }>;
+      objective?: unknown;
+    };
+    if (!Array.isArray(p.questions) || p.questions.length === 0) problems.push('questions must be non-empty');
+    for (const [i, q] of (p.questions ?? []).entries()) {
+      if (typeof q.prompt !== 'string' || q.prompt.trim() === '') problems.push(`question ${i + 1}: prompt must be non-empty`);
+      if (!Array.isArray(q.options) || q.options.length < 2) problems.push(`question ${i + 1}: needs at least two options`);
+      if (typeof q.explanation !== 'string' || q.explanation.trim() === '') problems.push(`question ${i + 1}: explanation must be non-empty`);
+    }
+    if (typeof p.objective !== 'string' || p.objective.trim() === '') problems.push('objective must be a non-empty string');
+    return problems;
+  },
 };
 
 /**

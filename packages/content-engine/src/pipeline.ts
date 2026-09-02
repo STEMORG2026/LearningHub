@@ -23,7 +23,8 @@ import { planFromRequest, type Blueprint } from './blueprint';
 import {
   evaluateGates,
   validateConceptCoverage,
-  validateNarrativeStructure,
+  failGate,
+  passGate,
   repairOrders,
   type GateId,
   type GateResult,
@@ -226,6 +227,30 @@ function resolveRequestFormats(request: ContentRequest, registry: FormatRegistry
 }
 
 /**
+ * Generic deterministic schema check when a format defines no `validate` hook: every
+ * `required: true` component must be present and non-empty in the payload. Preserves the
+ * hard-gate guarantee that a format is never a free pass, without touching the core for a
+ * custom format.
+ */
+function genericFormatFindings(format: FormatSpec, payload: unknown): string[] {
+  const problems: string[] = [];
+  if (typeof payload !== 'object' || payload === null) return ['payload must be an object'];
+  const p = payload as Record<string, unknown>;
+  for (const comp of format.components) {
+    if (comp.required) {
+      const value = p[comp.id];
+      const missing =
+        value === undefined ||
+        value === null ||
+        (typeof value === 'string' && value.trim() === '') ||
+        (Array.isArray(value) && value.length === 0);
+      if (missing) problems.push(`required component '${comp.id}' is missing or empty`);
+    }
+  }
+  return problems;
+}
+
+/**
  * Verify an artifact: run the deterministic gates natively (coverage, schema) and
  * forward every other required gate to the semantic verifier callback. Deterministic
  * results are combined with semantic results into a single hard-gate report.
@@ -239,19 +264,20 @@ async function verifyArtifact(
 ): Promise<VerificationReport> {
   const gates: GateResult[] = [];
 
-  // Deterministic: coverage — does the artifact's payload mention the required concepts?
-  // For the narrative-lesson format the payload's `conceptId` is what it covers.
-  const covered: string[] =
-    typeof artifact.payload === 'object' && artifact.payload !== null && 'conceptId' in artifact.payload
-      ? [String((artifact.payload as { conceptId?: unknown }).conceptId ?? '')]
-      : [];
+  // Deterministic: coverage, using the format's own concept-coverage extractor so it is
+  // format-agnostic (narrative → conceptId; quiz → union of question concept links; absent
+  // → no announced coverage, so any requiredConcepts demand will fail coverage).
+  const covered = format.coverage ? format.coverage(artifact.payload) : [];
   gates.push(validateConceptCoverage(covered, blueprint.requiredConcepts, blueprint.excludedConcepts));
 
-  // Deterministic: schema for narrative-lesson (others can add their own later).
-  if (format.id === 'narrative-lesson') {
-    gates.push(validateNarrativeStructure(artifact as never));
+  // Deterministic: schema, using the format's declared validate hook (findings empty = pass),
+  // else a generic required-component presence check so a format is never a free pass.
+  const findings = format.validate ? format.validate(artifact.payload) : genericFormatFindings(format, artifact.payload);
+  if (findings.length > 0) {
+    gates.push(failGate('schema', findings));
+  } else {
+    gates.push(passGate('schema'));
   }
-  // A format that makes it this far has satisfied the registry's structural rules.
 
   // Semantic gates (LLM seam) — one pass each, deterministic gates skipped.
   for (const gate of blueprint.requiredVerifications) {
