@@ -48,7 +48,7 @@ jobs:
         run: pnpm exec playwright install chromium
 
       - name: Build shell and workspace deps
-        run: pnpm turbo build --filter=@stem-tuition/shell
+        run: pnpm turbo build --filter=@learninghub/shell
 
       - name: Run core E2E tests
         run: pnpm exec playwright test --config=playwright.config.ts --shard=${{ matrix.shard }}/2 --grep-invert "visual-regression"
@@ -91,7 +91,7 @@ jobs:
         run: pnpm exec playwright install chromium
 
       - name: Build shell and workspace deps
-        run: pnpm turbo build --filter=@stem-tuition/shell
+        run: pnpm turbo build --filter=@learninghub/shell
 
       - name: Run visual regression tests
         run: pnpm exec playwright test --config=playwright.config.ts e2e/visual-regression.spec.ts

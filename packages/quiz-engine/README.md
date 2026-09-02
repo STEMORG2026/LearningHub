@@ -1,4 +1,4 @@
-# @stem-tuition/quiz-engine
+# @learninghub/quiz-engine
 
 ## Purpose
 
@@ -31,7 +31,7 @@ Interactive STEM quiz engine: typed question data, pure logic validation/scoring
 
 ## Dependencies
 
-- `@stem-tuition/core`, `@stem-tuition/tracer`
+- `@learninghub/core`, `@learninghub/tracer`
 
 ## Extension Points
 

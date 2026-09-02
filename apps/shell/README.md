@@ -1,4 +1,4 @@
-# @stem-tuition/shell
+# @learninghub/shell
 
 ## Purpose
 

@@ -1,4 +1,4 @@
-# @stem-tuition/core
+# @learninghub/core
 
 ## Purpose
 
@@ -36,7 +36,7 @@ Event Bus, shared types, and foundational utilities. Every cross-module message 
 ## Examples
 
 ```ts
-import { getDefaultEventBus } from '@stem-tuition/core';
+import { getDefaultEventBus } from '@learninghub/core';
 
 const bus = getDefaultEventBus();
 const off = bus.subscribe('quiz:answer-submitted', (payload) => {

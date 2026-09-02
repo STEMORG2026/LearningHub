@@ -3,7 +3,7 @@ import {
   pickHoverStyle,
   updateCooldown,
   type CooldownState,
-} from '@stem-tuition/hover-engine';
+} from '@learninghub/hover-engine';
 
 const TARGETS = [
   '.card',

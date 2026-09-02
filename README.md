@@ -90,7 +90,7 @@ STEM-TUITION/
 | **Communication** | Event Bus (BroadcastChannel) | Loose coupling, full audit trail |
 | **State Mgmt** | Event-driven (no global stores) | Predictable, traceable |
 | **Testing** | `Vitest` + `Playwright` + `axe-core` | Fast unit + reliable E2E + accessibility |
-| **Observability** | `@stem-tuition/tracer` (built-in) | Internal Langfuse — no external service needed |
+| **Observability** | `@learninghub/tracer` (built-in) | Internal Langfuse — no external service needed |
 | **Versioning** | `Changesets` | Automated, standardized, changelog generated |
 
 ---

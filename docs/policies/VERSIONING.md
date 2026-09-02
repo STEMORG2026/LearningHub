@@ -42,14 +42,14 @@ Each `packages/*` package has an independent version:
 
 | Package | Initial | Notes |
 |---------|---------|-------|
-| `@stem-tuition/core` | `1.0.0` | Foundation — rare bumps |
-| `@stem-tuition/tracer` | `1.0.0` | Observability — minor/patch only |
-| `@stem-tuition/audio-synth` | `1.0.0` | Audio — evolves independently |
-| `@stem-tuition/acl` | `1.0.0` | Adapters — bumps with new adapters |
-| `@stem-tuition/quiz-engine` | `1.0.0` | Quiz — major for data changes |
-| `@stem-tuition/hover-engine` | `1.0.0` | Hover — stable, rare bumps |
-| `@stem-tuition/simulation-core` | `1.0.0` | Physics — evolves with features |
-| `@stem-tuition/shell` | `1.0.0` | Shell — mirrors root |
+| `@learninghub/core` | `1.0.0` | Foundation — rare bumps |
+| `@learninghub/tracer` | `1.0.0` | Observability — minor/patch only |
+| `@learninghub/audio-synth` | `1.0.0` | Audio — evolves independently |
+| `@learninghub/acl` | `1.0.0` | Adapters — bumps with new adapters |
+| `@learninghub/quiz-engine` | `1.0.0` | Quiz — major for data changes |
+| `@learninghub/hover-engine` | `1.0.0` | Hover — stable, rare bumps |
+| `@learninghub/simulation-core` | `1.0.0` | Physics — evolves with features |
+| `@learninghub/shell` | `1.0.0` | Shell — mirrors root |
 
 Inert/scaffolded packages remain at `0.0.1` until they contain meaningful logic.
 

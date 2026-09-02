@@ -1,5 +1,5 @@
-import { getDefaultEventBus } from '@stem-tuition/core';
-import { traced } from '@stem-tuition/tracer';
+import { getDefaultEventBus } from '@learninghub/core';
+import { traced } from '@learninghub/tracer';
 import type { SubjectKey, QuizQuestion, QuizState, QuizAnswer, QuizResult } from '../types';
 import { getResultMetadata } from '../types';
 import { getQuestionsBySubject } from '../data';

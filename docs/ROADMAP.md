@@ -82,7 +82,7 @@ PHASE 8 █████░░░░░  Content & Lessons
 - ✅ `?trace=true` shows floating dashboard (via `initTracer()`)
 - ✅ `?debug_events=true` enriches console with trace ID + timestamp
 - ✅ Tracer accurately measures function durations using `performance.now()`
-- ✅ Tests pass: `pnpm test --filter="@stem-tuition/tracer"` (24/24)
+- ✅ Tests pass: `pnpm test --filter="@learninghub/tracer"` (24/24)
 
 **What stays the same:** No production code is affected. This is instrumentation infrastructure.
 
@@ -109,8 +109,8 @@ PHASE 8 █████░░░░░  Content & Lessons
 
 **Acceptance criteria:**
 - ✅ All 4 original sounds play identically (spark, collision, explosion, motion-hum)
-- ✅ `pnpm test --filter="@stem-tuition/audio-synth"` passes (14/14)
-- ✅ `pnpm test --filter="@stem-tuition/acl"` passes (1/1)
+- ✅ `pnpm test --filter="@learninghub/audio-synth"` passes (14/14)
+- ✅ `pnpm test --filter="@learninghub/acl"` passes (1/1)
 - ✅ Legacy site unchanged — `legacy/js/stem-effects.js` untouched
 - ✅ Changing audio volume works via `engine.setVolume()`
 
@@ -140,8 +140,8 @@ PHASE 8 █████░░░░░  Content & Lessons
 - ✅ Any package can publish and subscribe to events (`event-bus.test.ts` 12/12 passing)
 - ✅ Legacy quiz code accessible through ACL adapter (`acl.test.ts` — quiz-adapter section passing)
 - ✅ `?debug_events=true` shows all cross-module events (tested via `initEventBus()`)
-- ✅ Tests pass: `pnpm test --filter="@stem-tuition/core"` (103/103)
-- ✅ Tests pass: `pnpm test --filter="@stem-tuition/acl"` (15/15)
+- ✅ Tests pass: `pnpm test --filter="@learninghub/core"` (103/103)
+- ✅ Tests pass: `pnpm test --filter="@learninghub/acl"` (15/15)
 
 ---
 
@@ -172,7 +172,7 @@ PHASE 8 █████░░░░░  Content & Lessons
 
 **Acceptance criteria:**
 - ✅ `pnpm typecheck` — all 16 tasks pass
-- ✅ `pnpm test --filter="@stem-tuition/quiz-engine"` — 16/16 tests pass
+- ✅ `pnpm test --filter="@learninghub/quiz-engine"` — 16/16 tests pass
 - ✅ Quiz data is fully typed (TypeScript strict)
 - ✅ All logic functions have educational metadata tags
 - ✅ `<stem-quiz>` uses Shadow DOM scoped styles
@@ -198,7 +198,7 @@ PHASE 8 █████░░░░░  Content & Lessons
 - ✅ `packages/hover-engine/src/index.ts` — Public API
 - ✅ `packages/hover-engine/src/styles.css` — All 6 hover styles as CSS classes (no JavaScript)
 - ✅ `packages/hover-engine/tests/hover-state.test.ts` — 12 tests for state machine (100% coverage)
-- ✅ `pnpm test --filter="@stem-tuition/hover-engine"` — 12/12 tests pass
+- ✅ `pnpm test --filter="@learninghub/hover-engine"` — 12/12 tests pass
 - ✅ `pnpm typecheck` — 16/16 tasks pass
 - ✅ `pnpm lint:arch` — no dependency violations
 
@@ -206,7 +206,7 @@ PHASE 8 █████░░░░░  Content & Lessons
 - ✅ Pure state machine extracted (no DOM, no globals)
 - ✅ 4-cycle cooldown protocol maintained
 - ✅ All 6 hover effects CSS-driven (styles extracted from legacy)
-- ✅ `pnpm test --filter="@stem-tuition/hover-engine"` passes (12/12)
+- ✅ `pnpm test --filter="@learninghub/hover-engine"` passes (12/12)
 - ✅ `pnpm typecheck` passes
 
 ---
@@ -236,7 +236,7 @@ PHASE 8 █████░░░░░  Content & Lessons
 
 **Acceptance criteria:**
 - ✅ All math is testable without browser/DOM (48 pure function tests)
-- ✅ `pnpm test --filter="@stem-tuition/simulation-core"` passes (48/48)
+- ✅ `pnpm test --filter="@learninghub/simulation-core"` passes (48/48)
 - ✅ `pnpm typecheck` passes (16/16)
 - ✅ `pnpm lint:arch` — no dependency violations
 - ✅ `pnpm verify-governance` — 7/7 stages pass

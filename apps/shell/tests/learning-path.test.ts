@@ -16,8 +16,8 @@ Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 // Import after mock
 import { ProgressTracker } from '../src/lib/progress-tracker';
 import { generateLearningPath } from '../src/lib/learning-path';
-import { mapLhsEntitiesToLessons } from '@stem-tuition/content-provider';
-import type { LhsEntity } from '@stem-tuition/content-provider';
+import { mapLhsEntitiesToLessons } from '@learninghub/content-provider';
+import type { LhsEntity } from '@learninghub/content-provider';
 
 const mockEntities: LhsEntity[] = [
   { id: 'lhs:phys.force', name: 'Force', type: 'concept', domain: 'physics', status: 'draft', definition: 'A force', provenance: { ai_drafted: true }, relationships: [] },

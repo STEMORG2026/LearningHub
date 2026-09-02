@@ -46,7 +46,7 @@ an exception with written justification.
 Choose dependencies in this order:
 
 1. **No dependency** — native platform, browser API, or existing workspace code
-2. **Workspace package** — already in `packages/*` (`@stem-tuition/*`)
+2. **Workspace package** — already in `packages/*` (`@learninghub/*`)
 3. **devDependency** — build/test-time only, never shipped
 4. **Runtime dependency** — last resort, and only with ADR approval
 

@@ -120,7 +120,7 @@ pnpm dev:shell
 pnpm test --filter="[changed]"
 
 # Test a specific package
-pnpm test --filter="@stem-tuition/quiz-engine"
+pnpm test --filter="@learninghub/quiz-engine"
 
 # Full governance check (all tests, lint, a11y, size)
 pnpm verify-governance
@@ -182,7 +182,7 @@ git push -u origin feat/your-feature-name
 2. Read its `README.md` contract
 3. Read the `COMPONENT_STANDARDS.md` to understand the pattern
 4. Make your change
-5. Run `pnpm test --filter="@stem-tuition/audio-synth"` to test only that package
+5. Run `pnpm test --filter="@learninghub/audio-synth"` to test only that package
 6. Run `pnpm lint:arch` to check no forbidden imports
 7. Commit: `git commit -m "feat(audio): add tone generation"`
 8. Push: `git push`

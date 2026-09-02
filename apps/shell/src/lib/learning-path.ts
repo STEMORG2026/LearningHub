@@ -6,7 +6,7 @@
  * learner-facing sequencing, curriculum-to-canonical-topic mapping."
  */
 
-import type { LessonContent } from '@stem-tuition/content-provider';
+import type { LessonContent } from '@learninghub/content-provider';
 import {
   getCurriculumMapping,
   CURRICULUMS,

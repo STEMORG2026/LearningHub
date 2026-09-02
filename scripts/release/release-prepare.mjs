@@ -74,9 +74,9 @@ const changesets = changesetFiles.map((f) => {
   const description = lines.slice(secondSep + 1).join('\n').trim();
   const packages = [];
   for (const line of frontmatter) {
-    const match = line.match(/^"@stem-tuition\/([^"]+)"\s*:\s*"(major|minor|patch)"/);
+    const match = line.match(/^"@learninghub\/([^"]+)"\s*:\s*"(major|minor|patch)"/);
     if (match) {
-      packages.push({ name: `@stem-tuition/${match[1]}`, type: match[2] });
+      packages.push({ name: `@learninghub/${match[1]}`, type: match[2] });
     }
   }
   return { file: f, packages, description };
@@ -154,7 +154,7 @@ const newDevlogEntry = `
 ${changesText}
 
 **Packages affected:**
-${changesetFiles.length > 0 ? [...allPkg].sort().map((n) => `- ${n}`).join('\n') : newlyCompleted.flatMap((p) => p.packages.map((pkgName) => `- @stem-tuition/${pkgName}`)).join('\n')}
+${changesetFiles.length > 0 ? [...allPkg].sort().map((n) => `- ${n}`).join('\n') : newlyCompleted.flatMap((p) => p.packages.map((pkgName) => `- @learninghub/${pkgName}`)).join('\n')}
 
 **Tests:**
 [EDIT: Run pnpm release:validate before proceeding]

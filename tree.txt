@@ -1,4 +1,4 @@
-STEM-TUITION/  47d8653
+STEM-TUITION/  4eea1a3
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -7,7 +7,8 @@ STEM-TUITION/  47d8653
 │   ├── format-agnostic-gates.md
 │   ├── honest-stories-attribute.md
 │   ├── README.md
-│   └── running-quizzes-publish.md
+│   ├── running-quizzes-publish.md
+│   └── scope-rename-to-learninghub.md
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml

@@ -15,13 +15,13 @@ import {
   type CelestialBody,
   type MoonConfig,
   type BodyType,
-} from '@stem-tuition/simulation-core';
-import { AudioEngine } from '@stem-tuition/audio-synth';
+} from '@learninghub/simulation-core';
+import { AudioEngine } from '@learninghub/audio-synth';
 import {
   getSimulationState,
   enableBackground,
   disableBackground,
-} from '@stem-tuition/acl';
+} from '@learninghub/acl';
 
 const STAR_COUNT = 140;
 const NEBULA_COUNT = 3;

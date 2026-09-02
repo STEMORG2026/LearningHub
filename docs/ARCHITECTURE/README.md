@@ -286,7 +286,7 @@ tracer   quiz-   audio-   analytics
 | **Styling** | CSS Custom Properties + Modern CSS | Pre-existing design system, no runtime overhead |
 | **State Mgmt** | Event Bus (BroadcastChannel) | Native browser API, zero dependencies |
 | **Testing** | Vitest (unit), Playwright (E2E), axe (a11y) | Fast, modern, comprehensive |
-| **Observability** | `@stem-tuition/tracer` | Built-in, no external service needed |
+| **Observability** | `@learninghub/tracer` | Built-in, no external service needed |
 | **Communication** | CustomEvent + BroadcastChannel | Native browser APIs, framework-agnostic |
 | **Versioning** | Changesets + gated 4-stage release pipeline | Changesets record release intent; versions are applied only through `release:prepare → human approval → release:validate → release:version → release:finalize` (docs-only releases supported) |
 

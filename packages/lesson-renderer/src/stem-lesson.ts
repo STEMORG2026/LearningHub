@@ -6,7 +6,7 @@
  * Simulations and challenges are placeholders for their respective components.
  */
 
-import type { LessonContent, LessonSection, Question } from '@stem-tuition/content-provider';
+import type { LessonContent, LessonSection, Question } from '@learninghub/content-provider';
 
 const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;color:#e0e0e0}
 .lesson{max-width:800px;margin:0 auto;padding:1rem}

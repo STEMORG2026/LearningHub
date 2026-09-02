@@ -1,5 +1,5 @@
 /**
- * @stem-tuition/content-engine
+ * @learninghub/content-engine
  *
  * General-purpose content-production engine (architecture v2, N1–N6).
  *

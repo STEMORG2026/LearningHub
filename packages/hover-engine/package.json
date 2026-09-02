@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/hover-engine",
+  "name": "@learninghub/hover-engine",
   "version": "0.0.1",
   "private": true,
   "description": "Hover animation state machine — style selection and cooldown protocol",
@@ -14,8 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stem-tuition/core": "workspace:*",
-    "@stem-tuition/tracer": "workspace:*"
+    "@learninghub/core": "workspace:*",
+    "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

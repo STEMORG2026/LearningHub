@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { composeNarrativeLesson, type LhsEntity, type NarrativeContent } from '@stem-tuition/content-provider';
+import { composeNarrativeLesson, type LhsEntity, type NarrativeContent } from '@learninghub/content-provider';
 import { getNarratives } from '../src/data/narratives';
 import knowledge from '../src/data/knowledge.json';
 

@@ -17,8 +17,8 @@ import {
   mapLhsEntitiesToLessons,
   type LhsEntity,
   type LessonContent,
-} from '@stem-tuition/content-provider';
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+} from '@learninghub/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 
 /**
  * Build the full lesson set, applying authored narratives where present.

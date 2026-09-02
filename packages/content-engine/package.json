@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/content-engine",
+  "name": "@learninghub/content-engine",
   "version": "1.0.0",
   "private": true,
   "description": "General-purpose content-production engine — request model, format specs, hard-gate verification, and the request-driven pipeline runner (Blueprint → generate → verify → repair → publish), architecture v2 (N1–N6)",
@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stem-tuition/content-provider": "workspace:*"
+    "@learninghub/content-provider": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

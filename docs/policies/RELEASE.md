@@ -42,7 +42,7 @@ git checkout v3.0.0 -- packages/*/package.json apps/*/package.json
 # 3. Create revert changeset
 cat > .changeset/rollback.md << 'EOF'
 ---
-"@stem-tuition/shell": patch
+"@learninghub/shell": patch
 ---
 
 Rollback to v3.0.0

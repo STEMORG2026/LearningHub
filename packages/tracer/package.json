@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/tracer",
+  "name": "@learninghub/tracer",
   "version": "1.0.0",
   "private": true,
   "description": "Built-in observability — function timing, span trees, live dashboard",
@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stem-tuition/core": "workspace:*"
+    "@learninghub/core": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

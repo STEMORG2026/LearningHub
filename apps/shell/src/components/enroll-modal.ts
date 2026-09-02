@@ -1,4 +1,4 @@
-import { getDefaultEventBus } from '@stem-tuition/core';
+import { getDefaultEventBus } from '@learninghub/core';
 
 export class EnrollModal extends HTMLElement {
   #dialog: HTMLDialogElement | null = null;

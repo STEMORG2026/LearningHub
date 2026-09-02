@@ -1,4 +1,4 @@
-# @stem-tuition/tracer
+# @learninghub/tracer
 
 ## Purpose
 
@@ -26,7 +26,7 @@ Built-in observability: span-based function timing, nesting, error tracking, and
 
 ## Dependencies
 
-- `@stem-tuition/core`
+- `@learninghub/core`
 
 ## Extension Points
 
@@ -36,7 +36,7 @@ Built-in observability: span-based function timing, nesting, error tracking, and
 ## Examples
 
 ```ts
-import { traced } from '@stem-tuition/tracer';
+import { traced } from '@learninghub/tracer';
 
 const loadQuestions = traced(async () => {
   // ...

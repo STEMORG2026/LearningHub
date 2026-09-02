@@ -4,7 +4,7 @@
  * per-batch chunks that keep each built asset under the size budget.
  * Authored to the narration-pipeline Master-Reviewer rubric.
  */
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 
 export const NARRATIVES_BATCH1: Record<string, NarrativeContent> = {
   'lhs:phys.force': {

@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/core",
+  "name": "@learninghub/core",
   "version": "1.0.0",
   "private": true,
   "description": "Event Bus, shared types, and utilities",

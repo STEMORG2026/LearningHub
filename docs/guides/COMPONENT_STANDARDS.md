@@ -80,7 +80,7 @@ packages/<name>/
 ### Contract Template (`README.md`)
 
 ```markdown
-# @stem-tuition/<name>
+# @learninghub/<name>
 
 ## Purpose
 One sentence describing what this component does.
@@ -105,8 +105,8 @@ One sentence describing what this component does.
 - Misconceptions addressed: <list>
 
 ## Dependencies
-- @stem-tuition/core (Event Bus)
-- @stem-tuition/tracer (observability)
+- @learninghub/core (Event Bus)
+- @learninghub/tracer (observability)
 
 ## Usage
 ```html
@@ -236,7 +236,7 @@ this.dispatchEvent(new CustomEvent('quiz-completed', {
 ### 5.2 Event Bus (for cross-module)
 
 ```typescript
-import { eventBus } from '@stem-tuition/core';
+import { eventBus } from '@learninghub/core';
 
 // Publish to the entire system
 eventBus.publish('quiz:completed', {

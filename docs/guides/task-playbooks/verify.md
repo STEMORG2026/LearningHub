@@ -33,7 +33,7 @@ Work the steps in order. Each produces an artefact you point at.
    cover *your* change, add a test or note the gap — do not claim coverage.
 6. **[ ] Coverage of your new logic.**
    For any new pure-logic module, confirm meaningful statement coverage
-   (`narrative.ts` historically 100%). `pnpm --filter=@stem-tuition/<pkg> test:coverage`
+   (`narrative.ts` historically 100%). `pnpm --filter=@learninghub/<pkg> test:coverage`
    *(Evidence: the % line for your module.)*
 7. **[ ] Pre-existing vs regression triage.**
    If a gate fails: reproduce on a clean `main` checkout. Fails there → **pre-existing**

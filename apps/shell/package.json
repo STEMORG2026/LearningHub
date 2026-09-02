@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/shell",
+  "name": "@learninghub/shell",
   "version": "1.0.0",
   "private": true,
   "description": "Application shell — routing between legacy and modern modules",
@@ -13,16 +13,16 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@stem-tuition/acl": "workspace:*",
-    "@stem-tuition/audio-synth": "workspace:*",
-    "@stem-tuition/content-provider": "workspace:*",
-    "@stem-tuition/core": "workspace:*",
-    "@stem-tuition/hover-engine": "workspace:*",
-    "@stem-tuition/interactive-simulations": "workspace:*",
-    "@stem-tuition/lesson-renderer": "workspace:*",
-    "@stem-tuition/quiz-engine": "workspace:*",
-    "@stem-tuition/simulation-core": "workspace:*",
-    "@stem-tuition/tracer": "workspace:*"
+    "@learninghub/acl": "workspace:*",
+    "@learninghub/audio-synth": "workspace:*",
+    "@learninghub/content-provider": "workspace:*",
+    "@learninghub/core": "workspace:*",
+    "@learninghub/hover-engine": "workspace:*",
+    "@learninghub/interactive-simulations": "workspace:*",
+    "@learninghub/lesson-renderer": "workspace:*",
+    "@learninghub/quiz-engine": "workspace:*",
+    "@learninghub/simulation-core": "workspace:*",
+    "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.11",

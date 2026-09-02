@@ -1,4 +1,4 @@
-# @stem-tuition/tracer — architecture metadata
+# @learninghub/tracer — architecture metadata
 # Source of truth for lifecycle state, contracts, and ADRs (see docs/policies/PACKAGE_LIFECYCLE.md).
 
 owner = "Core Team"

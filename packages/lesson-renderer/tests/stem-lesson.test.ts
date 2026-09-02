@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { StemLesson } from '../src/stem-lesson';
-import type { LessonContent } from '@stem-tuition/content-provider';
+import type { LessonContent } from '@learninghub/content-provider';
 
 describe('StemLesson Web Component', () => {
   let element: StemLesson;

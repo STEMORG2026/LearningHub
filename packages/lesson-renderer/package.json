@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/lesson-renderer",
+  "name": "@learninghub/lesson-renderer",
   "version": "1.0.0",
   "private": true,
   "description": "Lesson renderer — stem-lesson Web Component for rendering LessonContent",
@@ -21,9 +21,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stem-tuition/content-provider": "workspace:*",
-    "@stem-tuition/core": "workspace:*",
-    "@stem-tuition/tracer": "workspace:*"
+    "@learninghub/content-provider": "workspace:*",
+    "@learninghub/core": "workspace:*",
+    "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {
     "jsdom": "^30.0.1",
