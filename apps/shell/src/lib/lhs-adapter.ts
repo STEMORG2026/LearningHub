@@ -1,5 +1,5 @@
 /**
- * lhs-adapter — the STEMMA consumer seam inside STEM-TUITION.
+ * lhs-adapter — the STEMMA consumer seam inside LearningHub.
  *
  * Consumes the GENERATED export (`apps/shell/src/data/knowledge.json`, vendored from
  * `STEMMA/exports/knowledge.json` via `pnpm sync:lhs`), never the

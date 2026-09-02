@@ -1,9 +1,9 @@
 /**
- * STEMMA types — kept separate from STEM-TUITION's own models.
+ * STEMMA types — kept separate from LearningHub's own models.
  *
  * These mirror the canonical entity shape defined by STEMMA
  * (`../STEMMA/schema/concept.schema.json` + export contract v0.1).
- * STEM-TUITION models are NOT reused here: this file is the consumer boundary.
+ * LearningHub models are NOT reused here: this file is the consumer boundary.
  */
 
 export interface LhsRelationship {

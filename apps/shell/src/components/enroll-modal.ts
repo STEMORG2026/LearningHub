@@ -8,7 +8,7 @@ export class EnrollModal extends HTMLElement {
     this.innerHTML = `
       <dialog class="modal-card">
         <button type="button" class="modal-close" data-close aria-label="Close">×</button>
-        <h3 style="font-size:1.3rem;margin-bottom:0.3rem;" data-title>Enroll in STEM Tuition</h3>
+        <h3 style="font-size:1.3rem;margin-bottom:0.3rem;" data-title>Enroll in LearningHub</h3>
         <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.2rem;">Submit your details for quick admission in Pokhara.</p>
         <form data-form>
           <div class="form-group">

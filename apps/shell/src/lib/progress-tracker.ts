@@ -22,7 +22,7 @@ export interface StudentProgress {
 }
 
 export class ProgressTracker {
-  private storageKey = 'stem-tuition-progress';
+  private storageKey = 'learninghub-progress';
   private studentId: string;
 
   constructor(studentId: string = 'anonymous') {

@@ -3,7 +3,7 @@
  *
  * Scientific knowledge (name, statement, equation, related entities, misconceptions) is
  * rendered verbatim from the STEMMA export via `lhs-adapter`.
- * The worked example and question are authored HERE — that is STEM-TUITION's pedagogy,
+ * The worked example and question are authored HERE — that is LearningHub's pedagogy,
  * clearly separated from the imported knowledge.
  */
 import {
@@ -28,7 +28,7 @@ export function initLhsDemo(): void {
     sectionHeader('KNOWLEDGE — imported from STEMMA'),
     lawCard(law),
     relatedEntities(related),
-    sectionHeader('LEARNING — authored by STEM-TUITION'),
+    sectionHeader('LEARNING — authored by LearningHub'),
     pedagogy(),
     exportFooter(metadata),
   ].join('');

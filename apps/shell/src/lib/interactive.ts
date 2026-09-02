@@ -23,7 +23,7 @@ export function initEstimator(): void {
     if (detailsText) detailsText.textContent = `Subjects: ${subjects.join(', ') || 'None'}`;
     if (estFee) estFee.textContent = `Est. Weekly Commitment: ~${hours} Hours`;
     if (whatsappBtn) {
-      const msg = `Hi STEM Tuition Pokhara! Inquiry for ${gradeLabel}. Subjects: ${subjects.join(', ')}.`;
+      const msg = `Hi LearningHub Pokhara! Inquiry for ${gradeLabel}. Subjects: ${subjects.join(', ')}.`;
       whatsappBtn.href = buildWhatsAppLink(msg);
     }
   };

@@ -2,7 +2,7 @@
  * Learning path generator — assembles curriculum mapping + canonical content
  * into a progressive learning sequence.
  *
- * Per CONSTITUTION.md §7: "STEM-TUITION owns curriculum selection, grade selection,
+ * Per CONSTITUTION.md §7: "LearningHub owns curriculum selection, grade selection,
  * learner-facing sequencing, curriculum-to-canonical-topic mapping."
  */
 

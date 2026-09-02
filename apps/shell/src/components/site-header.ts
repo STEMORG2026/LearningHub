@@ -16,7 +16,7 @@ export class SiteHeader extends HTMLElement {
 
     this.innerHTML = `
       <nav>
-        <a href="index.html" class="nav-logo"><icon-bolt name="bolt"></icon-bolt> STEM Tuition</a>
+        <a href="index.html" class="nav-logo"><icon-bolt name="bolt"></icon-bolt> LearningHub</a>
         <ul class="nav-links">
           ${NAV_LINKS.map(
             (link) =>

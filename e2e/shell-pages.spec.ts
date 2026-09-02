@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 const PAGES: Array<{ path: string; title: string }> = [
-  { path: '/', title: 'STEM Tuition – Pokhara | Interactive STEM Hub' },
-  { path: '/classes.html', title: 'Classes – STEM Tuition Pokhara' },
-  { path: '/videos.html', title: 'Videos & Notes – STEM Tuition Pokhara' },
-  { path: '/contact.html', title: 'Contact – STEM Tuition Pokhara' },
-  { path: '/about.html', title: 'About – STEM Tuition Pokhara' },
+  { path: '/', title: 'LearningHub – Pokhara | Interactive STEM Hub' },
+  { path: '/classes.html', title: 'Classes – LearningHub Pokhara' },
+  { path: '/videos.html', title: 'Videos & Notes – LearningHub Pokhara' },
+  { path: '/contact.html', title: 'Contact – LearningHub Pokhara' },
+  { path: '/about.html', title: 'About – LearningHub Pokhara' },
 ];
 
 for (const page of PAGES) {
