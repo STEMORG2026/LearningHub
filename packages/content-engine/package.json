@@ -1,0 +1,23 @@
+{
+  "name": "@stem-tuition/content-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "General-purpose content-production engine seam — request model, format specs, and hard-gate verification (architecture v2, N1–N3)",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stem-tuition/content-provider": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  }
+}

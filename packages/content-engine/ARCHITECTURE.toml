@@ -1,0 +1,45 @@
+# @stem-tuition/content-engine — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/policies/PACKAGE_LIFECYCLE.md).
+
+owner = "Content & Pedagogy"
+status = "experimental"
+maturity = "incubating"
+
+contracts = ["api", "interface", "schema"]
+
+publicApi = [
+  "ContentRequest",
+  "ContentIntent",
+  "Audience",
+  "EducationalContext",
+  "Extent",
+  "FormatRequest",
+  "PedagogicalRequirements",
+  "FormatSpec",
+  "FormatComponentSpec",
+  "FormatValidationSpec",
+  "FormatRegistry",
+  "NARRATIVE_LESSON_FORMAT",
+  "Artifact",
+  "narrativeArtifact",
+  "Blueprint",
+  "LearningObjective",
+  "planFromRequest",
+  "resolveFormats",
+  "GateResult",
+  "GateId",
+  "VerificationReport",
+  "evaluateGates",
+  "passGate",
+  "failGate",
+  "validateConceptCoverage",
+  "validateNarrativeStructure",
+  "INTENT_ESSENCE_VERIFIER",
+  "IntentEssenceRunner",
+  "routeRepair",
+  "repairOrders",
+]
+
+dependencies = ["content-provider"]
+
+adrs = ["016"]

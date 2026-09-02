@@ -107,6 +107,7 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/content-provider/` | Content & Lessons | `src/content-provider.ts, src/index.ts, src/lhs-adapter.ts, src/local-content-provider.ts, src/narrative.ts, src/quiz-mapper.ts, src/types.ts` |
 | `packages/interactive-simulations/` | Content & Lessons | `src/index.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts` |
 | `packages/lesson-renderer/` | Content & Lessons | `src/index.ts, src/stem-lesson.ts` |
+| `packages/content-engine/` | Content & Lessons | `src/blueprint.ts, src/formats.ts, src/index.ts, src/request.ts, src/verification.ts` |
 <!-- END AUTO:package-map -->
 
 ---
