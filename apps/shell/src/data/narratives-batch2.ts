@@ -5,7 +5,7 @@
  * real people honoured by name with their true roles and recorded words (sourced),
  * a historical timeline, respected/differing views each given due weight, and an
  * "Explained" deep-dive that starts simple and scales up for enthusiasts,
- * professionals and nerds. Facts remain canonical-consistent with LearningHubSTEM.
+ * professionals and nerds. Facts remain canonical-consistent with STEMMA.
  *
  * Each entry is keyed by the canonical concept id and composes with the known fact
  * via `composeNarrativeLesson`.

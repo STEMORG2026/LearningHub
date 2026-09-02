@@ -1,8 +1,8 @@
 /**
- * lhs-adapter — the LearningHubSTEM consumer seam inside STEM-TUITION.
+ * lhs-adapter — the STEMMA consumer seam inside STEM-TUITION.
  *
  * Consumes the GENERATED export (`apps/shell/src/data/knowledge.json`, vendored from
- * `LearningHubSTEM/exports/knowledge.json` via `pnpm sync:lhs`), never the
+ * `STEMMA/exports/knowledge.json` via `pnpm sync:lhs`), never the
  * Markdown sources. The export is the only file this module reads across the seam.
  *
  * Contract: export version must equal SUPPORTED_EXPORT_VERSION; any other version is
@@ -25,7 +25,7 @@ const EXPORT = knowledge as LhsKnowledgeExport;
 export class LhsUnsupportedVersionError extends Error {
   constructor(readonly found: string) {
     super(
-      `Unsupported LearningHubSTEM export version '${found}'; supported: '${SUPPORTED_EXPORT_VERSION}'.`,
+      `Unsupported STEMMA export version '${found}'; supported: '${SUPPORTED_EXPORT_VERSION}'.`,
     );
     this.name = 'LhsUnsupportedVersionError';
   }
@@ -33,14 +33,14 @@ export class LhsUnsupportedVersionError extends Error {
 
 export class LhsEntityNotFoundError extends Error {
   constructor(readonly id: string) {
-    super(`LearningHubSTEM entity not found: '${id}'.`);
+    super(`STEMMA entity not found: '${id}'.`);
     this.name = 'LhsEntityNotFoundError';
   }
 }
 
 export class LhsDanglingReferenceError extends Error {
   constructor(readonly from: string, readonly target: string) {
-    super(`LearningHubSTEM dangling relationship target '${target}' referenced by '${from}'.`);
+    super(`STEMMA dangling relationship target '${target}' referenced by '${from}'.`);
     this.name = 'LhsDanglingReferenceError';
   }
 }
@@ -54,7 +54,7 @@ function assertExportShape(source: LhsKnowledgeExport): void {
     typeof source.schema_version !== 'string' ||
     !Array.isArray(source.entities)
   ) {
-    throw new Error('Malformed LearningHubSTEM export: missing export metadata.');
+    throw new Error('Malformed STEMMA export: missing export metadata.');
   }
 }
 

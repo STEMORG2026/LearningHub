@@ -4,7 +4,7 @@
  * Per CONSTITUTION.md §35, the teaching story, history, "what came before",
  * analogies, worked examples, the people who shaped an idea, respected/differing
  * views, and the scaling "Explained" deep-dive is owned by STEM-TUITION, not
- * LearningHubSTEM. These narratives wrap the canonical facts from the knowledge
+ * STEMMA. These narratives wrap the canonical facts from the knowledge
  * base with the progressive story that makes a concept feel alive, connected and
  * historically honest.
  *

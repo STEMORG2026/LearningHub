@@ -10,7 +10,7 @@ describe('lhs-demo — Newton’s Second Law vertical slice', () => {
     expect(html).toContain("Newton's Second Law");
     expect(html).toContain('F = dp/dt');
     expect(html).toContain('KNOWLEDGE');
-    expect(html).toContain('LearningHubSTEM');
+    expect(html).toContain('STEMMA');
     expect(html).toContain('lhs:phys.newtons-second-law');
 
     expect(html).toContain('LEARNING');

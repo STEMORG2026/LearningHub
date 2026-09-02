@@ -7,7 +7,7 @@
  * and the semantic rubric (story-shaped prose, real people honoured by name with recorded
  * words + sources, a historical timeline, respected/differing views given due weight, and a
  * deep-dive that scales Curious → Enthusiast → Professional → Nerd). Canonical facts stay
- * consistent with the vendored LearningHubSTEM export.
+ * consistent with the vendored STEMMA export.
  *
  * Set: motion (the most fundamental phenomenon), its two measures of "how far" (distance
  * and displacement), the rate of covering distance (speed), and the language that makes
