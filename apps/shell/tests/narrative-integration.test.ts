@@ -1,21 +1,25 @@
 import { describe, expect, it } from 'vitest';
-import { composeNarrativeLesson, type LhsEntity } from '@stem-tuition/content-provider';
-import { NARRATIVES } from '../src/data/narratives';
+import { composeNarrativeLesson, type LhsEntity, type NarrativeContent } from '@stem-tuition/content-provider';
+import { getNarratives } from '../src/data/narratives';
 import knowledge from '../src/data/knowledge.json';
 
 function asEntity(e: unknown): LhsEntity {
   return e as LhsEntity;
 }
 
+// Load the (code-split) narrative record once for all tests.
+const narrativesPromise: Promise<Record<string, NarrativeContent>> = getNarratives();
+
 describe('integration: composed lessons against the vendored export', () => {
   const entities = (knowledge as { entities: unknown[] }).entities;
 
-  it('composes a progressive story for every narrated concept in the real export', () => {
+  it('composes a progressive story for every narrated concept in the real export', async () => {
+    const NARRATIVES = await narrativesPromise;
     const narrated = entities.filter((e) => NARRATIVES[asEntity(e).id]);
     expect(narrated.length).toBeGreaterThan(0);
     // The narrated physics set grows as we author; assert a meaningful, current floor
     // so an accidental loss of a narrated concept is caught.
-    expect(narrated.length).toBeGreaterThanOrEqual(32);
+    expect(narrated.length).toBeGreaterThanOrEqual(47);
     for (const raw of narrated) {
       const entity = asEntity(raw);
       const lesson = composeNarrativeLesson(entity, NARRATIVES[entity.id]!);
@@ -33,14 +37,16 @@ describe('integration: composed lessons against the vendored export', () => {
     }
   });
 
-  it('keeps canonical definitions intact inside narrated lessons', () => {
+  it('keeps canonical definitions intact inside narrated lessons', async () => {
+    const NARRATIVES = await narrativesPromise;
     const force = asEntity(entities.find((e) => asEntity(e).id === 'lhs:phys.force')!);
     const lesson = composeNarrativeLesson(force, NARRATIVES['lhs:phys.force']!);
     const canonical = lesson.sections.find((s) => s.kind === 'narrative');
     expect(canonical?.body).toBe(force.definition);
   });
 
-  it('every narrated concept carries respectful attribution and an Explained deep-dive', () => {
+  it('every narrated concept carries respectful attribution and an Explained deep-dive', async () => {
+    const NARRATIVES = await narrativesPromise;
     const narrated = entities.filter((e) => NARRATIVES[asEntity(e).id]);
     for (const raw of narrated) {
       const entity = asEntity(raw);

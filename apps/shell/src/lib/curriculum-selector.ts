@@ -13,7 +13,6 @@
 import { generateLearningPath } from './learning-path';
 import type { LessonContent } from '@stem-tuition/content-provider';
 import { loadKnowledge } from './lhs-adapter';
-import { buildLessons } from './lesson-builder';
 import { CURRICULUMS, getAvailableCurricula, type CurriculumId } from '../data/curriculum-mappings';
 import knowledge from '../data/knowledge.json';
 
@@ -88,17 +87,25 @@ function renderSelector(mount: HTMLElement): void {
       return;
     }
 
-    renderLearningPath(curriculum, grade);
+    void renderLearningPath(curriculum, grade);
   });
 }
 
-function renderLearningPath(curriculum: CurriculumId, grade: number): void {
+async function renderLearningPath(curriculum: CurriculumId, grade: number): Promise<void> {
   const mount = document.getElementById('learningPathMount');
   if (!mount) return;
 
-  // Load LHS knowledge and map to lessons (with narrative enrichment where present)
+  // Load LHS knowledge and map to lessons (with narrative enrichment where present).
+  // `buildLessons` and the narratives data are dynamically imported so the (large)
+  // narrative content is code-split into its own chunks and the initial learn bundle
+  // stays within the size budget (bundlesize.config.json: 100 kB gzip per asset).
   loadKnowledge();
-  const lessons = buildLessons(knowledge.entities);
+  const [{ buildLessons }, { getNarratives }] = await Promise.all([
+    import('./lesson-builder'),
+    import('../data/narratives'),
+  ]);
+  const narratives = await getNarratives();
+  const lessons = buildLessons(knowledge.entities, narratives);
   const path = generateLearningPath(curriculum, grade, lessons);
   const curriculumInfo = CURRICULUMS[curriculum];
 

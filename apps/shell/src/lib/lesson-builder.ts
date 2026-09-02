@@ -8,6 +8,9 @@
  *
  * This is consumer-owned composition (CONSTITUTION.md §35): the narrative layer
  * lives here, never in LearningHubSTEM.
+ *
+ * The function is pure (narratives passed in) so it stays unit-testable independent
+ * of how the (large) narrative data is loaded.
  */
 import {
   composeNarrativeLesson,
@@ -15,16 +18,20 @@ import {
   type LhsEntity,
   type LessonContent,
 } from '@stem-tuition/content-provider';
-import { NARRATIVES } from '../data/narratives';
+import type { NarrativeContent } from '@stem-tuition/content-provider';
 
 /**
  * Build the full lesson set, applying authored narratives where present.
  *
  * @param entities canonical LearningHubSTEM entities from the vendored export
+ * @param narratives authored narrative content keyed by canonical concept id
  */
-export function buildLessons(entities: LhsEntity[]): LessonContent[] {
+export function buildLessons(
+  entities: LhsEntity[],
+  narratives: Record<string, NarrativeContent>,
+): LessonContent[] {
   return entities.map((entity) => {
-    const narrative = NARRATIVES[entity.id];
+    const narrative = narratives[entity.id];
     if (narrative) {
       return composeNarrativeLesson(entity, narrative);
     }

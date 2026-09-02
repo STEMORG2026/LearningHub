@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildLessons } from '../src/lib/lesson-builder';
-import type { LhsEntity } from '@stem-tuition/content-provider';
+import { getNarratives } from '../src/data/narratives';
+import type { LhsEntity, NarrativeContent } from '@stem-tuition/content-provider';
 
 function makeEntity(id: string, type = 'concept'): LhsEntity {
   return {
@@ -16,9 +17,10 @@ function makeEntity(id: string, type = 'concept'): LhsEntity {
 }
 
 describe('lesson-builder (consumer narrative seam)', () => {
-  it('composes a narrated lesson for a concept that has a narrative', () => {
+  it('composes a narrated lesson for a concept that has a narrative', async () => {
+    const narratives: Record<string, NarrativeContent> = await getNarratives();
     const narrated = makeEntity('lhs:phys.force');
-    const lessons = buildLessons([narrated]);
+    const lessons = buildLessons([narrated], narratives);
     expect(lessons).toHaveLength(1);
     const lesson = lessons[0]!;
     expect(lesson.metadata.conceptId).toBe('lhs:phys.force');
@@ -34,7 +36,7 @@ describe('lesson-builder (consumer narrative seam)', () => {
 
   it('falls back to the enriched base adapter for non-narrated concepts', () => {
     const plain = makeEntity('lhs:chem.matter');
-    const lessons = buildLessons([plain]);
+    const lessons = buildLessons([plain], {});
     expect(lessons).toHaveLength(1);
     const lesson = lessons[0]!;
     expect(lesson.metadata.conceptId).toBe('lhs:chem.matter');
@@ -42,12 +44,13 @@ describe('lesson-builder (consumer narrative seam)', () => {
     expect(lesson.sections.some((s) => s.kind === 'narrative')).toBe(true);
   });
 
-  it('handles a mixed set without losing any lesson', () => {
+  it('handles a mixed set without losing any lesson', async () => {
+    const narratives: Record<string, NarrativeContent> = await getNarratives();
     const narratedForce = makeEntity('lhs:phys.force');
     const narratedWork = makeEntity('lhs:phys.work');
     const plainMatter = makeEntity('lhs:chem.matter');
     const plainCell = makeEntity('lhs:bio.cell');
-    const lessons = buildLessons([narratedForce, plainMatter, narratedWork, plainCell]);
+    const lessons = buildLessons([narratedForce, plainMatter, narratedWork, plainCell], narratives);
     expect(lessons).toHaveLength(4);
     const ids = new Set(lessons.map((l) => l.metadata.conceptId));
     expect(ids).toEqual(
