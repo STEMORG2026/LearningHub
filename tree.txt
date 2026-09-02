@@ -1,4 +1,4 @@
-STEM-TUITION/  38a0664
+STEM-TUITION/  9e0e139
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -132,6 +132,8 @@ STEM-TUITION/  38a0664
 │   │   ├── 014-lesson-renderer.md
 │   │   ├── 015-interactive-simulations.md
 │   │   └── README.md
+│   ├── architecture/
+│   │   └── content-production-engine-v2.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
 │   │   ├── containers.md
