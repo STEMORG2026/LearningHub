@@ -6,7 +6,7 @@
  * story-shaped prose, real people with recorded words + sources, a historical
  * timeline, respected/differing views given due weight, and a deep-dive that scales
  * Curious → Enthusiast → Professional → Nerd. Canonical facts stay consistent with the
- * vendored LearningHubSTEM export.
+ * vendored STEMMA export.
  */
 import type { NarrativeContent } from '@stem-tuition/content-provider';
 

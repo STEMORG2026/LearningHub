@@ -1,13 +1,13 @@
 /**
  * Lesson builder for the shell — a consumer seam.
  *
- * Maps canonical LearningHubSTEM entities into LessonContent, then enriches
+ * Maps canonical STEMMA entities into LessonContent, then enriches
  * concepts that have an authored narrative with their progressive story via
  * `composeNarrativeLesson`. Concepts without a narrative still get a complete,
  * enriched lesson from the base adapter.
  *
  * This is consumer-owned composition (CONSTITUTION.md §35): the narrative layer
- * lives here, never in LearningHubSTEM.
+ * lives here, never in STEMMA.
  *
  * The function is pure (narratives passed in) so it stays unit-testable independent
  * of how the (large) narrative data is loaded.
@@ -23,7 +23,7 @@ import type { NarrativeContent } from '@stem-tuition/content-provider';
 /**
  * Build the full lesson set, applying authored narratives where present.
  *
- * @param entities canonical LearningHubSTEM entities from the vendored export
+ * @param entities canonical STEMMA entities from the vendored export
  * @param narratives authored narrative content keyed by canonical concept id
  */
 export function buildLessons(

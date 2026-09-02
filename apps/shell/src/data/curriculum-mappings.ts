@@ -1,8 +1,8 @@
 /**
  * Curriculum mapping data — consumer-owned layer.
  *
- * Maps canonical LearningHubSTEM physics concepts to specific curricula and grades.
- * This file is owned by STEM-TUITION, not LearningHubSTEM.
+ * Maps canonical STEMMA physics concepts to specific curricula and grades.
+ * This file is owned by STEM-TUITION, not STEMMA.
  *
  * Per CONSTITUTION.md §11 and §35: curriculum relationships are consumer-owned, never canonical.
  */
@@ -23,7 +23,7 @@ export interface CurriculumInfo {
 }
 
 export interface MappedTopic {
-  /** Canonical concept ID from LearningHubSTEM */
+  /** Canonical concept ID from STEMMA */
   canonicalId: string;
   /** Curriculum-specific reference or topic name */
   curriculumRef: string;

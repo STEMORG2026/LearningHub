@@ -2,7 +2,7 @@
  * lhs-demo — one vertical slice: Newton's Second Law.
  *
  * Scientific knowledge (name, statement, equation, related entities, misconceptions) is
- * rendered verbatim from the LearningHubSTEM export via `lhs-adapter`.
+ * rendered verbatim from the STEMMA export via `lhs-adapter`.
  * The worked example and question are authored HERE — that is STEM-TUITION's pedagogy,
  * clearly separated from the imported knowledge.
  */
@@ -25,7 +25,7 @@ export function initLhsDemo(): void {
   const related = getRelatedEntities(LAW_ID);
 
   mount.innerHTML = [
-    sectionHeader('KNOWLEDGE — imported from LearningHubSTEM'),
+    sectionHeader('KNOWLEDGE — imported from STEMMA'),
     lawCard(law),
     relatedEntities(related),
     sectionHeader('LEARNING — authored by STEM-TUITION'),
