@@ -5,6 +5,30 @@
 for STEM-TUITION narrated lessons.
 **Owner:** STEM-TUITION content/pedagogy team (consumer-owned, CONSTITUTION.md §35).
 
+> **DEPRECATED — superseded by the content engine (architecture v2).**
+>
+> As of ADR-016 (N6), this playbook is **demoted to a reference** for the
+> `narrative-lesson` **FormatSpec** in `packages/content-engine`. Manual batch authoring now
+> runs through the request-driven engine: a `ContentRequest` → `Blueprint` →
+> `FormatGenerator` → deterministic + semantic verification → hard-gate publish (`produce()`
+> in `packages/content-engine/src/pipeline.ts`), with `narrative-lesson` registered as the
+> first FormatSpec. `scripts/narrate/` is deprecated.
+>
+> Keep this page **only as the reference** for what a `narrative-lesson` should contain (the
+> roles here map to the engine's responsibilities — see the mapping below). New content work
+> should be planned via the engine, not a fresh five-role assembly line.
+>
+> **v1 → engine responsibility mapping:**
+>
+> | v1 role (this playbook) | Engine responsibility (v2) |
+> |---|---|
+> | Researcher | `Curator` → assembles the `KnowledgeContext` (canonical LHS + clearly-marked supplemental research) |
+> | Writer | `FormatGenerator` for the `narrative-lesson` spec (LLM seam) |
+> | Reviewer | deterministic validators (`coverage`, `schema`) + LLM verifiers (`factual`, `lhs-fidelity`) |
+> | Master Reviewer | LLM verifiers (`pedagogical`, `format`, `intent-essence`) |
+> | Animator | advisory `interactivity` guidance on the format spec / generation guidance |
+> | `scripts/narrate/` assembly line | `produce()` pipeline runner (`Blueprint → generate → verify → repair → publish`) |
+
 This playbook defines the **multi-agent narration assembly line** that produces
 `NarrativeContent` for physics (and, later, other-domain) concepts. It breaks one
 concept into a series of independently-run stages so that **several topics can be

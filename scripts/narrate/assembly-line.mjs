@@ -1,4 +1,12 @@
 /**
+ * DEPRECATED (ADR-016 N6). Superseded by the request-driven content engine.
+ *
+ * The v1 five-role assembly line moving forward is the pipeline runner
+ * (`packages/content-engine/src/pipeline.ts`): `produce()` drives Request →
+ * Blueprint → FormatGenerator(narrative-lesson) → deterministic + semantic
+ * verification → targeted repair → hard-gate publish. This file is kept only as
+ * a historical reference template; new content work must go through the engine.
+ *
  * Narration assembly-line orchestration (reference template).
  *
  * This is the durable, documented shape of the multi-agent narration pipeline that a

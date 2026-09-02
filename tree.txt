@@ -1,4 +1,4 @@
-STEM-TUITION/  0b94062
+STEM-TUITION/  a9e68d9
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -255,6 +255,7 @@ STEM-TUITION/  0b94062
 │   │   │   ├── blueprint.ts
 │   │   │   ├── formats.ts
 │   │   │   ├── index.ts  [entry]
+│   │   │   ├── pipeline.ts
 │   │   │   ├── request.ts
 │   │   │   └── verification.ts
 │   │   ├── tests/

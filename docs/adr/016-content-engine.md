@@ -102,22 +102,30 @@ an agent is only justified where it gives a clean reasoning boundary.
 
 ## Follow-up (migration plan N4–N6)
 
-1. Wire an LLM runner (workflow/litellm) that consumes the verifier seams and drives
-   `Blueprint → generation → verification → repair`, producing `Artifact`s for the
-   `narrative-lesson` format first.
-2. Add a second non-narrative `FormatSpec` (e.g. `quiz` or `lab-script`) to prove the
-   extension point with no core change.
-3. Later, demote the v1 narration playbook to a reference for the `narrative-lesson` format
-   and deprecate `scripts/narrate/` once the engine covers it.
-4. Evolve `content-engine` from `experimental`/`incubating` per `PACKAGE_LIFECYCLE.md` once
-   a real runner lands.
+Status: **N4–N6 landed 2026-09-02.**
+
+1. ✅ **Wire an LLM runner** (`packages/content-engine/src/pipeline.ts`): `produce()` drives
+   `Blueprint → Generation → verification → repair → publish/hold/reject`, producing
+   `Artifact`s for the `narrative-lesson` format first. It is LLM-agnostic — semantic
+   boundaries are injected callbacks (`FormatGenerator`, `SemanticVerifier`), so it runs
+   testably without a network and a real runner (workflow/litellm/…) supplies those callbacks.
+2. ✅ **Add a second non-narrative `FormatSpec`** (`quiz`) to the registry — the additive
+   extension point with zero core change (`FormatRegistry` now defaults to
+   narrative-lesson + quiz).
+3. ✅ **Demote the v1 narration playbook** to a reference for the `narrative-lesson` format
+   (deprecation banner + v1→engine responsibility mapping in
+   `docs/guides/task-playbooks/narration/README.md`); `scripts/narrate/` is deprecated.
+4. ⏳ Evolve `content-engine` from `experimental`/`incubating` per `PACKAGE_LIFECYCLE.md` once
+   a production runner is deployed (currently the seam + pipeline runner are verified and
+   land the generated `Artifact`s; a live litellm/workflow attachment is the next step).
 
 ## Files
 
 - `packages/content-engine/src/request.ts` — `ContentRequest` model
-- `packages/content-engine/src/formats.ts` — `FormatSpec`, `FormatRegistry`, `narrative-lesson` spec
+- `packages/content-engine/src/formats.ts` — `FormatSpec`, `FormatRegistry`, `narrative-lesson` + `quiz` specs
 - `packages/content-engine/src/blueprint.ts` — `Blueprint`, `planFromRequest`, `resolveFormats`
 - `packages/content-engine/src/verification.ts` — hard-gate verification + repair routing
+- `packages/content-engine/src/pipeline.ts` — `produce()` pipeline runner (Request → generate → verify → repair → publish)
 - `packages/content-engine/src/index.ts` — public surface
-- `packages/content-engine/tests/` — 17 tests, all passing
+- `packages/content-engine/tests/` — 23 tests, all passing
 - `docs/architecture/content-production-engine-v2.md` — the full architecture review (supersedes the v1 narration-pipeline as the general engine)
