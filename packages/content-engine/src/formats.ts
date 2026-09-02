@@ -11,7 +11,7 @@
  * spec: its output schema is the established `NarrativeContent` shape. This keeps the
  * 47 published narratives as valid artifacts of that format with no rendering change.
  */
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 import { validateNarrativeStructure } from './verification';
 
 /** The kind of an output component/section, open-ended so new formats can extend. */

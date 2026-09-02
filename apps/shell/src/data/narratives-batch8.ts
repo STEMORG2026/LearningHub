@@ -13,7 +13,7 @@
  * and displacement), the rate of covering distance (speed), and the language that makes
  * measurement possible at all — physical quantity, measurement, time and unit.
  */
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 
 export const NARRATIVES_BATCH8: Record<string, NarrativeContent> = {
   'lhs:phys.motion': {

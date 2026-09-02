@@ -19,7 +19,7 @@ module.exports = {
             rules.push({
               name: `no-import-${fromPkg}-to-${toPkg}`,
               severity: 'error',
-              comment: `@stem-tuition/${fromPkg} cannot import from @stem-tuition/${toPkg} — use EventBus.`,
+              comment: `@learninghub/${fromPkg} cannot import from @learninghub/${toPkg} — use EventBus.`,
               from: { path: `^packages/${fromPkg}` },
               to: { path: `^packages/${toPkg}` },
             });

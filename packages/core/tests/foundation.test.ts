@@ -20,7 +20,7 @@ const isFile = (p: string) => exists(p) && statSync(p).isFile();
 describe('Root monorepo structure', () => {
   it('root package.json exists with correct metadata', () => {
     const pkg = JSON.parse(read(join(ROOT, 'package.json')));
-    expect(pkg.name).toBe('stem-tuition');
+    expect(pkg.name).toBe('learninghub');
     expect(pkg.version).toBe('3.0.0');
     expect(pkg.private).toBe(true);
     expect(pkg.scripts).toHaveProperty('build');
@@ -117,7 +117,7 @@ describe('Package scaffolds exist with correct structure', () => {
 
       it('package.json has valid name, version, scripts', () => {
         const pkg = JSON.parse(read(join(pkgDir, 'package.json')));
-        expect(pkg.name).toBe(`@stem-tuition/${pkgName}`);
+        expect(pkg.name).toBe(`@learninghub/${pkgName}`);
         expect(pkg.version).toMatch(/^\d+\.\d+\.\d+$/);
         expect(pkg.private).toBe(true);
         expect(pkg.type).toBe('module');
@@ -152,7 +152,7 @@ describe('App scaffolds exist', () => {
 
   it('apps/shell/package.json exists with vite config', () => {
     const pkg = JSON.parse(read(join(APPS_DIR, 'shell/package.json')));
-    expect(pkg.name).toBe('@stem-tuition/shell');
+    expect(pkg.name).toBe('@learninghub/shell');
     expect(pkg.scripts).toHaveProperty('dev');
     expect(pkg.scripts).toHaveProperty('build');
     expect(pkg.devDependencies).toHaveProperty('vite');

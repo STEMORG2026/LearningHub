@@ -1,4 +1,4 @@
-# @stem-tuition/acl
+# @learninghub/acl
 
 ## Purpose
 
@@ -24,7 +24,7 @@ Anti-Corruption Layer: adapters that bridge legacy globals (`legacy/js/*`) to ty
 
 ## Dependencies
 
-- `@stem-tuition/audio-synth`, `@stem-tuition/core`, `@stem-tuition/tracer`
+- `@learninghub/audio-synth`, `@learninghub/core`, `@learninghub/tracer`
 
 ## Extension Points
 
@@ -33,7 +33,7 @@ Anti-Corruption Layer: adapters that bridge legacy globals (`legacy/js/*`) to ty
 ## Examples
 
 ```ts
-import { getQuizState } from '@stem-tuition/acl';
+import { getQuizState } from '@learninghub/acl';
 
 const state = getQuizState(); // typed view over legacy quiz global
 ```

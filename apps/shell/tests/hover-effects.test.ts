@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { HOVER_STYLES } from '@stem-tuition/hover-engine';
+import { HOVER_STYLES } from '@learninghub/hover-engine';
 import { initHoverEffects } from '../src/lib/hover-effects';
 
 function setFixture(): HTMLElement {

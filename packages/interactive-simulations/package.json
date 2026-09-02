@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/interactive-simulations",
+  "name": "@learninghub/interactive-simulations",
   "version": "1.0.0",
   "private": true,
   "description": "Interactive simulations — Web Components wrapping simulation-core for mechanics, circuits, optics",
@@ -14,9 +14,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stem-tuition/core": "workspace:*",
-    "@stem-tuition/simulation-core": "workspace:*",
-    "@stem-tuition/tracer": "workspace:*"
+    "@learninghub/core": "workspace:*",
+    "@learninghub/simulation-core": "workspace:*",
+    "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {
     "jsdom": "^30.0.1",

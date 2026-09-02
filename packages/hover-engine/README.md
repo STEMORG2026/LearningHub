@@ -1,4 +1,4 @@
-# @stem-tuition/hover-engine
+# @learninghub/hover-engine
 
 ## Purpose
 
@@ -24,7 +24,7 @@ Hover animation state machine: style selection and a cooldown protocol that prev
 
 ## Dependencies
 
-- `@stem-tuition/core`, `@stem-tuition/tracer`
+- `@learninghub/core`, `@learninghub/tracer`
 
 ## Extension Points
 
@@ -33,7 +33,7 @@ Hover animation state machine: style selection and a cooldown protocol that prev
 ## Examples
 
 ```ts
-import { initCooldownState, pickHoverStyle } from '@stem-tuition/hover-engine';
+import { initCooldownState, pickHoverStyle } from '@learninghub/hover-engine';
 
 let state = initCooldownState();
 const style = pickHoverStyle(state);

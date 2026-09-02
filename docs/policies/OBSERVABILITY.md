@@ -12,7 +12,7 @@
 
 This document defines the **project-wide observability conventions**. It states
 *what* to emit and *how to name it* — never *which* implementation to use. The
-`@stem-tuition/tracer` package is the current implementation; a different backend
+`@learninghub/tracer` package is the current implementation; a different backend
 may be swapped in later without changing these conventions.
 
 `RULES.md` merely mandates that observability follows "the project naming

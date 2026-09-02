@@ -1,4 +1,4 @@
-# @stem-tuition/audio-synth
+# @learninghub/audio-synth
 
 ## Purpose
 
@@ -25,7 +25,7 @@ Procedural Web Audio sound synthesizer. Four pure synthesis functions plus an `A
 
 ## Dependencies
 
-- `@stem-tuition/core`, `@stem-tuition/tracer`
+- `@learninghub/core`, `@learninghub/tracer`
 
 ## Extension Points
 
@@ -35,7 +35,7 @@ Procedural Web Audio sound synthesizer. Four pure synthesis functions plus an `A
 ## Examples
 
 ```ts
-import { AudioEngine } from '@stem-tuition/audio-synth';
+import { AudioEngine } from '@learninghub/audio-synth';
 
 const engine = new AudioEngine();
 engine.play('spark');

@@ -18,9 +18,9 @@ import { initCosmicBackground } from '../lib/cosmic-background';
 import { initEnrollTriggers } from '../lib/enroll';
 
 // Import custom elements (registers them)
-import '@stem-tuition/lesson-renderer';
-import '@stem-tuition/interactive-simulations';
-import '@stem-tuition/quiz-engine';
+import '@learninghub/lesson-renderer';
+import '@learninghub/interactive-simulations';
+import '@learninghub/quiz-engine';
 
 // Import learning components
 import { initCurriculumSelector } from '../lib/curriculum-selector';

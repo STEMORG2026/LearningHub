@@ -131,7 +131,7 @@ if (releaseMode === 'versioned') {
       const content = readFileSync(join(CHANGESET_DIR, f), 'utf8');
       const lines = content.split('\n');
       for (const line of lines) {
-        const m = line.match(/^"@stem-tuition\/([^"]+)"\s*:/);
+        const m = line.match(/^"@learninghub\/([^"]+)"\s*:/);
         if (m) changedPkgs.add(m[1]);
       }
     }

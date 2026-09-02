@@ -7,7 +7,7 @@
  * Curious → Enthusiast → Professional → Nerd. Canonical facts stay consistent with the
  * vendored STEMMA export.
  */
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 
 export const NARRATIVES_BATCH4: Record<string, NarrativeContent> = {
   'lhs:phys.impulse': {

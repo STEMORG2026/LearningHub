@@ -65,3 +65,7 @@ lhci-reports/
 
 # Generated documentation (regenerate with pnpm generate:graph; CI enforces freshness)
 docs/dependency-graph.svg
+
+# repo-local pnpm store + config (global store index.db unreadable by node:sqlite)
+.npmrc
+.pnpm-store/

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { getDefaultEventBus } from '@stem-tuition/core';
+import { getDefaultEventBus } from '@learninghub/core';
 import { EnrollModal } from '../src/components/enroll-modal';
 
 type EnrollPayload = {

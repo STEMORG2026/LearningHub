@@ -59,7 +59,7 @@ Console output:
 
 ```typescript
 // In browser console, paste:
-import { eventBus } from '@stem-tuition/core';
+import { eventBus } from '@learninghub/core';
 eventBus.subscribe('*', (event) => {
   console.log(`[EVENT BUS] ${event.type}`, event.data);
 });

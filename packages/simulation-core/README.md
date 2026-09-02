@@ -1,4 +1,4 @@
-# @stem-tuition/simulation-core
+# @learninghub/simulation-core
 
 ## Purpose
 
@@ -24,7 +24,7 @@ Pure physics math for the gravity simulation: Newtonian gravity, collision, boun
 
 ## Dependencies
 
-- `@stem-tuition/core`, `@stem-tuition/tracer`
+- `@learninghub/core`, `@learninghub/tracer`
 
 ## Extension Points
 
@@ -33,7 +33,7 @@ Pure physics math for the gravity simulation: Newtonian gravity, collision, boun
 ## Examples
 
 ```ts
-import { createSun, stepPosition } from '@stem-tuition/simulation-core';
+import { createSun, stepPosition } from '@learninghub/simulation-core';
 
 const sun = createSun();
 const next = stepPosition(sun, 0.016);

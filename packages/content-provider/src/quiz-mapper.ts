@@ -1,7 +1,7 @@
 /**
  * Quiz-to-Lesson mapper.
  *
- * Transforms quiz question data (from @stem-tuition/quiz-engine) into
+ * Transforms quiz question data (from @learninghub/quiz-engine) into
  * LessonContent format. This is the first step toward unifying content:
  * existing quiz data becomes consumable lessons.
  *

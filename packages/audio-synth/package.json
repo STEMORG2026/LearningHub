@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/audio-synth",
+  "name": "@learninghub/audio-synth",
   "version": "1.0.0",
   "private": true,
   "description": "Web Audio API procedural sound synthesizer",
@@ -14,8 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stem-tuition/core": "workspace:*",
-    "@stem-tuition/tracer": "workspace:*"
+    "@learninghub/core": "workspace:*",
+    "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

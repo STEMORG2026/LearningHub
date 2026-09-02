@@ -70,34 +70,34 @@ importers:
 
   apps/shell:
     dependencies:
-      '@stem-tuition/acl':
+      '@learninghub/acl':
         specifier: workspace:*
         version: link:../../packages/acl
-      '@stem-tuition/audio-synth':
+      '@learninghub/audio-synth':
         specifier: workspace:*
         version: link:../../packages/audio-synth
-      '@stem-tuition/content-provider':
+      '@learninghub/content-provider':
         specifier: workspace:*
         version: link:../../packages/content-provider
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@stem-tuition/hover-engine':
+      '@learninghub/hover-engine':
         specifier: workspace:*
         version: link:../../packages/hover-engine
-      '@stem-tuition/interactive-simulations':
+      '@learninghub/interactive-simulations':
         specifier: workspace:*
         version: link:../../packages/interactive-simulations
-      '@stem-tuition/lesson-renderer':
+      '@learninghub/lesson-renderer':
         specifier: workspace:*
         version: link:../../packages/lesson-renderer
-      '@stem-tuition/quiz-engine':
+      '@learninghub/quiz-engine':
         specifier: workspace:*
         version: link:../../packages/quiz-engine
-      '@stem-tuition/simulation-core':
+      '@learninghub/simulation-core':
         specifier: workspace:*
         version: link:../../packages/simulation-core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../../packages/tracer
     devDependencies:
@@ -119,10 +119,10 @@ importers:
 
   packages/acl:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -135,10 +135,10 @@ importers:
 
   packages/audio-synth:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -151,7 +151,7 @@ importers:
 
   packages/content-engine:
     dependencies:
-      '@stem-tuition/content-provider':
+      '@learninghub/content-provider':
         specifier: workspace:*
         version: link:../content-provider
     devDependencies:
@@ -164,10 +164,10 @@ importers:
 
   packages/content-provider:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -192,10 +192,10 @@ importers:
 
   packages/hover-engine:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -208,13 +208,13 @@ importers:
 
   packages/interactive-simulations:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/simulation-core':
+      '@learninghub/simulation-core':
         specifier: workspace:*
         version: link:../simulation-core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -230,13 +230,13 @@ importers:
 
   packages/lesson-renderer:
     dependencies:
-      '@stem-tuition/content-provider':
+      '@learninghub/content-provider':
         specifier: workspace:*
         version: link:../content-provider
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -252,10 +252,10 @@ importers:
 
   packages/quiz-engine:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -271,10 +271,10 @@ importers:
 
   packages/simulation-core:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@stem-tuition/tracer':
+      '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer
     devDependencies:
@@ -287,7 +287,7 @@ importers:
 
   packages/tracer:
     dependencies:
-      '@stem-tuition/core':
+      '@learninghub/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

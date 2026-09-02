@@ -32,7 +32,7 @@ git push origin main
         ▼
   GitHub Actions: deploy.yml
         │  └─ pnpm install --frozen-lockfile
-        │  └─ pnpm --filter @stem-tuition/shell build
+        │  └─ pnpm --filter @learninghub/shell build
         │  └─ wrangler pages deploy apps/shell/dist --project-name=stem-tuition
         │  └─ curl /health.json → 200 OK
         ▼
@@ -53,7 +53,7 @@ git push origin main
 #    - Go to https://dash.cloudflare.com/ → Pages → Create a project
 #    - Connect your GitHub repo (private repos work fine)
 #    - Project name: stem-tuition
-#    - Build command: pnpm --filter @stem-tuition/shell build
+#    - Build command: pnpm --filter @learninghub/shell build
 #    - Build output: apps/shell/dist
 #    - Deploy!
 

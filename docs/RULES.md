@@ -86,7 +86,7 @@ attribute (see the `**Quality:**` annotations on the Architectural Rules).
 import { legacyFunction } from '../legacy/js/stem-effects.js';
 
 // ✅ REQUIRED: Use Anti-Corruption Layer
-import { PhysicsAdapter } from '@stem-tuition/acl';
+import { PhysicsAdapter } from '@learninghub/acl';
 ```
 
 **Rationale:** Prevents legacy coupling from spreading into new modules.  
@@ -563,7 +563,7 @@ import { useVirtualizer } from '@tanstack/virtual-core';
 ```typescript
 // ✅ REQUIRED: Dynamic imports for heavy modules
 const loadSimulation = async () => {
-  const { PhysicsEngine } = await import('@stem-tuition/simulation-core');
+  const { PhysicsEngine } = await import('@learninghub/simulation-core');
   return new PhysicsEngine();
 };
 
@@ -1000,7 +1000,7 @@ Every migration PR MUST include:
 | 2.3.0 | 2026-08-01 | Docs governance hardening: coverage ratchet policy (thresholds move only up, per `vitest.config.*.ts`), bundle-budget policy (raw bytes for libraries, gzip for apps, internal `size-check.cjs` replaces `bundlesize`), package-metadata policy (`ARCHITECTURE.toml`), build stage added to the enforcement chain, new docs registered (DOCS.md, REPOSITORY_HEALTH.md, policies/PACKAGE_METADATA.md); architecture charter moved to `docs/ARCHITECTURE/README.md` |
 | 2.2.0 | 2026-08-01 | Restructured as governance **entry point**: added Architecture Principles, Quality Attributes, governance-policy summaries (public contracts, ADR, dependencies, observability, reliability, compatibility, deprecation, package lifecycle, reserved plugin section, architecture documentation), Decision Matrix, and Governance Philosophy. Detail moved to dedicated docs; fixed stale CI script names and broken references. |
 | 2.1.0 | 2026-07-31 | Git hooks documented as `core.hooksPath` pre-commit (`docs:sync` + `git add -u`); CI marked as planned; added Release & Versioning Governance rules |
-| 2.0.0 | 2026-07-30 | Rebrand to STEM-TUITION (independent project), replace all `@learninghub` → `@stem-tuition` |
+| 2.0.0 | 2026-07-30 | Rebrand to STEM-TUITION (independent project), replace all `@learninghub` → `@learninghub` |
 | 1.0.0 | 2024-01-15 | Initial static site rules (archived) |
 
 ---

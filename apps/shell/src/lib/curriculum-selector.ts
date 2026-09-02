@@ -11,7 +11,7 @@
  */
 
 import { generateLearningPath } from './learning-path';
-import type { LessonContent } from '@stem-tuition/content-provider';
+import type { LessonContent } from '@learninghub/content-provider';
 import { loadKnowledge } from './lhs-adapter';
 import { CURRICULUMS, getAvailableCurricula, type CurriculumId } from '../data/curriculum-mappings';
 import knowledge from '../data/knowledge.json';

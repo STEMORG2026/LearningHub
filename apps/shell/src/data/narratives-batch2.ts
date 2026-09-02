@@ -10,7 +10,7 @@
  * Each entry is keyed by the canonical concept id and composes with the known fact
  * via `composeNarrativeLesson`.
  */
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 
 /** Batch 2 additions, merged into the main NARRATIVES record. */
 export const NARRATIVES_BATCH2: Record<string, NarrativeContent> = {

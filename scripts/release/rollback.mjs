@@ -95,7 +95,7 @@ try {
 
 // Step 1: Create a revert changeset
 const changesetContent = `---
-"@stem-tuition/shell": patch
+"@learninghub/shell": patch
 ---
 
 Rollback to v${targetVersion} — revert recent release

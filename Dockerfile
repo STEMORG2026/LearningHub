@@ -20,7 +20,7 @@ RUN pnpm install --frozen-lockfile
 COPY apps/shell ./apps/shell
 
 # Build shell app (turbo builds workspace dependencies first)
-RUN pnpm turbo build --filter=@stem-tuition/shell
+RUN pnpm turbo build --filter=@learninghub/shell
 
 # Stage 2: Serve with nginx
 FROM nginx:alpine AS runtime

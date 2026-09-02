@@ -1,4 +1,4 @@
-# @stem-tuition/content-provider
+# @learninghub/content-provider
 
 Content access boundary for STEM-TUITION. Consumes content from different sources
 (local data, LearningHubSTEM) and provides a unified LessonContent application model.
@@ -36,19 +36,19 @@ import {
   LocalContentProvider,
   mapQuizQuestionsToLessons,
   mapLhsEntitiesToLessons,
-} from '@stem-tuition/content-provider';
+} from '@learninghub/content-provider';
 ```
 
 ## Dependencies
 
-- `@stem-tuition/core` — EventBus
-- `@stem-tuition/tracer` — observability
+- `@learninghub/core` — EventBus
+- `@learninghub/tracer` — observability
 
 ## Usage
 
 ```typescript
-import { LocalContentProvider, mapQuizQuestionsToLessons } from '@stem-tuition/content-provider';
-import { QUIZ_QUESTIONS } from '@stem-tuition/quiz-engine';
+import { LocalContentProvider, mapQuizQuestionsToLessons } from '@learninghub/content-provider';
+import { QUIZ_QUESTIONS } from '@learninghub/quiz-engine';
 
 // Map existing quiz data into lesson format
 const lessons = mapQuizQuestionsToLessons(QUIZ_QUESTIONS);
@@ -82,7 +82,7 @@ LearningHubSTEM (exports/knowledge.json)
 ## Testing
 
 ```bash
-pnpm test --filter="@stem-tuition/content-provider"
+pnpm test --filter="@learninghub/content-provider"
 ```
 
 32 tests covering LocalContentProvider, quiz mapper, and LHS adapter.

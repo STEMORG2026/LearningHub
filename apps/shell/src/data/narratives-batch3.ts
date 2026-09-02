@@ -6,7 +6,7 @@
  * story-shaped prose, an animation/interactive hook, etymology, order-of-magnitude
  * scale, honoured people and views, and a deep-dive that scales Curious → Nerd.
  */
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 
 export const NARRATIVES_BATCH3: Record<string, NarrativeContent> = {
   'lhs:phys.mass': {

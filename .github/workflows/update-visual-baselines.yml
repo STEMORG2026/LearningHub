@@ -40,7 +40,7 @@ jobs:
         run: pnpm exec playwright install chromium
 
       - name: Build shell and workspace deps
-        run: pnpm turbo build --filter=@stem-tuition/shell
+        run: pnpm turbo build --filter=@learninghub/shell
 
       - name: Regenerate visual baselines
         run: pnpm exec playwright test --config=playwright.config.ts e2e/visual-regression.spec.ts --update-snapshots

@@ -1,5 +1,5 @@
 {
-  "name": "@stem-tuition/simulation-core",
+  "name": "@learninghub/simulation-core",
   "version": "0.0.1",
   "private": true,
   "description": "Pure physics math — Newtonian gravity, collision, body simulation",
@@ -14,8 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stem-tuition/core": "workspace:*",
-    "@stem-tuition/tracer": "workspace:*"
+    "@learninghub/core": "workspace:*",
+    "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

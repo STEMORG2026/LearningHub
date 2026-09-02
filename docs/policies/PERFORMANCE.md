@@ -50,7 +50,7 @@ requestAnimationFrame(animate);
 ```typescript
 // ✅ REQUIRED for modules > 50KB
 const loadPhysicsEngine = async () => {
-  const { PhysicsEngine } = await import('@stem-tuition/simulation-core');
+  const { PhysicsEngine } = await import('@learninghub/simulation-core');
   return new PhysicsEngine();
 };
 

@@ -189,7 +189,7 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install chromium
       - name: Build shell and workspace deps
-        run: pnpm turbo build --filter=@stem-tuition/shell
+        run: pnpm turbo build --filter=@learninghub/shell
       - name: Resolve Chrome path
         run: |
           CHROME_PATH=$(node -e "console.log(require('@playwright/test').chromium.executablePath())")

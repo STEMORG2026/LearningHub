@@ -1,4 +1,4 @@
-# @stem-tuition/content-engine — architecture metadata
+# @learninghub/content-engine — architecture metadata
 # Source of truth for lifecycle state, contracts, and ADRs (see docs/policies/PACKAGE_LIFECYCLE.md).
 
 owner = "Content & Pedagogy"

@@ -1,4 +1,4 @@
-import { getDefaultEventBus } from '@stem-tuition/core';
+import { getDefaultEventBus } from '@learninghub/core';
 import type { SubjectKey, QuizState } from '../types';
 import { getResultMetadata } from '../types';
 import { createQuizState, validateAnswer, advanceQuestion, getCurrentQuestion } from './quiz-engine';

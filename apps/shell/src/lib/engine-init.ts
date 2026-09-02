@@ -1,6 +1,6 @@
-import { initEventBus } from '@stem-tuition/core';
-import { initTracer } from '@stem-tuition/tracer';
-import '@stem-tuition/quiz-engine';
+import { initEventBus } from '@learninghub/core';
+import { initTracer } from '@learninghub/tracer';
+import '@learninghub/quiz-engine';
 
 export function initEngines(page: string): void {
   initTracer();

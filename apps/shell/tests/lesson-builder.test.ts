@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildLessons } from '../src/lib/lesson-builder';
 import { getNarratives } from '../src/data/narratives';
-import type { LhsEntity, NarrativeContent } from '@stem-tuition/content-provider';
+import type { LhsEntity, NarrativeContent } from '@learninghub/content-provider';
 
 function makeEntity(id: string, type = 'concept'): LhsEntity {
   return {

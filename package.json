@@ -1,11 +1,11 @@
 {
-  "name": "stem-tuition",
+  "name": "learninghub",
   "version": "3.0.0",
   "private": true,
   "packageManager": "pnpm@11.18.0",
   "description": "STEM-TUITION — Modular STEM education platform",
   "scripts": {
-    "dev:shell": "turbo dev --filter=@stem-tuition/shell",
+    "dev:shell": "turbo dev --filter=@learninghub/shell",
     "build": "turbo build",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",

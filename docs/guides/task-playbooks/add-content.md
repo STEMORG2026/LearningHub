@@ -37,7 +37,7 @@
    provide `phenomenon`, `intro`, and at least two `rungs` (Curious first, then scaling).
 9. **[ ] Verify it composes** — the lesson must render a progressive story with the fact
    intact. Run the integration test:
-   `pnpm --filter=@stem-tuition/shell test tests/narrative-integration.test.ts`
+   `pnpm --filter=@learninghub/shell test tests/narrative-integration.test.ts`
    and confirm your concept now appears in the narrated set.
 10. **[ ] Keep canonical facts intact** — a narrated lesson must still carry the canonical
     `definition` as its `narrative` section. Do not edit LearningHubSTEM content here.
@@ -48,9 +48,9 @@
     at least one assertion on the new content (e.g. contains a figure, has ≥2 rungs).
     *(Evidence: a named new test that passes.)*
 12. **[ ] Typecheck + test the affected packages.**
-    `pnpm --filter=@stem-tuition/content-provider test`
-    `pnpm --filter=@stem-tuition/lesson-renderer test`
-    `pnpm --filter=@stem-tuition/shell test`
+    `pnpm --filter=@learninghub/content-provider test`
+    `pnpm --filter=@learninghub/lesson-renderer test`
+    `pnpm --filter=@learninghub/shell test`
 13. **[ ] Update the changeset** if this changes package behaviour (`.changeset/*.md`,
     `minor` for new section kinds/features).
 14. **[ ] Record the new concept** in the curriculum selector if it should appear in a

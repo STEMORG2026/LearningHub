@@ -1,5 +1,5 @@
 /**
- * @stem-tuition/content-provider
+ * @learninghub/content-provider
  *
  * Content access boundary for STEM-TUITION.
  *

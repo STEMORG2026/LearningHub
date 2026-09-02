@@ -57,7 +57,7 @@ git config. Without it, commits skip documentation synchronization.
 ### Testing
 - Core logic: ≥95% line coverage
 - Tests alongside code, same PR
-- Run `pnpm test --filter="@stem-tuition/<pkg>"` before committing
+- Run `pnpm test --filter="@learninghub/<pkg>"` before committing
 
 ---
 

@@ -1,5 +1,7 @@
 # STEM-TUITION: General-Purpose Multi-Agent Content Production Engine
 
+**Version:** 3.0.0
+
 ## Architecture Review & Refinement — v2
 
 **Scope classification:** review + architecture (implementation deferred until this

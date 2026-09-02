@@ -21,7 +21,7 @@
  * no single built asset exceeds the size budget (bundlesize.config.json: 100 kB
  * gzip). Consumers load it lazily via `getNarratives()` — never by static import.
  */
-import type { NarrativeContent } from '@stem-tuition/content-provider';
+import type { NarrativeContent } from '@learninghub/content-provider';
 
 /**
  * Lazily load every authored narrative, code-splitting each batch into its own
