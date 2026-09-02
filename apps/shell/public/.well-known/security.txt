@@ -1,4 +1,4 @@
 Contact: mailto:gurungsajan0228@gmail.com
 Expires: 2027-01-01T00:00:00.000Z
 Preferred-Languages: en,ne
-Canonical: https://stem-tuition.pages.dev/.well-known/security.txt
+Canonical: https://learninghubstem.pages.dev/.well-known/security.txt

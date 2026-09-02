@@ -1,12 +1,12 @@
-# Cloudflare Pages configuration for STEM-TUITION
+# Cloudflare Pages configuration for LearningHub
 # Docs: https://developers.cloudflare.com/pages/
 #
 # Deploying is handled by the Cloudflare Pages GitHub integration
-# (Dashboard -> Workers & Pages -> stem-tution -> Builds & deployments).
+# (Dashboard -> Workers & Pages -> learninghubstem -> Builds & deployments).
 # The build command and output dir are configured in the dashboard
 # (pages projects do not support a [build] section in wrangler.toml).
 
-name = "stem-tution"
+name = "learninghubstem"
 compatibility_date = "2026-08-19"
 
 pages_build_output_dir = "apps/shell/dist"
