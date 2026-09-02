@@ -1,4 +1,4 @@
-STEM-TUITION/  9e0e139
+STEM-TUITION/  adb1a87
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -131,6 +131,7 @@ STEM-TUITION/  9e0e139
 │   │   ├── 013-content-provider.md
 │   │   ├── 014-lesson-renderer.md
 │   │   ├── 015-interactive-simulations.md
+│   │   ├── 016-content-engine.md
 │   │   └── README.md
 │   ├── architecture/
 │   │   └── content-production-engine-v2.md
@@ -246,6 +247,19 @@ STEM-TUITION/  9e0e139
 │   │   ├── CHANGELOG.md
 │   │   ├── package.json
 │   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── content-engine/
+│   │   ├── src/
+│   │   │   ├── blueprint.ts
+│   │   │   ├── formats.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── request.ts
+│   │   │   └── verification.ts
+│   │   ├── tests/
+│   │   │   └── content-engine.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── content-provider/

@@ -32,6 +32,7 @@
         "content-provider",
         "lesson-renderer",
         "interactive-simulations",
+        "content-engine",
         "shell",
         "release",
         "docs",

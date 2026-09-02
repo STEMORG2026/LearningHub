@@ -36,6 +36,7 @@ way it is.
 | [ADR-013](013-content-provider.md) | Content Provider Implementation | Accepted |
 | [ADR-014](014-lesson-renderer.md) | Lesson Renderer Package | Accepted |
 | [ADR-015](015-interactive-simulations.md) | Interactive Simulations Package | Accepted |
+| [ADR-016](016-content-engine.md) | General-Purpose Content-Engine Seam (architecture v2) | Accepted |
 
 ---
 
