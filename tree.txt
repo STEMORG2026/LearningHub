@@ -1,4 +1,4 @@
-STEM-TUITION/  878c288
+STEM-TUITION/  f6559d6
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -248,8 +248,6 @@ STEM-TUITION/  878c288
 │   │   │   ├── synth.ts
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
-│   │   │   ├── e2e/
-│   │   │   │   └── audio.spec.ts  [test]
 │   │   │   └── synth.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
@@ -354,8 +352,6 @@ STEM-TUITION/  878c288
 │   │   │   ├── index.ts  [entry]
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
-│   │   │   ├── e2e/
-│   │   │   │   └── quiz-flow.spec.ts  [test]
 │   │   │   ├── quiz-engine.test.ts  [test]
 │   │   │   └── web-component.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
@@ -372,8 +368,6 @@ STEM-TUITION/  878c288
 │   │   │   ├── physics.ts
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
-│   │   │   ├── e2e/
-│   │   │   │   └── simulation.spec.ts  [test]
 │   │   │   └── physics.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
