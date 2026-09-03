@@ -7,7 +7,7 @@
 **Related:** `RULES.md`, `docs/ARCHITECTURE/README.md`, `docs/governance/interface-registry.md`, `docs/governance/human-checkpoints.md`, `docs/governance/architecture-exceptions.md`, `docs/adr/README.md`
 
 **Document Type:** Governing Development Specification
-**Current Product:** STEM-TUITION
+**Current Product:** LearningHub
 **Architecture Scope:** STEM Ecosystem
 **Status:** Active
 
@@ -62,9 +62,9 @@ canonical and replace the literal directory names used elsewhere in this documen
 | `governance/ai-prompts/` | `docs/governance/ai-prompts/` |
 | `governance/architecture-exceptions.md` | `docs/governance/architecture-exceptions.md` |
 
-**Current Product.** The current implementation is **STEM-TUITION**, an
+**Current Product.** The current implementation is **LearningHub**, an
 independent project (see `docs/ARCHITECTURE/README.md`). All ecosystem framing in
-this document (LearningHubSTEM, STEM Lab, STEM Game, JARVIS) is **future vision
+this document (STEMMA, stem-tuition, stem-labs, stem-game, JARVIS, PROFESSOR-J) is **future vision
 only** and does not authorize implementation now. Per §3, future products are not
 current implementation scope unless explicitly activated by the human developer.
 
@@ -153,7 +153,7 @@ It does not authorize implementation of these systems now.
 
 The current implementation is:
 
-> **STEM-TUITION**
+> **LearningHub**
 
 The current product must remain independently useful.
 

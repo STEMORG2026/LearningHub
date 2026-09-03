@@ -1,4 +1,4 @@
-STEM-TUITION/  4eea1a3
+STEM-TUITION/  53e22aa
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -247,6 +247,8 @@ STEM-TUITION/  4eea1a3
 │   │   │   ├── synth.ts
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
+│   │   │   ├── e2e/
+│   │   │   │   └── audio.spec.ts  [test]
 │   │   │   └── synth.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
@@ -351,6 +353,8 @@ STEM-TUITION/  4eea1a3
 │   │   │   ├── index.ts  [entry]
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
+│   │   │   ├── e2e/
+│   │   │   │   └── quiz-flow.spec.ts  [test]
 │   │   │   ├── quiz-engine.test.ts  [test]
 │   │   │   └── web-component.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
@@ -367,6 +371,8 @@ STEM-TUITION/  4eea1a3
 │   │   │   ├── physics.ts
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
+│   │   │   ├── e2e/
+│   │   │   │   └── simulation.spec.ts  [test]
 │   │   │   └── physics.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md

@@ -1,4 +1,4 @@
-# STEM-TUITION: Agent Instructions
+# LearningHub: Agent Instructions
 
 > On session resume, re-read this file and the governance files it references before making changes.
 
@@ -159,9 +159,9 @@ Production deploys are **gated**: nothing ships until CI is green.
   (typecheck, unit coverage, build, and the entire Playwright suite — core,
   accessibility, visual regression) plus docs-freshness, Lighthouse budgets,
   dependency audit, and signed-tag/commit-message checks.
-- The deploy itself: `wrangler pages deploy apps/shell/dist --project-name=stem-tution --branch=main`
+- The deploy itself: `wrangler pages deploy apps/shell/dist --project-name=learninghub --branch=main`
   using the `CF_API_TOKEN` / `CF_ACCOUNT_ID` secrets, followed by an HTTP 200
-  health check against `https://stem-tution.pages.dev/`.
+  health check against `https://learninghub.pages.dev/`.
 - `workflow_run` runs get a read-only token with no `actions` scope — the deploy
   workflow must not call the GitHub Actions API (no `gh api .../actions/runs`).
 
