@@ -104,7 +104,7 @@ jobs:
           echo "---END---"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body_path: release-notes.md
           generate_release_notes: true
@@ -239,7 +239,7 @@ jobs:
         run: npx @cyclonedx/cyclonedx-npm --output-format json --output-file sbom.json
 
       - name: Upload SBOM to Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: sbom.json
 
