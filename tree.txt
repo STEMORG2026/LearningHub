@@ -1,4 +1,4 @@
-STEM-TUITION/  ce2139c
+STEM-TUITION/  3f1df45
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -420,6 +420,7 @@ STEM-TUITION/  ce2139c
 │   ├── checks/
 │   │   ├── audit-deps.cjs
 │   │   ├── size-check.cjs
+│   │   ├── strict-doc-governance.mjs
 │   │   ├── validate-educational-metadata.js
 │   │   ├── verify-doc-governance.mjs
 │   │   └── verify-registry.js

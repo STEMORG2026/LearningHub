@@ -1,3 +1,11 @@
+---
+title: "ADR-016: General-Purpose Content-Engine Seam (architecture v2)"
+status: ACCEPTED
+date: 2026-09-02
+last_updated: 2026-09-02
+canonical: true
+---
+
 # ADR-016: General-Purpose Content-Engine Seam (architecture v2)
 
 **Status:** Accepted

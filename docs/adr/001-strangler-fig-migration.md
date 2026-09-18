@@ -1,3 +1,11 @@
+---
+title: "ADR-001: Strangler Fig Migration"
+status: ACCEPTED
+date: 2026-07-30
+last_updated: 2026-07-30
+canonical: true
+---
+
 # ADR-001: Strangler Fig Migration
 
 ## Status

@@ -1,3 +1,11 @@
+---
+title: "ADR-007: Educational Fitness Functions"
+status: ACCEPTED
+date: 2026-07-30
+last_updated: 2026-07-30
+canonical: true
+---
+
 # ADR-007: Educational Fitness Functions
 
 ## Status

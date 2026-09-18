@@ -1,3 +1,11 @@
+---
+title: "ADR-015: Interactive Simulations Package"
+status: ACCEPTED
+date: 2026-08-19
+last_updated: 2026-08-19
+canonical: true
+---
+
 # ADR-015: Interactive Simulations Package
 
 **Status:** Accepted

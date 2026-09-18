@@ -89,13 +89,26 @@ LearningHub/
 │   ├── RULES.md                  Normative technical standards (enforceable)
 │   ├── ARCHITECTURE/             Architecture charter & C4 diagrams
 │   ├── archive/                  Archival index & historical plans
-│   ├── adr/                      Architecture Decision Records (ADRs 001–017)
+│   ├── adr/                      Architecture Decision Records (ADRs 001–018)
 │   └── policies/                 Normative policies (EventBus, API, Security, etc.)
 ├── pnpm-workspace.yaml
 ├── turbo.json
 ├── package.json
 └── tsconfig.json
 ```
+
+---
+
+## 📖 Documentation
+
+| Category | Files | Purpose |
+|----------|-------|---------|
+| **Governance** | `docs/VISION.md`, `docs/ECOSYSTEM.md`, `docs/CONSTITUTION.md`, `docs/RULES.md` | Canonical vision, ecosystem, constitution, enforceable rules |
+| **Architecture** | `docs/ARCHITECTURE/README.md`, `docs/ARCHITECTURE/overview.md`, `docs/ARCHITECTURE/context.md`, `docs/ARCHITECTURE/containers.md`, `docs/ARCHITECTURE/components.md`, `docs/ARCHITECTURE/dependencies.md`, `docs/ARCHITECTURE/migration.md` | Charter + C4 diagrams |
+| **Planning** | `docs/ROADMAP.md` | Phased roadmap & current status |
+| **Guides** | `docs/guides/QUICKSTART.md`, `docs/guides/COMPONENT_STANDARDS.md`, `docs/guides/DEBUGGING.md`, `docs/guides/DEPLOYMENT.md`, `docs/guides/FLOWCHARTS.md`, `docs/guides/GLOSSARY.md` | Developer guides & standards |
+| **Records** | `docs/adr/README.md`, `docs/adr/001`–`docs/adr/018`, `docs/CHANGELOG.md`, `docs/policies/` | Architecture Decision Records, release history, normative policies |
+| **Archival** | `docs/archive/` | Historical plans, superseded proposals, obsolete roadmaps |
 
 ---
 

@@ -766,14 +766,27 @@ the entire repository.
 
 Significant decisions must be recorded as ADRs in `docs/adr/`.
 
-Examples:
+Examples of existing ADRs (all in `docs/adr/`):
 
 ```text
-ADR-001-monorepo-structure
-ADR-002-event-bus-contract
-ADR-003-content-provider
-ADR-004-offline-content
-ADR-005-simulation-engine
+001-strangler-fig-migration.md
+002-web-components-as-default.md
+003-event-bus-communication.md
+004-legacy-frozen-zone.md
+005-pnpm-monorepo-turborepo.md
+006-typescript-strict-mode.md
+007-educational-fitness-functions.md
+008-built-in-observability-tracer.md
+009-component-registry-enforcement.md
+010-release-doc-governance.md
+011-constitution-adoption.md
+012-legacy-removal-acl-role.md
+013-content-provider.md
+014-lesson-renderer.md
+015-interactive-simulations.md
+016-content-engine.md
+017-ecosystem-foundation-realignment.md
+018-interactive-simulations-simulation-core.md
 ```
 
 ADRs are never silently rewritten to erase history.

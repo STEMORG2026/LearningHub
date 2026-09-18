@@ -1,3 +1,11 @@
+---
+title: "ADR-003: Event Bus for Cross-Module Communication"
+status: ACCEPTED
+date: 2026-07-30
+last_updated: 2026-07-30
+canonical: true
+---
+
 # ADR-003: Event Bus for Cross-Module Communication
 
 ## Status

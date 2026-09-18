@@ -1,3 +1,11 @@
+---
+title: "ADR-017: Product-Agnostic Ecosystem Foundation & Architectural Realignment"
+status: ACCEPTED
+date: 2026-09-18
+last_updated: 2026-09-18
+canonical: true
+---
+
 # ADR-017: Product-Agnostic Ecosystem Foundation & Architectural Realignment
 
 ---

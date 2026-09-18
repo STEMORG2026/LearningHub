@@ -1,3 +1,11 @@
+---
+title: "ADR-002: Web Components as Default Component Architecture"
+status: ACCEPTED
+date: 2026-07-30
+last_updated: 2026-07-30
+canonical: true
+---
+
 # ADR-002: Web Components as Default Component Architecture
 
 ## Status

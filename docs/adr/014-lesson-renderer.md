@@ -1,3 +1,11 @@
+---
+title: "ADR-014: Lesson Renderer Package"
+status: ACCEPTED
+date: 2026-08-19
+last_updated: 2026-08-19
+canonical: true
+---
+
 # ADR-014: Lesson Renderer Package
 
 **Status:** Accepted

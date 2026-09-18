@@ -1,3 +1,11 @@
+---
+title: "ADR-009: Component Registry Enforcement"
+status: ACCEPTED
+date: 2026-07-30
+last_updated: 2026-08-02
+canonical: true
+---
+
 # ADR-009: Component Registry Enforcement
 
 ## Status

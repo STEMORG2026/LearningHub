@@ -1,3 +1,11 @@
+---
+title: "ADR-008: Built-in Observability (Tracer Package)"
+status: ACCEPTED
+date: 2026-07-30
+last_updated: 2026-07-30
+canonical: true
+---
+
 # ADR-008: Built-in Observability (Tracer Package)
 
 ## Status

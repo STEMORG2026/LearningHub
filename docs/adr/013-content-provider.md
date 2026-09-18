@@ -1,3 +1,11 @@
+---
+title: "ADR-013: Content Provider Implementation"
+status: ACCEPTED
+date: 2026-08-17
+last_updated: 2026-08-17
+canonical: true
+---
+
 # ADR-013: Content Provider Implementation
 
 **Status:** Accepted

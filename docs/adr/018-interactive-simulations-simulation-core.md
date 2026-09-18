@@ -1,3 +1,11 @@
+---
+title: "ADR-018: Interactive Simulations Do Not Consume simulation-core"
+status: ACCEPTED
+date: 2026-09-18
+last_updated: 2026-09-18
+canonical: true
+---
+
 # ADR-018: Interactive Simulations Do Not Consume simulation-core
 
 ## Status

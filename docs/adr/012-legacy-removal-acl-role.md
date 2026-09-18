@@ -1,3 +1,11 @@
+---
+title: "ADR-012: Legacy Removal & Anti-Corruption Layer (ACL) Scope Realignment"
+status: ACCEPTED
+date: 2026-08-13
+last_updated: 2026-08-13
+canonical: true
+---
+
 # ADR-012: Legacy Removal & Anti-Corruption Layer (ACL) Scope Realignment
 
 ## Status

@@ -27,6 +27,7 @@ flat-vs-directory ambiguity (ADR-tracked decision).
 | **Component inventory** | `docs/component-registry/` | Automation + contributors | `docs:sync` / registry PRs |
 | **Generated operational docs** | `docs/REPOSITORY_HEALTH.md`, `docs/dependency-graph.svg` | Automation | `pnpm docs:sync`, `pnpm generate:graph` |
 | **Standards & guides** (non-normative) | `docs/guides/` | Varies | Human-authored, maintainer-reviewed |
+| **Archival** (historical/superseded) | `docs/archive/` | Architect | Human-authored, frozen |
 
 ---
 

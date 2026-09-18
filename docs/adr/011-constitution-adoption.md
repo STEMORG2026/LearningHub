@@ -1,3 +1,11 @@
+---
+title: "ADR-011: Adoption of the Development Constitution"
+status: ACCEPTED
+date: 2026-08-11
+last_updated: 2026-08-11
+canonical: true
+---
+
 # ADR-011: Adoption of the Development Constitution
 
 ## Status

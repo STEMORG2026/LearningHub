@@ -2,16 +2,45 @@
 
 **Version:** 3.0.0 (auto — see sync-versions.mjs)
 
-All notable changes to STEM-TUITION are documented here.
+All notable changes to **LearningHub** are documented here.
 
 **Format:** [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)  
 **Versioning:** [SemVer 2.0.0](https://semver.org/) — `major.minor.patch`
 
 ---
 
+## [Unreleased] — 2026-09-18
+
+### Added
+- **Phase 7: Features** — Auth, progress tracking, admin dashboard (planned, partially implemented in shell)
+- **Phase 8: Content & Lessons** — Multi-format lesson delivery system
+  - `packages/content-provider/` — Content sourcing with provider abstraction (LHS adapter, local provider, narrative mapper, quiz mapper). Seam for STEMMA knowledge integration.
+  - `packages/content-engine/` — Content production engine with blueprint-driven pipeline, additive formats, deterministic verification gates, stress-tested batch narrations
+  - `packages/lesson-renderer/` — STEM lesson Web Component (`<stem-lesson>`), pure rendering logic
+  - `packages/interactive-simulations/` — Circuit simulator (`<stem-circuit-sim>`), mechanics simulator (`<stem-mechanics-sim>`), EventBus integration
+- **Product-agnostic shell** — Decoupled web shell with consumer showcase pages (game, lab, stemma, tuition, professor-j)
+- **PROFESSOR-J integration** — Client library (OpenRouter Gemini, Socratic grounded prompt), floating chat drawer Web Component
+- **Inquiry system** — WhatsApp lead bridge with pure message builder
+- **Governance verification suite** — `scripts/verify.py`, `scripts/verify_export_contract.py`, `scripts/verify_git_safety.py`, `scripts/checks/verify-doc-governance.mjs`
+- **ADR-017** — Ecosystem foundation realignment (product-agnostic LearningHub)
+- **ADR-018** — Interactive simulations simulation-core integration
+- **Updated canonical docs** — CONSTITUTION.md, VISION.md, ECOSYSTEM.md, IMPLEMENTATION-PLAN.md, ROADMAP.md with Phase 8 content
+
+### Changed
+- Package scope `@stem-tuition/*` → `@learninghub/*`
+- Cloudflare Pages project `stem-tution` → `learninghubstem`
+- `apps/shell` routes to product-agnostic foundation (no longer tuition-specific)
+
+### Fixed
+- Dependency violations in content-provider, lesson-renderer (unused core/tracer deps)
+- Doc governance gaps — ADR headers, README links, ROADMAP completeness, CHANGELOG phase coverage
+
+---
+
 ## [3.0.0] — 2026-07-31
 
 ### Added
+- **Phase 0: Foundation** — pnpm workspace, Turborepo, TypeScript strict mode, changesets, monorepo scaffolding, documentation suite (ARCHITECTURE.md, COMPONENT_STANDARDS.md, ADR-001 through ADR-009), frozen legacy/, component registry with 6 indexes
 - **Phase 6: Physics Core** — Pure physics math from `legacy/js/stem-effects.js:784-1311`. Types (`CelestialBody`, `PhysicsInput/Result`), config (8 planets, 17 moons), factory functions, physics engine (`stepPosition`, `applyBoundary`, `interactPair`, `applyBlackholePull/Devour`, `updatePhysics`). 48 tests, 96% stmt coverage. Last extraction from `stem-effects.js`
 - **Phase 5: Hover Engine** — Hover state machine extracted from `legacy/js/stem-effects.js:227-261`. 4 pure functions (`initCooldownState`, `pickHoverStyle`, `updateCooldown`, `isStyleInCooldown`), 6 CSS hover classes, 12 tests, 100% line/branch/function coverage
 - **Phase 4: Quiz Engine** — 5 subjects × 4 questions with educational metadata, pure logic engine, `renderQuestion`/`renderResult` templates, `<stem-quiz>` Web Component with Shadow DOM, EventBus integration (`quiz:started`, `quiz:answer-submitted`, `quiz:completed`), Tracer integration, 16 tests

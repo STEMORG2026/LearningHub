@@ -1,3 +1,11 @@
+---
+title: "ADR-010: Automated Release & Documentation Governance Pipeline"
+status: COMPLETED
+date: 2026-07-31
+last_updated: 2026-08-02
+canonical: true
+---
+
 # ADR-010: Automated Release & Documentation Governance Pipeline
 
 ## Status
