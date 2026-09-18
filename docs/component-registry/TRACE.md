@@ -57,6 +57,14 @@
 | `updatePositions()` | `physics:update-positions` | `physics:tick` | ❌ Not yet | `packages/simulation-core/src/physics.ts` |
 | `renderFrame()` | `canvas:render` | `physics:tick` | ❌ Not yet | `apps/shell/src/lib/cosmic-background.ts` |
 
+| Phase 8: Content & Lessons | Function | Span | Location | Status |
+|---------------------------|------|----------|--------|--------|
+| | `getContent()` | `content:get` | `packages/content-provider/src/content-provider.ts` | 🔲 Planned |
+| `ingest()` | `content:ingest` | `packages/content-engine/src/pipeline.ts` | 🔲 Planned |
+| `verify()` | `content:verify` | `packages/content-engine/src/verification.ts` | 🔲 Planned |
+| `renderLesson()` | `lesson:render` | `packages/lesson-renderer/src/stem-lesson.ts` | 🔲 Planned |
+| `initSim()` | `sim:init` | `packages/interactive-simulations/src/stem-circuit-sim.ts` | 🔲 Planned |
+
 ## Migration Progress
 
 ```

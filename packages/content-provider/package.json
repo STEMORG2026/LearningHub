@@ -2,7 +2,7 @@
   "name": "@learninghub/content-provider",
   "version": "1.0.0",
   "private": true,
-  "description": "Content provider — application model, interface, and adapters for lesson content",
+  "description": "Content access boundary for LearningHub.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,10 +12,6 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@learninghub/core": "workspace:*",
-    "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {
     "jsdom": "^30.0.1",

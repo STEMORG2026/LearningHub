@@ -45,4 +45,11 @@
 | Concept | Location | Notes |
 |---------|----------|-------|
 | STEM pioneers wall | `apps/shell/src/data/pioneers.ts` | 20 STEM pioneers with biographies |
-| Cosmic background simulation | `apps/shell/src/lib/cosmic-background.ts` | Canvas-based solar system renderer |
+## Phase 8: Content & Lessons (Active)
+
+| Concept | ID | Location | Notes |
+|---------|----|----------|-------|
+| LessonContent model | — | `packages/content-provider/src/content-provider.ts` | Content access boundary |
+| Lesson rendering | — | `packages/lesson-renderer/src/stem-lesson.ts` | WC for lesson display |
+| Circuit simulation | `circuit-sim` | `packages/interactive-simulations/src/stem-circuit-sim.ts` | Interactive STEM sim |
+| Mechanics simulation | `mechanics-sim` | `packages/interactive-simulations/src/stem-mechanics-sim.ts` | Interactive STEM sim |
