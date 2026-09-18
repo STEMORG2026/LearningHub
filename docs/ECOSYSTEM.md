@@ -68,7 +68,7 @@ Foundation)      Tutoring)      Experiment)   Learning)        │
 
 | Project | Primary Role | Domain Boundary | Canonical Relationship |
 |---------|--------------|-----------------|------------------------|
-| **`LearningHub`** | Canonical Educational Foundation + **Ecosystem Orchestrator** | Knowledge schemas, simulation engines, quiz runtimes, Web Components, **ACP server**, **subagent manager**, **agent router** | Independent ecosystem foundation; consumed by products; **orchestrates external agents** |
+| **`LearningHub`** | Canonical Educational Foundation + **Information Head** | Knowledge schemas, simulation engines, quiz runtimes, Web Components, **integration contracts**, governance, content | Independent ecosystem foundation; governs ecosystem; delegates AI execution to PROFESSOR-J |
 | **`STEM Tuition`** | Commercial Tutoring Product | 1:1, cohort, and guided tutoring services for students | Primary commercial consumer of LearningHub content |
 | **`STEM Lab`** | Practical STEM Environment | Virtual laboratories, advanced experiments, hardware simulation | Future practical consumer of LearningHub simulation core |
 | **`STEM Game`** | Gamified Learning Product | Educational game loops, progress quests, interactive challenges | Future interactive consumer of LearningHub quiz & physics engines |
@@ -132,70 +132,51 @@ Identity / Auth  Observability   AI Provider     Tooling & MCP     Deployment
 
 ---
 
-## 6. Orchestration Plane Architecture
+## 6. Integration Architecture — PROFESSOR-J as Worker
 
-LearningHub's **orchestration plane** coordinates external SOTA agent harnesses via the **Agent Client Protocol (ACP)**. This plane is the mechanism by which LearningHub becomes the **ecosystem orchestrator**.
+**LearningHub** is the **information head**. **PROFESSOR-J** is the **worker**.
 
-### 6.1 Reference Systems
+LH defines integration contracts; P-J executes AI tasks. LH frontend calls P-J backend at `/api/v1/chat` for AI execution.
 
-| System | Architecture | Orchestration Model | Integration |
-|--------|-------------|---------------------|-------------|
-| **DeepSeek Harness (dsh)** | Cordis plugin framework, 50+ capability packages | In-process subagent spawning + ACP server + hooks | ACP server → `dsh --profile headless` |
-| **Hermes Agent** | AIAgent class + tool registry + plugin system | `delegate_tool` + subagent lifecycle + ACP adapter | ACP client → Hermes gateway |
-| **OpenCode** | TUI + headless server + web | ACP server, `serve`, session fork/import/export | ACP server → `opencode serve` |
-| **AGY CLI** | Google AI agent CLI | `--print` single-shot, `--continue` session, `--sandbox` | CLI subprocess |
-
-### 6.2 Capability Gap & Adoption Plan
-
-| Capability | dsh | Hermes | OpenCode | AGY | LH Status | Phase |
-|------------|-----|--------|----------|-----|-----------|-------|
-| **ACP server** | ✅ | ✅ | ✅ | ❌ | PLANNED | 9 |
-| **Subagent spawning** | ✅ | ✅ | ❌ | ❌ | PLANNED | 9 |
-| **Plugin registry** | ✅ | ✅ | ❌ | ❌ | PLANNED | 9 |
-| **Hooks system** | ✅ | ❌ | ❌ | ❌ | PLANNED | 9 |
-| **Server entry point** | ❌ | ❌ | ❌ | ❌ | PLANNED | 9 |
-| **Agent router** | ❌ | ❌ | ❌ | ❌ | PLANNED | 9 |
-| **Session manager** | ✅ | ❌ | ✅ | ❌ | PLANNED | 10 |
-| **Tool search** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
-| **Sandboxed execution** | ✅ | ✅ | ❌ | ✅ | PLANNED | 10 |
-| **Todo/Plan/Goal** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
-| **Scheduling** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
-| **Model provider clients** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
-| **Memory system** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
-| **Web search/fetch** | ✅ | ✅ | ✅ | ✅ | FUTURE | 11 |
-| **Browser control** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
-| **Computer use** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
-
-### 6.3 Architectural Rules for Orchestration
-
-1. **ACP-first** — Agent Client Protocol is the lingua franca for agent-to-agent communication
-2. **No package-level coupling** — LearningHub never imports from dsh/Hermes/OpenCode directly
-3. **Subagent delegation** — Complex tasks are classified and routed to the most capable subagent
-4. **Graceful degradation** — If no subagent is available, fall back to local execution
-5. **Sandboxed by default** — All child agent execution runs through bubblewrap/E2B
-6. **Status honesty** — Distinguish existing / planned / possible capabilities
-
-### 6.4 Orchestration Pattern
+### 6.1 Integration Pattern
 
 ```
 ┌─────────────────────────────────────────┐
-│         LearningHub (orchestrator)       │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐ │
-│  │  ACP    │  │ Subagent│  │ Plugin  │ │
-│  │ Server  │  │ Manager │  │Registry │ │
-│  └────┬────┘  └────┬────┘  └────┬────┘ │
-│       │             │             │       │
-│  ┌────┴─────────────┴─────────────┴────┐ │
-│  │         Agent Router / Task          │ │
-│  │         Classifier                    │ │
-│  └────┬─────────────┬─────────────┬────┘ │
-└───────┼─────────────┼─────────────┼──────┘
-        │             │             │
-   ┌────┴────┐   ┌────┴────┐   ┌────┴────┐
-   │  dsh    │   │ Hermes  │   │ OpenCode│
-   │  (ACP)  │   │  (ACP)  │   │  (ACP)  │
-   └─────────┘   └─────────┘   └─────────┘
+│         LearningHub (Info Head)          │
+│  - Knowledge schemas & content          │
+│  - Governance & policies                │
+│  - User features (auth, progress, etc.) │
+│  - Web frontend (apps/shell)            │
+│         │                               │
+│         │ HTTP /api/v1/chat             │
+│         ▼                               │
+│  ┌─────────────────────────────────┐    │
+│  │     PROFESSOR-J (Worker)        │    │
+│  │  - Model routing & selection    │    │
+│  │  - Subagent spawning/control    │    │
+│  │  - Task classification          │    │
+│  │  - Memory, tools, sessions      │    │
+│  └─────────────────────────────────┘    │
+└─────────────────────────────────────────┘
 ```
+
+### 6.2 Integration Contract
+
+| Concern | LearningHub | PROFESSOR-J |
+|---------|-------------|-------------|
+| API surface | `/api/v1/chat` consumer | `/api/v1/chat` provider |
+| Auth | Session-based | API key / token |
+| Events | EventBus (internal) | EventBus + ACP |
+| Knowledge | STEMMA/LHS schemas | Consumes via content-provider |
+
+### 6.3 Architectural Rules for Integration
+
+1. **LH governs, P-J executes** — LH sets policy; P-J follows
+2. **API-first integration** — All communication via documented endpoints
+3. **Fallback to local** — If P-J unavailable, LH uses grounded local responses
+4. **No code duplication** — Model clients, memory, tools live in P-J only
+
+See ADR-022 for full architecture.
 
 ---
 

@@ -66,7 +66,8 @@ LearningHub core must avoid embedding product-specific business logic, tuition f
 * **Pure Business Logic Engines:** Independent, uncoupled TypeScript libraries for physics simulation (`@learninghub/simulation-core`), quiz evaluation (`@learninghub/quiz-engine`), hover state handling (`@learninghub/hover-engine`), and Web Audio synthesis (`@learninghub/audio-synth`).
 * **Framework-Agnostic Web Components:** Standard custom elements (`<stem-quiz>`, `<stem-lesson>`, `<stem-circuit-sim>`, `<stem-mechanics-sim>`) that render rich educational experiences natively in web environments.
 * **Event-Driven Communication & Observability:** Strict, schema-validated EventBus primitives (`@learninghub/core`) and built-in execution tracing (`@learninghub/tracer`).
-* **Agentic Orchestration Plane:** ACP server, subagent manager, and agent router that coordinate external SOTA harnesses (DeepSeek Harness, Hermes Agent, OpenCode, AGY CLI). LearningHub is the **ecosystem orchestrator** — classifying tasks and routing to the most capable subagent.
+* **Integration Contracts:** Defines integration contracts (API specs, event schemas, auth) for connecting with PROFESSOR-J and other agents via ACP JSON-RPC.
+* **Feature Packages:** User authentication, progress tracking, admin dashboard, payments, and video integration for the learning platform.
 
 ### 3.2 What LearningHub IS NOT
 * **NOT a Single Tuition Website:** LearningHub is not restricted to any local tutoring center, region, or commercial fee model.
@@ -81,9 +82,14 @@ LearningHub core must avoid embedding product-specific business logic, tuition f
 
 ### 4.1 Relationship to PROFESSOR-J
 **PROFESSOR-J** is the major AI/agentic intelligence layer of the STEM ecosystem.
-* LearningHub supplies PROFESSOR-J with canonical knowledge interfaces, lesson structures, interactive Web Components, and evaluation metrics.
-* PROFESSOR-J consumes LearningHub knowledge to provide intelligent tutoring, Socratic dialogue, automated student assessment, and dynamic curriculum orchestration.
-* **Boundary:** LearningHub remains pure educational infrastructure; PROFESSOR-J owns agentic intelligence.
+
+**LearningHub is the INFORMATION HEAD. PROFESSOR-J is the WORKER.**
+
+* LearningHub owns: knowledge schemas, governance, content, pedagogy, user features, web frontend
+* PROFESSOR-J owns: AI execution, model routing, orchestration, memory, tools
+* **Integration:** LH frontend calls P-J backend at `/api/v1/chat` for AI execution
+* **Boundary:** P-J executes tasks delegated by LH; LH governs the ecosystem
+* See ADR-022 for full architecture
 
 ### 4.2 Relationship to JARVIS
 **JARVIS** is an independent Personal AI OS.

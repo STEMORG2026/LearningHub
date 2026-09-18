@@ -299,65 +299,54 @@ Phase completion is a human decision — see *How to Update This Document* below
 
 ---
 
-## Phase 9: Agent Orchestration Foundation
+## Phase 9: Agent Integration Foundation (PROFESSOR-J Integration)
 
 <!-- AUTO:phase-9-status -->🔵 Not started<!-- END AUTO:phase-9-status -->
 
-**Status:** Planned (SOTA gap analysis complete — ADR-019)
+**Status:** Planned
 
-Establish the orchestration plane that makes LearningHub the **ecosystem orchestrator**. Modeled on DeepSeek Harness (`dsh`), Hermes Agent, OpenCode, and AGY CLI.
+Establish integration contracts between LearningHub and PROFESSOR-J. LH is the information head; P-J is the AI worker.
 
-| Package | Responsibility | Modeled On |
-|---------|---------------|------------|
-| `packages/acp-server/` | Agent Client Protocol server (other agents connect TO you) | dsh `packages/acp/`, Hermes `acp_adapter/` |
-| `packages/subagent-manager/` | Spawn, control, steer, stop child agent processes | dsh `packages/subagent/` |
-| `packages/plugin-registry/` | Runtime capability discovery | Cordis loader, Hermes `tools/registry.py` |
-| `packages/hooks-system/` | Claude Code + Codex bridge | dsh `packages/hooks/` |
-| `packages/agent-router/` | Classify tasks, route to dsh/Hermes/OpenCode subagents | dsh `subagent/` + Hermes delegation |
+| Package | Responsibility | Status |
+|---------|---------------|--------|
+| `packages/pj-client/` | HTTP client for P-J backend API | PLANNED |
+| `packages/pj-types/` | TypeScript types for P-J API contracts | PLANNED |
+| `packages/pj-auth/` | Auth token management for P-J calls | PLANNED |
 
-**Architectural Rules:**
-1. **ACP-first** — Agent Client Protocol is the lingua franca
-2. **No package-level coupling** — All integration via ACP JSON-RPC
-3. **Graceful degradation** — Fall back to local execution if subagent unavailable
-4. **Sandboxed by default** — All child execution through bubblewrap/E2B
-
-**Acceptance criteria:**
-- ACP server accepts connections from dsh, Hermes, OpenCode
-- Subagent manager can spawn and control at least 2 external agent types
-- Agent router correctly classifies tasks by capability
-- All orchestration behind `@safety_gate(tier=SafetyTier.DESTRUCTIVE)`
+**Acceptance Criteria:**
+- LH frontend successfully calls P-J `/api/v1/chat`
+- Auth flow working (session → API key mapping)
+- Fallback to local responses when P-J unavailable
 
 ---
 
-## Phase 10: Advanced Orchestration
+## Phase 10: Governance Extensions (P-J Task Audit)
 
 <!-- AUTO:phase-10-status -->🔵 Not started<!-- END AUTO:phase-10-status -->
 
-**Status:** Planned (depends on Phase 9)
+**Status:** Planned
 
-| Package | Responsibility | Modeled On |
-|---------|---------------|------------|
-| `packages/session-manager/` | Fork, resume, export, import sessions | OpenCode sessions, dsh `session-query` |
-| `packages/tool-search/` | Find tools across connected agents | dsh `tool-skill` |
-| `packages/sandbox/` | Bubblewrap/E2B isolation for child agents | dsh `sandbox/`, `e2b/` |
-| `packages/task-tracker/` | Todo/Plan/Goal multi-step decomposition | dsh `todo/`, `plan/`, `goal/` |
-| `packages/scheduler/` | Cron-like task scheduling | Hermes `cron/` |
+Extend governance to cover P-J task execution.
+
+| Package | Responsibility | Status |
+|---------|---------------|--------|
+| `packages/pj-audit/` | Audit log for P-J task execution | PLANNED |
+| `packages/pj-policy/` | Content policy enforcement for AI outputs | PLANNED |
 
 ---
 
-## Phase 11: SOTA Parity
+## Phase 11: Ecosystem Tooling
 
 <!-- AUTO:phase-11-status -->🔵 Not started<!-- END AUTO:phase-11-status -->
 
-**Status:** Future (depends on Phase 10)
+**Status:** Planned
 
-| Package | Responsibility | Modeled On |
-|---------|---------------|------------|
-| `packages/model-clients/` | 17+ LLM provider clients | Hermes `models/` |
-| `packages/memory/` | Hybrid BM25+Chroma memory | Hermes `memory/` |
-| `packages/web-tools/` | Web search/fetch | Hermes `web_tools/` |
-| `packages/browser/` | Browser control | Hermes `browser_tool/` |
-| `packages/computer-use/` | Desktop control | Hermes `computer_use_tool/` |
+Monitoring, dashboards, and cross-repo visibility.
+
+| Package | Responsibility | Status |
+|---------|---------------|--------|
+| `packages/ecosystem-dashboard/` | Health/status dashboard for LH+P-J | PLANNED |
+| `packages/cross-repo-visibility/` | Shared metrics and observability | PLANNED |
 
 ---
 
