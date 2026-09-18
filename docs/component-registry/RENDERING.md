@@ -62,6 +62,14 @@
 | Enroll modal | `apps/shell/` | `src/components/enroll-modal.ts` | — | `src/styles/widgets.css` | Form modal |
 | FAQ list | `apps/shell/` | `src/components/faq-list.ts` | — | `src/styles/widgets.css` | Accordion |
 | Home page | `apps/shell/` | `index.html` | `src/index.ts` | `src/styles/main.css` | Hero + sections |
-| `<stem-lesson>` | `packages/lesson-renderer/` | `src/stem-lesson.ts` | — | — | Lesson renderer |
-| `<stem-circuit-sim>` | `packages/interactive-simulations/` | `src/stem-circuit-sim.ts` | — | — | Interactive circuit sim |
-| `<stem-mechanics-sim>` | `packages/interactive-simulations/` | `src/stem-mechanics-sim.ts` | — | — | Interactive mechanics sim |
+## Phase 8: Content & Lessons (Active)
+
+<!-- AUTO:rendering-phase-8 -->
+| Component | Package | Definition | Template | Styles | Status |
+|-----------|---------|-----------|----------|--------|--------|
+| Content provider | `packages/content-provider/` | `src/content-provider.ts` | — | — | Active (Phase 8) |
+| Content engine pipeline | `packages/content-engine/` | `src/pipeline.ts` | — | — | Active (Phase 8) |
+| Lesson renderer | `packages/lesson-renderer/` | `src/stem-lesson.ts` | — | — | Active (Phase 8) |
+| Circuit simulation | `packages/interactive-simulations/` | `src/stem-circuit-sim.ts` | — | — | Active (Phase 8) |
+| Mechanics simulation | `packages/interactive-simulations/` | `src/stem-mechanics-sim.ts` | — | — | Active (Phase 8) |
+<!-- END AUTO:rendering-phase-8 -->

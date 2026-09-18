@@ -118,7 +118,7 @@ PHASE 3 ██████████  Event Bus + ACL
 PHASE 4 ██████████  Quiz Engine extraction
 PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
-PHASE 7 █████░░░░░  Features (auth, progress, admin)   ← CURRENT
+PHASE 7 █████░░░░░  Features (auth, progress, admin, payments, video)   ← CURRENT
 PHASE 8 █████░░░░░  Content & Lessons
 PHASE 9 ░░░░░░░░░░  Agent Orchestration Foundation
 PHASE 10 ░░░░░░░░░░  Advanced Orchestration
@@ -143,9 +143,11 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/quiz-engine/` | Quiz Engine extraction | `src/data.ts, src/index.ts, src/types.ts` |
 | `packages/hover-engine/` | Hover Engine extraction | `src/hover-state.ts, src/index.ts, src/types.ts` |
 | `packages/simulation-core/` | Physics Core extraction | `src/config.ts, src/create-body.ts, src/index.ts, src/physics.ts, src/types.ts` |
-| `packages/auth/` | Features (auth, progress, admin) | `src/index.ts, src/types.ts` |
-| `packages/progress/` | Features (auth, progress, admin) | `src/index.ts, src/types.ts` |
-| `packages/admin/` | Features (auth, progress, admin) | `src/index.ts, src/types.ts` |
+| `packages/auth/` | Features (auth, progress, admin, payments, video) | `src/index.ts, src/types.ts` |
+| `packages/progress/` | Features (auth, progress, admin, payments, video) | `src/index.ts, src/types.ts` |
+| `packages/admin/` | Features (auth, progress, admin, payments, video) | `src/index.ts, src/types.ts` |
+| `packages/payments/` | Features (auth, progress, admin, payments, video) | `src/index.ts, src/types.ts` |
+| `packages/video/` | Features (auth, progress, admin, payments, video) | `src/index.ts, src/types.ts` |
 | `packages/content-provider/` | Content & Lessons | `src/content-provider.ts, src/index.ts, src/lhs-adapter.ts, src/local-content-provider.ts, src/narrative.ts, src/quiz-mapper.ts, src/types.ts` |
 | `packages/interactive-simulations/` | Content & Lessons | `src/index.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts` |
 | `packages/lesson-renderer/` | Content & Lessons | `src/index.ts, src/stem-lesson.ts` |

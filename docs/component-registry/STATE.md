@@ -53,7 +53,15 @@
 | State (hover-engine) | — | `packages/hover-engine/src/hover-state.ts`, `packages/hover-engine/src/index.ts`, `packages/hover-engine/src/types.ts` | Extracted (Phase 5) |
 <!-- END AUTO:state-phase-5 -->
 
-## Phase 6: Physics Core (Extracted)
+## Phase 8: Content & Lessons (Active)
+
+| State | Type | Location | Notes |
+|-------|------|----------|-------|
+| LessonContent cache | Map | `packages/content-provider/src/content-provider.ts` | In-memory content cache |
+| Pipeline state | Object | `packages/content-engine/src/pipeline.ts` | Pipeline execution state |
+| Lesson render state | WC state | `packages/lesson-renderer/src/stem-lesson.ts` | Lesson component state |
+| Simulation state | WC state | `packages/interactive-simulations/src/stem-circuit-sim.ts` | Circuit sim state |
+| Simulation state | WC state | `packages/interactive-simulations/src/stem-mechanics-sim.ts` | Mechanics sim state |
 
 <!-- AUTO:state-phase-6 -->
 | State | Type | Location | Notes |

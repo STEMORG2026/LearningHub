@@ -1,4 +1,4 @@
-STEM-TUITION/  3d9448b
+STEM-TUITION/  3f0d7b4
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -159,6 +159,7 @@ STEM-TUITION/  3d9448b
 │   │   ├── 018-interactive-simulations-simulation-core.md
 │   │   ├── 019-agentic-orchestration-capability.md
 │   │   ├── 020-phase7-features.md
+│   │   ├── 021-phase8-doc-governance.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -325,6 +326,7 @@ STEM-TUITION/  3d9448b
 │   │   │   └── engine-stress.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── content-provider/
@@ -385,6 +387,7 @@ STEM-TUITION/  3d9448b
 │   │   │   └── stem-mechanics-sim.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── lesson-renderer/
@@ -395,6 +398,21 @@ STEM-TUITION/  3d9448b
 │   │   │   └── stem-lesson.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── payments/
+│   │   ├── src/
+│   │   │   ├── internal/
+│   │   │   │   └── payments.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── payments.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── progress/
@@ -445,15 +463,29 @@ STEM-TUITION/  3d9448b
 │   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
-│   └── tracer/
+│   ├── tracer/
+│   │   ├── src/
+│   │   │   ├── dashboard.ts
+│   │   │   ├── decorator.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   ├── tracer.ts
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── tracer.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   └── video/
 │       ├── src/
-│       │   ├── dashboard.ts
-│       │   ├── decorator.ts
+│       │   ├── internal/
+│       │   │   └── video.ts
 │       │   ├── index.ts  [entry]
-│       │   ├── tracer.ts
 │       │   └── types.ts  [schema]
 │       ├── tests/
-│       │   └── tracer.test.ts  [test]
+│       │   └── video.test.ts  [test]
 │       ├── ARCHITECTURE.toml
 │       ├── CHANGELOG.md
 │       ├── package.json

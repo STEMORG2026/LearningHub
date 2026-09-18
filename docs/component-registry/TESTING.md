@@ -22,6 +22,8 @@
 | `packages/auth/` | `tests/*.test.ts` | Unit | — | 🟢 Written (13 tests) |
 | `packages/progress/` | `tests/*.test.ts` | Unit | — | 🟢 Written (7 tests) |
 | `packages/admin/` | `tests/*.test.ts` | Unit | — | 🟢 Written (7 tests) |
+| `packages/payments/` | `tests/*.test.ts` | Unit | — | 🟢 Written (10 tests) |
+| `packages/video/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
 | `packages/content-provider/` | `tests/*.test.ts` | Unit | — | 🟢 Written (40 tests) |
 | `packages/interactive-simulations/` | `tests/*.test.ts` | Unit | — | 🟢 Written (19 tests) |
 | `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (56 tests) |
