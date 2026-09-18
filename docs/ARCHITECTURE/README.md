@@ -322,7 +322,7 @@ This is used by:
 
 ---
 
-## 8. Migration Progress Tracking
+
 
 **`.phase.json` is the canonical phase-state source.** The ROADMAP progress bar,
 per-phase statuses, and the `AGENTS.md` phase-map are `AUTO` regions regenerated

@@ -787,6 +787,7 @@ Examples of existing ADRs (all in `docs/adr/`):
 016-content-engine.md
 017-ecosystem-foundation-realignment.md
 018-interactive-simulations-simulation-core.md
+019-agentic-orchestration-capability.md
 ```
 
 ADRs are never silently rewritten to erase history.
@@ -802,6 +803,67 @@ New ADR
 ```
 
 The historical reasoning remains available.
+
+---
+
+# 24.5. ORCHESTRATION & AGENT PROTOCOL
+
+LearningHub operates within an ecosystem of SOTA agent harnesses. This section defines the principles and rules for the orchestration plane.
+
+## 24.5.1. Agent Client Protocol (ACP)
+
+ACP is the lingua franca for agent-to-agent communication. LearningHub must both serve and consume ACP.
+
+**Rules:**
+1. **ACP server** — LearningHub exposes an ACP server so other agents (PROFESSOR-J, dsh, OpenCode) can connect TO it
+2. **ACP client** — LearningHub connects TO other agents' ACP servers (dsh, Hermes, OpenCode)
+3. **No package-level coupling** — LearningHub never imports from dsh/Hermes/OpenCode directly. All integration via ACP JSON-RPC.
+4. **Graceful degradation** — If no subagent is available, fall back to local execution.
+
+## 24.5.2. Subagent Management
+
+Complex tasks are classified and routed to the most capable subagent.
+
+**Rules:**
+1. **Subagent delegation** — Route tasks to dsh (plugin-heavy), Hermes (tool-heavy), OpenCode (GitHub workflows), AGY (single-shot)
+2. **Sandboxed by default** — All child agent execution runs through bubblewrap/E2B behind `@safety_gate`
+3. **No silent task expansion** — Subagents cannot expand scope without human approval
+4. **Status honesty** — Distinguish existing / planned / possible subagent capabilities
+
+## 24.5.3. Plugin Registry
+
+Runtime capability discovery for orchestration components.
+
+**Rules:**
+1. **Self-modification** — Agent can inspect/mount its own plugins (modeled on dsh `self-modification/`)
+2. **Preset composition** — Per-session agent composition from preset configs (modeled on dsh `preset/`)
+3. **Tool search** — On-demand tool discovery across connected agents (modeled on dsh `tool-skill`)
+
+## 24.5.4. Hooks System
+
+Claude Code + Codex bridge for agent interoperability.
+
+**Rules:**
+1. **Hook protocol** — Standardized wire protocol for agent-to-agent hooks (modeled on dsh `hooks/`)
+2. **Event-driven** — Hooks fire on lifecycle events (session start, task complete, error)
+3. **Non-blocking** — Hook failures must not block the main agent loop
+
+## 24.5.5. Reference Systems
+
+| System | Architecture | Orchestration Model | Integration |
+|--------|-------------|---------------------|-------------|
+| **DeepSeek Harness (dsh)** | Cordis plugin framework, 50+ capability packages | In-process subagent spawning + ACP server + hooks | ACP server → `dsh --profile headless` |
+| **Hermes Agent** | AIAgent class + tool registry + plugin system | `delegate_tool` + subagent lifecycle + ACP adapter | ACP client → Hermes gateway |
+| **OpenCode** | TUI + headless server + web | ACP server, `serve`, session fork/import/export | ACP server → `opencode serve` |
+| **AGY CLI** | Google AI agent CLI | `--print` single-shot, `--continue` session, `--sandbox` | CLI subprocess |
+
+## 24.5.6. Capability Adoption Phases
+
+| Phase | Capabilities | Modeled On |
+|-------|-------------|------------|
+| **Phase 9** (NOW) | ACP server, subagent manager, plugin registry, hooks, server entry point, agent router | dsh `acp/`, `subagent/`, `skill/`, `hooks/` + Hermes `acp_adapter/` |
+| **Phase 10** (LATER) | Session manager, tool search, sandbox, todo/plan/goal, scheduling | dsh `session/`, `sandbox/`, `todo/`, `plan/`, `goal/`, `schedule/` |
+| **Phase 11** (FUTURE) | Model provider clients, memory system, web search, browser control, computer use | Hermes `models/`, `memory/`, `web_tools/`, `browser_tool/`, `computer_use_tool/` |
 
 ---
 

@@ -2,7 +2,7 @@
 status: CANONICAL
 canonical: true
 owner: Architecture / Governance
-last_updated: 2026-09-04
+last_updated: 2026-09-18
 ---
 
 # STEM Ecosystem Architecture & STEMXIS Infrastructure Layer
@@ -43,6 +43,23 @@ Foundation)      Tutoring)      Experiment)   Learning)        │
             ▼                                                  │
        PROFESSOR-J ◄── Shared Infrastructure Primitives ───────┘
    (Ecosystem AI OS)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │                    ORCHESTRATION PLANE                       │
+  │  LearningHub ACP Server  │  Subagent Manager  │  Agent Router│
+  │         ▲                │       ▲            │      ▲       │
+  │         │                │       │            │      │       │
+  └─────────┼────────────────┼───────┼────────────┼──────┼───────┘
+            │                │       │            │      │
+       ┌────┴────┐      ┌────┴────┐  │       ┌────┴────┐ │
+       │  dsh    │      │ Hermes  │  │       │ OpenCode│ │
+       │  (ACP)  │      │  (ACP)  │  │       │  (ACP)  │ │
+       └─────────┘      └─────────┘  │       └─────────┘ │
+                                     │                     │
+                                ┌────┴────┐                │
+                                │  AGY    │                │
+                                │  (CLI)  │                │
+                                └─────────┘                │
 ```
 
 ---
@@ -51,7 +68,7 @@ Foundation)      Tutoring)      Experiment)   Learning)        │
 
 | Project | Primary Role | Domain Boundary | Canonical Relationship |
 |---------|--------------|-----------------|------------------------|
-| **`LearningHub`** | Canonical Educational Foundation | Knowledge schemas, simulation engines, quiz runtimes, Web Components | Independent ecosystem foundation; consumed by products |
+| **`LearningHub`** | Canonical Educational Foundation + **Ecosystem Orchestrator** | Knowledge schemas, simulation engines, quiz runtimes, Web Components, **ACP server**, **subagent manager**, **agent router** | Independent ecosystem foundation; consumed by products; **orchestrates external agents** |
 | **`STEM Tuition`** | Commercial Tutoring Product | 1:1, cohort, and guided tutoring services for students | Primary commercial consumer of LearningHub content |
 | **`STEM Lab`** | Practical STEM Environment | Virtual laboratories, advanced experiments, hardware simulation | Future practical consumer of LearningHub simulation core |
 | **`STEM Game`** | Gamified Learning Product | Educational game loops, progress quests, interactive challenges | Future interactive consumer of LearningHub quiz & physics engines |
@@ -109,15 +126,82 @@ Identity / Auth  Observability   AI Provider     Tooling & MCP     Deployment
 | **Identity & Auth** | OAuth2, session validation, user tokens | `STEM Tuition`, `JARVIS`, `PROFESSOR-J` | Shared auth protocols; product user databases remain isolated |
 | **Observability** | Structural tracing, performance metrics | `LearningHub` (`@learninghub/tracer`), `PROFESSOR-J`, `JARVIS` | Unified trace schema; isolated log outputs |
 | **Model Provider Infra** | LLM gateway, fallback routing, cost tracking | `PROFESSOR-J`, `JARVIS` | Shared gateway; independent prompt templates and memories |
-| **Agent / MCP Tooling** | Standardized tool call schemas, sandbox execution | `PROFESSOR-J`, `JARVIS` | Common tool protocol; product-specific tool registries |
+| **Agent / MCP Tooling** | Standardized tool call schemas, sandbox execution | `PROFESSOR-J`, `JARVIS`, `LearningHub` (orchestration plane) | Common tool protocol; product-specific tool registries |
 | **Deployment & CI/CD** | Cloudflare Pages, GitHub Actions reusable workflows | `LearningHub`, `STEM Tuition`, `PROFESSOR-J`, `JARVIS` | Shared workflow actions (`.github/actions/`); separate deploy pipelines |
 | **Shared Libraries** | Utility libraries, UI design tokens, lint rules | All projects | Shared npm/pnpm packages or templates; zero direct cross-repo imports |
 
 ---
 
-## 6. Architectural Rules for Infrastructure Sharing
+## 6. Orchestration Plane Architecture
 
-1. **No Monolithic Merging:** Sharing infrastructure MUST NOT mean merging codebases or creating a single database monolith.
+LearningHub's **orchestration plane** coordinates external SOTA agent harnesses via the **Agent Client Protocol (ACP)**. This plane is the mechanism by which LearningHub becomes the **ecosystem orchestrator**.
+
+### 6.1 Reference Systems
+
+| System | Architecture | Orchestration Model | Integration |
+|--------|-------------|---------------------|-------------|
+| **DeepSeek Harness (dsh)** | Cordis plugin framework, 50+ capability packages | In-process subagent spawning + ACP server + hooks | ACP server → `dsh --profile headless` |
+| **Hermes Agent** | AIAgent class + tool registry + plugin system | `delegate_tool` + subagent lifecycle + ACP adapter | ACP client → Hermes gateway |
+| **OpenCode** | TUI + headless server + web | ACP server, `serve`, session fork/import/export | ACP server → `opencode serve` |
+| **AGY CLI** | Google AI agent CLI | `--print` single-shot, `--continue` session, `--sandbox` | CLI subprocess |
+
+### 6.2 Capability Gap & Adoption Plan
+
+| Capability | dsh | Hermes | OpenCode | AGY | LH Status | Phase |
+|------------|-----|--------|----------|-----|-----------|-------|
+| **ACP server** | ✅ | ✅ | ✅ | ❌ | PLANNED | 9 |
+| **Subagent spawning** | ✅ | ✅ | ❌ | ❌ | PLANNED | 9 |
+| **Plugin registry** | ✅ | ✅ | ❌ | ❌ | PLANNED | 9 |
+| **Hooks system** | ✅ | ❌ | ❌ | ❌ | PLANNED | 9 |
+| **Server entry point** | ❌ | ❌ | ❌ | ❌ | PLANNED | 9 |
+| **Agent router** | ❌ | ❌ | ❌ | ❌ | PLANNED | 9 |
+| **Session manager** | ✅ | ❌ | ✅ | ❌ | PLANNED | 10 |
+| **Tool search** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
+| **Sandboxed execution** | ✅ | ✅ | ❌ | ✅ | PLANNED | 10 |
+| **Todo/Plan/Goal** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
+| **Scheduling** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
+| **Model provider clients** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+| **Memory system** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+| **Web search/fetch** | ✅ | ✅ | ✅ | ✅ | FUTURE | 11 |
+| **Browser control** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+| **Computer use** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+
+### 6.3 Architectural Rules for Orchestration
+
+1. **ACP-first** — Agent Client Protocol is the lingua franca for agent-to-agent communication
+2. **No package-level coupling** — LearningHub never imports from dsh/Hermes/OpenCode directly
+3. **Subagent delegation** — Complex tasks are classified and routed to the most capable subagent
+4. **Graceful degradation** — If no subagent is available, fall back to local execution
+5. **Sandboxed by default** — All child agent execution runs through bubblewrap/E2B
+6. **Status honesty** — Distinguish existing / planned / possible capabilities
+
+### 6.4 Orchestration Pattern
+
+```
+┌─────────────────────────────────────────┐
+│         LearningHub (orchestrator)       │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐ │
+│  │  ACP    │  │ Subagent│  │ Plugin  │ │
+│  │ Server  │  │ Manager │  │Registry │ │
+│  └────┬────┘  └────┬────┘  └────┬────┘ │
+│       │             │             │       │
+│  ┌────┴─────────────┴─────────────┴────┐ │
+│  │         Agent Router / Task          │ │
+│  │         Classifier                    │ │
+│  └────┬─────────────┬─────────────┬────┘ │
+└───────┼─────────────┼─────────────┼──────┘
+        │             │             │
+   ┌────┴────┐   ┌────┴────┐   ┌────┴────┐
+   │  dsh    │   │ Hermes  │   │ OpenCode│
+   │  (ACP)  │   │  (ACP)  │   │  (ACP)  │
+   └─────────┘   └─────────┘   └─────────┘
+```
+
+---
+
+## 7. Architectural Rules for Infrastructure Sharing
+
+1. **No Monolithic Merging:** Sharing infrastructure MUST NOT mean merging codebases or creating a single database monorepo.
 2. **Explicit Interfaces & Adapters:** Projects interact with shared infrastructure solely through documented APIs, SDK adapters, or exported contracts.
 3. **Product Independence:** If shared infrastructure fails or is unavailable, individual products must degrade gracefully or remain operationally isolated.
 4. **No Unjustified Abstractions:** Infrastructure is shared only when there is clear engineering overlap and economic justification. Speculative platform layers MUST NOT be built prematurely.

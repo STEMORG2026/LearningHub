@@ -76,7 +76,28 @@ git config. Without it, commits skip documentation synchronization.
 
 ---
 
-## Verification Commands
+## Orchestration & Agent Protocol
+
+LearningHub operates within an ecosystem of SOTA agent harnesses. The orchestration plane coordinates these agents via the **Agent Client Protocol (ACP)**.
+
+### Reference Systems
+
+| System | Architecture | Integration |
+|--------|-------------|-------------|
+| **DeepSeek Harness (dsh)** | Cordis plugin framework, 50+ packages | ACP server → `dsh --profile headless` |
+| **Hermes Agent** | AIAgent class + tool registry | ACP client → Hermes gateway |
+| **OpenCode** | TUI + headless server + web | ACP server → `opencode serve` |
+| **AGY CLI** | Google AI agent CLI | CLI subprocess |
+
+### Orchestration Rules
+
+1. **ACP-first** — Agent Client Protocol is the lingua franca
+2. **No package-level coupling** — All integration via ACP JSON-RPC
+3. **Subagent delegation** — Route tasks to most capable subagent
+4. **Graceful degradation** — Fall back to local execution
+5. **Sandboxed by default** — All child execution through bubblewrap/E2B
+
+See `docs/VISION.md` §5 and `docs/ECOSYSTEM.md` §6 for full details.
 
 ```bash
 pnpm typecheck          # 16 tasks, must all pass
@@ -99,6 +120,9 @@ PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
 PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)   ← CURRENT
 PHASE 8 █████░░░░░  Content & Lessons
+PHASE 9 ░░░░░░░░░░  Agent Orchestration Foundation
+PHASE 10 ░░░░░░░░░░  Advanced Orchestration
+PHASE 11 ░░░░░░░░░░  SOTA Parity
 ```
 <!-- END AUTO:phase-map -->
 
@@ -123,7 +147,44 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/interactive-simulations/` | Content & Lessons | `src/index.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts` |
 | `packages/lesson-renderer/` | Content & Lessons | `src/index.ts, src/stem-lesson.ts` |
 | `packages/content-engine/` | Content & Lessons | `src/blueprint.ts, src/formats.ts, src/index.ts, src/pipeline.ts, src/request.ts, src/verification.ts` |
+| `packages/acp-server/` | Agent Orchestration Foundation | `N/A` |
+| `packages/subagent-manager/` | Agent Orchestration Foundation | `N/A` |
+| `packages/plugin-registry/` | Agent Orchestration Foundation | `N/A` |
+| `packages/hooks-system/` | Agent Orchestration Foundation | `N/A` |
+| `packages/agent-router/` | Agent Orchestration Foundation | `N/A` |
+| `packages/session-manager/` | Advanced Orchestration | `N/A` |
+| `packages/tool-search/` | Advanced Orchestration | `N/A` |
+| `packages/sandbox/` | Advanced Orchestration | `N/A` |
+| `packages/task-tracker/` | Advanced Orchestration | `N/A` |
+| `packages/scheduler/` | Advanced Orchestration | `N/A` |
+| `packages/model-clients/` | SOTA Parity | `N/A` |
+| `packages/memory/` | SOTA Parity | `N/A` |
+| `packages/web-tools/` | SOTA Parity | `N/A` |
+| `packages/browser/` | SOTA Parity | `N/A` |
+| `packages/computer-use/` | SOTA Parity | `N/A` |
 <!-- END AUTO:package-map -->
+
+---
+
+## Future Package Map (Phases 9–11)
+
+| Package | Phase | Responsibility | Status |
+|---------|-------|----------------|--------|
+| `packages/acp-server/` | 9 | Agent Client Protocol server | PLANNED |
+| `packages/subagent-manager/` | 9 | Spawn, control, steer, stop child agents | PLANNED |
+| `packages/plugin-registry/` | 9 | Runtime capability discovery | PLANNED |
+| `packages/hooks-system/` | 9 | Claude Code + Codex bridge | PLANNED |
+| `packages/agent-router/` | 9 | Classify tasks, route to subagents | PLANNED |
+| `packages/session-manager/` | 10 | Fork, resume, export, import sessions | PLANNED |
+| `packages/tool-search/` | 10 | Find tools across connected agents | PLANNED |
+| `packages/sandbox/` | 10 | Bubblewrap/E2B isolation | PLANNED |
+| `packages/task-tracker/` | 10 | Todo/Plan/Goal decomposition | PLANNED |
+| `packages/scheduler/` | 10 | Cron-like task scheduling | PLANNED |
+| `packages/model-clients/` | 11 | 17+ LLM provider clients | PLANNED |
+| `packages/memory/` | 11 | Hybrid BM25+Chroma memory | PLANNED |
+| `packages/web-tools/` | 11 | Web search/fetch | PLANNED |
+| `packages/browser/` | 11 | Browser control | PLANNED |
+| `packages/computer-use/` | 11 | Desktop control | PLANNED |
 
 ---
 

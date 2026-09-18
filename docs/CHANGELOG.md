@@ -35,6 +35,11 @@ All notable changes to **LearningHub** are documented here.
 - Dependency violations in content-provider, lesson-renderer (unused core/tracer deps)
 - Doc governance gaps — ADR headers, README links, ROADMAP completeness, CHANGELOG phase coverage
 
+### Planned
+- **Phase 9: Agent Orchestration Foundation** — ACP server, subagent manager, plugin registry, hooks system, agent router (ADR-019)
+- **Phase 10: Advanced Orchestration** — Session manager, tool search, sandbox, task tracker, scheduler
+- **Phase 11: SOTA Parity** — Model provider clients, memory system, web tools, browser control, computer use
+
 ---
 
 ## [3.0.0] — 2026-07-31

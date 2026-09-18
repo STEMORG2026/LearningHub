@@ -93,6 +93,48 @@
     "lesson-renderer",
     "content-engine"
    ]
+  },
+  {
+   "id": 9,
+   "name": "Agent Orchestration Foundation",
+   "status": "planned",
+   "completedVersion": null,
+   "completedDate": null,
+   "packages": [
+    "acp-server",
+    "subagent-manager",
+    "plugin-registry",
+    "hooks-system",
+    "agent-router"
+   ]
+  },
+  {
+   "id": 10,
+   "name": "Advanced Orchestration",
+   "status": "planned",
+   "completedVersion": null,
+   "completedDate": null,
+   "packages": [
+    "session-manager",
+    "tool-search",
+    "sandbox",
+    "task-tracker",
+    "scheduler"
+   ]
+  },
+  {
+   "id": 11,
+   "name": "SOTA Parity",
+   "status": "planned",
+   "completedVersion": null,
+   "completedDate": null,
+   "packages": [
+    "model-clients",
+    "memory",
+    "web-tools",
+    "browser",
+    "computer-use"
+   ]
   }
  ]
 }

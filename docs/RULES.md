@@ -649,7 +649,44 @@ All AI-generated code MUST pass:
 
 ---
 
-## 📋 GOVERNANCE POLICIES
+## 📋 Orchestration & Agent Protocol Rules
+
+LearningHub coordinates external SOTA agent harnesses (DeepSeek Harness, Hermes Agent, OpenCode, AGY CLI). These rules are ENFORCED for any agent-related code.
+
+### O-1: ACP Protocol
+
+- All agent-to-agent communication MUST use the Agent Client Protocol (ACP)
+- LearningHub MUST expose an ACP server so other agents can connect
+- LearningHub MUST be able to connect TO other agents' ACP servers
+- No direct package imports from dsh/Hermes/OpenCode
+
+### O-2: Subagent Management
+
+- Subagents are spawned as child processes (in-process or forked)
+- All subagent execution MUST run through bubblewrap/E2B sandbox
+- Subagent failures MUST NOT crash the orchestrator
+- Subagents MUST NOT silently expand scope without human approval
+
+### O-3: Graceful Degradation
+
+- If no subagent is available, fall back to local execution
+- Subagent capabilities are classified as EXISTING / PLANNED / FUTURE
+- Don't describe planned capabilities as existing
+
+### O-4: Status Honesty
+
+- Documented capabilities must match actual implemented capabilities
+- Orchestration phases (9, 10, 11) are PLANNED until completed
+- No silent capability inflation
+
+### O-5: Reference Systems
+
+| System | Integration | Priority |
+|--------|-------------|----------|
+| DeepSeek Harness (dsh) | ACP server → `dsh --profile headless` | Phase 9 |
+| Hermes Agent | ACP client → Hermes gateway | Phase 9 |
+| OpenCode | ACP server → `opencode serve` | Phase 9 |
+| AGY CLI | CLI subprocess | Phase 9 |
 
 This section is the **summary layer** of the governance graph. Each policy below is
 a short summary — the normative detail lives in the linked document. Per the

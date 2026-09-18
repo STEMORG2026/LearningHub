@@ -66,12 +66,14 @@ LearningHub core must avoid embedding product-specific business logic, tuition f
 * **Pure Business Logic Engines:** Independent, uncoupled TypeScript libraries for physics simulation (`@learninghub/simulation-core`), quiz evaluation (`@learninghub/quiz-engine`), hover state handling (`@learninghub/hover-engine`), and Web Audio synthesis (`@learninghub/audio-synth`).
 * **Framework-Agnostic Web Components:** Standard custom elements (`<stem-quiz>`, `<stem-lesson>`, `<stem-circuit-sim>`, `<stem-mechanics-sim>`) that render rich educational experiences natively in web environments.
 * **Event-Driven Communication & Observability:** Strict, schema-validated EventBus primitives (`@learninghub/core`) and built-in execution tracing (`@learninghub/tracer`).
+* **Agentic Orchestration Plane:** ACP server, subagent manager, and agent router that coordinate external SOTA harnesses (DeepSeek Harness, Hermes Agent, OpenCode, AGY CLI). LearningHub is the **ecosystem orchestrator** — classifying tasks and routing to the most capable subagent.
 
 ### 3.2 What LearningHub IS NOT
 * **NOT a Single Tuition Website:** LearningHub is not restricted to any local tutoring center, region, or commercial fee model.
-* **NOT an AI Agent Repository:** LearningHub provides knowledge structures and UI components; it does not host AI agents, LLM orchestration loops, or Socratic dialog managers (which belong to **PROFESSOR-J**).
+* **NOT an AI Agent Itself:** LearningHub coordinates AI agents (PROFESSOR-J, dsh, Hermes, OpenCode) but does not replace them. Socratic dialogue, LLM orchestration, and personal assistant tasks belong to **PROFESSOR-J** and other agents.
 * **NOT a Personal AI OS:** LearningHub is distinct from **JARVIS**. It does not own personal user OS tasks, local system automation, or non-educational tools.
 * **NOT a Monolithic Database:** LearningHub does not manage commercial user signups, payment gateways, or tutor billing. Downstream products own their commercial state.
+* **NOT a Package-Level Coupling to External Agents:** LearningHub never imports from dsh/Hermes/OpenCode directly. All integration via ACP JSON-RPC.
 
 ---
 
@@ -91,7 +93,48 @@ LearningHub core must avoid embedding product-specific business logic, tuition f
 
 ---
 
-## 5. Architectural Quality Standards
+## 5. Orchestration & External Agent Integration
+
+LearningHub operates within an ecosystem of SOTA agent harnesses. The orchestration plane coordinates these agents via the **Agent Client Protocol (ACP)**.
+
+### 5.1 Reference Systems
+
+| System | Architecture | Orchestration Model | Integration |
+|--------|-------------|---------------------|-------------|
+| **DeepSeek Harness (dsh)** | Cordis plugin framework, 50+ capability packages | In-process subagent spawning + ACP server + hooks | ACP server → `dsh --profile headless` |
+| **Hermes Agent** | AIAgent class + tool registry + plugin system | `delegate_tool` + subagent lifecycle + ACP adapter | ACP client → Hermes gateway |
+| **OpenCode** | TUI + headless server + web | ACP server, `serve`, session fork/import/export | ACP server → `opencode serve` |
+| **AGY CLI** | Google AI agent CLI | `--print` single-shot, `--continue` session, `--sandbox` | CLI subprocess |
+
+### 5.2 Capability Gap & Adoption Plan
+
+| Capability | dsh | Hermes | OpenCode | AGY | LH Status | Phase |
+|------------|-----|--------|----------|-----|-----------|-------|
+| **ACP server** | ✅ | ✅ | ✅ | ❌ | PLANNED | 9 |
+| **Subagent spawning** | ✅ | ✅ | ❌ | ❌ | PLANNED | 9 |
+| **Plugin registry** | ✅ | ✅ | ❌ | ❌ | PLANNED | 9 |
+| **Hooks system** | ✅ | ❌ | ❌ | ❌ | PLANNED | 9 |
+| **Server entry point** | ❌ | ❌ | ❌ | ❌ | PLANNED | 9 |
+| **Agent router** | ❌ | ❌ | ❌ | ❌ | PLANNED | 9 |
+| **Session manager** | ✅ | ❌ | ✅ | ❌ | PLANNED | 10 |
+| **Tool search** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
+| **Sandboxed execution** | ✅ | ✅ | ❌ | ✅ | PLANNED | 10 |
+| **Todo/Plan/Goal** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
+| **Scheduling** | ✅ | ✅ | ❌ | ❌ | PLANNED | 10 |
+| **Model provider clients** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+| **Memory system** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+| **Web search/fetch** | ✅ | ✅ | ✅ | ✅ | FUTURE | 11 |
+| **Browser control** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+| **Computer use** | ❌ | ✅ | ❌ | ❌ | FUTURE | 11 |
+
+### 5.3 Architectural Rules for Orchestration
+
+1. **ACP-first** — Agent Client Protocol is the lingua franca for agent-to-agent communication
+2. **No package-level coupling** — LearningHub never imports from dsh/Hermes/OpenCode directly
+3. **Subagent delegation** — Complex tasks are classified and routed to the most capable subagent
+4. **Graceful degradation** — If no subagent is available, fall back to local execution
+5. **Sandboxed by default** — All child agent execution runs through bubblewrap/E2B
+6. **Status honesty** — Distinguish existing / planned / possible capabilities
 
 1. **Strict Decoupling:** Packages in `packages/*` MUST NOT import each other directly (except shared primitives in `core` and `tracer`). Communication occurs strictly via `EventBus.publish()` and `EventBus.subscribe()`.
 2. **Business Logic Purity:** Business logic must consist of pure TypeScript functions without direct DOM or browser global dependencies (`window`, `document`).
