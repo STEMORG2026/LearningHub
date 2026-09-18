@@ -1,0 +1,25 @@
+owner = "Core Team"
+status = "stable"
+maturity = "incubating"
+
+contracts = ["api", "event"]
+
+publicApi = [
+  "createSession",
+  "startSession",
+  "endSession",
+  "joinSession",
+  "leaveSession",
+  "getSession",
+  "getSessionParticipants",
+  "getLiveSessions",
+  "isSessionLive",
+  "getParticipantCount",
+  "tracedCreateSession",
+  "tracedStartSession",
+  "tracedJoinSession",
+]
+
+dependencies = ["core", "tracer"]
+
+adrs = ["020"]

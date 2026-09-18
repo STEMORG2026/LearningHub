@@ -285,6 +285,25 @@ importers:
         specifier: ^3.2.6
         version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
 
+  packages/payments:
+    dependencies:
+      '@learninghub/core':
+        specifier: workspace:*
+        version: link:../core
+      '@learninghub/tracer':
+        specifier: workspace:*
+        version: link:../tracer
+    devDependencies:
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vitest:
+        specifier: ^3.2.6
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+
   packages/progress:
     dependencies:
       '@learninghub/core':
@@ -345,6 +364,25 @@ importers:
         specifier: workspace:*
         version: link:../core
     devDependencies:
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vitest:
+        specifier: ^3.2.6
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+
+  packages/video:
+    dependencies:
+      '@learninghub/core':
+        specifier: workspace:*
+        version: link:../core
+      '@learninghub/tracer':
+        specifier: workspace:*
+        version: link:../tracer
+    devDependencies:
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2

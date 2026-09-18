@@ -259,8 +259,8 @@ Future features as separate packages following the established pattern:
 | User Authentication | `packages/auth/` | Medium | `docs/adr/020-phase7-features.md` | ✅ Implemented |
 | Student Progress Tracking | `packages/progress/` | Medium | `docs/adr/020-phase7-features.md` | ✅ Implemented |
 | Admin Dashboard | `packages/admin/` | Low | `docs/adr/020-phase7-features.md` | ✅ Implemented |
-| Payment Integration | `packages/payments/` | Low | — | 🔵 Planned |
-| Zoom/Video Integration | `packages/video/` | Low | — | 🔵 Planned |
+| Payment Integration | `packages/payments/` | Low | `docs/adr/020-phase7-features.md` | ✅ Implemented |
+| Zoom/Video Integration | `packages/video/` | Low | `docs/adr/020-phase7-features.md` | ✅ Implemented |
 | Mobile App | `apps/mobile/` | Future | — | 🔵 Planned |
 
 Each feature gets:

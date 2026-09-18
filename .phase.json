@@ -75,14 +75,16 @@
   },
   {
    "id": 7,
-   "name": "Features (auth, progress, admin)",
+   "name": "Features (auth, progress, admin, payments, video)",
    "status": "in-progress",
    "completedVersion": null,
    "completedDate": null,
    "packages": [
     "auth",
     "progress",
-    "admin"
+    "admin",
+    "payments",
+    "video"
    ]
   },
   {
