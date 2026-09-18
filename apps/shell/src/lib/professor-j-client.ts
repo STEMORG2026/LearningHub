@@ -1,8 +1,11 @@
 /**
- * PROFESSOR-J Client — AI OS & Socratic Engine Integration.
+ * PROFESSOR-J Client — LearningHub Frontend Integration.
  *
- * Connects LearningHub Web Shell to PROFESSOR-J / Google AI Studio (Gemini 3.7 / 2.5)
- * for grounded educational dialogue, text highlight analysis, and ecosystem Q&A.
+ * LearningHub is the INFORMATION HEAD (knowledge, governance, content).
+ * PROFESSOR-J is the WORKER (AI execution, orchestration, model routing).
+ *
+ * This client sends chat requests to PROFESSOR-J backend API,
+ * which routes through its orchestration plane.
  */
 
 export interface ChatMessage {
@@ -14,33 +17,25 @@ export interface ChatMessage {
 export interface ProfessorJOptions {
   model?: string;
   apiKey?: string;
+  /** Base URL for PROFESSOR-J backend (default: same origin / local) */
+  baseUrl?: string;
 }
 
-const SYSTEM_PROMPT = `You are PROFESSOR-J, the central Socratic AI Assistant and Ecosystem Intelligence Layer for LearningHub and STEMXIS TECHNOLOGY PVT. LTD.
+const SYSTEM_PROMPT = `You are PROFESSOR-J, the AI WORKER for the STEM ecosystem.
 
-Your Core Directives:
-1. Knowledge Grounding: Ground all educational concepts in STEMMA canonical entities (Biology, Chemistry, Physics, Mathematics, Computer Science, Engineering).
-2. Socratic Tutoring: Guide learners step-by-step with intuitive explanations, analogies, and key questions rather than dumping raw answers.
-3. Ecosystem Awareness: You understand the entire STEM ecosystem architecture:
-   - LearningHub: Canonical foundation, knowledge schemas, simulation math, Web Components.
-   - STEM Tuition: Commercial 1:1, cohort, and guided tutoring consumer module.
-   - STEM Lab: Virtual laboratory and interactive simulation sandbox.
-   - STEM Game: Gamified quizzes, streaks, and learning challenges.
-   - PROFESSOR-J: Socratic tutor and AI OS.
-   - JARVIS: Independent Personal AI OS sharing platform infrastructure.
-4. Highlight Context: When the user provides a highlighted text snippet from the page, directly analyze that text in relation to STEMMA concepts and offer clear, insightful guidance.`;
+Your Role:
+- You are the execution layer (worker) in the STEM ecosystem
+- LearningHub is the INFORMATION HEAD (knowledge, governance, content, pedagogy)
+- You handle AI execution, model routing, orchestration, and task delegation
+
+Your Directives:
+1. Knowledge Grounding: Reference LearningHub canonical entities and knowledge schemas
+2. Socratic Tutoring: Guide learners step-by-step — never dump raw answers
+3. Worker Role: You execute tasks delegated by LearningHub; you don't govern the ecosystem
+4. Ecosystem Awareness: LearningHubSTEM → LearningHub (head) → PROFESSOR-J (worker)
+5. Highlight Context: Analyze highlighted text using LearningHub knowledge schemas`;
 
 const DEFAULT_MODEL = 'google/gemini-3.7-flash';
-/**
- * OpenRouter token, read from the build-time env var `VITE_OPENROUTER_API_KEY`.
- *
- * Never hardcode a credential here: this module is bundled into the served
- * client, so any literal sits in plaintext in `dist/`. The value is a
- * browser-visible key by construction — treat it as public and rate-limited,
- * not as a secret. When unset, the client falls through to the grounded local
- * responder below instead of firing an unauthenticated call.
- */
-const API_TOKEN = import.meta.env.VITE_OPENROUTER_API_KEY ?? '';
 export async function askProfessorJ(
   prompt: string,
   history: ChatMessage[] = [],
@@ -48,49 +43,75 @@ export async function askProfessorJ(
   options: ProfessorJOptions = {},
 ): Promise<string> {
   const model = options.model || DEFAULT_MODEL;
+  const baseUrl = getBackendUrl(options.baseUrl);
 
-  const messagesPayload = [
-    { role: 'system', content: SYSTEM_PROMPT },
-    ...history.map((m) => ({ role: m.role, content: m.content })),
-  ];
-
-  let fullUserContent = prompt;
+  // Build system prompt
+  let systemContent = SYSTEM_PROMPT;
   if (contextSnippet) {
-    fullUserContent = `[Highlighted Context from Page]: "${contextSnippet}"\n\nQuestion: ${prompt}`;
+    systemContent += `\n\nHighlighted text from page: "${contextSnippet}"`;
   }
 
-  messagesPayload.push({ role: 'user', content: fullUserContent });
+  const messagesPayload = [
+    { role: 'system', content: systemContent },
+    ...history.map((m) => ({ role: m.role, content: m.content })),
+    { role: 'user', content: prompt },
+  ];
 
-  // No credential configured: skip the network entirely and answer from the
-  // grounded local generator. Firing the request anyway would only produce a
-  // 401 that costs a round-trip and logs a misleading failure.
-  const token = options.apiKey || API_TOKEN;
-  if (!token) return generateLocalGroundedResponse(prompt, contextSnippet);
-
+  // Try PROFESSOR-J backend first
   try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch(`${baseUrl}/api/v1/chat`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
+        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {}),
       },
       body: JSON.stringify({
+        messages: messagesPayload,
         model,
         max_tokens: 800,
-        messages: messagesPayload,
       }),
     });
 
     if (response.ok) {
       const data = await response.json();
-      const content = data.choices?.[0]?.message?.content;
-      if (content) return content;
+      if (data.message) return data.message;
     }
   } catch {
-    // Fall back to grounded local response generator if network unavailable
+    // Backend unavailable — fall through to local fallback
   }
 
+  // Fallback: grounded local response generator
   return generateLocalGroundedResponse(prompt, contextSnippet);
+}
+
+/**
+ * Fetch ecosystem info from PROFESSOR-J backend.
+ */
+export async function getEcosystemInfo(options: ProfessorJOptions = {}): Promise<unknown> {
+  const baseUrl = getBackendUrl(options.baseUrl);
+  try {
+    const response = await fetch(`${baseUrl}/api/v1/lh/ecosystem-info`);
+    if (response.ok) return await response.json();
+  } catch {
+    // Fallback
+  }
+  return {
+    services: {
+      learninghub: { role: 'information-head', status: 'active' },
+      professorJ: { role: 'worker', status: 'active' },
+    },
+  };
+}
+
+/**
+ * Resolve PROFESSOR-J backend URL.
+ * Priority: explicit baseUrl → VITE env → same-origin default.
+ */
+function getBackendUrl(baseUrl?: string): string {
+  if (baseUrl) return baseUrl;
+  const envUrl = import.meta.env.VITE_PROFESSOR_J_URL;
+  if (envUrl) return envUrl;
+  return '';
 }
 
 function generateLocalGroundedResponse(prompt: string, contextSnippet?: string): string {
