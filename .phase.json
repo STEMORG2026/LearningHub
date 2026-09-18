@@ -76,10 +76,14 @@
   {
    "id": 7,
    "name": "Features (auth, progress, admin)",
-   "status": "planned",
+   "status": "in-progress",
    "completedVersion": null,
    "completedDate": null,
-   "packages": []
+   "packages": [
+    "auth",
+    "progress",
+    "admin"
+   ]
   },
   {
    "id": 8,

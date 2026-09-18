@@ -1,4 +1,4 @@
-STEM-TUITION/  5de0dc5
+STEM-TUITION/  3d9448b
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -158,6 +158,7 @@ STEM-TUITION/  5de0dc5
 │   │   ├── 017-ecosystem-foundation-realignment.md
 │   │   ├── 018-interactive-simulations-simulation-core.md
 │   │   ├── 019-agentic-orchestration-capability.md
+│   │   ├── 020-phase7-features.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -268,6 +269,20 @@ STEM-TUITION/  5de0dc5
 │   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
+│   ├── admin/
+│   │   ├── src/
+│   │   │   ├── internal/
+│   │   │   │   └── admin.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── admin.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
 │   ├── audio-synth/
 │   │   ├── src/
 │   │   │   ├── engine.ts
@@ -276,6 +291,20 @@ STEM-TUITION/  5de0dc5
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
 │   │   │   └── synth.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── auth/
+│   │   ├── src/
+│   │   │   ├── internal/
+│   │   │   │   └── auth.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── auth.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
 │   │   ├── package.json
@@ -366,6 +395,20 @@ STEM-TUITION/  5de0dc5
 │   │   │   └── stem-lesson.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── progress/
+│   │   ├── src/
+│   │   │   ├── internal/
+│   │   │   │   └── progress.ts
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── progress.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── CHANGELOG.md
+│   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── quiz-engine/
