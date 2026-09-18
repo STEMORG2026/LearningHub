@@ -37,6 +37,8 @@ way it is.
 | [ADR-014](014-lesson-renderer.md) | Lesson Renderer Package | Accepted |
 | [ADR-015](015-interactive-simulations.md) | Interactive Simulations Package | Accepted |
 | [ADR-016](016-content-engine.md) | General-Purpose Content-Engine Seam (architecture v2) | Accepted |
+| [ADR-017](017-ecosystem-foundation-realignment.md) | Product-Agnostic Ecosystem Foundation & Architectural Realignment | Accepted |
+| [ADR-018](018-interactive-simulations-simulation-core.md) | Interactive Simulations Do Not Consume simulation-core | Accepted |
 
 ---
 

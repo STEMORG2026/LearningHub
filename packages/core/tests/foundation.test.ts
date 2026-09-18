@@ -280,7 +280,7 @@ describe('Documentation completeness', () => {
   it('all docs have Version header (ADRs use Status/Date template)', () => {
     const walk = (dir: string): string[] =>
       readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
-        if (e.name === 'adr') return [];
+        if (e.name === 'adr' || e.name === 'archive') return [];
         return e.isDirectory()
           ? walk(join(dir, e.name))
           : e.name.endsWith('.md')

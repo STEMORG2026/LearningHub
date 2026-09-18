@@ -28,7 +28,7 @@ describe('engine-gate — batch-8 narratives publish through produce()', () => {
       expect(narrative.conceptId).toBe(conceptId);
 
       const request = {
-        id: { project: 'stem-tuition', requestUid: `gate:${conceptId}`, createdAt: '2025-01-01' },
+        id: { project: 'learninghub', requestUid: `gate:${conceptId}`, createdAt: '2025-01-01' },
         summary: `Engine-gate check for ${conceptId}`,
         topic: conceptId,
         intent: 'narrate',

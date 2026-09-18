@@ -2,11 +2,11 @@
  * LearningHubSTEM adapter.
  *
  * Transforms LearningHubSTEM entities (from exports/knowledge.json) into
- * LessonContent[]. This is the bridge between the canonical knowledge base and
- * the STEM Tuition application model.
+ * LessonContent[]. This is the bridge between the canonical STEMMA knowledge base (lhs:*)
+ * and the product-agnostic LearningHub lesson model.
  *
- * Per CONSTITUTION.md §11: the application must not expose LearningHubSTEM's
- * internal schema throughout the product.
+ * Per CONSTITUTION.md §11: downstream applications must not expose STEMMA's
+ * internal schema throughout product layers.
  */
 
 import type { LessonContent, LessonSection, SimulationConfig } from './types';
@@ -31,15 +31,17 @@ export interface LhsEntity {
   symbol?: string | null;
   unit?: string | null;
   equation?: string | null;
-  common_misconceptions?: string[];
-  learning_objectives?: string[];
-  real_world_applications?: string[];
+  examples?: string[] | null;
+  key_experiments?: string[] | null;
+  common_misconceptions?: string[] | null;
+  learning_objectives?: string[] | null;
+  real_world_applications?: string[] | null;
   provenance?: {
     ai_drafted: boolean;
-    source_kind?: string;
-    source?: string;
-    reviewer?: string;
-    reviewed_at?: string;
+    source_kind?: string | null;
+    source?: string | null;
+    reviewer?: string | null;
+    reviewed_at?: string | null;
   };
   relationships?: LhsRelationship[];
 }
@@ -124,16 +126,17 @@ function entityToSections(entity: LhsEntity): LessonSection[] {
 }
 
 function entityToSimulations(entity: LhsEntity): SimulationConfig[] {
-  // Laws and quantities can have associated simulations
-  if (entity.type === 'law' && entity.domain === 'physics') {
+  // Laws, concepts, and quantitative entities can have associated interactive simulations
+  if (entity.type === 'law' || entity.equation || entity.unit) {
     return [
       {
         type: `${entity.domain}-simulation`,
-        title: `${entity.name} — Interactive`,
+        title: `${entity.name} — Interactive Simulation`,
         params: {
           conceptId: entity.id,
           symbol: entity.symbol ?? '',
           equation: entity.equation ?? '',
+          domain: entity.domain,
         },
       },
     ];

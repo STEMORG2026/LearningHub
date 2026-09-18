@@ -1,27 +1,41 @@
-# LearningHub: Agent Instructions
+# LearningHub: Agent Instructions & Governance
 
-> On session resume, re-read this file and the governance files it references before making changes.
+> On session resume, re-read this file and the canonical governance files before making changes.
 
 ---
 
-## Required Reading (in this order)
+## Required Reading (in precedence order)
 
-1. **`AGENTS.md`** (this file) — quick reference
-2. **`docs/CONSTITUTION.md`** — development constitution: ecosystem vision, operating principles, governance overview (this file is the development constitution)
-3. **`docs/RULES.md`** — non-negotiable coding rules (ENFORCED)
-4. **`docs/policies/HUMAN_INVOLVEMENT.md`** — who decides vs. what automation does (release gates, doc ownership)
-5. **`docs/ARCHITECTURE/README.md`** — architecture charter: module layout, import rules, data flow (the charter moved from `docs/ARCHITECTURE.md` to `docs/ARCHITECTURE/README.md`)
-6. **`docs/policies/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (ENFORCED)
-7. **`docs/guides/COMPONENT_STANDARDS.md`** — Web Component patterns (ENFORCED)
-8. **`docs/adr/`** — architecture decisions (see `docs/adr/README.md` for the index)
-9. **`docs/ROADMAP.md`** — current phase, what's next
+1. **`AGENTS.md`** (this file) — quick reference & AI agent safety protocol
+2. **`docs/VISION.md`** — **CANONICAL VISION**: ecosystem purpose, product agnosticism, scope boundaries
+3. **`docs/ECOSYSTEM.md`** — **ECOSYSTEM ARCHITECTURE**: topology, project roles, STEMXIS shared infrastructure matrix
+4. **`docs/CONSTITUTION.md`** — **DEVELOPMENT CONSTITUTION**: operating principles & development governance
+5. **`docs/RULES.md`** — **NON-NEGOTIABLE TECHNICAL RULES** (ENFORCED)
+6. **`docs/ARCHITECTURE/README.md`** — **ARCHITECTURE CHARTER**: package layout, data flow, dependency rules
+7. **`docs/policies/EVENT_BUS_CONTRACT.md`** — event naming, payloads, versioning (ENFORCED)
+8. **`docs/guides/COMPONENT_STANDARDS.md`** — Web Component patterns (ENFORCED)
+9. **`docs/adr/`** — Architecture Decision Records (see `docs/adr/README.md`)
+10. **`docs/archive/`** — Historical material & superseded plans (HISTORICAL ONLY — DO NOT TREAT AS CANONICAL)
+
+---
+
+## 🛡️ AI Agent Context Hygiene & Conflict Resolution
+
+To prevent AI context contamination and accidental reliance on stale/superseded historical plans:
+
+1. **Canonical Precedence Hierarchy:**
+   `docs/VISION.md` > `docs/ECOSYSTEM.md` > `docs/CONSTITUTION.md` > `docs/RULES.md` > `docs/ARCHITECTURE/README.md` > `AGENTS.md`
+2. **Strict Archival Rule:**
+   Documents located under `docs/archive/` or containing front-matter headers `status: HISTORICAL`, `status: SUPERSEDED`, `status: ARCHIVED`, or `status: FUTURE_PROPOSAL` are strictly non-canonical information. **AI agents MUST NOT use archived or superseded documents as current implementation requirements.**
+3. **Conflict Resolution:**
+   If a historical document (e.g., an old ADR or devlog) conflicts with a file higher in the Canonical Precedence Hierarchy, the canonical document MUST govern. Update or supersede the stale document instead of incorporating contradictory requirements.
 
 ---
 
 ## Setup
 
 ```bash
-pnpm install          # install all workspace dependencies
+pnpm install          # install all project dependencies
 pnpm setup-hooks      # configure core.hooksPath = scripts/git-hooks
 ```
 
@@ -55,7 +69,8 @@ git config. Without it, commits skip documentation synchronization.
 - `verbatimModuleSyntax: true` — use `import type` for type-only imports
 
 ### Testing
-- Core logic: ≥95% line coverage
+- Core logic (new modules): ≥95% line coverage; enforced floor is each package's
+  per-package coverage ratchet (`vitest.config.*.ts` → `docs/REPOSITORY_HEALTH.md`)
 - Tests alongside code, same PR
 - Run `pnpm test --filter="@learninghub/<pkg>"` before committing
 

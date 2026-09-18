@@ -1,11 +1,18 @@
-# STEM-TUITION Architecture Charter
+---
+status: CANONICAL
+canonical: true
+owner: Architecture / Governance
+last_updated: 2026-09-04
+---
+
+# LearningHub Architecture Charter
 
 **Version:** 3.0.0
 **Status:** Active Evolution
 **Owner:** Architecture
 **Applies To:** All packages, apps, and the root workspace
-**Related:** `RULES.md`, `policies/API_CONTRACT.md`, `policies/EVENT_BUS_CONTRACT.md`, `docs/ARCHITECTURE/`, `docs/adr/README.md`
-**Project:** STEM-TUITION (independent project, not part of LearningHubSTEM)
+**Related:** `VISION.md`, `ECOSYSTEM.md`, `RULES.md`, `policies/API_CONTRACT.md`, `policies/EVENT_BUS_CONTRACT.md`, `docs/ARCHITECTURE/`, `docs/adr/README.md`
+**Project:** LearningHub (independent STEM learning platform & foundation)
 
 ---
 

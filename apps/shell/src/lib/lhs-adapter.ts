@@ -1,5 +1,5 @@
 /**
- * lhs-adapter — the STEMMA consumer seam inside STEM-TUITION.
+ * lhs-adapter — the STEMMA consumer seam inside LearningHub.
  *
  * Consumes the GENERATED export (`apps/shell/src/data/knowledge.json`, vendored from
  * `STEMMA/exports/knowledge.json` via `pnpm sync:lhs`), never the
@@ -16,9 +16,10 @@ import type {
   LhsKnowledgeExport,
   LhsRelatedEntity,
 } from './lhs-types';
+export type { LhsEntity, LhsExportMetadata, LhsKnowledgeExport, LhsRelatedEntity } from './lhs-types';
 import knowledge from '../data/knowledge.json';
 
-export const SUPPORTED_EXPORT_VERSION = '0.1';
+export const SUPPORTED_EXPORT_VERSION = '0.2';
 
 const EXPORT = knowledge as LhsKnowledgeExport;
 
@@ -87,9 +88,21 @@ function ensureLoaded(): Map<string, LhsEntity> {
 
 export function getEntity(id: string): LhsEntity {
   const entities = ensureLoaded();
-  const entity = entities.get(id);
+  let entity = entities.get(id);
+
+  if (!entity && id.startsWith('stemma:')) {
+    entity = entities.get(id.replace('stemma:', 'lhs:'));
+  } else if (!entity && id.startsWith('lhs:')) {
+    entity = entities.get(id.replace('lhs:', 'stemma:'));
+  }
+
   if (!entity) throw new LhsEntityNotFoundError(id);
   return entity;
+}
+
+export function getAllEntities(): LhsEntity[] {
+  const entities = ensureLoaded();
+  return Array.from(entities.values());
 }
 
 /**
@@ -100,7 +113,12 @@ export function getRelatedEntities(id: string): LhsRelatedEntity[] {
   const entity = getEntity(id);
   const entities = ensureLoaded();
   return (entity.relationships ?? []).map((relationship) => {
-    const target = entities.get(relationship.target);
+    let target = entities.get(relationship.target);
+    if (!target && relationship.target.startsWith('stemma:')) {
+      target = entities.get(relationship.target.replace('stemma:', 'lhs:'));
+    } else if (!target && relationship.target.startsWith('lhs:')) {
+      target = entities.get(relationship.target.replace('lhs:', 'stemma:'));
+    }
     if (!target) throw new LhsDanglingReferenceError(id, relationship.target);
     return { relationship, entity: target };
   });

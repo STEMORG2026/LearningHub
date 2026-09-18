@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { initLhsDemo } from '../src/lib/lhs-demo';
 
 describe('lhs-demo — Newton’s Second Law vertical slice', () => {
-  it('renders knowledge from the export and pedagogy from STEM-TUITION', () => {
+  it('renders knowledge from the export and pedagogy from LearningHub', () => {
     document.body.innerHTML = '<div id="lhsDemoMount"></div>';
     initLhsDemo();
     const html = document.getElementById('lhsDemoMount')!.innerHTML;
@@ -16,7 +16,7 @@ describe('lhs-demo — Newton’s Second Law vertical slice', () => {
     expect(html).toContain('LEARNING');
     expect(html).toContain('Worked example');
 
-    expect(html).toContain('export_version 0.1');
+    expect(html).toContain('export_version 0.2');
     expect(html).toContain('entities');
   });
 });

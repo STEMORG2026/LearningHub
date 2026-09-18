@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 const PAGES: Array<{ path: string; title: string }> = [
-  { path: '/', title: 'STEM Tuition – Pokhara | Interactive STEM Hub' },
-  { path: '/classes.html', title: 'Classes – STEM Tuition Pokhara' },
-  { path: '/videos.html', title: 'Videos & Notes – STEM Tuition Pokhara' },
-  { path: '/contact.html', title: 'Contact – STEM Tuition Pokhara' },
-  { path: '/about.html', title: 'About – STEM Tuition Pokhara' },
+  { path: '/', title: 'LearningHub — Open STEM Learning Platform' },
+  { path: '/classes.html', title: 'Classes & Programs | LearningHub' },
+  { path: '/videos.html', title: 'Videos & Notes | LearningHub' },
+  { path: '/contact.html', title: 'Contact & Connect | LearningHub' },
+  { path: '/about.html', title: 'About | LearningHub' },
 ];
 
 for (const page of PAGES) {
@@ -39,11 +39,25 @@ test('classes page renders detail and timing tracks', async ({ page }) => {
   await expect(page.locator('#batchTimingsTrack .timing-card')).toHaveCount(3);
 });
 
-test('contact form submits and clears', async ({ page }) => {
+test('contact form opens a WhatsApp handoff and clears', async ({ page }) => {
   await page.goto('/contact.html');
-  page.once('dialog', (dialog) => dialog.accept());
+
   await page.fill('#cName', 'Test Student');
   await page.fill('#cPhone', '+977 9800000000');
+  await page.selectOption('#cGrade', 'SEE Board');
+  await page.fill('#cMsg', 'I prefer home tuition.');
+
+  const popupPromise = page.waitForEvent('popup');
   await page.locator('#contactForm button[type="submit"]').click();
+
+  const popup = await popupPromise;
+  await expect(popup).toHaveURL(/^https:\/\/(wa\.me|api\.whatsapp\.com)\//);
   await expect(page.locator('#cName')).toHaveValue('');
+});
+
+test('contact tel: link matches the displayed phone number', async ({ page }) => {
+  await page.goto('/contact.html');
+  const telLink = page.locator('a.contact-item[href^="tel:"]');
+  await expect(telLink).toHaveAttribute('href', 'tel:+9779768021317');
+  await expect(telLink).toContainText('+977 9768021317');
 });

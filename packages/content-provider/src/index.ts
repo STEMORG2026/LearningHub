@@ -1,9 +1,9 @@
 /**
  * @learninghub/content-provider
  *
- * Content access boundary for STEM-TUITION.
+ * Content access boundary for LearningHub.
  *
- * Consumes content from different sources (local data, LearningHubSTEM)
+ * Consumes content from different sources (local data, STEMMA exports)
  * and provides a unified LessonContent application model.
  */
 

@@ -2,7 +2,7 @@
  * Curriculum mapping data — consumer-owned layer.
  *
  * Maps canonical STEMMA physics concepts to specific curricula and grades.
- * This file is owned by STEM-TUITION, not STEMMA.
+ * This file is owned by LearningHub (consumer mapping layer), not STEMMA.
  *
  * Per CONSTITUTION.md §11 and §35: curriculum relationships are consumer-owned, never canonical.
  */

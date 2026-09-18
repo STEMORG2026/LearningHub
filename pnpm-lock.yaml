@@ -211,9 +211,6 @@ importers:
       '@learninghub/core':
         specifier: workspace:*
         version: link:../core
-      '@learninghub/simulation-core':
-        specifier: workspace:*
-        version: link:../simulation-core
       '@learninghub/tracer':
         specifier: workspace:*
         version: link:../tracer

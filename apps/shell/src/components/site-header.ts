@@ -16,7 +16,7 @@ export class SiteHeader extends HTMLElement {
 
     this.innerHTML = `
       <nav>
-        <a href="index.html" class="nav-logo"><icon-bolt name="bolt"></icon-bolt> STEM Tuition</a>
+        <a href="index.html" class="nav-logo"><icon-bolt name="bolt"></icon-bolt> LearningHub</a>
         <ul class="nav-links">
           ${NAV_LINKS.map(
             (link) =>
@@ -29,7 +29,7 @@ export class SiteHeader extends HTMLElement {
           </button>
           ${
             modalMode
-              ? `<button type="button" class="nav-cta" data-cta>Enroll Now</button>`
+              ? `<button type="button" class="nav-cta" data-cta data-open-enroll="Hero Direct">Enroll Now</button>`
               : `<a href="contact.html" class="nav-cta">Enroll Now</a>`
           }
         </div>

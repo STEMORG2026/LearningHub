@@ -6,8 +6,8 @@ export class SiteFooter extends HTMLElement {
       <footer>
         <div class="footer-inner">
           <div class="footer-brand">
-            <a href="index.html" class="nav-logo"><icon-bolt name="bolt"></icon-bolt> STEM Tuition</a>
-            <p>Comprehensive home, group & online STEM tutoring in Pokhara, Nepal. SEE, NEB & Cambridge A-Levels.</p>
+            <a href="index.html" class="nav-logo"><icon-bolt name="bolt"></icon-bolt> LearningHub</a>
+            <p>Open STEM Learning Platform, Knowledge Infrastructure & Educational Foundation.</p>
           </div>
           <div class="footer-links">
             <h3>Navigation</h3>
@@ -24,7 +24,7 @@ export class SiteFooter extends HTMLElement {
             </ul>
           </div>
         </div>
-        <div class="footer-bottom">© 2026 STEM Tuition · Pokhara, Nepal</div>
+        <div class="footer-bottom">© 2026 LearningHub · STEMXIS Technology Pvt. Ltd.</div>
       </footer>
     `;
   }

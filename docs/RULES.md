@@ -1,18 +1,23 @@
-# 📐 STEM-TUITION: Technical Rules & Coding Standards
+---
+status: CANONICAL
+canonical: true
+owner: Architecture / Governance
+last_updated: 2026-09-04
+---
 
-> **Version:** 2.2.0 (Governance Entry Point)
+# 📐 LearningHub: Technical Rules & Coding Standards
+
+> **Version:** 3.0.0 (Governance Entry Point)
 > **Status:** 🔒 ENFORCED
 > **Owner:** Architecture
 > **Applies To:** All developers, AI agents, and contributors
-> **Related:** `CONSTITUTION.md` · `policies/API_CONTRACT.md` · `policies/OBSERVABILITY.md` · `policies/DEPENDENCY_POLICY.md` · `policies/RELIABILITY.md` · `policies/VERSIONING.md` · `policies/EVENT_BUS_CONTRACT.md` · `policies/PACKAGE_LIFECYCLE.md` · `policies/PACKAGE_METADATA.md` · `REPOSITORY_HEALTH.md` · `DOCS.md` · `docs/adr/README.md` · `docs/ARCHITECTURE/`
-> **Effective Date:** 2026-07-30
-> **Current Date:** 2026-08-01
+> **Related:** `VISION.md` · `ECOSYSTEM.md` · `CONSTITUTION.md` · `policies/API_CONTRACT.md` · `policies/OBSERVABILITY.md` · `policies/DEPENDENCY_POLICY.md` · `policies/RELIABILITY.md` · `policies/VERSIONING.md` · `policies/EVENT_BUS_CONTRACT.md` · `policies/PACKAGE_LIFECYCLE.md` · `policies/PACKAGE_METADATA.md` · `REPOSITORY_HEALTH.md` · `DOCS.md` · `docs/adr/README.md` · `docs/ARCHITECTURE/`
 
 ---
 
 ## 🎯 Purpose
 
-This document is the **governance entry point** for STEM-TUITION. It defines the
+This document is the **governance entry point** for LearningHub. It defines the
 **principles**, the **mandatory rules**, and the **enforcement** of all code
 written in the project. Detail policies live in dedicated documents (linked under
 **Related** and in the References section); RULES.md summarizes them and points to
@@ -350,9 +355,18 @@ button:focus-visible {
 ## 🧪 TESTING REQUIREMENTS
 
 ### Coverage Thresholds (ENFORCED)
+
+> **The enforceable gate is the per-package coverage ratchet, not the table below.**
+> The table records the *target* for **new** core-logic modules; the machine-checked
+> floor is each package's own `vitest.config.*.ts` `thresholds` (published in
+> `docs/REPOSITORY_HEALTH.md`) and is enforced by `pnpm test:coverage`. Existing
+> packages ratchet *upward* from their current baseline (e.g. `tracer` 34%,
+> `quiz-engine` 66%) — they are never retroactively held to 95% in a single step.
+> See **Coverage Ratchet** in the enforcement-chain table below.
+
 | Module Type | Line Coverage | Branch Coverage | Action on Fail |
 |-------------|---------------|-----------------|----------------|
-| Core Logic | ≥95% | ≥90% | Block merge |
+| Core Logic (new modules) | ≥95% | ≥90% | Block merge |
 | UI Components | ≥90% | ≥85% | Block merge |
 | Adapters | ≥95% | ≥95% | Block merge |
 | E2E Flows | Critical paths only | N/A | Warning |
@@ -824,7 +838,7 @@ run). `pnpm verify-governance` fails on the first failing stage:
 | DOM purity | `pnpm lint:dom` | No `document.getElementById`/`querySelector` in pure-logic src (ESLint flat config) |
 | Build | `pnpm build` | All packages + `apps/shell` bundle successfully |
 | Types | `pnpm typecheck` | Strict TypeScript across all workspaces |
-| Test coverage | `pnpm test:coverage` | ≥95% line coverage on core logic, ratcheting upward (see Coverage Ratchet below) |
+| Test coverage | `pnpm test:coverage` | Per-package ratchet: ≥ the floor in each package's `vitest.config.*.ts`, only ever moving upward (see Coverage Ratchet below) |
 | Accessibility | `pnpm test:a11y` | Playwright + axe-core audit |
 | Bundle size | `pnpm lint:size` | Per-package size budgets (`bundlesize.config.json`, apps measured gzip) |
 | Educational metadata | `pnpm validate:edu` | `data.ts` question schema + EDUCATIONAL.md cross-reference |

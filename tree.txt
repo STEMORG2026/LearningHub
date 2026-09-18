@@ -1,4 +1,4 @@
-STEM-TUITION/  f6559d6
+STEM-TUITION/  ce2139c
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -30,10 +30,12 @@ STEM-TUITION/  f6559d6
 │       ├── public/
 │       │   ├── .well-known/
 │       │   │   └── security.txt
-│       │   ├── _redirects
+│       │   ├── _headers
+│       │   ├── 404.html
 │       │   ├── favicon.svg
 │       │   ├── health.json
-│       │   └── robots.txt
+│       │   ├── robots.txt
+│       │   └── sitemap.xml
 │       ├── src/
 │       │   ├── components/
 │       │   │   ├── did-you-know.ts
@@ -41,6 +43,7 @@ STEM-TUITION/  f6559d6
 │       │   │   ├── faq-list.ts
 │       │   │   ├── icons.ts
 │       │   │   ├── index.ts
+│       │   │   ├── professor-j-widget.ts
 │       │   │   ├── site-footer.ts
 │       │   │   └── site-header.ts
 │       │   ├── data/
@@ -66,6 +69,7 @@ STEM-TUITION/  f6559d6
 │       │   │   ├── engine-init.ts
 │       │   │   ├── enroll.ts
 │       │   │   ├── hover-effects.ts
+│       │   │   ├── inquiry.ts
 │       │   │   ├── interactive.ts
 │       │   │   ├── learning-path-ui.ts
 │       │   │   ├── learning-path.ts
@@ -73,6 +77,7 @@ STEM-TUITION/  f6559d6
 │       │   │   ├── lhs-adapter.ts
 │       │   │   ├── lhs-demo.ts
 │       │   │   ├── lhs-types.ts
+│       │   │   ├── professor-j-client.ts
 │       │   │   ├── progress-tracker.ts
 │       │   │   ├── render.ts
 │       │   │   └── scroll.ts
@@ -80,7 +85,12 @@ STEM-TUITION/  f6559d6
 │       │   │   ├── about.ts
 │       │   │   ├── classes.ts
 │       │   │   ├── contact.ts
+│       │   │   ├── game.ts
+│       │   │   ├── lab.ts
 │       │   │   ├── learn.ts
+│       │   │   ├── professor-j.ts
+│       │   │   ├── stemma.ts
+│       │   │   ├── tuition.ts
 │       │   │   └── videos.ts
 │       │   ├── styles/
 │       │   │   ├── base.css
@@ -100,22 +110,30 @@ STEM-TUITION/  f6559d6
 │       │   ├── enroll-modal.test.ts  [test]
 │       │   ├── faq-list.test.ts  [test]
 │       │   ├── hover-effects.test.ts  [test]
+│       │   ├── inquiry.test.ts  [test]
 │       │   ├── learning-path.test.ts  [test]
 │       │   ├── lesson-builder.test.ts  [test]
 │       │   ├── lhs-adapter.test.ts  [test]
 │       │   ├── lhs-demo.test.ts  [test]
 │       │   ├── narrative-integration.test.ts  [test]
-│       │   └── render.test.ts  [test]
+│       │   ├── progress-tracker.test.ts  [test]
+│       │   ├── render.test.ts  [test]
+│       │   └── sitemap.test.ts  [test]
 │       ├── about.html
 │       ├── ARCHITECTURE.toml
 │       ├── CHANGELOG.md
 │       ├── classes.html
 │       ├── contact.html
+│       ├── game.html
 │       ├── index.html
+│       ├── lab.html
 │       ├── learn.html
 │       ├── package.json
+│       ├── professor-j.html
 │       ├── README.md
+│       ├── stemma.html
 │       ├── tsconfig.json
+│       ├── tuition.html
 │       ├── videos.html
 │       ├── vite.config.ts
 │       └── vitest.config.ts
@@ -137,9 +155,9 @@ STEM-TUITION/  f6559d6
 │   │   ├── 014-lesson-renderer.md
 │   │   ├── 015-interactive-simulations.md
 │   │   ├── 016-content-engine.md
+│   │   ├── 017-ecosystem-foundation-realignment.md
+│   │   ├── 018-interactive-simulations-simulation-core.md
 │   │   └── README.md
-│   ├── architecture/
-│   │   └── content-production-engine-v2.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
 │   │   ├── containers.md
@@ -148,6 +166,12 @@ STEM-TUITION/  f6559d6
 │   │   ├── migration.md
 │   │   ├── overview.md
 │   │   └── README.md
+│   ├── archive/
+│   │   ├── future-research-content-production-engine-v2.md
+│   │   ├── historical-stem-tuition-plan.md
+│   │   └── README.md
+│   ├── audit/
+│   │   └── 2026-09-17-forensic-audit.md
 │   ├── component-registry/
 │   │   ├── EDUCATIONAL.md
 │   │   ├── index.md
@@ -211,10 +235,12 @@ STEM-TUITION/  f6559d6
 │   ├── CONSTITUTION.md
 │   ├── DEVLOG.md
 │   ├── DOCS.md
+│   ├── ECOSYSTEM.md
 │   ├── IMPLEMENTATION-PLAN.md
 │   ├── REPOSITORY_HEALTH.md
 │   ├── ROADMAP.md
-│   └── RULES.md
+│   ├── RULES.md
+│   └── VISION.md
 ├── e2e/
 │   ├── visual-regression.spec.ts-snapshots/
 │   │   ├── about-chromium-linux.png
@@ -395,6 +421,7 @@ STEM-TUITION/  f6559d6
 │   │   ├── audit-deps.cjs
 │   │   ├── size-check.cjs
 │   │   ├── validate-educational-metadata.js
+│   │   ├── verify-doc-governance.mjs
 │   │   └── verify-registry.js
 │   ├── generate/
 │   │   ├── docs-sync.mjs
@@ -419,11 +446,16 @@ STEM-TUITION/  f6559d6
 │   │   ├── release-validate.mjs
 │   │   ├── release-version.mjs
 │   │   └── rollback.mjs
-│   └── eslint-config.mjs
+│   ├── eslint-config.mjs
+│   ├── verify_export_contract.py
+│   ├── verify_git_safety.py
+│   └── verify.py
 ├── .commitlintrc.json
 ├── .dependency-cruiser.js
 ├── .dockerignore
+├── .env.example  [local, not committed]
 ├── .gitignore
+├── .nvmrc
 ├── .phase.json
 ├── AGENTS.md
 ├── bundlesize.config.json

@@ -1,16 +1,23 @@
+---
+status: CANONICAL
+canonical: true
+owner: Architecture / Governance
+last_updated: 2026-09-04
+---
+
 # Architecture Overview
 
 **Version:** 3.0.0
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** All packages and apps
-**Related:** `ARCHITECTURE/README.md`, `RULES.md`, `COMPONENT_STANDARDS.md`, `docs/ARCHITECTURE/`
+**Related:** `VISION.md`, `ECOSYSTEM.md`, `ARCHITECTURE/README.md`, `RULES.md`, `COMPONENT_STANDARDS.md`, `docs/ARCHITECTURE/`
 
 ---
 
 ## Purpose
 
-This directory is the **C4-style diagram set** for STEM-TUITION. It replaces
+This directory is the **C4-style diagram set** for LearningHub. It replaces
 `FLOWCHARTS.md` as the canonical location for architecture diagrams. The prose
 overview, module layout, and dependency rules remain in the charter,
 `docs/ARCHITECTURE/README.md`.

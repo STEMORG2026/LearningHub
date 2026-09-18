@@ -1,5 +1,6 @@
 import { GRADE_MAP } from '../data/classes';
 import { buildWhatsAppLink } from '../data/site';
+import { buildInquiryMessage } from './inquiry';
 
 export function initEstimator(): void {
   const gradeBtns = document.querySelectorAll<HTMLButtonElement>('#gradeBtnGroup .grade-opt-btn');
@@ -23,7 +24,7 @@ export function initEstimator(): void {
     if (detailsText) detailsText.textContent = `Subjects: ${subjects.join(', ') || 'None'}`;
     if (estFee) estFee.textContent = `Est. Weekly Commitment: ~${hours} Hours`;
     if (whatsappBtn) {
-      const msg = `Hi STEM Tuition Pokhara! Inquiry for ${gradeLabel}. Subjects: ${subjects.join(', ')}.`;
+      const msg = `Hi LearningHub! Inquiry for ${gradeLabel}. Subjects: ${subjects.join(', ')}.`;
       whatsappBtn.href = buildWhatsAppLink(msg);
     }
   };
@@ -79,9 +80,14 @@ export function initContactForm(): void {
   const form = document.getElementById('contactForm') as HTMLFormElement | null;
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const nameInput = form.querySelector('#cName') as HTMLInputElement | null;
-    const name = nameInput?.value ?? 'there';
-    window.alert(`Thank you ${name}! Your inquiry has been received. We will call you shortly.`);
+
+    const name = (form.querySelector('#cName') as HTMLInputElement | null)?.value ?? '';
+    const phone = (form.querySelector('#cPhone') as HTMLInputElement | null)?.value ?? '';
+    const grade = (form.querySelector('#cGrade') as HTMLSelectElement | null)?.value ?? '';
+    const message = (form.querySelector('#cMsg') as HTMLTextAreaElement | null)?.value ?? '';
+
+    const waLink = buildWhatsAppLink(buildInquiryMessage({ name, phone, grade, message }));
+    window.open(waLink, '_blank');
     form.reset();
   });
 }
