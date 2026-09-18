@@ -3,7 +3,7 @@
 **Version:** 3.0.0
 **Status:** Enforced
 **Owner:** Architecture
-**Applies To:** Root workspace and all packages
+**Applies To:** This repository and all packages
 **Related:** `RULES.md`, `API_CONTRACT.md`, `SECURITY.md`, `docs/policies/PERFORMANCE.md`, `docs/adr/005-pnpm-monorepo-turborepo.md`
 
 ---
@@ -45,8 +45,8 @@ an exception with written justification.
 
 Choose dependencies in this order:
 
-1. **No dependency** — native platform, browser API, or existing workspace code
-2. **Workspace package** — already in `packages/*` (`@learninghub/*`)
+1. **No dependency** — native platform, browser API, or existing project code
+2. **Project package** — already in `packages/*` (`@learninghub/*`)
 3. **devDependency** — build/test-time only, never shipped
 4. **Runtime dependency** — last resort, and only with ADR approval
 

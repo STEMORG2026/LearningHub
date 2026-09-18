@@ -1,33 +1,44 @@
+---
+status: CANONICAL
+canonical: true
+owner: Architecture / Governance
+last_updated: 2026-09-04
+---
+
 # System Context (C4 Level 1)
 
 **Version:** 3.0.0
 **Status:** Enforced
 **Owner:** Architecture
 **Applies To:** All packages and apps
-**Related:** `ARCHITECTURE/README.md`, `RULES.md`, `docs/ARCHITECTURE/overview.md`
+**Related:** `VISION.md`, `ECOSYSTEM.md`, `ARCHITECTURE/README.md`, `RULES.md`, `docs/ARCHITECTURE/overview.md`
 
 ---
 
 ## Context
 
-STEM-TUITION is a modular STEM education platform. Users access it through a
-browser; the platform is served statically today and may gain a backend over time.
+LearningHub is an open, product-agnostic STEM education platform and foundation. Users and downstream products access it through standard Web Component interfaces, EventBus APIs, and content export models.
 
 ```mermaid
 flowchart TB
-    subgraph USER["User"]
-        B[Browser]
+    subgraph CONSUMERS["Ecosystem Consumers"]
+        ST[STEM Tuition]
+        SL[STEM Lab]
+        SG[STEM Game]
+        PJ[PROFESSOR-J]
     end
 
-    subgraph SHELL["apps/shell/"]
+    subgraph LEARNINGHUB["LearningHub Foundation"]
         direction TB
-        R[Router/index.html]
-        R -->|legacy route| L
-        R -->|modern route| M
+        R[App Shell / Routing]
+        KB[Knowledge & Content Primitives]
+        ENG[Simulation & Quiz Engines]
+        WC[Web Components]
+        EB[EventBus & Tracer]
     end
 
-    subgraph LEGACY["legacy/ (Frozen v1.0.0)"]
-        direction TB
+    CONSUMERS -->|Consumes Knowledge & Components| LEARNINGHUB
+```
         L[index.html]
         L --> CSS[css/main.css]
         L --> JS1[js/stem-effects.js]

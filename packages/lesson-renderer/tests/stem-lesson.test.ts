@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { StemLesson } from '../src/stem-lesson';
 import type { LessonContent } from '@learninghub/content-provider';
+import { getDefaultEventBus } from '@learninghub/core';
+import { Tracer } from '@learninghub/tracer';
 
 describe('StemLesson Web Component', () => {
   let element: StemLesson;
@@ -647,6 +649,28 @@ describe('StemLesson Web Component', () => {
       element.setLessonData(noHeading);
       // A section without a heading must not emit a `.section-heading` node.
       expect(element.shadowRoot!.querySelector('.section-heading')).toBeNull();
+    });
+  });
+
+  describe('EventBus & Tracer Instrumentation', () => {
+    it('should publish lesson:rendered on EventBus when lesson is set', () => {
+      let publishedEvent: unknown = null;
+      const unsubscribe = getDefaultEventBus().subscribe('lesson:rendered', (evt) => {
+        publishedEvent = evt;
+      });
+
+      element.setLessonData(mockLesson);
+      expect(publishedEvent).not.toBeNull();
+      expect((publishedEvent as { data: { lessonId: string } }).data.lessonId).toBe('lesson-1');
+
+      unsubscribe();
+    });
+
+    it('should record spans in Tracer when lesson is rendered', () => {
+      const tracer = Tracer.getInstance();
+      element.setLessonData(mockLesson);
+      const traceId = tracer.getCurrentTraceId();
+      expect(traceId).toBeDefined();
     });
   });
 

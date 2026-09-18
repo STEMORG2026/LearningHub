@@ -38,8 +38,8 @@ function makeExport(overrides: Partial<LhsKnowledgeExport> = {}): LhsKnowledgeEx
 describe('lhs-adapter — export metadata', () => {
   it('reads the generated export metadata', () => {
     const { metadata, entityCount } = loadKnowledge();
-    expect(metadata.export_version).toBe('0.1');
-    expect(metadata.schema_version).toBe('0.1');
+    expect(metadata.export_version).toBe('0.2');
+    expect(metadata.schema_version).toBe('0.3');
     expect(entityCount).toBe(metadata.entity_count);
     expect(entityCount).toBeGreaterThanOrEqual(100);
   });
@@ -65,7 +65,7 @@ describe('lhs-adapter — version compatibility', () => {
 
   it('rejects before any entity lookup', () => {
     loadKnowledge(); // index primed with the real export
-    expect(() => loadKnowledge(makeExport({ export_version: '0.2' }))).toThrow(
+    expect(() => loadKnowledge(makeExport({ export_version: '9.9' }))).toThrow(
       LhsUnsupportedVersionError,
     );
   });

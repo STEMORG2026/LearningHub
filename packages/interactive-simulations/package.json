@@ -2,7 +2,7 @@
   "name": "@learninghub/interactive-simulations",
   "version": "1.0.0",
   "private": true,
-  "description": "Interactive simulations — Web Components wrapping simulation-core for mechanics, circuits, optics",
+  "description": "Interactive teaching widgets — Web Components for mechanics and circuits (optics planned). These are standalone widgets with inline physics, not consumers of simulation-core.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@learninghub/core": "workspace:*",
-    "@learninghub/simulation-core": "workspace:*",
     "@learninghub/tracer": "workspace:*"
   },
   "devDependencies": {

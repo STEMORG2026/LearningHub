@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PROFESSOR-J — Socratic AI Tutor & Ecosystem Intelligence Layer grounded in STEMMA knowledge." />
+  <meta name="theme-color" content="#1a1d29" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LearningHub" />
+  <meta property="og:title" content="PROFESSOR-J | Socratic AI Tutor" />
+  <title>PROFESSOR-J | Socratic AI Tutor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <canvas id="stemBackgroundCanvas" aria-hidden="true"></canvas>
+  <div id="scroll-progress"></div>
+  <site-header active="professor-j" modal></site-header>
+
+  <main>
+    <div class="page-hero reveal-on-scroll">
+      <span class="section-tag"><icon-bolt name="bolt"></icon-bolt> Ecosystem AI &amp; Intelligence Layer</span>
+      <h1>PROFESSOR-J <span class="accent">Socratic AI Tutor</span></h1>
+      <p class="page-sub">Grounded in the 224+ STEMMA knowledge entities across Biology, Chemistry, Physics, Mathematics, and Engineering.</p>
+    </div>
+
+    <section style="max-width:900px;margin:0 auto;padding:1rem;">
+      <div class="soft-card reveal-on-scroll" style="display:flex;flex-direction:column;height:600px;padding:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0.8rem;">
+          <div style="font-weight:700;color:#00d4ff;font-size:1.1rem;display:flex;align-items:center;gap:0.5rem;">
+            <span>⚡ PROFESSOR-J Cognitive Graph</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <label style="font-size:0.85rem;color:#888;">Model Route:</label>
+            <select id="profPageModel" class="form-select" style="padding:0.3rem 0.6rem;font-size:0.85rem;width:auto;">
+              <option value="google/gemini-3.7-flash" selected>Gemini 3.7 Flash (Google AI Pro)</option>
+              <option value="google/gemini-2.5-flash">Gemini 2.5 Flash</option>
+              <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="profPageChat" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;padding-right:0.5rem;margin-bottom:1rem;">
+          <div class="prof-msg prof-msg-assistant" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#e0e0e0;padding:0.9rem 1.2rem;border-radius:14px;align-self:flex-start;max-width:80%;margin-bottom:1rem;">
+            👋 Welcome! I am <strong>PROFESSOR-J</strong>, your Socratic AI Tutor grounded in STEMMA. Ask me any question about physics, biology, chemistry, engineering, or how the LearningHub ecosystem works!
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+          <button class="prompt-preset-btn chip-btn" data-prompt="Explain Photosynthesis and Energy Flow">🌱 Photosynthesis</button>
+          <button class="prompt-preset-btn chip-btn" data-prompt="Explain Newton's Laws of Motion">🚀 Newton's Laws</button>
+          <button class="prompt-preset-btn chip-btn" data-prompt="How do LearningHub and PROFESSOR-J share knowledge?">⚙️ Ecosystem Architecture</button>
+          <button class="prompt-preset-btn chip-btn" data-prompt="What is Ohm's Law?">⚡ Ohm's Law</button>
+        </div>
+
+        <div style="display:flex;gap:0.8rem;">
+          <input type="text" id="profPageInput" class="form-input" placeholder="Ask PROFESSOR-J a question..." style="flex:1;">
+          <button id="profPageSend" class="btn-primary" style="padding:0.7rem 1.5rem;">Ask PROFESSOR-J</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+  <enroll-modal></enroll-modal>
+  <professor-j-widget></professor-j-widget>
+
+  <script type="module" src="/src/pages/professor-j.ts"></script>
+</body>
+</html>

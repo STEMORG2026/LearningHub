@@ -1,22 +1,29 @@
+---
+status: CANONICAL
+canonical: true
+owner: Architecture / Governance
+last_updated: 2026-09-04
+supersedes: Previous STEM-Tuition-centric constitution (v2.x)
+---
+
 # STEM ECOSYSTEM — DEVELOPMENT ARCHITECTURE, STANDARDS & GOVERNANCE
 
 **Version:** 3.0.0
-**Status:** Active
+**Status:** Active (Canonical)
 **Owner:** Architecture
-**Applies To:** All packages, apps, and the root workspace
-**Related:** `RULES.md`, `docs/ARCHITECTURE/README.md`, `docs/governance/interface-registry.md`, `docs/governance/human-checkpoints.md`, `docs/governance/architecture-exceptions.md`, `docs/adr/README.md`
+**Applies To:** All packages, apps, and this repository
+**Related:** `VISION.md`, `ECOSYSTEM.md`, `RULES.md`, `docs/ARCHITECTURE/README.md`, `docs/governance/interface-registry.md`, `docs/governance/human-checkpoints.md`, `docs/governance/architecture-exceptions.md`, `docs/adr/README.md`
 
 **Document Type:** Governing Development Specification
-**Current Product:** STEM-TUITION
-**Architecture Scope:** STEM Ecosystem
-**Status:** Active
+**Current Foundation:** LearningHub
+**Architecture Scope:** STEM Ecosystem (STEMXIS TECHNOLOGY PVT. LTD.)
 
 ---
 
 # 0. PURPOSE
 
 This document is the **development constitution**. It defines how the STEM
-ecosystem is to be designed, implemented, documented, tested, debugged, governed,
+ecosystem and LearningHub are designed, implemented, documented, tested, debugged, governed,
 and evolved.
 
 It exists so that:
@@ -44,29 +51,24 @@ design document.
 
 ---
 
-# 0.1 ADOPTION NOTE
+# 0.1 ADOPTION & REBRAND NOTE
 
-This constitution is adopted into the STEM-TUITION repository and reconciled with
-the existing documentation taxonomy (`docs/DOCS.md`). The mappings below are
-canonical and replace the literal directory names used elsewhere in this document:
+This constitution is reconciled with the canonical documentation hierarchy (`docs/VISION.md`, `docs/ECOSYSTEM.md`, `docs/DOCS.md`). The mappings below are canonical:
 
 | Constitution concept | Repository location |
 |----------------------|---------------------|
-| `docs/CONSTITUTION.md` (this file) | Development constitution — vision, operating principles, governance overview |
+| `docs/VISION.md` | Strategic vision, core identity, ecosystem alignment |
+| `docs/ECOSYSTEM.md` | Ecosystem topology, product roles, STEMXIS shared infrastructure matrix |
+| `docs/CONSTITUTION.md` (this file) | Development constitution — architecture principles, operating governance overview |
 | `docs/RULES.md` | **Normative enforcement entry point** — principles, mandatory rules, enforcement (kept separate; never merged or duplicated with this constitution) |
 | `docs/ARCHITECTURE/README.md` + `docs/ARCHITECTURE/` | Architecture charter + C4 diagram set |
-| `governance/decisions/` | `docs/adr/` (decision log, one file per ADR) |
-| `governance/change-log.md` | `docs/CHANGELOG.md` (release history; no duplicate copy is maintained) |
+| `docs/archive/` | Archival storage for historical plans, superseded proposals, and obsolete roadmaps |
+| `docs/adr/` | `docs/adr/` (decision log, one file per ADR) |
+| `docs/CHANGELOG.md` | `docs/CHANGELOG.md` (release history) |
 | `governance/interface-registry.md` | `docs/governance/interface-registry.md` |
 | `governance/human-checkpoints.md` | `docs/governance/human-checkpoints.md` |
-| `governance/ai-prompts/` | `docs/governance/ai-prompts/` |
-| `governance/architecture-exceptions.md` | `docs/governance/architecture-exceptions.md` |
 
-**Current Product.** The current implementation is **STEM-TUITION**, an
-independent project (see `docs/ARCHITECTURE/README.md`). All ecosystem framing in
-this document (LearningHubSTEM, STEM Lab, STEM Game, JARVIS) is **future vision
-only** and does not authorize implementation now. Per §3, future products are not
-current implementation scope unless explicitly activated by the human developer.
+**Ecosystem Foundation.** The current codebase is **LearningHub**, an independent, product-agnostic STEM educational foundation (see `docs/VISION.md`). It provides canonical knowledge interfaces, simulation engines, quiz runtimes, and Web Components consumed by downstream products (STEM Tuition, STEM Lab, STEM Game, PROFESSOR-J).
 
 **Normative precedence.** When this constitution and `docs/RULES.md` are read
 together: `docs/RULES.md` is the enforceable rules entry point; this constitution
@@ -74,7 +76,7 @@ is the governing development specification that frames how those rules are
 designed, governed, and evolved. Neither duplicates the other — `RULES.md` owns
 the rules, this document owns the development process and ecosystem direction.
 
-Adoption recorded in `docs/adr/011-constitution-adoption.md`.
+Adoption recorded in `docs/adr/011-constitution-adoption.md` and updated in `docs/adr/017-ecosystem-foundation-realignment.md`.
 
 ---
 
@@ -102,58 +104,52 @@ A future capability must **not** cause speculative implementation.
 
 ---
 
-# 2. THE FULL VISION
+# 2. THE FULL ECOSYSTEM VISION
 
-The long-term ecosystem may contain independent products including:
-
-```text
-LearningHubSTEM
-STEM Tuition
-STEM Lab
-STEM Game
-JARVIS
-Future STEM products
-```
-
-These products are related but are **not features of one another**.
-
-The long-term conceptual architecture is:
+The ecosystem architecture (detailed in `docs/ECOSYSTEM.md`) comprises independent products operating under **STEMXIS TECHNOLOGY PVT. LTD.**:
 
 ```text
-                         STEM ECOSYSTEM
-                               │
-             ┌─────────────────┼─────────────────┐
-             │                 │                 │
-             ▼                 ▼                 ▼
-       STEM Tuition        STEM Lab          STEM Game
-        Learning          Experimentation    Simulation
-             │                 │                 │
-             └─────────────────┼─────────────────┘
-                               │
-                             JARVIS
-                         AI Assistant
-                               │
-                               ▼
-                     Shared Platform Services
-                               │
-                               ▼
-                       LearningHubSTEM
-                    Knowledge Foundation
+                        STEMXIS TECHNOLOGY PVT. LTD.
+                                     │
+           ┌─────────────────────────┴─────────────────────────┐
+           ▼                                                   ▼
+     STEM Ecosystem                                        JARVIS
+  (Educational Domain)                              (Personal AI OS)
+           │                                                   │
+  ┌────────┴────────┬──────────────┬──────────────┐            │
+  ▼                 ▼              ▼              ▼            │
+LearningHub     STEM Tuition    STEM Lab      STEM Game        │
+(Canonical      (Commercial     (Practical    (Gamified        │
+Foundation)      Tutoring)      Experiment)   Learning)        │
+  │                 │              │              │            │
+  └───► Knowledge ──┴──────────────┴──────────────┘            │
+            │                                                  │
+            ▼                                                  │
+       PROFESSOR-J ◄── Shared Infrastructure Primitives ───────┘
+   (Ecosystem AI OS)
 ```
 
-This is the **future vision only**.
-
-It does not authorize implementation of these systems now.
+These projects are related but maintain independent development lifecycles, explicit boundaries, and clean contracts.
 
 ---
 
 # 3. CURRENT IMPLEMENTATION BOUNDARY
 
-## 3.1 Current Product
+## 3.1 Role of LearningHub
 
-The current implementation is:
+LearningHub is:
 
-> **STEM-TUITION**
+> **The canonical STEM learning platform, knowledge infrastructure & shared educational foundation.**
+
+It provides reusable knowledge adapters, pure simulation cores, quiz engines, Web Components, EventBus contracts, and built-in tracing.
+
+Downstream products consume LearningHub as a foundational platform layer:
+
+* **STEM Tuition** consumes LearningHub components & lesson models for tutoring.
+* **STEM Lab** consumes `@learninghub/simulation-core` for practical experiments.
+* **STEM Game** consumes `@learninghub/quiz-engine` & interactive components for gamification.
+* **PROFESSOR-J** consumes LearningHub knowledge interfaces (`lhs:*`) for AI-driven Socratic tutoring.
+* **JARVIS** remains an independent Personal AI OS sharing infrastructure with PROFESSOR-J.
 
 The current product must remain independently useful.
 
@@ -349,15 +345,13 @@ The current STEM-TUITION implementation may contain only a small subset.
 
 ---
 
-# 9. LEARNINGHUBSTEM IS NOT STEM TUITION
+# 9. LEARNINGHUB IS PRODUCT-AGNOSTIC
 
-LearningHubSTEM is intended to become the authoritative structured STEM knowledge
-foundation.
+LearningHub is the canonical knowledge infrastructure and educational foundation for the STEM ecosystem.
 
-It owns concepts, relationships, curriculum mappings, definitions, prerequisites,
-and reusable STEM knowledge.
+It provides canonical STEM definitions, concepts, prerequisites, simulation engines, quiz runtimes, and Web Components.
 
-STEM Tuition is a learning application that consumes and presents knowledge.
+STEM Tuition is one commercial learning application within the ecosystem that consumes and presents LearningHub knowledge.
 
 Therefore:
 

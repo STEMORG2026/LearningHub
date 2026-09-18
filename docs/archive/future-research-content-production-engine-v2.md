@@ -1,3 +1,10 @@
+---
+status: FUTURE_PROPOSAL
+canonical: false
+superseded_by: docs/VISION.md
+description: Historical research proposal for multi-agent content production engine
+---
+
 # STEM-TUITION: General-Purpose Multi-Agent Content Production Engine
 
 **Version:** 3.0.0

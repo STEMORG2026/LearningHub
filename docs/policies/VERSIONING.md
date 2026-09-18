@@ -1,16 +1,16 @@
-# STEM-TUITION Versioning
+# LearningHub Versioning
 
 **Version:** 3.0.0
 **Status:** Active
 **Owner:** Architecture
-**Applies To:** Root workspace and all packages
+**Applies To:** This repository and all packages
 **Related:** `RULES.md`, `API_CONTRACT.md`, `PACKAGE_LIFECYCLE.md`, `docs/adr/README.md`, `docs/policies/HUMAN_INVOLVEMENT.md`
 
 ---
 
 ## 1. Purpose
 
-This document defines the versioning conventions used across STEM-TUITION — for the root monorepo, individual packages, and development builds.
+This document defines the versioning conventions used across LearningHub — for the root monorepo, individual packages, and development builds.
 
 ---
 
@@ -24,9 +24,9 @@ MAJOR.MINOR.PATCH
 
 ### 2.1 Root version (`package.json`)
 
-The root `stem-tuition` version represents the overall project release. It SHOULD be bumped when:
+The root `learninghub` version represents the overall project release. It SHOULD be bumped when:
 
-- A **new phase** is completed (the Strangler Fig migration advances): bump MAYOR
+- A **new phase** is completed (the Strangler Fig migration advances): bump MAJOR
 - A **significant non-phase feature** lands: bump MINOR
 - **Critical fixes** to infrastructure (build, CI, governance): bump PATCH
 

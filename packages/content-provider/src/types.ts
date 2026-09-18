@@ -1,8 +1,8 @@
 /**
  * Application consumption model for lesson content.
  *
- * This is the runtime model that STEM Tuition consumes. It is NOT the canonical
- * representation of STEM knowledge — that lives in LearningHubSTEM. This model
+ * This is the runtime model that LearningHub consumes. It is NOT the canonical
+ * representation of STEM knowledge — that lives in STEMMA. This model
  * is shaped by what the product needs to render: sections, questions, simulations.
  *
  * Per CONSTITUTION.md §35: "The model is an application consumption model, not

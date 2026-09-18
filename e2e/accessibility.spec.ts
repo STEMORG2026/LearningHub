@@ -2,11 +2,11 @@ import { test, expect } from '@playwright/test';
 import { AxeBuilder } from '@axe-core/playwright';
 
 const PAGES: Array<{ path: string; title: string }> = [
-  { path: '/', title: 'STEM Tuition – Pokhara | Interactive STEM Hub' },
-  { path: '/classes.html', title: 'Classes – STEM Tuition Pokhara' },
-  { path: '/videos.html', title: 'Videos & Notes – STEM Tuition Pokhara' },
-  { path: '/contact.html', title: 'Contact – STEM Tuition Pokhara' },
-  { path: '/about.html', title: 'About – STEM Tuition Pokhara' },
+  { path: '/', title: 'LearningHub — Open STEM Learning Platform' },
+  { path: '/classes.html', title: 'Classes & Programs | LearningHub' },
+  { path: '/videos.html', title: 'Videos & Notes | LearningHub' },
+  { path: '/contact.html', title: 'Contact & Connect | LearningHub' },
+  { path: '/about.html', title: 'About | LearningHub' },
 ];
 
 for (const { path } of PAGES) {
@@ -27,7 +27,7 @@ test('every page exposes a single main landmark', async ({ page }) => {
 
 test('enroll modal traps focus and closes with Escape', async ({ page }) => {
   await page.goto('/');
-  await page.locator('[data-open-enroll="Hero Direct"]').click();
+  await page.locator('[data-open-enroll]').first().click();
   const dialog = page.locator('dialog.modal-card');
   await expect(dialog).toBeVisible();
   const activeTag = await page.evaluate(() => document.activeElement?.tagName);

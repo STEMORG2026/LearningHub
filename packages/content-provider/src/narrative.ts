@@ -3,8 +3,8 @@
  *
  * Per CONSTITUTION.md §35, the pedagogical narrative — the story, the history,
  * the "what came before", the worked examples, the analogies — is consumer-owned
- * by STEM-TUITION. Canonical *facts* (definitions, equations, misconceptions,
- * relationships) live in LearningHubSTEM and are consumed as `LhsEntity` data.
+ * by LearningHub. Canonical *facts* (definitions, equations, misconceptions,
+ * relationships) live in STEMMA and are consumed as `LhsEntity` data.
  *
  * This module composes a learners' lesson: it weaves the canonical fact with an
  * authored narrative into a progressive `LessonContent` that tells a story, rather

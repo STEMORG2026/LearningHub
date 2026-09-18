@@ -5,6 +5,9 @@
  * Predict → Observe → Explain flow: ask prediction, run sim, show result.
  */
 
+import { getDefaultEventBus } from '@learninghub/core';
+import { Tracer } from '@learninghub/tracer';
+
 const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;color:#e0e0e0}
 @keyframes simObjectMove {
   from { left: 50px; }
@@ -219,6 +222,16 @@ export class StemMechanicsSim extends HTMLElement {
         </div>
       `;
     }
+
+    // EventBus & Tracer instrumentation
+    const tracer = Tracer.getInstance();
+    const spanId = tracer.startSpan('stem-mechanics-sim:run', { metadata: { force, mass, acceleration } });
+    getDefaultEventBus().publish('simulation:complete', {
+      data: { type: 'mechanics', force, mass, acceleration, predictionCorrect: this.#predictionCorrect },
+      timestamp: new Date().toISOString(),
+      schemaVersion: '1.0',
+    });
+    if (spanId) tracer.endSpan(spanId);
 
     // Dispatch event
     this.dispatchEvent(new CustomEvent('simulation:complete', {

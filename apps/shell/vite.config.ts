@@ -11,6 +11,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: toPath('index.html'),
+        stemma: toPath('stemma.html'),
+        lab: toPath('lab.html'),
+        game: toPath('game.html'),
+        tuition: toPath('tuition.html'),
+        professorJ: toPath('professor-j.html'),
         classes: toPath('classes.html'),
         videos: toPath('videos.html'),
         contact: toPath('contact.html'),

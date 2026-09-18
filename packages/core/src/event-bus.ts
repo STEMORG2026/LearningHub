@@ -17,7 +17,7 @@ export class EventBus {
     }
     if (options?.useBroadcastChannel && typeof BroadcastChannel !== 'undefined') {
       try {
-        this.broadcastChannel = new BroadcastChannel('stem-tuition-event-bus');
+        this.broadcastChannel = new BroadcastChannel('learninghub-event-bus');
         this.broadcastChannel.onmessage = (event: MessageEvent) => {
           const { type, payload } = event.data as { type: string; payload: EventPayload };
           this.dispatchToLocal(type, payload);

@@ -7,7 +7,7 @@
  * deliberately loose. Grade, subject, curriculum, language, format, length, etc. are
  * ALL optional request data — never hardcoded product assumptions.
  *
- * Consumer-owned by STEM-TUITION. Canonical knowledge still lives in LearningHubSTEM.
+ * Consumer-owned by LearningHub. Canonical knowledge still lives in STEMMA.
  */
 
 /** Broadly what the requester wants to produce. Open-ended, not an enum gate. */

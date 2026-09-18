@@ -1,7 +1,7 @@
 # @learninghub/content-provider
 
-Content access boundary for STEM-TUITION. Consumes content from different sources
-(local data, LearningHubSTEM) and provides a unified LessonContent application model.
+Content access boundary for LearningHub. Consumes content from different sources
+(local data, STEMMA exports) and provides a unified LessonContent application model.
 
 ## Purpose
 
@@ -11,7 +11,7 @@ knowledge content, allowing:
 
 - `LocalContentProvider` — in-memory lessons (current implementation)
 - `CachedContentProvider` — offline cache (future)
-- `LearningHubStemProvider` — direct from LearningHubSTEM API (future)
+- `LearningHubStemProvider` — direct from STEMMA export API (future)
 
 All implementations conform to the same `ContentProvider` interface.
 

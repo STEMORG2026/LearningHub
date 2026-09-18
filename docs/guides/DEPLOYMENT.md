@@ -1,8 +1,8 @@
-# Deployment Guide
+# LearningHub Deployment Guide
 
 **Version:** 3.0.0
-**Purpose:** How to deploy STEM-TUITION to production at every stage of the migration.
-**Last Updated:** 2026-08-18
+**Purpose:** How to deploy LearningHub to production at every stage of the migration.
+**Last Updated:** 2026-09-02
 
 ---
 
@@ -33,10 +33,10 @@ git push origin main
   GitHub Actions: deploy.yml
         │  └─ pnpm install --frozen-lockfile
         │  └─ pnpm --filter @learninghub/shell build
-        │  └─ wrangler pages deploy apps/shell/dist --project-name=stem-tuition
+        │  └─ wrangler pages deploy apps/shell/dist --project-name=learninghubstem
         │  └─ curl /health.json → 200 OK
         ▼
-  Cloudflare Pages → stem-tuition.pages.dev
+  Cloudflare Pages → learninghubstem.pages.dev
         │  └─ Automatic HTTPS (SSL/TLS)
         │  └─ Global CDN (330+ locations)
         │  └─ Auto-renewed certificates
@@ -52,7 +52,7 @@ git push origin main
 # 1. Create a Cloudflare Pages project
 #    - Go to https://dash.cloudflare.com/ → Pages → Create a project
 #    - Connect your GitHub repo (private repos work fine)
-#    - Project name: stem-tuition
+#    - Project name: learninghubstem
 #    - Build command: pnpm --filter @learninghub/shell build
 #    - Build output: apps/shell/dist
 #    - Deploy!
@@ -62,12 +62,12 @@ git push origin main
 #    Add these secrets:
 #    - CF_API_TOKEN: Cloudflare API token with Pages write permission
 #    - CF_ACCOUNT_ID: Your Cloudflare account ID
-#    - SITE_URL: Your production URL (optional, defaults to stem-tuition.pages.dev)
+#    - SITE_URL: Your production URL (optional, defaults to learninghubstem.pages.dev)
 
 # 3. Verify
 git push origin main
 # → GitHub Actions runs ci.yml → deploy.yml
-# → Site goes live at https://stem-tuition.pages.dev
+# → Site goes live at https://learninghubstem.pages.dev
 ```
 
 ### Custom Domain
@@ -85,7 +85,7 @@ git push origin main
 Every PR gets a unique preview URL automatically:
 
 ```text
-https://<branch-name>.stem-tuition.pages.dev
+https://<branch-name>.learninghubstem.pages.dev
 ```
 
 This allows testing changes before merging to main. No extra setup needed.
@@ -117,7 +117,7 @@ When you add a backend (Fastify/Node on port 8085):
 flowchart LR
     USER[User] --> DNS[Cloudflare DNS]
     DNS --> NGINX[Nginx on VPS]
-    NGINX --> STATIC[Static files from /var/www/stem-tuition]
+    NGINX --> STATIC[Static files from /var/www/learninghub]
     NGINX --> API[Backend on port 8085]
     API --> DB[(SQLite/Postgres)]
 ```
@@ -132,7 +132,7 @@ server {
     ssl_certificate /etc/letsencrypt/live/stemtuitionpokhara.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/stemtuitionpokhara.com/privkey.pem;
 
-    root /var/www/stem-tuition/legacy;
+    root /var/www/learninghub/legacy;
     index index.html;
 
     # Static assets with caching
@@ -171,7 +171,7 @@ The Strangler Fig migration is complete (Phases 0–6). The modern shell app
 pnpm build
 
 # Deploy shell (routes to all modern modules)
-cp -r apps/shell/dist/* /var/www/stem-tuition/
+cp -r apps/shell/dist/* /var/www/learninghub/
 ```
 
 ---
@@ -227,7 +227,7 @@ git push origin main
 ```bash
 # Option 1: Revert to previous git tag
 git checkout v1.0.0
-cp -r . /var/www/stem-tuition/
+cp -r . /var/www/learninghub/
 
 # Option 2: Disable feature flag (no deploy needed)
 # Just remove ?new_quiz=true from URL

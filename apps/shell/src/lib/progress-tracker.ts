@@ -22,7 +22,10 @@ export interface StudentProgress {
 }
 
 export class ProgressTracker {
-  private storageKey = 'stem-tuition-progress';
+  private storageKey = 'learninghub-progress';
+
+  private static readonly LEGACY_STORAGE_KEY = 'stem-tuition-progress';
+
   private studentId: string;
 
   constructor(studentId: string = 'anonymous') {
@@ -30,20 +33,30 @@ export class ProgressTracker {
   }
 
   /**
-   * Load progress from storage.
+   * Load progress from storage, migrating a legacy `stem-tuition-progress` entry
+   * on first read so a re-brand never silently wipes a student's saved progress.
    */
   load(): StudentProgress {
     const data = localStorage.getItem(this.storageKey);
-    if (!data) {
-      return {
-        studentId: this.studentId,
-        curriculum: '',
-        grade: 0,
-        entries: [],
-        lastUpdated: new Date().toISOString(),
-      };
+    if (data) {
+      return JSON.parse(data);
     }
-    return JSON.parse(data);
+
+    const legacy = localStorage.getItem(ProgressTracker.LEGACY_STORAGE_KEY);
+    if (legacy) {
+      const migrated = JSON.parse(legacy) as StudentProgress;
+      localStorage.setItem(this.storageKey, legacy);
+      localStorage.removeItem(ProgressTracker.LEGACY_STORAGE_KEY);
+      return migrated;
+    }
+
+    return {
+      studentId: this.studentId,
+      curriculum: '',
+      grade: 0,
+      entries: [],
+      lastUpdated: new Date().toISOString(),
+    };
   }
 
   /**

@@ -4,6 +4,9 @@
  * Learners adjust voltage and resistance, observe current (Ohm's law).
  */
 
+import { getDefaultEventBus } from '@learninghub/core';
+import { Tracer } from '@learninghub/tracer';
+
 const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;color:#e0e0e0}
 @keyframes chargeFlow {
   0% { transform: translateX(0); opacity:1; }
@@ -149,6 +152,16 @@ export class StemCircuitSim extends HTMLElement {
         </div>
       `;
     }
+
+    // EventBus & Tracer instrumentation
+    const tracer = Tracer.getInstance();
+    const spanId = tracer.startSpan('stem-circuit-sim:run', { metadata: { voltage: V, resistance: R, current: I } });
+    getDefaultEventBus().publish('simulation:complete', {
+      data: { type: 'circuit', voltage: V, resistance: R, current: I },
+      timestamp: new Date().toISOString(),
+      schemaVersion: '1.0',
+    });
+    if (spanId) tracer.endSpan(spanId);
 
     // Dispatch event
     this.dispatchEvent(new CustomEvent('simulation:complete', {

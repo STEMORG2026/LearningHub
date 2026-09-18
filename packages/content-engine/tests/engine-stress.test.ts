@@ -29,7 +29,7 @@ import {
 
 function makeRequest(over: Partial<ContentRequest> = {}): ContentRequest {
   return {
-    id: { project: 'stem-tuition', requestUid: `r-${Math.random().toString(36).slice(2)}`, createdAt: '2025-01-01' },
+    id: { project: 'learninghub', requestUid: `r-${Math.random().toString(36).slice(2)}`, createdAt: '2025-01-01' },
     summary: 'Explain a concept',
     topic: 'some-topic',
     intent: 'explain',

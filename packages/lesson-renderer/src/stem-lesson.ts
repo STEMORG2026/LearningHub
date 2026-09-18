@@ -7,6 +7,8 @@
  */
 
 import type { LessonContent, LessonSection, Question } from '@learninghub/content-provider';
+import { getDefaultEventBus } from '@learninghub/core';
+import { Tracer } from '@learninghub/tracer';
 
 const STYLES = `:host{display:block;font-family:'Segoe UI',system-ui,sans-serif;color:#e0e0e0}
 .lesson{max-width:800px;margin:0 auto;padding:1rem}
@@ -193,6 +195,8 @@ export class StemLesson extends HTMLElement {
     }
 
     const lesson = this.#lesson;
+    const tracer = Tracer.getInstance();
+    const spanId = tracer.startSpan('stem-lesson:render', { metadata: { lessonId: lesson.id } });
     const sectionsHtml = lesson.sections.map((s) => this.#renderSection(s)).join('');
     const questionsHtml = lesson.questions.length > 0 ? this.#renderQuestions(lesson.questions) : '';
     const tagsHtml = this.#renderTags();
@@ -218,6 +222,13 @@ export class StemLesson extends HTMLElement {
         ${questionsHtml}
       </div>
     `;
+
+    if (spanId) tracer.endSpan(spanId);
+    getDefaultEventBus().publish('lesson:rendered', {
+      data: { lessonId: lesson.id, title: lesson.metadata.displayName },
+      timestamp: new Date().toISOString(),
+      schemaVersion: '1.0',
+    });
 
     this.#attachQuestionListeners();
     this.#setupReveal();
@@ -502,6 +513,16 @@ export class StemLesson extends HTMLElement {
           feedbackMsg.textContent = isCorrect ? '✓ Correct!' : '✗ Incorrect. The correct answer is highlighted.';
           feedbackMsg.className = `feedback-msg ${isCorrect ? 'correct' : 'incorrect'}`;
         }
+
+        // EventBus & Tracer instrumentation
+        const tracer = Tracer.getInstance();
+        const spanId = tracer.startSpan('stem-lesson:answer-question', { metadata: { questionId, isCorrect } });
+        getDefaultEventBus().publish('lesson:question-answered', {
+          data: { questionId, isCorrect, selectedIndex: optionIndex },
+          timestamp: new Date().toISOString(),
+          schemaVersion: '1.0',
+        });
+        if (spanId) tracer.endSpan(spanId);
 
         // Dispatch custom event
         this.dispatchEvent(new CustomEvent('lesson:question-answered', {

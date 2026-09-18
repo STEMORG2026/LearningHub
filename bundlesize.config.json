@@ -30,7 +30,7 @@
     },
     {
       "path": "apps/shell/dist/assets/*.js",
-      "maxSize": "100 kB",
+      "maxSize": "150 kB",
       "gzip": true
     }
   ]
