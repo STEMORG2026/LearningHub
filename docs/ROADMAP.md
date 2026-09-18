@@ -19,7 +19,7 @@ PHASE 3 ██████████  Event Bus + ACL
 PHASE 4 ██████████  Quiz Engine extraction
 PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
-PHASE 7 ░░░░░░░░░░  Features (auth, progress, admin)
+PHASE 7 █████░░░░░  Features (auth, progress, admin)
 PHASE 8 █████░░░░░  Content & Lessons
 PHASE 9 ░░░░░░░░░░  Agent Orchestration Foundation
 PHASE 10 ░░░░░░░░░░  Advanced Orchestration
@@ -250,18 +250,18 @@ PHASE 11 ░░░░░░░░░░  SOTA Parity
 
 ## Phase 7+: Features (Ongoing)
 
-<!-- AUTO:phase-7-status -->🔵 Not started<!-- END AUTO:phase-7-status -->
+<!-- AUTO:phase-7-status -->🟡 In progress<!-- END AUTO:phase-7-status -->
 
 Future features as separate packages following the established pattern:
 
-| Feature | Package | Priority |
-|---------|---------|----------|
-| User Authentication | `packages/auth/` | Medium |
-| Student Progress Tracking | `packages/progress/` | Medium |
-| Admin Dashboard | `packages/admin/` | Low |
-| Payment Integration | `packages/payments/` | Low |
-| Zoom/Video Integration | `packages/video/` | Low |
-| Mobile App | `apps/mobile/` | Future |
+| Feature | Package | Priority | ADR | Status |
+|---------|---------|----------|-----|--------|
+| User Authentication | `packages/auth/` | Medium | `docs/adr/020-phase7-features.md` | ✅ Implemented |
+| Student Progress Tracking | `packages/progress/` | Medium | `docs/adr/020-phase7-features.md` | ✅ Implemented |
+| Admin Dashboard | `packages/admin/` | Low | `docs/adr/020-phase7-features.md` | ✅ Implemented |
+| Payment Integration | `packages/payments/` | Low | `docs/adr/020-phase7-features.md` | ✅ Implemented |
+| Zoom/Video Integration | `packages/video/` | Low | `docs/adr/020-phase7-features.md` | ✅ Implemented |
+| Mobile App | `apps/mobile/` | Future | — | 🔵 Planned |
 
 Each feature gets:
 - Its own package with the standard structure

@@ -1,0 +1,23 @@
+# @learninghub/auth — architecture metadata
+# Source of truth for lifecycle state, contracts, and ADRs (see docs/policies/PACKAGE_LIFECYCLE.md).
+
+owner = "Core Team"
+status = "stable"
+maturity = "incubating"
+
+contracts = ["api", "event"]
+
+publicApi = [
+  "register",
+  "login",
+  "logout",
+  "validateSession",
+  "getAuthState",
+  "requireRole",
+  "hasRole",
+  "tracedLogin",
+]
+
+dependencies = ["core", "tracer"]
+
+adrs = ["020"]

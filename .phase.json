@@ -75,11 +75,17 @@
   },
   {
    "id": 7,
-   "name": "Features (auth, progress, admin)",
-   "status": "planned",
+   "name": "Features (auth, progress, admin, payments, video)",
+   "status": "in-progress",
    "completedVersion": null,
    "completedDate": null,
-   "packages": []
+   "packages": [
+    "auth",
+    "progress",
+    "admin",
+    "payments",
+    "video"
+   ]
   },
   {
    "id": 8,
