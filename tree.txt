@@ -1,4 +1,4 @@
-STEM-TUITION/  20b5473
+STEM-TUITION/  4904c3f
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -364,6 +364,26 @@ STEM-TUITION/  20b5473
 │   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
+│   ├── cross-repo-visibility/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── metrics.ts
+│   │   ├── tests/
+│   │   │   └── metrics.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── ecosystem-dashboard/
+│   │   ├── src/
+│   │   │   ├── dashboard.ts
+│   │   │   └── index.ts  [entry]
+│   │   ├── tests/
+│   │   │   └── dashboard.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
 │   ├── hover-engine/
 │   │   ├── src/
 │   │   │   ├── hover-state.ts
@@ -414,6 +434,56 @@ STEM-TUITION/  20b5473
 │   │   ├── CHANGELOG.md
 │   │   ├── package.json
 │   │   ├── README.md
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── pj-audit/
+│   │   ├── src/
+│   │   │   ├── audit.ts
+│   │   │   └── index.ts  [entry]
+│   │   ├── tests/
+│   │   │   └── audit.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── pj-auth/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── token.ts
+│   │   ├── tests/
+│   │   │   └── token.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── pj-client/
+│   │   ├── src/
+│   │   │   ├── client.ts
+│   │   │   └── index.ts  [entry]
+│   │   ├── tests/
+│   │   │   └── client.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── pj-policy/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── policy.ts
+│   │   ├── tests/
+│   │   │   └── policy.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   ├── pj-types/
+│   │   ├── src/
+│   │   │   ├── index.ts  [entry]
+│   │   │   └── types.ts  [schema]
+│   │   ├── tests/
+│   │   │   └── types.test.ts  [test]
+│   │   ├── ARCHITECTURE.toml
+│   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── progress/

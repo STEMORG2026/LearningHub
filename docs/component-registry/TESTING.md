@@ -28,13 +28,13 @@
 | `packages/interactive-simulations/` | `tests/*.test.ts` | Unit | — | 🟢 Written (19 tests) |
 | `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (56 tests) |
 | `packages/content-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (49 tests) |
-| `packages/pj-client/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
-| `packages/pj-types/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
-| `packages/pj-auth/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
-| `packages/pj-audit/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
-| `packages/pj-policy/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
-| `packages/ecosystem-dashboard/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
-| `packages/cross-repo-visibility/` | `tests/*.test.ts` | Unit | — | ⚪ Placeholder |
+| `packages/pj-client/` | `tests/*.test.ts` | Unit | — | 🟢 Written (7 tests) |
+| `packages/pj-types/` | `tests/*.test.ts` | Unit | — | 🟢 Written (4 tests) |
+| `packages/pj-auth/` | `tests/*.test.ts` | Unit | — | 🟢 Written (11 tests) |
+| `packages/pj-audit/` | `tests/*.test.ts` | Unit | — | 🟢 Written (8 tests) |
+| `packages/pj-policy/` | `tests/*.test.ts` | Unit | — | 🟢 Written (11 tests) |
+| `packages/ecosystem-dashboard/` | `tests/*.test.ts` | Unit | — | 🟢 Written (13 tests) |
+| `packages/cross-repo-visibility/` | `tests/*.test.ts` | Unit | — | 🟢 Written (10 tests) |
 <!-- END AUTO:testing-table -->
 
 ## E2E Tests (Future)

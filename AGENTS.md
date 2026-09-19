@@ -152,13 +152,13 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/interactive-simulations/` | Content & Lessons | `src/index.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts` |
 | `packages/lesson-renderer/` | Content & Lessons | `src/index.ts, src/stem-lesson.ts` |
 | `packages/content-engine/` | Content & Lessons | `src/blueprint.ts, src/formats.ts, src/index.ts, src/pipeline.ts, src/request.ts, src/verification.ts` |
-| `packages/pj-client/` | Agent Integration Foundation | `N/A` |
-| `packages/pj-types/` | Agent Integration Foundation | `N/A` |
-| `packages/pj-auth/` | Agent Integration Foundation | `N/A` |
-| `packages/pj-audit/` | Governance Extensions | `N/A` |
-| `packages/pj-policy/` | Governance Extensions | `N/A` |
-| `packages/ecosystem-dashboard/` | Ecosystem Tooling | `N/A` |
-| `packages/cross-repo-visibility/` | Ecosystem Tooling | `N/A` |
+| `packages/pj-client/` | Agent Integration Foundation | `src/client.ts, src/index.ts` |
+| `packages/pj-types/` | Agent Integration Foundation | `src/index.ts, src/types.ts` |
+| `packages/pj-auth/` | Agent Integration Foundation | `src/index.ts, src/token.ts` |
+| `packages/pj-audit/` | Governance Extensions | `src/audit.ts, src/index.ts` |
+| `packages/pj-policy/` | Governance Extensions | `src/index.ts, src/policy.ts` |
+| `packages/ecosystem-dashboard/` | Ecosystem Tooling | `src/dashboard.ts, src/index.ts` |
+| `packages/cross-repo-visibility/` | Ecosystem Tooling | `src/index.ts, src/metrics.ts` |
 <!-- END AUTO:package-map -->
 
 ---
