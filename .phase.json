@@ -102,44 +102,36 @@
   },
   {
    "id": 9,
-   "name": "Agent Orchestration Foundation",
+   "name": "Agent Integration Foundation",
    "status": "planned",
    "completedVersion": null,
    "completedDate": null,
    "packages": [
-    "acp-server",
-    "subagent-manager",
-    "plugin-registry",
-    "hooks-system",
-    "agent-router"
+    "pj-client",
+    "pj-types",
+    "pj-auth"
    ]
   },
   {
    "id": 10,
-   "name": "Advanced Orchestration",
+   "name": "Governance Extensions",
    "status": "planned",
    "completedVersion": null,
    "completedDate": null,
    "packages": [
-    "session-manager",
-    "tool-search",
-    "sandbox",
-    "task-tracker",
-    "scheduler"
+    "pj-audit",
+    "pj-policy"
    ]
   },
   {
    "id": 11,
-   "name": "SOTA Parity",
+   "name": "Ecosystem Tooling",
    "status": "planned",
    "completedVersion": null,
    "completedDate": null,
    "packages": [
-    "model-clients",
-    "memory",
-    "web-tools",
-    "browser",
-    "computer-use"
+    "ecosystem-dashboard",
+    "cross-repo-visibility"
    ]
   }
  ]

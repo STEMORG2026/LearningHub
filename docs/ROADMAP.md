@@ -21,9 +21,9 @@ PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
 PHASE 7 █████░░░░░  Features (auth, progress, admin, payments, video)
 PHASE 8 █████░░░░░  Content & Lessons
-PHASE 9 ░░░░░░░░░░  Agent Orchestration Foundation
-PHASE 10 ░░░░░░░░░░  Advanced Orchestration
-PHASE 11 ░░░░░░░░░░  SOTA Parity
+PHASE 9 ░░░░░░░░░░  Agent Integration Foundation
+PHASE 10 ░░░░░░░░░░  Governance Extensions
+PHASE 11 ░░░░░░░░░░  Ecosystem Tooling
 ```
 <!-- END AUTO:phase-progress -->
 

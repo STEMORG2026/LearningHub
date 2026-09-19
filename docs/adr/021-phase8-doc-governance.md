@@ -2,6 +2,7 @@
 title: "ADR-021: Phase 8 Documentation & Governance Completion"
 status: ACCEPTED
 date: 2026-09-19
+canonical: true
 ---
 
 # ADR-021: Phase 8 Documentation & Governance Completion

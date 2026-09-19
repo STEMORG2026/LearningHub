@@ -788,6 +788,9 @@ Examples of existing ADRs (all in `docs/adr/`):
 017-ecosystem-foundation-realignment.md
 018-interactive-simulations-simulation-core.md
 019-agentic-orchestration-capability.md
+020-phase7-features.md
+021-phase8-doc-governance.md
+022-ecosystem-architecture.md
 ```
 
 ADRs are never silently rewritten to erase history.

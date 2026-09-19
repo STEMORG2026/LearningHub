@@ -120,9 +120,9 @@ PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
 PHASE 7 █████░░░░░  Features (auth, progress, admin, payments, video)   ← CURRENT
 PHASE 8 █████░░░░░  Content & Lessons
-PHASE 9 ░░░░░░░░░░  Agent Orchestration Foundation
-PHASE 10 ░░░░░░░░░░  Advanced Orchestration
-PHASE 11 ░░░░░░░░░░  SOTA Parity
+PHASE 9 ░░░░░░░░░░  Agent Integration Foundation
+PHASE 10 ░░░░░░░░░░  Governance Extensions
+PHASE 11 ░░░░░░░░░░  Ecosystem Tooling
 ```
 <!-- END AUTO:phase-map -->
 
@@ -152,21 +152,13 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/interactive-simulations/` | Content & Lessons | `src/index.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts` |
 | `packages/lesson-renderer/` | Content & Lessons | `src/index.ts, src/stem-lesson.ts` |
 | `packages/content-engine/` | Content & Lessons | `src/blueprint.ts, src/formats.ts, src/index.ts, src/pipeline.ts, src/request.ts, src/verification.ts` |
-| `packages/acp-server/` | Agent Orchestration Foundation | `N/A` |
-| `packages/subagent-manager/` | Agent Orchestration Foundation | `N/A` |
-| `packages/plugin-registry/` | Agent Orchestration Foundation | `N/A` |
-| `packages/hooks-system/` | Agent Orchestration Foundation | `N/A` |
-| `packages/agent-router/` | Agent Orchestration Foundation | `N/A` |
-| `packages/session-manager/` | Advanced Orchestration | `N/A` |
-| `packages/tool-search/` | Advanced Orchestration | `N/A` |
-| `packages/sandbox/` | Advanced Orchestration | `N/A` |
-| `packages/task-tracker/` | Advanced Orchestration | `N/A` |
-| `packages/scheduler/` | Advanced Orchestration | `N/A` |
-| `packages/model-clients/` | SOTA Parity | `N/A` |
-| `packages/memory/` | SOTA Parity | `N/A` |
-| `packages/web-tools/` | SOTA Parity | `N/A` |
-| `packages/browser/` | SOTA Parity | `N/A` |
-| `packages/computer-use/` | SOTA Parity | `N/A` |
+| `packages/pj-client/` | Agent Integration Foundation | `N/A` |
+| `packages/pj-types/` | Agent Integration Foundation | `N/A` |
+| `packages/pj-auth/` | Agent Integration Foundation | `N/A` |
+| `packages/pj-audit/` | Governance Extensions | `N/A` |
+| `packages/pj-policy/` | Governance Extensions | `N/A` |
+| `packages/ecosystem-dashboard/` | Ecosystem Tooling | `N/A` |
+| `packages/cross-repo-visibility/` | Ecosystem Tooling | `N/A` |
 <!-- END AUTO:package-map -->
 
 ---

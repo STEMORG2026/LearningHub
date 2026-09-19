@@ -2,6 +2,7 @@
 title: "ADR-022: Ecosystem Architecture — LearningHub as Information Head, PROFESSOR-J as Worker"
 status: ACCEPTED
 date: 2026-09-19
+canonical: true
 ---
 
 # ADR-022: Ecosystem Architecture — LH=head, P-J=worker

@@ -1,4 +1,4 @@
-STEM-TUITION/  64e254d
+STEM-TUITION/  20b5473
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -160,6 +160,7 @@ STEM-TUITION/  64e254d
 │   │   ├── 019-agentic-orchestration-capability.md
 │   │   ├── 020-phase7-features.md
 │   │   ├── 021-phase8-doc-governance.md
+│   │   ├── 022-ecosystem-architecture.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md

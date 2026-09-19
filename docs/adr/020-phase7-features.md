@@ -2,6 +2,7 @@
 title: "ADR-020: Phase 7 Feature Packages"
 status: ACCEPTED
 date: 2026-09-19
+canonical: true
 ---
 
 # ADR-020: Phase 7 Feature Packages
