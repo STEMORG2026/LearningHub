@@ -1,0 +1,24 @@
+{
+  "name": "@learninghub/ecosystem-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Health and status dashboard for LH+P-J ecosystem",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@learninghub/pj-client": "workspace:*"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.8"
+  }
+}

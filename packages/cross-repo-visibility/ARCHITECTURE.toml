@@ -1,0 +1,18 @@
+owner = "Core Team"
+status = "stable"
+maturity = "incubating"
+
+contracts = ["api"]
+
+publicApi = [
+  "MetricPoint",
+  "MetricSeries",
+  "VisibilityQuery",
+  "AggregationResult",
+  "MetricsRegistry",
+  "globalMetrics",
+]
+
+dependencies = ["pj-types"]
+
+adrs = ["022"]

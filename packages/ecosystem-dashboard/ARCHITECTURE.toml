@@ -1,0 +1,17 @@
+owner = "Core Team"
+status = "stable"
+maturity = "incubating"
+
+contracts = ["api"]
+
+publicApi = [
+  "DashboardStats",
+  "ServiceHealth",
+  "DashboardConfig",
+  "EcosystemDashboard",
+  "formatHealthStatus",
+]
+
+dependencies = ["pj-client"]
+
+adrs = ["022"]
