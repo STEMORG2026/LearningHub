@@ -6,7 +6,7 @@
 # The build command and output dir are configured in the dashboard
 # (pages projects do not support a [build] section in wrangler.toml).
 
-name = "learninghubstem"
-compatibility_date = "2026-08-19"
+name = "learninghub2026"
+compatibility_date = "2026-08-20"
 
 pages_build_output_dir = "apps/shell/dist"
