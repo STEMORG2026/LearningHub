@@ -1,3 +1,6 @@
+// LearningHub Shell — Entry point
+// Test marker: deploy trigger 2026-09-19
+
 import './styles/main.css';
 import '../src/components/index';
 import { initEngines } from '../src/lib/engine-init';
