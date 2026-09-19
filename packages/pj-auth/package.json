@@ -1,0 +1,25 @@
+{
+  "name": "@learninghub/pj-auth",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Auth token management for PROFESSOR-J API calls",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@learninghub/auth": "workspace:*",
+    "@learninghub/pj-types": "workspace:*"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.8"
+  }
+}

@@ -1,0 +1,18 @@
+owner = "Core Team"
+status = "stable"
+maturity = "incubating"
+
+contracts = ["api"]
+
+publicApi = [
+  "loadAuthState",
+  "saveAuthState",
+  "clearAuthState",
+  "getAuthToken",
+  "isAuthenticated",
+  "getUser",
+]
+
+dependencies = ["auth"]
+
+adrs = ["022"]

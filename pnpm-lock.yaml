@@ -297,6 +297,53 @@ importers:
         specifier: ^3.2.6
         version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
 
+  packages/pj-auth:
+    dependencies:
+      '@learninghub/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@learninghub/pj-types':
+        specifier: workspace:*
+        version: link:../pj-types
+    devDependencies:
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
+      typescript:
+        specifier: ^5.8.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.6
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+
+  packages/pj-client:
+    dependencies:
+      '@learninghub/pj-types':
+        specifier: workspace:*
+        version: link:../pj-types
+    devDependencies:
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
+      typescript:
+        specifier: ^5.8.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.6
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+
+  packages/pj-types:
+    devDependencies:
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
+      typescript:
+        specifier: ^5.8.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.6
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+
   packages/progress:
     dependencies:
       '@learninghub/core':

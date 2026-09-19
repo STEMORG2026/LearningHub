@@ -1,0 +1,19 @@
+owner = "Core Team"
+status = "stable"
+maturity = "incubating"
+
+contracts = ["api"]
+
+publicApi = [
+  "ChatMessage",
+  "ChatMessageRole",
+  "ChatRequest",
+  "ChatResponse",
+  "EcosystemInfo",
+  "ProfessorJOptions",
+  "ServiceInfo",
+]
+
+dependencies = []
+
+adrs = ["022"]

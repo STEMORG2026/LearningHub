@@ -1,0 +1,21 @@
+{
+  "name": "@learninghub/pj-types",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TypeScript type definitions for PROFESSOR-J API contracts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.8"
+  }
+}

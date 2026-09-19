@@ -1,0 +1,15 @@
+owner = "Core Team"
+status = "stable"
+maturity = "incubating"
+
+contracts = ["api"]
+
+publicApi = [
+  "chat",
+  "getEcosystemInfo",
+  "healthCheck",
+]
+
+dependencies = ["pj-types"]
+
+adrs = ["022"]
