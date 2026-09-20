@@ -21,7 +21,7 @@ const LHS_ROOT = process.env.LHS_ROOT
 const SOURCE = join(LHS_ROOT, 'exports', 'knowledge.json');
 const TARGET = join(ROOT, 'apps', 'shell', 'src', 'data', 'knowledge.json');
 
-const SUPPORTED_EXPORT_VERSION = '0.1';
+const SUPPORTED_EXPORT_VERSION = '2.1.0';
 
 if (!existsSync(SOURCE)) {
   console.error(`✗ STEMMA export not found: ${SOURCE}`);
