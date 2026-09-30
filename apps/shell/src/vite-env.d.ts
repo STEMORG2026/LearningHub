@@ -13,10 +13,11 @@ declare module '*.css';
  */
 interface ImportMetaEnv {
   /**
-   * Optional OpenRouter token for the PROFESSOR-J chat client. When unset the
-   * client answers from its grounded local generator rather than calling out.
+   * Optional base URL of the PROFESSOR-J backend. When unset the client issues
+   * same-origin requests. Resolved by `getBackendUrl()` in
+   * `src/lib/professor-j-client.ts`.
    */
-  readonly VITE_OPENROUTER_API_KEY?: string;
+  readonly VITE_PROFESSOR_J_URL?: string;
 }
 
 interface ImportMeta {

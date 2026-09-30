@@ -103,7 +103,7 @@
   {
    "id": 9,
    "name": "Agent Integration Foundation",
-   "status": "planned",
+   "status": "completed",
    "completedVersion": null,
    "completedDate": null,
    "packages": [
@@ -115,7 +115,7 @@
   {
    "id": 10,
    "name": "Governance Extensions",
-   "status": "planned",
+   "status": "completed",
    "completedVersion": null,
    "completedDate": null,
    "packages": [
@@ -126,7 +126,7 @@
   {
    "id": 11,
    "name": "Ecosystem Tooling",
-   "status": "planned",
+   "status": "completed",
    "completedVersion": null,
    "completedDate": null,
    "packages": [

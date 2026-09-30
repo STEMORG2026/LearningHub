@@ -1,4 +1,4 @@
-STEM-TUITION/  ddea6a9
+STEM-TUITION/  0c74bb7
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
@@ -120,6 +120,7 @@ STEM-TUITION/  ddea6a9
 │       │   │   └── smoke.spec.ts  [test]
 │       │   ├── did-you-know.test.ts  [test]
 │       │   ├── enroll-modal.test.ts  [test]
+│       │   ├── env-contract.test.ts  [test]
 │       │   ├── faq-list.test.ts  [test]
 │       │   ├── hover-effects.test.ts  [test]
 │       │   ├── inquiry.test.ts  [test]
