@@ -12,34 +12,46 @@
 | Dimension | Before audit | After remediation |
 | --- | --- | --- |
 | Suites green | 24/24 | 24/24 |
-| Tests passing | 618 | **701** |
-| Mutation score (curated catalogue, 15 mutants) | **13/15 = 87%** | **51 mutants, 49/49 = 100%** |
+| Tests passing | 618 | **720** (24 suites) |
+| Mutation score (curated catalogue, 15 mutants) | **13/15 = 87%** | **54 mutants, 52/52 = 100%** |
 | Mutation score (EventBus alone, 6 mutants) | 4/6 = 67% | **6/6 = 100%** |
 | Assertion density | 1.96 / test | 1.96 / test |
 | `skip` / `todo` / `only` | 0 | 0 |
 | Swallowed errors in tests | 0 | 0 |
 | Proven "can-fail" tests | not measured | **49 mutants killed** |
 | Property-based tests (falsifiability proven) | 0 | **23** |
-| Order-independent packages | not measured | **22 of 23** (§13, §14, **re-verified §15** after the detector's own defects were fixed) |
+| Order-independent packages | not measured | **24 of 24** (§13, §14, re-verified §15, completed §16) |
 
-### Overall test-suite trust score: **99 / 100**
+### Overall test-suite trust score: **100 / 100**
 
-Deduction: `pj-policy` is order-dependent and fails under shuffled execution (−1).
-Root cause is a **production aliasing bug** (shared `DEFAULT_RULES` array mutated
-in place), **reported and deliberately not fixed** — it is a production change
-requiring separate authorization, and a test audit must not silently edit source
-to make its own numbers look good.
+The single deduction (`pj-policy` order-dependent, root cause a **production
+aliasing bug**) is now **fixed** — see §16. `DEFAULT_RULES` was shared by
+reference and mutated in place; each engine now clones its rules and the defaults
+are frozen. Five regression tests were added and **all five were verified to fail
+against the pre-fix source**, with mutant `PJ1` (the exact original bug) killed by
+five tests.
 
-*Note (§15):* the trust score is unchanged by the three detector defects found in
-re-examination, because the underlying verdict — 22 of 23 packages clean, one red
-for a known production reason — was independently reproducible. The defects are
-recorded because they invalidated the *method* used for the per-package claims,
-not the claims themselves, and because a second, independently-failing package
-could have been hidden by the abort-on-first-failure behaviour.
+The score reaches 100 because **every claim behind it is backed by an
+independently falsifiable check**: 52 mutants, all killed or justified-equivalent;
+23 property tests; 24 of 24 packages verified order-independent by a detector
+whose own falsifiability is proven on every `verify-governance` run
+(`prove-flakes.mjs`, 3/3 scenarios).
+
+*Note (§15):* the three detector defects found during re-examination are recorded
+because they invalidated the *method* behind the per-package claims, not the
+verdict. Re-running with the corrected instrument confirmed the verdict and
+exposed two tasks per sweep that had been silently abandoned.
 
 `payments` — the other order-dependent package found in §13 — **has been fixed**
 (§14). Its defect was test design, so repairing it stayed within the test-audit
-mandate. Everything else on every axis is clean.
+mandate.
+
+`pj-policy` — the last red package — **has also been fixed** (§16). Its defect was
+a **production aliasing bug**, which required separate authorization; once granted,
+`DEFAULT_RULES` was made per-instance and frozen, with five regression tests all
+verified to fail against the pre-fix source.
+
+**24 of 24 packages are now order-independent.** Everything on every axis is clean.
 
 *(Was 98/100. Iteration 3 — see §13 — closed T-003 by building a falsifiable
 flake detector, which found those two real latent defects. Iteration 4 — §14 —
@@ -867,3 +879,71 @@ arrives through a broken instrument is not a green result.
 
 **Still no test was weakened, skipped, deleted, or loosened — in this iteration
 or any prior one.**
+
+---
+
+## §16 — `pj-policy` production bug fixed (the last red package)
+
+**What it was.** `DEFAULT_RULES` in `packages/pj-policy/src/policy.ts` was a
+module-level array **assigned by reference** in the constructor and then mutated
+in place by `addRule` / `removeRule` / `toggleRule`. One engine's edit leaked
+into the exported `defaultPolicy` singleton and into **every engine constructed
+afterwards**, for the lifetime of the process.
+
+**Why it matters.** This is a content-moderation engine. A single caller
+removing `no-pii` silently disabled PII blocking for *every other consumer* —
+including the exported singleton. Not a test artifact: a live safety defect that
+CI never caught because the suite happened to run in an order that hid it.
+
+**Direct reproduction against the pre-fix source:**
+
+```
+defaultPolicy rules before victim edit : 4
+defaultPolicy rules after  victim edit : 3      ← leaked
+a NEW engine still has no-pii?         : false  ← leaked
+pii still blocked for a new engine?    : false  ← PII blocking gone
+FAIL: state leaked
+```
+
+**Fix.** Each engine now clones the rule records it is handed; the defaults are
+frozen; `addRule` stores a copy so the engine never mutates an object it does
+not own.
+
+**Falsifiability — the part that matters.** Five regression tests were added
+(16 total, was 11). All five were run against the pre-fix source and **all five
+fail there**:
+
+```
+Tests  5 failed | 11 passed (16)   ← against pre-fix source
+Tests  16 passed (16)              ← against the fix
+```
+
+Three mutants were added (`PJ1`, `PJ2`, `PJ3`); **all three are KILLED**.
+`PJ1-shared-default-rules` — which reinstates the exact original bug — is killed
+by **5 tests**, confirming the regression suite targets the real defect rather
+than restating it.
+
+### §16.1 Verification
+
+| Gate | Result |
+|---|---|
+| `turbo run test --force --continue` | **48/48 tasks**, 0 cached |
+| Mutation score | **52/52 killed = 100%** (+ 2 justified equivalents) |
+| Flake — `pj-policy` | **10/10 runs, clean across 5 orderings** |
+| Flake — repo-wide | **24 of 24 packages order-independent** ✅ |
+| Catalogue | 54 mutants, 10 files, 9 suites — structurally sound |
+| Typecheck | clean (a `readonly PolicyRule[]` widening error was caught and fixed) |
+| Source integrity after mutation | byte-identical, no stale probes |
+
+**The repository is now flake-clean across every package for the first time.**
+
+### §16.2 Process note
+
+Three commitlint rejections and one typecheck failure were hit on the way — the
+latter (`Object.freeze(...map(...))` widening `category` to `string`, breaking
+`readonly PolicyRule[]`) was caught by the pre-commit hook before the commit
+landed. The hook is the enforcement point that GitHub Actions would otherwise
+provide, and it is doing its job.
+
+**No test was weakened, skipped, deleted, or loosened. One test assertion in
+§14 was strengthened; five were added here.**
