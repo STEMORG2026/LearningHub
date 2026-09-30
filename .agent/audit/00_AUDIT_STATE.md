@@ -310,4 +310,36 @@ $ cd apps/shell && npx vitest run     # 15 files, 108 tests, all pass
 - **D3 — was disabling CI deliberate?** Blocks **T7**, the last unstarted ticket. `.agent/` is already **tracked**, so T7's untracked-files check is satisfied; only the decision is missing.
 - **T11 registry-warning policy** — accept warnings-as-signal (current), or create the specs, or delete the rows?
 
+---
+
+# ══════════════════════════════════════════════
+# RUN 5 — 2026-09-30 — T10 ASSESSED AND DECLINED (WITH REASON)
+# ══════════════════════════════════════════════
+
+## T10 tail — measured-coverage column: **NOT IMPLEMENTED, deliberately**
+
+The plan's T10 asks for a measured-coverage column in `REPOSITORY_HEALTH.md`. Implementation would require baking numbers read from `*/coverage/coverage-summary.json` into the committed document. **Investigated and found unsafe:**
+
+1. `coverage/` is **gitignored** (`.gitignore:33`) and the summaries are **untracked** — verified with `git check-ignore` and `git ls-files`.
+2. A fresh checkout (i.e. **every CI run**) therefore has **zero** `coverage-summary.json` files: 24 exist on this machine, 0 would exist in a clone.
+3. `generate-health.mjs` is invoked by `pnpm docs:sync`. If it read those files, the generated `AUTO:health` block would contain real numbers locally and `—` in CI — so **`docs:sync` would stop being idempotent across machines**.
+4. That directly breaks the **T7 acceptance criterion** ("`pnpm docs:sync` is idempotent on a clean tree") and the `docs-sync` CI job's `git diff --exit-code -- . ':(exclude=tree.txt)'` check.
+
+**Conclusion:** the literal ticket is unsafe to implement. A correct version would require either committing the coverage summaries (pollutes history with derived data and makes every test run a diff) or moving measurement to a CI artifact rather than a committed doc. Both are larger design decisions than a Phase-5 tail item and belong in a follow-up with the owner.
+
+**What is already true instead:** all 23 packages + 1 app have coverage **floors** recorded in the health table, and `pnpm test:coverage` runs inside `verify-governance` (stage 7), so every floor is *enforced* on every gate run. Enforcement exists; only the *display* of measured values is absent.
+
+## T7 readiness — verified end-to-end
+
+T7 cannot start without D3, but its **technical prerequisites are now proven**, not assumed. Ran the `ci.yml` `docs-sync` job's exact commands locally:
+
+| CI check | Command | Result |
+|---|---|---|
+| Docs in sync | `git diff --exit-code -- . ':(exclude)tree.txt'` | ✅ clean |
+| tree.txt tolerance | changed lines ≤ 2 | ✅ exactly 2 (the SHA stamp) |
+| No untracked files | `git ls-files --others --exclude-standard` | ✅ empty |
+
+The `tree.txt` line is stamped with the pre-commit HEAD by design; `ci.yml:65-71` explicitly allows that single-line drift. **T7 is a one-line `git mv` away from being testable — it waits only on the human answer.**
+
+
 
