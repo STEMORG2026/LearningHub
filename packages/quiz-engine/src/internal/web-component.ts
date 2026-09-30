@@ -194,6 +194,14 @@ export class StemQuiz extends HTMLElement {
     const selectedBtn = this.#root.querySelector(`[data-option-index="${selectedIndex}"]`) as HTMLButtonElement | null;
     const correctBtn = this.#root.querySelector(`[data-option-index="${correctIndex}"]`) as HTMLButtonElement | null;
 
+    // Keep the header score in sync with state. Without this the badge stays
+    // stale until the next question renders, so a student who answers correctly
+    // sees no score change.
+    if (this.#state) {
+      const scoreEl = this.#root.querySelector('.quiz-score-value');
+      if (scoreEl) scoreEl.textContent = String(this.#state.score);
+    }
+
     if (selectedIndex === correctIndex) {
       selectedBtn?.classList.add('correct');
     } else {

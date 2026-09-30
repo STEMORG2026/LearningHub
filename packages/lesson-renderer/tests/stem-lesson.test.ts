@@ -638,6 +638,68 @@ describe('StemLesson Web Component', () => {
       expect(unobserve).not.toHaveBeenCalled();
     });
 
+    it('reveals a section when the observer reports it intersecting', () => {
+      // The stub must capture the callback so it can be invoked: jsdom never
+      // fires a real intersection event, which is why the callback body is
+      // otherwise dead code under test.
+      let fire: IntersectionObserverCallback | undefined;
+      const unobserve = vi.fn();
+
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          constructor(cb: IntersectionObserverCallback) {
+            fire = cb;
+          }
+          observe() {}
+          unobserve(el: Element) {
+            return unobserve(el);
+          }
+        },
+      );
+
+      element.setLessonData(mockLesson);
+      expect(fire).toBeTypeOf('function');
+
+      const sections = element.shadowRoot!.querySelectorAll<HTMLElement>('.section.reveal');
+      const target = sections[sections.length - 1]!;
+      expect(target.classList.contains('revealed')).toBe(false);
+
+      fire!(
+        [{ target, isIntersecting: true } as unknown as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      );
+
+      expect(target.classList.contains('revealed')).toBe(true);
+      expect(unobserve).toHaveBeenCalledWith(target);
+    });
+
+    it('ignores a non-intersecting entry', () => {
+      let fire: IntersectionObserverCallback | undefined;
+
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          constructor(cb: IntersectionObserverCallback) {
+            fire = cb;
+          }
+          observe() {}
+          unobserve() {}
+        },
+      );
+
+      element.setLessonData(mockLesson);
+      const sections = element.shadowRoot!.querySelectorAll<HTMLElement>('.section.reveal');
+      const target = sections[sections.length - 1]!;
+
+      fire!(
+        [{ target, isIntersecting: false } as unknown as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      );
+
+      expect(target.classList.contains('revealed')).toBe(false);
+    });
+
     it('skips the section-heading element when a section has no heading', () => {
       const noHeading = {
         ...mockLesson,

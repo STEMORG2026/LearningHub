@@ -39,6 +39,7 @@ way it is.
 | [ADR-016](016-content-engine.md) | General-Purpose Content-Engine Seam (architecture v2) | Accepted |
 | [ADR-017](017-ecosystem-foundation-realignment.md) | Product-Agnostic Ecosystem Foundation & Architectural Realignment | Accepted |
 | [ADR-018](018-interactive-simulations-simulation-core.md) | Interactive Simulations Do Not Consume simulation-core | Accepted |
+| [ADR-024](024-advisory-scoped-dependency-overrides.md) | Advisory-Scoped Dependency Overrides (Removing the Bare Overrides) | Accepted |
 
 ---
 

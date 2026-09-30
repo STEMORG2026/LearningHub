@@ -21,7 +21,7 @@
     "typecheck": "turbo typecheck",
     "test:a11y": "playwright test --config=playwright.config.ts --grep-invert 'visual-regression'",
     "validate:edu": "node scripts/checks/validate-educational-metadata.js",
-    "verify-governance": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm build && pnpm typecheck && pnpm test:coverage && pnpm test:a11y && pnpm lint:size && pnpm validate:edu && pnpm lint:registry && pnpm lint:docs && pnpm lint:doc-governance && pnpm lint:doc-coverage && pnpm test:integrity:rule && pnpm test:branch:rule && pnpm test:mutation:validate && pnpm test:flakes:prove",
+    "verify-governance": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm build && pnpm typecheck && pnpm test:coverage && pnpm test:a11y && pnpm lint:size && pnpm validate:edu && pnpm lint:registry && pnpm lint:docs && pnpm lint:doc-governance && pnpm lint:doc-coverage && pnpm test:deps:drift && pnpm test:integrity:rule && pnpm test:branch:rule && pnpm test:mutation:validate && pnpm test:flakes:prove",
     "lint:doc-governance": "node scripts/checks/strict-doc-governance.mjs",
     "lint:doc-coverage": "node scripts/checks/verify-doc-coverage.mjs --strict",
     "test:mutation": "node scripts/checks/mutate.mjs --allow-dirty --threshold 100",
@@ -55,7 +55,8 @@
     "test:flakes:quick": "node scripts/checks/detect-flakes.mjs --seeds=3 --reps=1",
     "test:flakes:prove": "node scripts/checks/prove-flakes.mjs",
     "test:integrity:rule": "node scripts/checks/prove-test-integrity-rule.mjs",
-    "test:branch:rule": "node scripts/checks/prove-branch-push-rule.mjs"
+    "test:branch:rule": "node scripts/checks/prove-branch-push-rule.mjs",
+    "test:deps:drift": "node scripts/checks/prove-deps-drift.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

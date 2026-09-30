@@ -259,4 +259,48 @@ describe('AudioEngine', () => {
     engine.setMuted(false);
     expect(engine.isMuted).toBe(false);
   });
+
+  it('routes explosion through play()', () => {
+    const engine = new AudioEngine();
+    engine.setMuted(false);
+    vi.spyOn(engine as unknown as { getContext: () => AudioContext }, 'getContext' as never).mockReturnValue(ctx);
+
+    const result = engine.play('explosion');
+    expect(result).not.toBeNull();
+    expect(result!.name).toBe('explosion');
+  });
+
+  it('routes motion-hum through play()', () => {
+    const engine = new AudioEngine();
+    engine.setMuted(false);
+    vi.spyOn(engine as unknown as { getContext: () => AudioContext }, 'getContext' as never).mockReturnValue(ctx);
+
+    const result = engine.play('motion-hum');
+    expect(result).not.toBeNull();
+    expect(result!.name).toBe('motion-hum');
+  });
+
+  it('falls back to engine volume when no override is supplied', () => {
+    const engine = new AudioEngine();
+    engine.setMuted(false);
+    engine.setVolume(0.25);
+    vi.spyOn(engine as unknown as { getContext: () => AudioContext }, 'getContext' as never).mockReturnValue(ctx);
+
+    const result = engine.play('motion-hum');
+    expect(result!.volume).toBe(0.25);
+  });
+
+  it('defaults collision isGiant to false when not overridden', () => {
+    const engine = new AudioEngine();
+    engine.setMuted(false);
+    vi.spyOn(engine as unknown as { getContext: () => AudioContext }, 'getContext' as never).mockReturnValue(ctx);
+
+    const result = engine.play('collision');
+    expect(result!.duration).toBe(0.18);
+  });
+
+  it('destroy() is a no-op when no context was ever created', () => {
+    const engine = new AudioEngine();
+    expect(() => engine.destroy()).not.toThrow();
+  });
 });

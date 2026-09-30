@@ -1,4 +1,4 @@
-STEM-TUITION/  31e1445
+STEM-TUITION/  b0f5bd2
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
@@ -25,6 +25,7 @@ STEM-TUITION/  31e1445
 │   ├── config.json
 │   ├── format-agnostic-gates.md
 │   ├── honest-stories-attribute.md
+│   ├── quiet-deps-tell-truth.md
 │   ├── README.md
 │   ├── running-quizzes-publish.md
 │   └── scope-rename-to-learninghub.md
@@ -174,6 +175,7 @@ STEM-TUITION/  31e1445
 │   │   ├── 021-phase8-doc-governance.md
 │   │   ├── 022-ecosystem-architecture.md
 │   │   ├── 023-restore-verification-gate-and-stemma-seam.md
+│   │   ├── 024-advisory-scoped-dependency-overrides.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -305,6 +307,7 @@ STEM-TUITION/  31e1445
 │   │   │   ├── synth.ts
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
+│   │   │   ├── engine-context.test.ts  [test]
 │   │   │   └── synth.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
@@ -537,6 +540,7 @@ STEM-TUITION/  31e1445
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
 │   │   │   ├── quiz-engine.test.ts  [test]
+│   │   │   ├── template.test.ts  [test]
 │   │   │   └── web-component.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── CHANGELOG.md
@@ -595,6 +599,7 @@ STEM-TUITION/  31e1445
 │   │   ├── mutants.json
 │   │   ├── mutate.mjs
 │   │   ├── prove-branch-push-rule.mjs
+│   │   ├── prove-deps-drift.mjs
 │   │   ├── prove-flakes.mjs
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs

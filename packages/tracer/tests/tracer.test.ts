@@ -173,6 +173,138 @@ describe('Tracer', () => {
       expect(span.spanId).toBe('');
       expect(span.status).toBe('completed');
     });
+
+    it('returns a noop span once maxSpans is reached', () => {
+      Tracer.resetInstance();
+      const capped = new Tracer({ maxSpans: 1 });
+      const first = capped.startSpan('first');
+      const second = capped.startSpan('second');
+
+      expect(first.spanId).toBeTruthy();
+      // Second span is dropped, so it never enters the store and is completed
+      // immediately rather than left running.
+      expect(second.spanId).toBe('');
+      expect(second.status).toBe('completed');
+      expect(capped.getAllSpans()).toHaveLength(1);
+    });
+
+    it('stops accepting spans exactly at the cap boundary', () => {
+      Tracer.resetInstance();
+      const capped = new Tracer({ maxSpans: 2 });
+      capped.startSpan('a');
+      capped.startSpan('b');
+      const third = capped.startSpan('c');
+
+      expect(third.spanId).toBe('');
+      expect(capped.getAllSpans()).toHaveLength(2);
+    });
+
+    it('reports no current trace id when disabled', () => {
+      Tracer.resetInstance();
+      const disabled = new Tracer({ enabled: false });
+      expect(disabled.getCurrentTraceId()).toBeNull();
+    });
+  });
+
+  describe('getTrace', () => {
+    it('returns every span belonging to the given trace id', () => {
+      tracer.startSpan('a');
+      tracer.startSpan('b');
+      const traceId = tracer.getCurrentTraceId()!;
+
+      const spans = tracer.getTrace(traceId);
+      expect(spans).toHaveLength(2);
+      expect(spans.every((s) => s.traceId === traceId)).toBe(true);
+    });
+
+    it('returns an empty array for a trace id that matches nothing', () => {
+      tracer.startSpan('a');
+      expect(tracer.getTrace('no-such-trace')).toEqual([]);
+    });
+
+    it('returns an empty array when no spans have been recorded', () => {
+      expect(tracer.getTrace('anything')).toEqual([]);
+    });
+
+    it('does not leak spans from a previous trace after reset', () => {
+      tracer.startSpan('old');
+      const oldTrace = tracer.getCurrentTraceId()!;
+      tracer.reset();
+      tracer.startSpan('new');
+
+      expect(tracer.getTrace(oldTrace)).toEqual([]);
+    });
+  });
+
+  describe('destroy', () => {
+    it('clears listeners so no further events are delivered', () => {
+      const events: string[] = [];
+      tracer.on((event) => events.push(event.type));
+
+      tracer.destroy();
+      tracer.startSpan('after-destroy');
+
+      expect(events).toHaveLength(0);
+    });
+
+    it('clears recorded spans', () => {
+      tracer.startSpan('doomed');
+      tracer.destroy();
+      expect(tracer.getAllSpans()).toEqual([]);
+    });
+
+    it('rotates the trace id', () => {
+      const before = tracer.getCurrentTraceId();
+      tracer.destroy();
+      expect(tracer.getCurrentTraceId()).not.toBe(before);
+    });
+
+    it('leaves the tracer usable for new spans', () => {
+      tracer.destroy();
+      const span = tracer.startSpan('fresh');
+      expect(span.spanId).toBeTruthy();
+      expect(tracer.getAllSpans()).toHaveLength(1);
+    });
+  });
+
+  describe('span stack bookkeeping', () => {
+    it('restores the parent as active after a child ends', () => {
+      const parent = tracer.startSpan('parent');
+      const child = tracer.startSpan('child');
+      expect(tracer.getActiveSpan()?.spanId).toBe(child.spanId);
+
+      tracer.endSpan(child);
+      expect(tracer.getActiveSpan()?.spanId).toBe(parent.spanId);
+    });
+
+    it('unwinds to no active span once every span ends', () => {
+      const span = tracer.startSpan('solo');
+      tracer.endSpan(span);
+      expect(tracer.getActiveSpan()).toBeNull();
+    });
+
+    it('removes an errored span from the active stack', () => {
+      const span = tracer.startSpan('fails');
+      tracer.errorSpan(span, new Error('nope'));
+      expect(tracer.getActiveSpan()).toBeNull();
+    });
+
+    it('does not double-error an already-ended span', () => {
+      const span = tracer.startSpan('done');
+      tracer.endSpan(span);
+      tracer.errorSpan(span, new Error('late'));
+      expect(span.status).toBe('completed');
+    });
+
+    it('ignores errorSpan on an already-errored span', () => {
+      const span = tracer.startSpan('err');
+      tracer.errorSpan(span, new Error('first'));
+      const d1 = span.duration;
+      tracer.errorSpan(span, new Error('second'));
+
+      expect(span.metadata.errorMessage).toBe('first');
+      expect(span.duration).toBe(d1);
+    });
   });
 });
 
@@ -217,6 +349,48 @@ describe('traced() wrapper', () => {
     expect(spans).toHaveLength(1);
     expect(spans[0]?.name).toBe('async-fn');
     expect(spans[0]?.status).toBe('completed');
+  });
+
+  it('errors the span when an async function rejects', async () => {
+    const fn = traced('async-reject', async () => {
+      await Promise.resolve();
+      throw new Error('async boom');
+    });
+
+    await expect(fn()).rejects.toThrow('async boom');
+
+    const spans = tracer.getAllSpans();
+    expect(spans).toHaveLength(1);
+    expect(spans[0]?.status).toBe('errored');
+    expect(spans[0]?.metadata.errorMessage).toBe('async boom');
+  });
+
+  it('errors the span when a returned promise rejects later', async () => {
+    const fn = traced('deferred-reject', () => Promise.reject(new Error('deferred')));
+
+    await expect(fn()).rejects.toThrow('deferred');
+
+    const spans = tracer.getAllSpans();
+    expect(spans[0]?.status).toBe('errored');
+    expect(spans[0]?.metadata.errorName).toBe('Error');
+  });
+
+  it('leaves the span running until the returned promise settles', async () => {
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+
+    const fn = traced('slow', async () => {
+      await gate;
+      return 'ok';
+    });
+
+    const pending = fn();
+    // The span is still open because the wrapped promise has not settled.
+    expect(tracer.getAllSpans()[0]?.status).toBe('running');
+
+    release();
+    await pending;
+    expect(tracer.getAllSpans()[0]?.status).toBe('completed');
   });
 });
 
@@ -289,5 +463,84 @@ describe('@trace decorator', () => {
     const spans = tracer.getAllSpans();
     expect(spans).toHaveLength(1);
     expect(spans[0]?.status).toBe('completed');
+  });
+
+  it('marks the span errored when an async method rejects', async () => {
+    class FlakyService {
+      @traceDecorator()
+      async fetch(): Promise<string> {
+        await Promise.resolve();
+        throw new Error('remote failed');
+      }
+    }
+    const service = new FlakyService();
+
+    await expect(service.fetch()).rejects.toThrow('remote failed');
+
+    const spans = tracer.getAllSpans();
+    expect(spans).toHaveLength(1);
+    expect(spans[0]?.status).toBe('errored');
+    expect(spans[0]?.metadata.errorMessage).toBe('remote failed');
+  });
+
+  it('propagates the rejection to the caller rather than swallowing it', async () => {
+    class FlakyService {
+      @traceDecorator()
+      async fetch(): Promise<never> {
+        return Promise.reject(new Error('propagated'));
+      }
+    }
+
+    await expect(new FlakyService().fetch()).rejects.toThrow('propagated');
+  });
+
+  it('keeps the span running until an async method settles', async () => {
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+
+    class SlowService {
+      @traceDecorator()
+      async run(): Promise<string> {
+        await gate;
+        return 'done';
+      }
+    }
+
+    const pending = new SlowService().run();
+    expect(tracer.getAllSpans()[0]?.status).toBe('running');
+
+    release();
+    await pending;
+    expect(tracer.getAllSpans()[0]?.status).toBe('completed');
+  });
+
+  it('derives the span name from the target class and method', () => {
+    const decorator = traceDecorator();
+    const descriptor: PropertyDescriptor = {
+      value: function () { return 'v'; },
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    };
+
+    const applied = decorator({ constructor: { name: 'Anon' } }, 'method', descriptor);
+    expect(applied).toBe(descriptor);
+
+    applied.value.call({}, undefined);
+    expect(tracer.getAllSpans()[0]?.name).toBe('Anon.method');
+  });
+
+  it('marks the span errored when the decorator wraps a throwing method', () => {
+    class Boom {
+      @traceDecorator('named-boom')
+      go(): never {
+        throw new Error('decorated boom');
+      }
+    }
+
+    expect(() => new Boom().go()).toThrow('decorated boom');
+    const spans = tracer.getAllSpans();
+    expect(spans[0]?.name).toBe('named-boom');
+    expect(spans[0]?.status).toBe('errored');
   });
 });
