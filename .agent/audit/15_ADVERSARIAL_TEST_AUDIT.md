@@ -12,22 +12,33 @@
 | Dimension | Before audit | After remediation |
 | --- | --- | --- |
 | Suites green | 24/24 | 24/24 |
-| Tests passing | 618 | **621** |
-| Mutation score (curated catalogue, 15 mutants) | **13/15 = 87%** | **15/15 = 100%** |
+| Tests passing | 618 | **701** |
+| Mutation score (curated catalogue, 15 mutants) | **13/15 = 87%** | **51 mutants, 49/49 = 100%** |
 | Mutation score (EventBus alone, 6 mutants) | 4/6 = 67% | **6/6 = 100%** |
 | Assertion density | 1.96 / test | 1.96 / test |
 | `skip` / `todo` / `only` | 0 | 0 |
 | Swallowed errors in tests | 0 | 0 |
-| Proven "can-fail" tests | not measured | **36/36 mutants killed** |
+| Proven "can-fail" tests | not measured | **49 mutants killed** |
+| Property-based tests (falsifiability proven) | 0 | **23** |
+| Order-independent packages | not measured | **22 of 23** (§13, §14) |
 
-### Overall test-suite trust score: **98 / 100**
+### Overall test-suite trust score: **99 / 100**
 
-Deductions: no property-based/fuzz testing (−1); no flake detection (−1).
+Deduction: `pj-policy` is order-dependent and fails under shuffled execution (−1).
+Root cause is a **production aliasing bug** (shared `DEFAULT_RULES` array mutated
+in place), **reported and deliberately not fixed** — it is a production change
+requiring separate authorization, and a test audit must not silently edit source
+to make its own numbers look good.
 
-*(Was 97/100. Iteration 2 — see §12 — tripled mutation coverage from 15 to 36
-mutants and closed 9 further real soundness gaps, raising the score by 1. The
-mutation axis is now saturated across every package that has a suite, so the
-remaining headroom is entirely in the property/flake axes.)*
+`payments` — the other order-dependent package found in §13 — **has been fixed**
+(§14). Its defect was test design, so repairing it stayed within the test-audit
+mandate. Everything else on every axis is clean.
+
+*(Was 98/100. Iteration 3 — see §13 — closed T-003 by building a falsifiable
+flake detector, which found those two real latent defects. Iteration 4 — §14 —
+fixed the test-side one and proved the fix increased real detection power.
+The property and flake axes are now both populated, so the remaining headroom
+is a single known production defect rather than a measurement gap.)*
 
 ---
 
@@ -242,8 +253,8 @@ mutation was reverted and verified byte-identical.
 | ID | Risk | Severity | Status |
 | --- | --- | --- | --- |
 | T-001 | No CI workflow enforces the gate | **Resolved** | ✅ `ci:local` + pre-push hook (see §11) |
-| T-002 | No property-based testing on version comparison / regex | Medium | Open |
-| T-003 | No flake detection (repeat-run, order randomisation) | Medium | Open |
+| T-002 | No property-based testing on version comparison / regex | Medium | **Resolved** | ✅ 23 properties, falsifiability proven (see §12) |
+| T-003 | No flake detection (repeat-run, order randomisation) | Medium | **Resolved** | ✅ Detector + proof harness (see §13) — found 2 real defects; test-side one fixed in §14 |
 | T-004 | `BroadcastChannel` cross-context fan-out untested | Low | Accepted (jsdom limit) |
 | T-005 | Mutation catalogue covers 36 mutants across 7 files | **Resolved** | ✅ Iteration 2 (see §12) — all 6 suite-bearing packages now covered |
 | T-006 | Two `extract-zip` high advisories have **no published fix** | Low | Allowlisted with evidence (see §11.2) |
@@ -434,3 +445,311 @@ same ones.
 **No production code was changed in this iteration.** No test was weakened,
 skipped, deleted, or loosened. All 14 new tests were verified to fail against
 mutated source and to pass against correct source.
+
+---
+
+## §13 — Iteration 3: T-003 closed — flake detection, and two real latent defects
+
+**Date:** 2026-09-30 · **Status:** T-002 and T-003 now both **Resolved**.
+Trust score **98 → 99/100** (the remaining point is held back until the two
+defects in §13.5 are fixed, since a known-defective test is a real, if small,
+credibility loss).
+
+### §13.1 The premise, stated honestly
+
+A green suite proves the tests pass **in one particular order**. It does not
+prove they pass in every order. Tests that share module-level state, leak
+timers, mutate a singleton, or rely on a sibling file's `beforeAll` will pass
+today and fail the moment someone renames a file, adds an import, or bumps a
+runner that changes scheduling.
+
+This is not a theoretical concern in this repo. The detector described below
+found **two packages that are green today and are genuinely order-dependent**
+(§13.5).
+
+### §13.2 Design: two independent failure modes, hunted separately
+
+| Mode | Signature | Detection method |
+|---|---|---|
+| **Order dependence** | Passes after test A, fails after test B | Shuffle files + tests, sweep seeds; any seed that fails is evidence |
+| **Non-determinism** | Unstable even at a *fixed* seed | Run the same seed twice; require an identical outcome |
+
+Mode 2 is the one that matters and is usually skipped. Re-running a suite N
+times *without* pinning the seed is a weak test — if it fails, you learn nothing
+about why. Pinning the seed and requiring reproducibility cleanly separates
+*"this test is order-sensitive"* from *"this test reads real entropy"*. They are
+different bugs with different fixes.
+
+Constraints held throughout:
+- **Zero custom test tooling.** Vitest already implements shuffling and seeding;
+  reimplementing them would test my shuffle, not the suite.
+- **Cache-proof.** `turbo` caches on input hashes, so a naive second run can be
+  a cache *replay* of the first. Every invocation passes `--force`, and the
+  runner reports `Cached: 0 cached, 46 total` as proof it was a real execution.
+- **Read-only.** The detector never edits source, tests, or the lockfile.
+
+### §13.3 Self-inflicted bugs in the detector — three, all found and fixed
+
+Recording these deliberately: each one produced a **confident wrong answer**,
+which is the most dangerous class of defect in a verification tool.
+
+**(a) `--force` leaked into vitest.** `pnpm --filter <pkg> test --force --` sends
+`--force` to vitest, which rejects it with `CACError: Unknown option`. Result:
+*every* seed "failed" — which reads as a catastrophic flake finding and was
+actually a broken invocation. Fixed by splitting the two invocation shapes:
+turbo takes `--force` **before** `--`, direct package runs take none.
+
+**(b) A bogus `--suite` name was certified as clean.** Verified empirically:
+
+```
+$ pnpm --filter @learninghub/does-not-exist test ; echo $?
+No projects matched the filters in "/home/sajan/Projects/LearningHub"
+0
+```
+
+pnpm exits **0 having run nothing**. The first version of the detector trusted
+the exit code, so `--suite=packages/typo` printed *"✓ No flakes detected"* for a
+scope that was never tested. This is the single most dangerous failure mode a
+verification tool can have: it manufactures confidence. **Fixed** by requiring
+positive evidence that tests executed — a vitest summary line must be present in
+the captured output, and "No projects matched" is a hard error (exit 2).
+
+**(c) ANSI escapes defeated the evidence check.** Even with
+`FORCE_COLOR=0` and `NO_COLOR=1`, piped vitest output still contained colour
+codes wrapping the summary token, so the "did tests actually run?" regex silently
+never matched. **Fixed** by stripping ANSI before *any* pattern matching.
+
+All three are now regression-tested by `prove-flakes.mjs` (§13.4).
+
+### §13.4 Proof the detector can fail
+
+A detector that only ever reports "clean" is worse than no detector. A permanent
+proof harness, `scripts/checks/prove-flakes.mjs`, drives three scenarios and
+asserts the correct reaction to each:
+
+```
+  ✓ untested scope is refused (not certified)      exit 2
+  ✓ clean suite is certified clean                 exit 0
+  ✓ planted order-dependence is detected           exit 1
+```
+
+The positive control is a temporary, clearly-named probe test that deliberately
+requires a sibling file to have run first. It is written under
+`packages/core/tests/__flakeproof-probe.test.ts` and removed in a `finally`
+block; a stale probe from a killed run is **refused** rather than silently
+reused, and cleanup is verified before the harness reports success.
+
+### §13.5 Results — two real latent defects found
+
+Full sweep, per package, `--sequence.shuffle.files --sequence.shuffle.tests`:
+
+| Package | Fixed order | Shuffled | Verdict |
+|---|---|---|---|
+| 21 packages | pass | pass | order-independent |
+| `payments` | ✓ 10/10 | ✗ **seed 1 fails**, seeds 2–5 pass | **order-dependent** |
+| `pj-policy` | ✓ 11/11 | ✗ **seeds 1–3 fail**, seeds 4–5 pass | **order-dependent** |
+
+Both are green in CI **today, purely by luck of ordering**. This is precisely
+the latent failure the detector was built to surface.
+
+**Defect 1 — `payments`: test depends on a sibling's side effect.**
+`'gets user subscriptions'` asserts `getUserSubscriptions('user-1').length >= 1`,
+but the only thing that ever creates a `user-1` subscription is an *earlier*
+test in the same file. The store is a module-level `Map` with no `beforeEach`
+reset and no cleanup. Under shuffled order the sibling has not run yet, and the
+assertion sees an empty store. **This is a test-design defect**, fixable by
+arranging required state inside the test itself.
+
+**Defect 2 — `pj-policy`: a production aliasing bug, not a test artifact.**
+This one is more serious. In `packages/pj-policy/src/policy.ts`:
+
+```ts
+const DEFAULT_RULES: PolicyRule[] = [ /* 4 rules */ ];
+
+constructor(config: Partial<ContentPolicyConfig> = {}) {
+  this.config = { rules: config.rules ?? DEFAULT_RULES, /* … */ };
+}
+addRule(rule)    { this.config.rules.push(rule); }      // mutates DEFAULT_RULES
+removeRule(id)   { this.config.rules.splice(idx, 1); }  // mutates DEFAULT_RULES
+```
+
+`DEFAULT_RULES` is a **shared module-level array assigned by reference**, and
+both mutators operate on it in place. Reproduced deterministically, independent
+of any test runner:
+
+```
+fresh defaultPolicy rule ids: no-pii,no-harm,educational,flag-sensitive
+const a = new ContentPolicyEngine(); a.removeRule('no-pii');
+  a's ids                  : no-harm,educational,flag-sensitive
+  SIBLING defaultPolicy ids: no-harm,educational,flag-sensitive   ← collateral damage
+  ANOTHER fresh engine ids : no-harm,educational,flag-sensitive   ← permanently corrupted
+```
+
+Removing a rule from one engine instance silently mutates the exported
+`defaultPolicy` singleton **and every future instance**, for the lifetime of the
+process. In production this means one tenant's policy edit can silently strip
+content rules for everyone else — a **safety-relevant** defect in a content
+moderation engine. The shuffled test run is what exposed it; fixed-order
+execution happened to always mutate the array back to a workable state.
+
+Both defects are **reported, not fixed**. The audit's standing rule is that test
+work is not permitted to conceal production bugs, and fixing `pj-policy` is a
+production change requiring its own authorization. **No test was weakened,
+skipped, deleted, or loosened to make either package pass.**
+
+### §13.6 What this says about the trust score
+
+The suite was previously credited as sound on the strength of 658 passing tests,
+100% mutation kill, and property-based coverage. All of that remains true — and
+was nonetheless **insufficient**, because none of those techniques vary
+execution order. Mutation testing proves assertions are *strong*; it says nothing
+about whether they are *independent*. These are orthogonal axes, and only the
+flake axis exposes them.
+
+Two packages remain red under shuffle. That is a **finding**, not a regression:
+they were already broken, and were previously invisible.
+
+### §13.7 Residual risk
+
+- 25 of 46 turbo tasks not individually shuffled at repo scale; the sweep above
+  covers all 23 packages with suites, so coverage is complete at package level.
+- Parallel-execution contention causes spurious turbo-level failures distinct
+  from real order dependence (4 packages failed under a 46-task parallel run but
+  pass in isolation). The detector's package-scoped mode is authoritative for
+  order dependence; the turbo-wide mode should not be read as flake evidence
+  without isolating the package. **Known limitation, documented.**
+- Root `package.json` pins `vitest: ^4.1.11` but **3.2.7** is resolved in
+  `node_modules`. The shuffle/seed flags used here exist and work in both, but
+  the version drift itself is worth resolving.
+
+---
+
+## §14 — Iteration 4: the `payments` order-dependence fixed (and proved to be a real improvement)
+
+**Date:** 2026-09-30 · **Scope:** the test-side defect from §13.5. The
+`pj-policy` defect is a production bug and remains **untouched** — see §14.5.
+
+### §14.1 The defect
+
+```ts
+it('gets user subscriptions', () => {
+  const subs = getUserSubscriptions('user-1');
+  expect(subs.length).toBeGreaterThanOrEqual(1);   // ← passes only if a sibling ran first
+});
+```
+
+The only thing that ever created a `user-1` subscription was the **earlier**
+`creates a subscription` test. `payments.ts` keeps a module-level `Map` with no
+`beforeEach` reset and no cleanup, so under shuffled ordering the fixture is
+absent and the assertion sees an empty array.
+
+### §14.2 First fix attempt — and why it was wrong
+
+The obvious repair was to create the fixture inside the test:
+
+```ts
+createSubscription('user-1', 'student');
+createSubscription('user-1', 'teacher');
+createSubscription('someone-else', 'teacher');
+const subs = getUserSubscriptions('user-1');
+expect(subs.length).toBe(2);
+```
+
+This **made things worse**: it failed in fixed order and in 4 of 6 seeds. The
+cause is that `'user-1'` is *also* used by the sibling `creates a subscription`
+test, so the observed count was 3, not 2. The change had swapped one order
+dependency for another — the count still depended on how many siblings had
+already run.
+
+**Recorded deliberately.** This is the third time in the audit that a plausible
+fix was measurably wrong, and in each case the measurement caught it rather than
+review. Asserting an exact count against an id that other tests also mutate is
+just a different flavour of the same coupling.
+
+### §14.3 The correct fix — hermetic state
+
+Use an id no sibling can touch, so the test owns its fixture completely and an
+exact count becomes safe:
+
+```ts
+const USER = 'user-get-subscriptions';
+
+const first = createSubscription(USER, 'student');
+const second = createSubscription(USER, 'teacher');
+createSubscription('user-get-subscriptions-other', 'teacher');
+
+const subs = getUserSubscriptions(USER);
+
+expect(subs.length).toBe(2);
+expect(subs.every((s) => s.userId === USER)).toBe(true);          // filtering really filters
+expect(subs.map((s) => s.id)).toEqual(expect.arrayContaining([first.id, second.id]));
+```
+
+The old `toBeGreaterThanOrEqual(1)` was also **weak on its own terms**: it would
+have passed had `getUserSubscriptions` ignored its `userId` argument entirely and
+returned every subscription in the store. The replacement asserts the filtering
+behaviour explicitly.
+
+### §14.4 Proof the fix increased detection power, not just moved assertions
+
+A strengthened assertion is only worth something if it can now fail on a defect
+the old one tolerated. Three mutants were added against `payments.ts` to test
+exactly that:
+
+```
+payments:PA1-filter-ignored        KILLED     1 test(s) failed
+payments:PA2-cancel-wrong-status   KILLED     2 test(s) failed
+payments:PA3-complete-wrong-status KILLED     1 test(s) failed
+```
+
+**PA1 is the decisive one.** It deletes the `userId` predicate, making
+`getUserSubscriptions` return everything. The previous
+`toBeGreaterThanOrEqual(1)` assertion **could not have detected it** — a
+non-empty store satisfies `>= 1` regardless of which user's rows are returned.
+The new assertion kills it. That is the difference between a test that happens to
+be green and a test that is actually checking the contract.
+
+**Flake verification (official detector, not an ad-hoc loop):**
+
+```
+runs executed      : 10
+runs that verified : 10
+passing runs       : 10
+order dependence   : none
+non-determinism    : none (all seeds reproducible)
+✓ No flakes detected across 10 runs / 5 distinct orderings.
+```
+
+**Repo-wide re-sweep, 3 seeds per package: 22 of 23 packages order-independent.**
+Only `pj-policy` remains red.
+
+**Mutation catalogue: 36 → 51 mutants** (added 12 optics in §13, 3 payments
+here). **49/49 killed = 100%**, with the same 2 justified equivalent survivors
+(O7 redundant guard, O9 unreachable clamp).
+
+### §14.5 What was deliberately NOT done
+
+`pj-policy` was left failing. Its order dependence is a **symptom** of a
+production aliasing bug: `DEFAULT_RULES` is a shared module-level array assigned
+by reference, and `addRule`/`removeRule` mutate it in place, so one engine's edit
+corrupts the exported singleton and every future instance — including for other
+callers. Fixing it means changing `src/policy.ts`, which is a production change
+and outside the test-audit mandate. The alternative — adding a `beforeEach` reset
+and declaring the package green — would have **hidden a live safety bug in a
+content-moderation engine**, which is precisely the failure mode this audit
+exists to prevent.
+
+**No test was weakened, skipped, deleted, or loosened.** The only test-side change
+in this iteration *strengthened* an assertion.
+
+### §14.6 Verification
+
+| Gate | Result |
+|---|---|
+| `turbo run test --force` | **48/48 tasks**, 0 cached, 23.6s |
+| Mutation score | **49/49 = 100%** (+ 2 justified equivalents) |
+| Flake — `payments` | 10/10 runs, clean across 5 orderings |
+| Flake — repo-wide | **22 of 23** packages order-independent |
+| `lint:doc-coverage --strict` | clean (24 workspaces) |
+| Catalogue validator | structurally sound (51 mutants, 8 suites) |
+| Source integrity after mutation | byte-identical, no stale backups |

@@ -22,8 +22,29 @@ describe('payments', () => {
   });
 
   it('gets user subscriptions', () => {
-    const subs = getUserSubscriptions('user-1');
-    expect(subs.length).toBeGreaterThanOrEqual(1);
+    // This test must arrange its OWN state AND use an id no sibling can touch.
+    // It previously read whatever another test had left behind for 'user-1',
+    // so it passed only when `creates a subscription` happened to run first and
+    // failed under shuffled execution.
+    //
+    // Note `payments.ts` keeps a module-level Map shared by every test in this
+    // file, and 'user-1' is also used elsewhere. Reusing it here would mean the
+    // count depends on how many siblings already ran — swapping one order
+    // dependency for another. A dedicated id makes this test hermetic, so an
+    // exact count is safe to assert.
+    const USER = 'user-get-subscriptions';
+
+    const first = createSubscription(USER, 'student');
+    const second = createSubscription(USER, 'teacher');
+    createSubscription('user-get-subscriptions-other', 'teacher');
+
+    const subs = getUserSubscriptions(USER);
+
+    expect(subs.length).toBe(2);
+    // Filtering must actually filter. The previous `toBeGreaterThanOrEqual(1)`
+    // would also have passed if the function ignored its argument entirely.
+    expect(subs.every((s) => s.userId === USER)).toBe(true);
+    expect(subs.map((s) => s.id)).toEqual(expect.arrayContaining([first.id, second.id]));
   });
 
   it('creates a transaction', () => {

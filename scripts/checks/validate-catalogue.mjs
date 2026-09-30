@@ -86,6 +86,38 @@ for (const m of mutants) {
   if (m.suite && Object.keys(suites).length > 0 && !suites[m.suite]) {
     problems.push(`${id}: references undeclared suite "${m.suite}"`);
   }
+
+  // An `equivalent` adjudication removes a survivor from the score, so it is the
+  // single most abusable field in the catalogue. Require a substantive written
+  // justification: the whole value of the label is the reasoning behind it, and
+  // "equivalent" on its own is indistinguishable from sweeping a gap under a rug.
+  if (m.equivalent !== undefined) {
+    if (typeof m.equivalent !== 'string' || m.equivalent.trim().length < 20) {
+      problems.push(
+        `${id}: "equivalent" must be a written justification of at least 20 characters ` +
+          `(got ${JSON.stringify(m.equivalent)}) — an unjustified equivalence claim hides a real gap`,
+      );
+    }
+  }
+}
+
+// Suite schema check. A suite with the wrong shape (e.g. {command,dir} instead of
+// {cmd,args}) makes execFileSync throw for EVERY mutant in that suite, which the
+// harness reports as KILLED — a fabricated 100%. That exact mistake was made and
+// caught only because the failure counts read "0 test(s) failed" while real kills
+// read a nonzero count. Validate the shape explicitly so it cannot recur.
+for (const [name, suite] of Object.entries(suites)) {
+  if (!suite || typeof suite !== 'object') {
+    problems.push(`SUITE "${name}": not an object`);
+    continue;
+  }
+  if (typeof suite.cmd !== 'string' || !Array.isArray(suite.args)) {
+    problems.push(
+      `SUITE "${name}": must be {cmd: string, args: string[]} — found ` +
+        `${JSON.stringify(Object.keys(suite))}. A malformed suite makes every one of its ` +
+        `mutants "KILLED" without running any test (fabricated 100%).`,
+    );
+  }
 }
 
 // ── 2. Suite wiring ────────────────────────────────────────────────────────

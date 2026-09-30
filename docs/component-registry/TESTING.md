@@ -25,7 +25,7 @@
 | `packages/payments/` | `tests/*.test.ts` | Unit | — | 🟢 Written (10 tests) |
 | `packages/video/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
 | `packages/content-provider/` | `tests/*.test.ts` | Unit | — | 🟢 Written (43 tests) |
-| `packages/interactive-simulations/` | `tests/*.test.ts` | Unit | — | 🟢 Written (19 tests) |
+| `packages/interactive-simulations/` | `tests/*.test.ts` | Unit | — | 🟢 Written (76 tests) |
 | `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (56 tests) |
 | `packages/content-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (49 tests) |
 | `packages/pj-client/` | `tests/*.test.ts` | Unit | — | 🟢 Written (7 tests) |

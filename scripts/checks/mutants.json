@@ -14,16 +14,81 @@
     "comparisons, removed guards, wrong constants) over cosmetic ones.",
     "`find` must appear verbatim in the source file and `replace` must differ."
   ],
-
   "suites": {
-    "core": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/core"] },
-    "shell-lhs": { "cmd": "npx", "args": ["vitest", "run", "--root", "apps/shell", "tests/lhs-adapter.test.ts"] },
-    "lesson-renderer": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/lesson-renderer"] },
-    "content-provider": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/content-provider"] },
-    "simulation-core": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/simulation-core"] },
-    "quiz-engine": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/quiz-engine"] }
+    "core": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/core"
+      ]
+    },
+    "shell-lhs": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "apps/shell",
+        "tests/lhs-adapter.test.ts"
+      ]
+    },
+    "lesson-renderer": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/lesson-renderer"
+      ]
+    },
+    "content-provider": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/content-provider"
+      ]
+    },
+    "simulation-core": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/simulation-core"
+      ]
+    },
+    "quiz-engine": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/quiz-engine"
+      ]
+    },
+    "interactive-simulations": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/interactive-simulations"
+      ]
+    },
+    "payments": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/payments"
+      ]
+    }
   },
-
   "mutants": [
     {
       "id": "event-bus:B1-no-error-isolation",
@@ -73,7 +138,6 @@
       "find": "  const escaped = pattern.replace(/[.+?^${}()|[\\]\\\\]/g, '\\\\$&');",
       "replace": "  const escaped = pattern;"
     },
-
     {
       "id": "lhs-adapter:A1-floor-to-zero",
       "file": "apps/shell/src/lib/lhs-adapter.ts",
@@ -106,7 +170,6 @@
       "find": "    const diff = (pa[i] ?? 0) - (pb[i] ?? 0);",
       "replace": "    const diff = (pa[i] ?? 0) - (pb[i] ?? 0) - 1;"
     },
-
     {
       "id": "lesson-renderer:M1-equation-class",
       "file": "packages/lesson-renderer/src/stem-lesson.ts",
@@ -139,7 +202,6 @@
       "find": "Loading lesson",
       "replace": "Loading"
     },
-
     {
       "id": "simulation-core:P1-boundary-flip",
       "file": "packages/simulation-core/src/physics.ts",
@@ -204,7 +266,6 @@
       "find": "  if (!input.blackholeDisabled) {",
       "replace": "  if (true) {"
     },
-
     {
       "id": "quiz-engine:Q1-score-per-question",
       "file": "packages/quiz-engine/src/internal/quiz-engine.ts",
@@ -261,7 +322,6 @@
       "find": "  const totalQuestions = maxScore / 10;",
       "replace": "  const totalQuestions = maxScore;"
     },
-
     {
       "id": "content-provider:C1-difficulty-collapse",
       "file": "packages/content-provider/src/quiz-mapper.ts",
@@ -317,6 +377,128 @@
       "why": "Dropping the explanation callout strips the pedagogical content from every mapped lesson while still looking structurally valid. The existing kind assertion should kill it.",
       "find": "      id: `${q.id}-explanation`,",
       "replace": "      id: `${q.id}-MUTATED-explanation`,"
+    },
+    {
+      "id": "optics:O1-invert-snell-ratio",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "Swapping the index ratio inverts Snell law: light would bend the wrong way at every boundary.",
+      "find": "  const sinTheta2 = (n1 / n2) * sinTheta1;",
+      "replace": "  const sinTheta2 = (n2 / n1) * sinTheta1;"
+    },
+    {
+      "id": "optics:O2-drop-tir-guard",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "Removing the total-internal-reflection branch makes a physically impossible refracted ray report as real.",
+      "find": "  if (sinTheta2 > 1) {",
+      "replace": "  if (false) {"
+    },
+    {
+      "id": "optics:O3-critical-angle-inverted",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "Critical angle is asin(n2/n1), not asin(n1/n2); inverting it silently misreports the TIR threshold.",
+      "find": "  return toDegrees(Math.asin(n2 / n1));",
+      "replace": "  return toDegrees(Math.asin(n1 / n2));"
+    },
+    {
+      "id": "optics:O4-critical-angle-wrong-branch",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "A critical angle only exists going denser to rarer; flipping the comparison reports one where none exists.",
+      "find": "  if (n1 <= n2) return null;",
+      "replace": "  if (n1 >= n2) return null;"
+    },
+    {
+      "id": "optics:O5-lens-sign-flip",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "The thin-lens equation is 1/v = 1/f - 1/u; using +1/u turns every real image virtual.",
+      "find": "  const invV = 1 / f - 1 / u;",
+      "replace": "  const invV = 1 / f + 1 / u;"
+    },
+    {
+      "id": "optics:O6-magnification-sign",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "Magnification m = -v/u; dropping the minus reports every real image as upright.",
+      "find": "  const magnification = -imageDistance / u;",
+      "replace": "  const magnification = imageDistance / u;"
+    },
+    {
+      "id": "optics:O7-no-solution-removed",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "The object-at-focal-point case has no finite image; removing the guard returns Infinity as if it were an answer.",
+      "find": "  if (u === f) return NO_SOLUTION;",
+      "replace": "  if (false) return NO_SOLUTION;",
+      "equivalent": "Equivalent: the u===f guard is redundant. When u===f the next guard (invV===0) is also true, since 1/f-1/f is exactly 0, so NO_SOLUTION is returned either way. The line is kept for clarity because it names the physical case (rays emerge parallel) explicitly."
+    },
+    {
+      "id": "optics:O8-zero-focal-guard",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "f = 0 divides by zero; the guard must throw rather than emit an infinity into the UI.",
+      "find": "  if (f === 0) {",
+      "replace": "  if (false) {"
+    },
+    {
+      "id": "optics:O9-asin-clamp",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "Without the domain clamp, rounding at exactly the critical angle yields NaN instead of 90 degrees.",
+      "find": "  const clamped = Math.max(-1, Math.min(1, sinTheta2));",
+      "replace": "  const clamped = sinTheta2;",
+      "equivalent": "Equivalent: the clamp is unreachable. At the exact critical angle sinTheta2 computes to exactly 1.0 (verified for 4 medium pairs), and the sinTheta2>1 branch returns before the clamp otherwise, so asin never receives an out-of-domain argument. Kept as floating-point defence in depth."
+    },
+    {
+      "id": "optics:O10-reflect-y-sign",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "Reflection off a horizontal surface negates y; failing to do so makes the ray pass straight through.",
+      "find": "  return { x: direction.x, y: -direction.y };",
+      "replace": "  return { x: direction.x, y: direction.y };"
+    },
+    {
+      "id": "optics:O11-index-validation",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "Refractive index below 1 is unphysical; dropping the check lets nonsense propagate silently.",
+      "find": "  if (n1 < 1 || n2 < 1) {",
+      "replace": "  if (false) {"
+    },
+    {
+      "id": "optics:O12-describe-enlarged-bound",
+      "file": "packages/interactive-simulations/src/optics-physics.ts",
+      "suite": "interactive-simulations",
+      "why": "|m| > 1 means enlarged; using >= 1 mislabels a same-size image as enlarged.",
+      "find": "    enlarged: Math.abs(magnification) > 1,",
+      "replace": "    enlarged: Math.abs(magnification) >= 1,"
+    },
+    {
+      "id": "payments:PA1-filter-ignored",
+      "file": "packages/payments/src/internal/payments.ts",
+      "suite": "payments",
+      "why": "Dropping the userId predicate makes getUserSubscriptions return every subscription. The old assertion (toBeGreaterThanOrEqual(1)) could not detect this; the strengthened one can.",
+      "find": "  return Array.from(subscriptions.values()).filter((s) => s.userId === userId);",
+      "replace": "  return Array.from(subscriptions.values());"
+    },
+    {
+      "id": "payments:PA2-cancel-wrong-status",
+      "file": "packages/payments/src/internal/payments.ts",
+      "suite": "payments",
+      "why": "Cancelling must set status to canceled; any other status silently leaves the subscription active.",
+      "find": "  sub.status = 'canceled';",
+      "replace": "  sub.status = 'active';"
+    },
+    {
+      "id": "payments:PA3-complete-wrong-status",
+      "file": "packages/payments/src/internal/payments.ts",
+      "suite": "payments",
+      "why": "Completing a transaction must set status to completed, not leave it pending.",
+      "find": "  tx.status = 'completed';",
+      "replace": "  tx.status = 'pending';"
     }
   ]
 }

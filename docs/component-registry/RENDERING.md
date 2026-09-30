@@ -72,4 +72,5 @@
 | Lesson renderer | `packages/lesson-renderer/` | `src/stem-lesson.ts` | — | — | Active (Phase 8) |
 | Circuit simulation | `packages/interactive-simulations/` | `src/stem-circuit-sim.ts` | — | — | Active (Phase 8) |
 | Mechanics simulation | `packages/interactive-simulations/` | `src/stem-mechanics-sim.ts` | — | — | Active (Phase 8) |
+| Optics simulation | `packages/interactive-simulations/` | `src/stem-optics-sim.ts`, `src/optics-physics.ts` | — | — | Active (Phase 8) |
 <!-- END AUTO:rendering-phase-8 -->

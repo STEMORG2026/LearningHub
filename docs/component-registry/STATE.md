@@ -62,6 +62,7 @@
 | Lesson render state | WC state | `packages/lesson-renderer/src/stem-lesson.ts` | Lesson component state |
 | Simulation state | WC state | `packages/interactive-simulations/src/stem-circuit-sim.ts` | Circuit sim state |
 | Simulation state | WC state | `packages/interactive-simulations/src/stem-mechanics-sim.ts` | Mechanics sim state |
+| Simulation state | WC state | `packages/interactive-simulations/src/stem-optics-sim.ts` | Optics sim state |
 
 <!-- AUTO:state-phase-6 -->
 | State | Type | Location | Notes |

@@ -211,19 +211,40 @@ for (const m of mutants) {
 const killed = results.filter((r) => r.verdict === 'KILLED').length;
 const survived = results.filter((r) => r.verdict === 'SURVIVED');
 const errored = results.filter((r) => r.verdict === 'ERROR').length;
-const scored = killed + survived.length;
+
+// A survivor may be adjudicated as semantically EQUIVALENT: the mutation
+// changes the source but not the observable behaviour, so no test can ever
+// distinguish it and demanding a kill would force a dishonest test.
+//
+// This is deliberately opt-in and requires a written justification, because
+// the easy abuse of an equivalence escape hatch is to label every inconvenient
+// survivor "equivalent" and walk away. `validate-catalogue.mjs` rejects an
+// `equivalent` mutant whose justification is missing or too short, and
+// equivalent survivors are still PRINTED below rather than hidden.
+const equivalentMasked = survived.filter((r) => r.equivalent && typeof r.equivalent === 'string' && r.equivalent.length >= 20);
+const trueSurvivors = survived.filter((r) => !equivalentMasked.includes(r));
+
+const scored = killed + trueSurvivors.length;
 const score = scored === 0 ? 0 : Math.round((killed / scored) * 100);
 
 console.log('\n' + '═'.repeat(74));
 console.log(`mutation score: ${killed}/${scored} killed = ${score}%`);
+if (equivalentMasked.length) {
+  console.log(`(${equivalentMasked.length} survivor(s) adjudicated semantically equivalent and excluded from the score)`);
+}
 if (errored) console.log(`⚠ ${errored} mutant(s) could not be evaluated (see ERROR rows above)`);
 
-if (survived.length) {
+if (equivalentMasked.length) {
+  console.log('\nEQUIVALENT (no test can detect these — justified in the catalogue):');
+  for (const s of equivalentMasked) console.log(`  = ${s.id}: ${s.equivalent}`);
+}
+
+if (trueSurvivors.length) {
   console.log('\nSURVIVORS — the tests below cannot detect these behaviour changes:');
-  for (const s of survived) console.log(`  • ${s.id}  (${s.file})`);
+  for (const s of trueSurvivors) console.log(`  • ${s.id}  (${s.file})`);
   console.log('\nEach survivor is either (a) a missing test, or (b) a semantically');
   console.log('equivalent mutant. Decide which, then either add the test or record the');
-  console.log('equivalence in the catalogue comment.');
+  console.log('equivalence in the catalogue. Do not mark it equivalent without evidence.');
 }
 
 console.log('═'.repeat(74));
@@ -231,4 +252,4 @@ console.log('═'.repeat(74));
 // Restore-and-clean on the normal path too (sources are already restored after
 // each mutant; this removes the backup directory).
 cleanupBackupDir();
-process.exit(survived.length === 0 || score >= THRESHOLD ? 0 : 1);
+process.exit(trueSurvivors.length === 0 || score >= THRESHOLD ? 0 : 1);

@@ -53,3 +53,4 @@
 | Lesson rendering | — | `packages/lesson-renderer/src/stem-lesson.ts` | WC for lesson display |
 | Circuit simulation | `circuit-sim` | `packages/interactive-simulations/src/stem-circuit-sim.ts` | Interactive STEM sim |
 | Mechanics simulation | `mechanics-sim` | `packages/interactive-simulations/src/stem-mechanics-sim.ts` | Interactive STEM sim |
+| Optics simulation | `optics-sim` | `packages/interactive-simulations/src/stem-optics-sim.ts` | Interactive STEM sim |

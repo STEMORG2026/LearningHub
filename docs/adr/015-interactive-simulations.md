@@ -124,13 +124,34 @@ grow a new component per concept.
 1. **Remove the three unused dependencies** and correct the `package.json`
    description, or add the tracer instrumentation they imply. The current state
    satisfies neither claim.
+   → **Resolved.** The tracer instrumentation was added (see Files), so the
+   dependencies are now genuinely used and the description matches.
 2. Add component registry entries for `<stem-mechanics-sim>` and `<stem-circuit-sim>`.
+   → `<stem-optics-sim>` should be added alongside them now that a third
+   simulation exists.
 3. If a third simulation is added, extract the inline formula into a testable pure
    function before the pattern sets.
+   → **Resolved and honoured.** A third simulation (`StemOpticsSim`) was added,
+   and rather than following the established inline-formula pattern for a third
+   time, all optics arithmetic was placed in a new pure module
+   `src/optics-physics.ts`. The component contains no formulas — it reads inputs,
+   calls the pure functions, and renders. Result: 41 physics tests that exercise
+   every branch and sign convention directly, which the DOM-only pattern would
+   not have permitted.
+
+## Optics: resolution of the `StemOpticsSim` drift
+
+`StemOpticsSim` was declared in `ARCHITECTURE.toml` under `publicApi` while no
+such symbol existed anywhere in the repository. The README recorded two options
+(remove the declaration, or implement the component). **Option 2 was chosen:**
+optics remains in scope, so the component now exists, is registered, is
+re-exported from `src/index.ts`, and is documented in the package README.
 
 ## Files
 
 - `packages/interactive-simulations/src/stem-mechanics-sim.ts` — F=ma widget
 - `packages/interactive-simulations/src/stem-circuit-sim.ts` — circuit widget
+- `packages/interactive-simulations/src/stem-optics-sim.ts` — optics widget (presentation only)
+- `packages/interactive-simulations/src/optics-physics.ts` — pure optics formulas (per Follow-up #3)
 - `packages/interactive-simulations/src/index.ts` — public surface
-- `packages/interactive-simulations/tests/` — 19 tests, all passing
+- `packages/interactive-simulations/tests/` — 76 tests, all passing

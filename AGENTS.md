@@ -149,7 +149,7 @@ Current phase details in `docs/ROADMAP.md`.
 | `packages/payments/` | Features (auth, progress, admin, payments, video) | `src/index.ts, src/types.ts` |
 | `packages/video/` | Features (auth, progress, admin, payments, video) | `src/index.ts, src/types.ts` |
 | `packages/content-provider/` | Content & Lessons | `src/content-provider.ts, src/index.ts, src/lhs-adapter.ts, src/local-content-provider.ts, src/narrative.ts, src/quiz-mapper.ts, src/types.ts` |
-| `packages/interactive-simulations/` | Content & Lessons | `src/index.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts` |
+| `packages/interactive-simulations/` | Content & Lessons | `src/index.ts, src/optics-physics.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts, src/stem-optics-sim.ts` |
 | `packages/lesson-renderer/` | Content & Lessons | `src/index.ts, src/stem-lesson.ts` |
 | `packages/content-engine/` | Content & Lessons | `src/blueprint.ts, src/formats.ts, src/index.ts, src/pipeline.ts, src/request.ts, src/verification.ts` |
 | `packages/pj-client/` | Agent Integration Foundation | `src/client.ts, src/index.ts` |

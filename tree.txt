@@ -1,4 +1,4 @@
-STEM-TUITION/  2d4b209
+STEM-TUITION/  47826e6
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
@@ -417,11 +417,15 @@ STEM-TUITION/  2d4b209
 │   ├── interactive-simulations/
 │   │   ├── src/
 │   │   │   ├── index.ts  [entry]
+│   │   │   ├── optics-physics.ts
 │   │   │   ├── stem-circuit-sim.ts
-│   │   │   └── stem-mechanics-sim.ts
+│   │   │   ├── stem-mechanics-sim.ts
+│   │   │   └── stem-optics-sim.ts
 │   │   ├── tests/
+│   │   │   ├── optics-physics.test.ts  [test]
 │   │   │   ├── stem-circuit-sim.test.ts  [test]
-│   │   │   └── stem-mechanics-sim.test.ts  [test]
+│   │   │   ├── stem-mechanics-sim.test.ts  [test]
+│   │   │   └── stem-optics-sim.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
 │   │   ├── README.md
@@ -587,8 +591,10 @@ STEM-TUITION/  2d4b209
 ├── scripts/
 │   ├── checks/
 │   │   ├── audit-deps.cjs
+│   │   ├── detect-flakes.mjs
 │   │   ├── mutants.json
 │   │   ├── mutate.mjs
+│   │   ├── prove-flakes.mjs
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs
 │   │   ├── size-check.cjs

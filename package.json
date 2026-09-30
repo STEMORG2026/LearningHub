@@ -21,7 +21,7 @@
     "typecheck": "turbo typecheck",
     "test:a11y": "playwright test --config=playwright.config.ts --grep-invert 'visual-regression'",
     "validate:edu": "node scripts/checks/validate-educational-metadata.js",
-    "verify-governance": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm build && pnpm typecheck && pnpm test:coverage && pnpm test:a11y && pnpm lint:size && pnpm validate:edu && pnpm lint:registry && pnpm lint:docs && pnpm lint:doc-governance && pnpm lint:doc-coverage && pnpm test:mutation:validate",
+    "verify-governance": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm build && pnpm typecheck && pnpm test:coverage && pnpm test:a11y && pnpm lint:size && pnpm validate:edu && pnpm lint:registry && pnpm lint:docs && pnpm lint:doc-governance && pnpm lint:doc-coverage && pnpm test:mutation:validate && pnpm test:flakes:prove",
     "lint:doc-governance": "node scripts/checks/strict-doc-governance.mjs",
     "lint:doc-coverage": "node scripts/checks/verify-doc-coverage.mjs --strict",
     "test:mutation": "node scripts/checks/mutate.mjs --allow-dirty --threshold 100",
@@ -50,7 +50,10 @@
     "changeset:publish": "changeset publish",
     "lint:commit": "commitlint --last --verbose",
     "test:properties": "turbo test --filter=@learninghub/core --filter=@learninghub/shell",
-    "test:properties:prove": "node scripts/checks/prove-properties.mjs && node scripts/checks/prove-properties-lhs.mjs"
+    "test:properties:prove": "node scripts/checks/prove-properties.mjs && node scripts/checks/prove-properties-lhs.mjs",
+    "test:flakes": "node scripts/checks/detect-flakes.mjs --seeds=5 --reps=2",
+    "test:flakes:quick": "node scripts/checks/detect-flakes.mjs --seeds=3 --reps=1",
+    "test:flakes:prove": "node scripts/checks/prove-flakes.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

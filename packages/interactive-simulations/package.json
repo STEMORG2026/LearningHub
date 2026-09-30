@@ -2,7 +2,7 @@
   "name": "@learninghub/interactive-simulations",
   "version": "1.0.0",
   "private": true,
-  "description": "Interactive teaching widgets — Web Components for mechanics and circuits (optics planned). These are standalone widgets with inline physics, not consumers of simulation-core.",
+  "description": "Interactive teaching widgets — Web Components for mechanics, circuits and optics. Standalone widgets; optics uses a pure optics-physics module rather than embedding formulas inline.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
