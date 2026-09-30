@@ -81,7 +81,19 @@ LearningHub/
 │   ├── content-provider/         Content access & STEMMA adapter
 │   ├── content-engine/           Lesson blueprint & pipeline engine
 │   ├── lesson-renderer/          Lesson container Web Component
-│   └── interactive-simulations/  Circuit & mechanics simulation Web Components
+│   ├── interactive-simulations/  Circuit & mechanics simulation Web Components
+│   ├── auth/                     User authentication — login, register, session, roles
+│   ├── progress/                 Student progress tracking — lessons, scores, streaks
+│   ├── admin/                    Admin dashboard — user management, system stats
+│   ├── payments/                 Payment integration — subscriptions, transactions, webhooks
+│   ├── video/                    Video/Zoom integration — session management, recording
+│   ├── pj-types/                 TypeScript type definitions for PROFESSOR-J API contracts
+│   ├── pj-client/                HTTP client for PROFESSOR-J backend API
+│   ├── pj-auth/                  Auth token management for PROFESSOR-J API calls
+│   ├── pj-audit/                 Audit log for PROFESSOR-J task execution
+│   ├── pj-policy/                Content policy enforcement for AI outputs
+│   ├── ecosystem-dashboard/      Health and status dashboard for LH+P-J ecosystem
+│   └── cross-repo-visibility/    Shared metrics and observability across repos
 ├── docs/                         Canonical documentation
 │   ├── VISION.md                 Canonical vision & boundaries
 │   ├── ECOSYSTEM.md              Ecosystem topology & shared infrastructure matrix
@@ -89,7 +101,7 @@ LearningHub/
 │   ├── RULES.md                  Normative technical standards (enforceable)
 │   ├── ARCHITECTURE/             Architecture charter & C4 diagrams
 │   ├── archive/                  Archival index & historical plans
-│   ├── adr/                      Architecture Decision Records (ADRs 001–018)
+│   ├── adr/                      Architecture Decision Records (ADRs 001–024)
 │   └── policies/                 Normative policies (EventBus, API, Security, etc.)
 ├── pnpm-workspace.yaml
 ├── turbo.json
