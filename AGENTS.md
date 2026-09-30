@@ -74,6 +74,38 @@ git config. Without it, commits skip documentation synchronization.
 - Tests alongside code, same PR
 - Run `pnpm test --filter="@learninghub/<pkg>"` before committing
 
+### Test Integrity — Falsifiability (MANDATORY)
+
+> **A test that has never been observed to fail is not evidence.**
+
+Full protocol: [`docs/RULES.md` → Test Integrity](docs/RULES.md). Summary:
+
+- **Every regression test MUST be observed to fail against the pre-fix code.**
+  Pull the old source from git (`git show <rev>:<path>`), never hand-reconstruct
+  it, then re-confirm the pass after restoring. Report all three observations.
+- **Never** weaken, skip, delete, or loosen an assertion to get green. If a test
+  blocks you, fix the change or get explicit human authorization to alter the
+  test — with the reason recorded.
+- **Coverage is not evidence.** `pnpm test:mutation` measures whether assertions
+  *notice* a behaviour change; `pnpm test:flakes` measures order independence.
+- A guard or detector you add must itself be shown to fail on a planted defect
+  (`scripts/checks/prove-*.mjs` is the pattern).
+
+### Git Workflow — Always Push to a Branch (MANDATORY)
+
+> **Push to a branch. Every time. No exceptions.**
+
+- **Never push directly to `main`.** Create a branch (`fix/…`, `feat/…`, `chore/…`,
+  `docs/…`) and push that, then open a pull request.
+- **Never force-push `main`.** `main` only advances by merging a PR.
+- **Already on `main` with local commits?** Capture them on a branch
+  (`git branch <type>/<desc>` → `git reset --hard origin/main` → `git switch <type>/<desc>`)
+  *before* pushing. Never push `main` to unblock yourself.
+- **Grandfather clause:** direct-to-`main` pushes made before this rule existed are
+  acceptable. Do not rewrite history over them and do not report them as findings.
+- Full policy: [`docs/RULES.md` → Git Workflow](docs/RULES.md). This is enforced by
+  `pnpm test:branch:rule` inside `pnpm verify-governance`.
+
 ---
 
 ## Orchestration & Agent Protocol
