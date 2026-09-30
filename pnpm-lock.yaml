@@ -47,7 +47,7 @@ importers:
         version: 8.70.1(eslint@10.11.0(jiti@2.6.1)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@7.0.2)
       '@vitest/coverage-v8':
         specifier: ^3.2.6
-        version: 3.2.7(supports-color@10.2.2)(vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0))
+        version: 3.2.7(supports-color@10.2.2)(vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0))
       axe-core:
         specifier: ^4.13.0
         version: 4.13.0
@@ -68,7 +68,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
       wrangler:
         specifier: ^4.127.1
         version: 4.127.1(@types/node@26.1.2)
@@ -108,13 +108,13 @@ importers:
     devDependencies:
       '@vitest/coverage-v8':
         specifier: ^3.2.6
-        version: 3.2.7(supports-color@10.2.2)(vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0))
+        version: 3.2.7(supports-color@10.2.2)(vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0))
       fast-check:
         specifier: ^4.10.2
         version: 4.10.2
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -123,7 +123,7 @@ importers:
         version: 7.3.6(@types/node@26.1.2)(jiti@2.6.1)(yaml@2.9.0)
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/acl:
     dependencies:
@@ -139,7 +139,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/admin:
     dependencies:
@@ -151,14 +151,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/audio-synth:
     dependencies:
@@ -174,7 +174,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/auth:
     dependencies:
@@ -186,14 +186,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/content-engine:
     dependencies:
@@ -206,19 +206,19 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/content-provider:
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/core:
     devDependencies:
@@ -230,7 +230,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/cross-repo-visibility:
     dependencies:
@@ -239,14 +239,14 @@ importers:
         version: link:../pj-types
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/ecosystem-dashboard:
     dependencies:
@@ -255,14 +255,14 @@ importers:
         version: link:../pj-client
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/hover-engine:
     dependencies:
@@ -278,7 +278,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/interactive-simulations:
     dependencies:
@@ -290,14 +290,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/lesson-renderer:
     dependencies:
@@ -312,14 +312,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/payments:
     dependencies:
@@ -331,14 +331,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/pj-audit:
     dependencies:
@@ -347,14 +347,14 @@ importers:
         version: link:../pj-types
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/pj-auth:
     dependencies:
@@ -366,14 +366,14 @@ importers:
         version: link:../pj-types
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/pj-client:
     dependencies:
@@ -382,14 +382,14 @@ importers:
         version: link:../pj-types
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/pj-policy:
     dependencies:
@@ -398,26 +398,26 @@ importers:
         version: link:../pj-types
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/pj-types:
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/progress:
     dependencies:
@@ -429,14 +429,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/quiz-engine:
     dependencies:
@@ -448,14 +448,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/simulation-core:
     dependencies:
@@ -471,7 +471,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/tracer:
     dependencies:
@@ -484,7 +484,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
   packages/video:
     dependencies:
@@ -496,14 +496,14 @@ importers:
         version: link:../tracer
     devDependencies:
       jsdom:
-        specifier: ^30.0.1
-        version: 30.0.1
+        specifier: ^30.1.1
+        version: 30.1.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vitest:
         specifier: ^3.2.6
-        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+        version: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
 
 packages:
 
@@ -511,13 +511,13 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@asamuzakjp/css-color@6.0.5':
-    resolution: {integrity: sha512-mbhpPMmnw/kwW19aRNmSUl1QzLbdGo1SCuE49BT98MNwqF6zaHb3o2owssFc/PEO/4t2UjqtCNwocuDtJornzA==}
-    engines: {node: ^22.13.0 || >=24.0.0}
+  '@asamuzakjp/css-color@7.1.2':
+    resolution: {integrity: sha512-99DHAnXDB5z6EEK+9GMpVI7Mw4oxj97dY5bpOzMnjADQWxI8rN6TvTduuFLUhUMlS7/CfVZ06tcZsus6cltnNw==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  '@asamuzakjp/dom-selector@8.3.0':
-    resolution: {integrity: sha512-UJLfKXBhrc8i1vH2eJXuYQMwlsLKWFw3O+CPqXSuVEiikeAim3UgrfWX0k4tA/X8cRFM8iZ7OaqBokFGbYusdg==}
-    engines: {node: ^22.13.0 || >=24.0.0}
+  '@asamuzakjp/dom-selector@9.2.2':
+    resolution: {integrity: sha512-lSWTBMjAcmu2xn5yEDU7jh6QDV+C8GEKtdJ4pIQhXh26RkKQ7S3FuQlt+zZkUbTdJ4d3XyV1kPI/G0zWXxqaqw==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   '@axe-core/playwright@4.13.0':
     resolution: {integrity: sha512-6YLx+kxXu5GJceG4ozFg+33a2EMTdjYwWGloJ3sb9Kta5pp+ZNS53uxGVog5JetIY8s++P5UrtX+cri+u0VAVg==}
@@ -769,40 +769,40 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@csstools/color-helpers@6.1.0':
-    resolution: {integrity: sha512-064IFJdjTfUqnjpCVpMOdbr8FLQBhinbZj6yRv2An2E41O/pLEXqfFRWqGq/SxlE5PEUYTlvWsG2r8MswAVvkg==}
+  '@csstools/color-helpers@6.1.2':
+    resolution: {integrity: sha512-grhRy3OKmniaAEKXMjua5z/EODX0MSqBGjunw8+j/3HQjOnahs2AGhvEOIYVUWcU6ScApbhLhVrQTX8XqrMrow==}
     engines: {node: '>=20.19.0'}
 
-  '@csstools/css-calc@3.3.0':
-    resolution: {integrity: sha512-c5ihYsPkdG6JCkU2zTMm4+k6r7RXuGxtWYhu5DHMIiF1FHzrfmHL5so11AoFpUv/tu61xfcmT4AmKoFfMPoqdQ==}
-    engines: {node: '>=20.19.0'}
-    peerDependencies:
-      '@csstools/css-parser-algorithms': ^4.0.0
-      '@csstools/css-tokenizer': ^4.0.0
-
-  '@csstools/css-color-parser@4.1.10':
-    resolution: {integrity: sha512-UZhQLIUyJaaMepqehrCODwCg2KW25vFvLWBmqYFaPclYvvxzj/sG8LBOhBFCp11i9uE7t1EyS+RAoV9tztPFyw==}
+  '@csstools/css-calc@3.4.1':
+    resolution: {integrity: sha512-EtC7SoN1j6J4E4DCwg5QgbO5TGxgxIA1RXqe+W+qUM+BUcezx9wT+/tiQ/WO2yCX4i5X+Cuf9ciJ22aP4UEwWw==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
-      '@csstools/css-parser-algorithms': ^4.0.0
-      '@csstools/css-tokenizer': ^4.0.0
+      '@csstools/css-parser-algorithms': ^4.0.1
+      '@csstools/css-tokenizer': ^4.0.2
 
-  '@csstools/css-parser-algorithms@4.0.0':
-    resolution: {integrity: sha512-+B87qS7fIG3L5h3qwJ/IFbjoVoOe/bpOdh9hAjXbvx0o8ImEmUsGXN0inFOnk2ChCFgqkkGFQ+TpM5rbhkKe4w==}
+  '@csstools/css-color-parser@4.2.4':
+    resolution: {integrity: sha512-DyefytAZ735mX4Dq/WcDAXFtXhaEFvme0ZS9tVEBAc2whxUthXr0R0L2rmEPm59SrMBkGrFzQviBXMs/UtnABQ==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
-      '@csstools/css-tokenizer': ^4.0.0
+      '@csstools/css-parser-algorithms': ^4.0.1
+      '@csstools/css-tokenizer': ^4.0.2
 
-  '@csstools/css-syntax-patches-for-csstree@1.1.7':
-    resolution: {integrity: sha512-fQ+05118eQS1cofO3aJpB5efgpBZMvIzwr/sbC8kDLVA5XLG8q1kJV5yzrUAI1f7lvhPnm8fgIjzFB8/O/5Dig==}
+  '@csstools/css-parser-algorithms@4.0.1':
+    resolution: {integrity: sha512-ShL8BqPfbKJrJiKFH0xBbN0i7Nrh9HXYRuF+pzyj93R/BL2YAsUxJeqANErzqM+0JGl7vjHp+3OIgd/DL69YIA==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      '@csstools/css-tokenizer': ^4.0.2
+
+  '@csstools/css-syntax-patches-for-csstree@1.1.14':
+    resolution: {integrity: sha512-HpbVXyrofRXpHpgkNIjU/3EWR4WJvOkO3emNK/L6X/mTJU7bGUI3AkkpoTNXznQLp0KRjLHELTGeKI5dIkI9JQ==}
     peerDependencies:
       css-tree: ^3.2.1
     peerDependenciesMeta:
       css-tree:
         optional: true
 
-  '@csstools/css-tokenizer@4.0.0':
-    resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
+  '@csstools/css-tokenizer@4.0.2':
+    resolution: {integrity: sha512-OoKoR0f76dCY666JlcbhmVTs2drYj1GUXZTYTcbUgJjh9Nv41aFfZ21bPQTERm5+L5cBDo466NltB2lplS5GBw==}
     engines: {node: '>=20.19.0'}
 
   '@dependents/detective-less@5.0.3':
@@ -2100,8 +2100,8 @@ packages:
     resolution: {integrity: sha512-bopVNp6ugyA150DDuZfPFdt1KZ5a94ZDiwX4hMgZDzF+GttD80lEy8kj98kbyhLXnPvhtIo93mdnLIjpCAeeOw==}
     engines: {node: '>=10.0.0'}
 
-  bidi-js@1.0.3:
-    resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
+  bidi-js@1.1.0:
+    resolution: {integrity: sha512-fX1Onk0tdVPC7obPWB5EbJ1z7NVhLq4m2xZLq2YXBkxzMXIGRpNMU88n0EPgWseKl12J7zXs7qrDxPK4sRs2fg==}
 
   bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
@@ -2830,9 +2830,9 @@ packages:
   hookified@2.2.0:
     resolution: {integrity: sha512-p/LgFzRN5FeoD3DLS6bkUapeye6E4SI6yJs6KetENd18S+FBthqYq2amJUWpt5z0EQwwHemidjY5OqJGEKm5uA==}
 
-  html-encoding-sniffer@6.0.0:
-    resolution: {integrity: sha512-CV9TW3Y3f8/wT0BRFc1/KAVQ3TUHiXmaAb6VW9vtiMFf7SLoMd1PdAc4W3KFOFETBJUb90KatHqlsZMWV+R9Gg==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+  html-encoding-sniffer@7.0.0:
+    resolution: {integrity: sha512-UikN5yr7xsCDAq87Or5or0PAlD3HJJOKVzM05az588WnpDJ4Ux7a2A53Qi6gofGg2/EtvF/H4hCi/TXfCW4Y6w==}
+    engines: {node: ^22.13.0 || >=24.0.0}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -3060,8 +3060,8 @@ packages:
     resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
 
-  jsdom@30.0.1:
-    resolution: {integrity: sha512-52v7mUVUfNQVYYqE1lcdaymWL0njO7lTLUog6ZvW2U5KsbiLk/GnZlVJ+qx0xfNJZ6Gn+KSpPNE52vurbxZwrA==}
+  jsdom@30.1.1:
+    resolution: {integrity: sha512-FahmoPK5vbPc+jxV1iErMHmAZypCZ942NHF4+qqaWAuvaKKTBZxawnmAtrbGWLU7MtlxfqIP0qw6aSI+aWGtLg==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       canvas: ^3.2.3
@@ -3162,6 +3162,10 @@ packages:
 
   lru-cache@11.5.2:
     resolution: {integrity: sha512-4pfM1Ff0x50o0tQwb5ucw/RzNyD0/YJME6IVcStalZuMWxdt3sR3huStTtxz4PUmvZfRguvDejasvQ2kifR11g==}
+    engines: {node: 20 || >=22}
+
+  lru-cache@11.5.3:
+    resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
 
   lru-cache@7.18.3:
@@ -3844,9 +3848,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  symbol-tree@3.2.4:
-    resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
-
   tapable@2.3.3:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
@@ -4104,9 +4105,9 @@ packages:
       jsdom:
         optional: true
 
-  w3c-xmlserializer@5.0.0:
-    resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
-    engines: {node: '>=18'}
+  w3c-xmlserializer@6.0.0:
+    resolution: {integrity: sha512-4Nsy8K5Tr6SPDH9jhKJOHf7ChDrc1zufZTVSF7x72hwuEXBqxqk9G6cK+K2NRUtB3iELRJqjXb4JPDMBjMTl2Q==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   walkdir@0.4.1:
     resolution: {integrity: sha512-3eBwRyEln6E1MSzcxcVpQIhRG8Q1jLvEqRmCZqS3dsfXEDR/AhOF4d+jHg1qvDCpYaVRZjENPQyrVxAkQqxPgQ==}
@@ -4141,8 +4142,8 @@ packages:
     resolution: {integrity: sha512-1to4zXBxmXHV3IiSSEInrreIlu02vUOvrhxJJH5vcxYTBDAx51cqZiKdyTxlecdKNSjj8EcxGBxNf6Vg+945gw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
-  whatwg-url@17.1.0:
-    resolution: {integrity: sha512-3GeworPmc2ZfEEHP7lEbUfBX/L75wdEsi0rLNhXcXxnoN5jyq0SL5gCy06SGW2cyTIZdTvWIDQNQoza++vKeaw==}
+  whatwg-url@17.1.2:
+    resolution: {integrity: sha512-TEZA+Zqxin7Jjsm2cjRohCmen5awh+hT6Zi3VZdqZlNRk7zvOI/9WpBFg/DWlA56bWnzwm6DuB8NS0EsxQH9uQ==}
     engines: {node: ^22.14.0 || >=24.0.0}
 
   whatwg-url@5.0.0:
@@ -4311,20 +4312,20 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
 
-  '@asamuzakjp/css-color@6.0.5':
+  '@asamuzakjp/css-color@7.1.2':
     dependencies:
-      '@csstools/css-calc': 3.3.0(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
-      '@csstools/css-color-parser': 4.1.10(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
-      '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
-      '@csstools/css-tokenizer': 4.0.0
-      lru-cache: 11.5.2
+      '@csstools/css-calc': 3.4.1(@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-color-parser': 4.2.4(@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-parser-algorithms': 4.0.1(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-tokenizer': 4.0.2
+      lru-cache: 11.5.3
 
-  '@asamuzakjp/dom-selector@8.3.0':
+  '@asamuzakjp/dom-selector@9.2.2':
     dependencies:
-      bidi-js: 1.0.3
+      bidi-js: 1.1.0
       css-tree: 3.2.1
       is-potential-custom-element-name: 1.0.1
-      lru-cache: 11.5.2
+      lru-cache: 11.5.3
 
   '@axe-core/playwright@4.13.0(playwright-core@1.62.1)':
     dependencies:
@@ -4639,29 +4640,29 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@csstools/color-helpers@6.1.0': {}
+  '@csstools/color-helpers@6.1.2': {}
 
-  '@csstools/css-calc@3.3.0(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)':
+  '@csstools/css-calc@3.4.1(@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)':
     dependencies:
-      '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
-      '@csstools/css-tokenizer': 4.0.0
+      '@csstools/css-parser-algorithms': 4.0.1(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-tokenizer': 4.0.2
 
-  '@csstools/css-color-parser@4.1.10(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)':
+  '@csstools/css-color-parser@4.2.4(@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)':
     dependencies:
-      '@csstools/color-helpers': 6.1.0
-      '@csstools/css-calc': 3.3.0(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
-      '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
-      '@csstools/css-tokenizer': 4.0.0
+      '@csstools/color-helpers': 6.1.2
+      '@csstools/css-calc': 3.4.1(@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-parser-algorithms': 4.0.1(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-tokenizer': 4.0.2
 
-  '@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0)':
+  '@csstools/css-parser-algorithms@4.0.1(@csstools/css-tokenizer@4.0.2)':
     dependencies:
-      '@csstools/css-tokenizer': 4.0.0
+      '@csstools/css-tokenizer': 4.0.2
 
-  '@csstools/css-syntax-patches-for-csstree@1.1.7(css-tree@3.2.1)':
+  '@csstools/css-syntax-patches-for-csstree@1.1.14(css-tree@3.2.1)':
     optionalDependencies:
       css-tree: 3.2.1
 
-  '@csstools/css-tokenizer@4.0.0': {}
+  '@csstools/css-tokenizer@4.0.2': {}
 
   '@dependents/detective-less@5.0.3':
     dependencies:
@@ -5470,7 +5471,7 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitest/coverage-v8@3.2.7(supports-color@10.2.2)(vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0))':
+  '@vitest/coverage-v8@3.2.7(supports-color@10.2.2)(vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 1.0.2
@@ -5485,7 +5486,7 @@ snapshots:
       std-env: 3.10.0
       test-exclude: 7.0.2
       tinyrainbow: 2.0.0
-      vitest: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0)
+      vitest: 3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -5691,7 +5692,7 @@ snapshots:
 
   basic-ftp@5.3.1: {}
 
-  bidi-js@1.0.3:
+  bidi-js@1.1.0:
     dependencies:
       require-from-string: 2.0.2
 
@@ -6584,7 +6585,7 @@ snapshots:
 
   hookified@2.2.0: {}
 
-  html-encoding-sniffer@6.0.0:
+  html-encoding-sniffer@7.0.0:
     dependencies:
       '@exodus/bytes': 1.15.1
     transitivePeerDependencies:
@@ -6794,28 +6795,27 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  jsdom@30.0.1:
+  jsdom@30.1.1:
     dependencies:
-      '@asamuzakjp/css-color': 6.0.5
-      '@asamuzakjp/dom-selector': 8.3.0
+      '@asamuzakjp/css-color': 7.1.2
+      '@asamuzakjp/dom-selector': 9.2.2
       '@bramus/specificity': 2.4.2
-      '@csstools/css-syntax-patches-for-csstree': 1.1.7(css-tree@3.2.1)
+      '@csstools/css-syntax-patches-for-csstree': 1.1.14(css-tree@3.2.1)
       '@exodus/bytes': 1.15.1
       css-tree: 3.2.1
       data-urls: 7.0.0
       decimal.js: 10.6.0
-      html-encoding-sniffer: 6.0.0
+      html-encoding-sniffer: 7.0.0
       is-potential-custom-element-name: 1.0.1
       lru-cache: 11.5.2
       parse5: 8.0.1
       saxes: 6.0.0
-      symbol-tree: 3.2.4
       tough-cookie: 6.0.2
       undici: 8.11.2
-      w3c-xmlserializer: 5.0.0
+      w3c-xmlserializer: 6.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
-      whatwg-url: 17.1.0
+      whatwg-url: 17.1.2
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - '@noble/hashes'
@@ -6940,6 +6940,8 @@ snapshots:
   lru-cache@10.4.3: {}
 
   lru-cache@11.5.2: {}
+
+  lru-cache@11.5.3: {}
 
   lru-cache@7.18.3: {}
 
@@ -7714,8 +7716,6 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  symbol-tree@3.2.4: {}
-
   tapable@2.3.3: {}
 
   tar-fs@3.1.3:
@@ -7955,7 +7955,7 @@ snapshots:
       jiti: 2.6.1
       yaml: 2.9.0
 
-  vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.0.1)(supports-color@10.2.2)(yaml@2.9.0):
+  vitest@3.2.7(@types/node@26.1.2)(jiti@2.6.1)(jsdom@30.1.1)(supports-color@10.2.2)(yaml@2.9.0):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/expect': 3.2.7
@@ -7982,7 +7982,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 26.1.2
-      jsdom: 30.0.1
+      jsdom: 30.1.1
     transitivePeerDependencies:
       - jiti
       - less
@@ -7997,7 +7997,7 @@ snapshots:
       - tsx
       - yaml
 
-  w3c-xmlserializer@5.0.0:
+  w3c-xmlserializer@6.0.0:
     dependencies:
       xml-name-validator: 5.0.0
 
@@ -8027,7 +8027,7 @@ snapshots:
     transitivePeerDependencies:
       - '@noble/hashes'
 
-  whatwg-url@17.1.0:
+  whatwg-url@17.1.2:
     dependencies:
       '@exodus/bytes': 1.15.1
       tr46: 6.0.0
