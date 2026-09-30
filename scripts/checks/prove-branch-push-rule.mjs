@@ -107,6 +107,88 @@ const REQUIREMENTS = [
     anchor: 'pnpm test:branch:rule',
     why: 'the agent-facing enforcement pointer is missing',
   },
+
+  // ── The stronger "all new work branches" policy ───────────────────────────
+  {
+    file: 'docs/RULES.md',
+    anchor: '### Git Workflow — Branching Is Mandatory for All New Work (MANDATORY)',
+    why: 'the mandatory-branching-for-new-work section is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Every unit of new work starts on a branch. Always. No exceptions.',
+    why: 'the core new-work branching statement is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Branch before you edit.',
+    why: 'the branch-before-editing directive is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'One coherent unit of work per branch.',
+    why: 'the one-unit-per-branch rule is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Sub-branches are expected when work demands them.',
+    why: 'the sub-branch provision is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Merge the sub-branch into its **parent**, then the parent into `main`.',
+    why: 'the sub-branch merge target (into parent, not main) is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'docs/WORK-IN-PROGRESS.md',
+    why: 'the work-visibility record reference is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Add the row when the branch is created',
+    why: 'the document-at-creation rule is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Never let the record drift.',
+    why: 'the no-stale-rows rule is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'pnpm test:work-record',
+    why: 'the work-record enforcement hook reference is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: '### Git Workflow — Branching Is Mandatory for All New Work (MANDATORY)',
+    why: 'the agent-facing new-work branching section is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'Every unit of new work starts on a branch. Always. No exceptions.',
+    why: 'the agent-facing new-work branching statement is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'Branch before you edit.',
+    why: 'the agent-facing branch-before-editing directive is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'Sub-branches are expected.',
+    why: 'the agent-facing sub-branch provision is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'docs/WORK-IN-PROGRESS.md',
+    why: 'the agent-facing work-record reference is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'pnpm test:work-record',
+    why: 'the agent-facing work-record enforcement pointer is missing',
+  },
 ];
 
 for (const { file, anchor, why } of REQUIREMENTS) {
