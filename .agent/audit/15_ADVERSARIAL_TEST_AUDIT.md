@@ -20,7 +20,7 @@
 | Swallowed errors in tests | 0 | 0 |
 | Proven "can-fail" tests | not measured | **49 mutants killed** |
 | Property-based tests (falsifiability proven) | 0 | **23** |
-| Order-independent packages | not measured | **22 of 23** (§13, §14) |
+| Order-independent packages | not measured | **22 of 23** (§13, §14, **re-verified §15** after the detector's own defects were fixed) |
 
 ### Overall test-suite trust score: **99 / 100**
 
@@ -29,6 +29,13 @@ Root cause is a **production aliasing bug** (shared `DEFAULT_RULES` array mutate
 in place), **reported and deliberately not fixed** — it is a production change
 requiring separate authorization, and a test audit must not silently edit source
 to make its own numbers look good.
+
+*Note (§15):* the trust score is unchanged by the three detector defects found in
+re-examination, because the underlying verdict — 22 of 23 packages clean, one red
+for a known production reason — was independently reproducible. The defects are
+recorded because they invalidated the *method* used for the per-package claims,
+not the claims themselves, and because a second, independently-failing package
+could have been hidden by the abort-on-first-failure behaviour.
 
 `payments` — the other order-dependent package found in §13 — **has been fixed**
 (§14). Its defect was test design, so repairing it stayed within the test-audit
@@ -254,7 +261,7 @@ mutation was reverted and verified byte-identical.
 | --- | --- | --- | --- |
 | T-001 | No CI workflow enforces the gate | **Resolved** | ✅ `ci:local` + pre-push hook (see §11) |
 | T-002 | No property-based testing on version comparison / regex | Medium | **Resolved** | ✅ 23 properties, falsifiability proven (see §12) |
-| T-003 | No flake detection (repeat-run, order randomisation) | Medium | **Resolved** | ✅ Detector + proof harness (see §13) — found 2 real defects; test-side one fixed in §14 |
+| T-003 | No flake detection (repeat-run, order randomisation) | Medium | **Resolved** | ✅ Detector + proof harness (see §13) — found 2 real defects; test-side one fixed in §14. Detector's own reliability defects found and fixed in **§15** |
 | T-004 | `BroadcastChannel` cross-context fan-out untested | Low | Accepted (jsdom limit) |
 | T-005 | Mutation catalogue covers 36 mutants across 7 files | **Resolved** | ✅ Iteration 2 (see §12) — all 6 suite-bearing packages now covered |
 | T-006 | Two `extract-zip` high advisories have **no published fix** | Low | Allowlisted with evidence (see §11.2) |
@@ -546,7 +553,7 @@ Full sweep, per package, `--sequence.shuffle.files --sequence.shuffle.tests`:
 | Package | Fixed order | Shuffled | Verdict |
 |---|---|---|---|
 | 21 packages | pass | pass | order-independent |
-| `payments` | ✓ 10/10 | ✗ **seed 1 fails**, seeds 2–5 pass | **order-dependent** |
+| `payments` | ✓ 10/10 | ✗ **seed 1 fails**, seeds 2–5 pass | **order-dependent** *(note: this row was produced by the `--suite` path, whose shuffling was silently disabled — see §15.1. The dependence was real and independently reproducible with a direct `npx vitest run`, and the fixed detector re-confirms the package clean after the §14 fix.)* |
 | `pj-policy` | ✓ 11/11 | ✗ **seeds 1–3 fail**, seeds 4–5 pass | **order-dependent** |
 
 Both are green in CI **today, purely by luck of ordering**. This is precisely
@@ -753,3 +760,110 @@ in this iteration *strengthened* an assertion.
 | `lint:doc-coverage --strict` | clean (24 workspaces) |
 | Catalogue validator | structurally sound (51 mutants, 8 suites) |
 | Source integrity after mutation | byte-identical, no stale backups |
+
+---
+
+## §15 The flake detector was itself unreliable — three blind spots
+
+The §13 sweep that produced "22 of 23 packages order-independent" was run by
+`detect-flakes.mjs`. Re-examining it before trusting that number exposed three
+defects **in the detector**, all of which manufactured *false confidence* rather
+than false alarms — the more dangerous direction, because a detector that says
+"clean" is believed.
+
+### §15.1 Defect A — the `--suite` path silently disabled shuffling
+
+`buildArgs` invoked the direct path as:
+
+```
+pnpm --filter <pkg> test -- <vitest flags>
+```
+
+pnpm forwards the literal `--` **through to vitest**, which then treats every
+following flag as a positional *filter argument*. The echoed command is
+unambiguous:
+
+```
+$ vitest run -- --sequence.shuffle.files --sequence.shuffle.tests --sequence.seed=1
+```
+
+The suite ran **unshuffled**, and the sweep reported `order dependence: none`
+for a scope whose ordering never varied. **This is the same false-negative class
+as the "no projects matched" bug from §13, reached by a different route.**
+
+**Impact on §13.** The `--suite` path was used for the per-package
+confirmations, including the `payments` 10/10 clean result. That result was
+*re-verified after the fix* and still holds (§15.4), but the original
+confirmation was not evidence. The repo-wide path (turbo) was unaffected — it
+has no bare `--` before the flags.
+
+### §15.2 Defect B — turbo aborted on first failure, killing siblings
+
+The repo-wide path omitted `--continue`. Turbo's default is to abort the run on
+the first task failure **and terminate in-flight siblings**, which is wrong for a
+sweep in two opposite ways:
+
+- it **hides real findings** — a second, independently-failing package never runs;
+- it **manufactures false ones** — an innocent task killed mid-run prints
+  `[ELIFECYCLE] Test failed`, indistinguishable from its own failure.
+
+Measured on the same seed:
+
+```
+without --continue :  Tasks: 31 successful, 46 total   (2 tasks abandoned)
+with    --continue :  Tasks: 47 successful, 48 total   (culprit named alone)
+```
+
+`progress:test` printed seven passing dots and then `[ELIFECYCLE] Test failed` —
+it had passed. Every sweep in §13 ran 46 of 48 tasks.
+
+### §15.3 Defect C — turbo's line prefix defeated failure extraction
+
+Turbo prefixes every line with `<pkg>:<task>: `. The extraction anchors
+(`^\s*(?:×|✗|FAIL)`) could never match, so repo-wide runs attributed every
+failure to `(unattributed)` and named no culprit. Fixed by stripping the prefix
+before matching, and by using the prefix itself as the attribution source —
+vitest names files package-relatively (`tests/policy.test.ts`), so a
+repo-relative `packages/<name>/` match does not apply.
+
+### §15.4 A guard was written, misfired, and was replaced
+
+A guard was added so the detector cannot certify an ordering it never varied.
+The **first revision inferred** ordering from reporter output and produced a
+**false positive**: with `--reporter=dot` no per-file lines exist at all, so
+every seed yielded an empty signature and the check collapsed to "all
+identical" — firing even while the run plainly reported `order dependence:
+DETECTED`. Inferring from the `json` reporter was also unsound: its
+`testResults` array is collection order, not execution order.
+
+The working guard reads vitest's **own seed echo**:
+
+```
+Running tests with seed "1"
+```
+
+Absence is not a pass. When the flags are swallowed the runner executes
+normally and prints a full summary but **no seed line** — silence is the
+signature of the bug. The guard refuses with exit 2 on either an absent or a
+mismatched echo.
+
+**Both directions verified:** reintroducing the bare `--` makes the guard fail
+(exit 2); the corrected detector reports the genuine `pj-policy` order
+dependence.
+
+### §15.5 Effect on the headline numbers
+
+| Claim | Before re-examination | After |
+|---|---|---|
+| Tasks executed per sweep | 46 of 48 | **48 of 48** |
+| Findings attributed to a package | always `(unattributed)` | **named per package** |
+| `--suite` shuffling | silently disabled | **verified via seed echo** |
+| `payments` clean (10/10) | unverified method | **re-confirmed, still clean** |
+| Repo-wide verdict | 22 of 23 clean | **unchanged: 22 of 23 clean** |
+
+The verdict survived; the *evidence* for the per-package claims had to be
+re-established, and two tasks per sweep had been invisible. A green result that
+arrives through a broken instrument is not a green result.
+
+**Still no test was weakened, skipped, deleted, or loosened — in this iteration
+or any prior one.**
