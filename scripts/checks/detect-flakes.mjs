@@ -98,10 +98,16 @@ const repoRoot = resolve(import.meta.dirname, '..', '..');
 //            `--force` is TURBO's flag and must precede `--`.
 //            Everything after `--` is forwarded to the package script.
 //
-//   direct:  pnpm --filter <pkg> test -- <vitest flags>
-//            No turbo in the path, so no `--force` — vitest would reject it
-//            with "Unknown option `--force`". There is no cache to defeat when
-//            the runner is invoked directly.
+//   direct:  pnpm --filter <pkg> test <vitest flags>
+//            NO `--` separator. pnpm forwards extra args to the script, but the
+//            literal `--` is forwarded TOO — it reaches vitest, which then
+//            treats every following flag as a positional argument. The
+//            consequence is silent and severe: the seeding flags are ignored,
+//            the suite runs UNSHUFFLED, and the sweep certifies an order that
+//            was never varied. Verified: `pnpm --filter X test -- --sequence`
+//            echoes `vitest run -- --sequence…`, so no shuffling occurs.
+//            The `argHash` guard below exists to catch exactly this class of
+//            silent no-op.
 //
 // Getting this wrong is silent-ish: a misplaced `--force` makes vitest exit 1
 // with a CACError, which reads as "every seed failed" — i.e. it looks like a
@@ -119,12 +125,20 @@ const VITEST_FLAGS = (seed) => [
 function buildArgs(seed) {
   if (suite) {
     const pkg = `@learninghub/${suite.replace(/^packages\//, '')}`;
-    return { cmd: 'pnpm', argv: ['--filter', pkg, 'test', '--', ...VITEST_FLAGS(seed)] };
+    return { cmd: 'pnpm', argv: ['--filter', pkg, 'test', ...VITEST_FLAGS(seed)] };
   }
   const target = filter ? ['--filter', filter] : [];
   return {
     cmd: 'pnpm',
-    argv: ['exec', 'turbo', 'run', 'test', ...target, '--force', '--', ...VITEST_FLAGS(seed)],
+    // `--continue` is NOT optional here. Turbo's default is to abort the whole
+    // run on the first task failure AND kill in-flight siblings. In a
+    // flake sweep that is doubly wrong: it hides real findings (a second,
+    // independently-failing package never gets reported) and it manufactures
+    // false ones — an innocent task killed mid-run prints `[ELIFECYCLE] Test
+    // failed`, which reads as its own failure. Measured: without `--continue`
+    // a seed reported "46 total / 31 successful"; with it, "48 total / 47
+    // successful" and the true culprit named alone.
+    argv: ['exec', 'turbo', 'run', 'test', ...target, '--force', '--continue', '--', ...VITEST_FLAGS(seed)],
   };
 }
 
@@ -217,6 +231,28 @@ function runOnce(seed) {
   return { ...base, verdict: c.verdict, reason: c.reason, passed: c.verdict === 'pass' };
 }
 
+// ── Verify the shuffle flags actually took effect ──────────────────────────
+// A run can print a perfect vitest summary while having honoured NONE of the
+// seeding flags — e.g. `pnpm --filter X test -- --sequence.seed=1`, where the
+// literal `--` is forwarded to vitest and every flag becomes a positional arg.
+// Such a run "verifies" nothing about ordering, yet looks identical to a green
+// run. That is precisely the false-confidence failure this script exists to
+// prevent, so it must be checked against positive evidence rather than assumed.
+//
+// The durable signal is vitest's own seed echo, emitted on every run:
+//     Running tests with seed "1"
+// Reading it back proves the flag reached the runner. Do NOT try to infer this
+// from execution order instead — the `dot` reporter prints no per-file lines,
+// and the `json` reporter's `testResults` array is collection order, not
+// execution order. An earlier revision of this guard compared inferred orders
+// and produced a FALSE POSITIVE (it claimed the flags were swallowed while the
+// run had plainly reported DETECTED order dependence). Verify the echo.
+const SEED_ECHO = /Running tests with seed "(\d+)"/;
+const seedEcho = (output) => {
+  const m = stripAnsi(output).match(SEED_ECHO);
+  return m ? Number(m[1]) : null;
+};
+
 // ── Failure extraction ─────────────────────────────────────────────────────
 // Vitest's `dot` reporter keeps failing test names. Pull the durable
 // identifiers out so the report names the culprit instead of saying "a run
@@ -224,13 +260,25 @@ function runOnce(seed) {
 function extractFailures(rawOutput) {
   const output = stripAnsi(rawOutput);
   const found = new Set();
+  // Turbo prefixes EVERY line with `<pkg>:<task>: `. Without stripping it, the
+  // `^\s*(?:×|✗|FAIL)` anchors below can never match, and a repo-wide sweep
+  // reports every failure as "(unattributed)" — which is how the missing prefix
+  // handling was found. Strip the prefix, then apply the same patterns, so a
+  // finding is named identically whether it came from turbo or a direct run.
+  const un = output
+    .split('\n')
+    .map((line) => {
+      const m = line.match(/^(@?[\w@/.-]+:(?:test|build|typecheck|lint\w*)):\s?(.*)$/);
+      return m ? m[2] : line;
+    })
+    .join('\n');
   const patterns = [
     /^\s*(?:×|✗|FAIL)\s+(.+?)(?:\s+\d+ms)?$/gm, // failing test lines
     /^\s*FAIL\s+(\S+)/gm, // file-level failure banner
     /AssertionError:.*?\n\s*.*?([\w./-]+\.test\.ts)/g, // assertion with a file
   ];
   for (const re of patterns) {
-    for (const m of output.matchAll(re)) {
+    for (const m of un.matchAll(re)) {
       const name = m[1].trim().replace(/\s+/g, ' ');
       if (name && name.length < 300) found.add(name);
     }
@@ -309,6 +357,59 @@ console.log(`  order dependence   : ${orderDependent ? 'DETECTED' : 'none'}`);
 console.log(`  non-determinism    : ${nonDeterministic ? 'DETECTED' : 'none (all seeds reproducible)'}`);
 console.log(`  wall time          : ${(totalMs / 1000).toFixed(1)}s (slowest single run ${slowest.durationMs}ms)`);
 
+// ── Per-package verdict (repo-wide sweeps only) ────────────────────────────
+// A single failing package must not hide the status of the other 22. Without
+// this table, one known-red package turns the whole sweep into "✗ Flake risk
+// detected", and the operator cannot tell whether anything ELSE regressed.
+// The attribution key is the vitest file path in each failure line.
+if (!suite && !filter) {
+  const byPackage = new Map();
+  const commit = (key, failed) => {
+    if (!byPackage.has(key)) byPackage.set(key, { package: key, failingRuns: 0, totalRuns: 0 });
+    const row = byPackage.get(key);
+    row.totalRuns += 1;
+    if (failed) row.failingRuns += 1;
+  };
+
+  for (const r of allRuns) {
+    if (r.verdict === 'harness-error') continue;
+    if (r.verdict === 'pass') {
+      // A passing run names no per-package split, so record it only if we have
+      // exactly one package under suspicion — otherwise it is counted below.
+      commit('(passing run)', false);
+      continue;
+    }
+    const pkgs = new Set();
+    // Two attribution sources, in order of authority:
+    //   1. vitest names files package-relatively ("tests/policy.test.ts"), so a
+    //      repo-relative `packages/<name>/` match usually fails. The turbo
+    //      prefix on the raw failure line IS repo-absolute — use it.
+    //   2. fall back to a repo-relative test path when present (direct runs).
+    for (const t of r.failedTests) {
+      const m = t.match(/packages\/([^/]+)\//);
+      if (m) pkgs.add(`packages/${m[1]}`);
+    }
+    if (pkgs.size === 0) {
+      for (const line of stripAnsi(r.output).split('\n')) {
+        if (!/(?:^|\s)(?:×|✗|FAIL)\s/.test(line)) continue;
+        const m = line.match(/^@?learninghub\/([\w-]+):(?:test|build)/);
+        if (m) pkgs.add(`packages/${m[1]}`);
+      }
+    }
+    if (pkgs.size === 0) pkgs.add('(unattributed)');
+    for (const p of pkgs) commit(p, true);
+  }
+
+  const failing = [...byPackage.values()].filter((v) => v.package !== '(passing run)');
+  if (failing.length) {
+    console.log('');
+    console.log('  failing packages (order dependence attributed by test file path):');
+    for (const v of failing.sort((a, b) => b.failingRuns - a.failingRuns)) {
+      console.log(`    - ${v.package.padEnd(34)} ${v.failingRuns} failing run(s)`);
+    }
+  }
+}
+
 if (culpritTests.length) {
   console.log('');
   console.log('  named failures:');
@@ -381,6 +482,42 @@ if (failures.length === allRuns.length && allRuns.length > 1) {
   console.log('⚠ EVERY run failed — but tests DID execute, so this is a real finding,');
   console.log('  not a harness fault. A universally-failing suite is order-INDEPENDENT:');
   console.log('  expect an unconditional bug or a deliberately broken probe.');
+}
+
+// ── Refuse to certify a scope whose seeding never took effect ──────────────
+// Read back vitest's seed echo. If a run executed tests but never echoed the
+// seed we asked for, the flag was swallowed (see the `--` note in buildArgs)
+// and the sweep is vacuous: it would report "no order dependence" for a suite
+// that was never reordered. This is evidence-based, not inferred.
+if (seedCount > 1) {
+  const unverified = [];
+  for (const [seed, runs] of perSeed) {
+    const run = runs[0];
+    if (run.verdict === 'harness-error') continue; // already reported as such
+    const echoed = seedEcho(run.output);
+    // No echo at all is NOT a pass. When the flags are swallowed the runner
+    // executes normally and prints a full summary but no seed line, so silence
+    // is the signature of the very bug this guard exists to catch. (An earlier
+    // revision skipped null echoes as "empty scope"; that let a swallowed flag
+    // certify as clean. Empty scopes are caught by the untested-scope guard.)
+    if (echoed !== seed) unverified.push({ seed, echoed });
+  }
+  if (unverified.length > 0) {
+    console.log('');
+    console.log('✗ HARNESS ERROR: the seed flag did not reach vitest.');
+    for (const u of unverified.slice(0, 3)) {
+      console.log(
+        u.echoed === null
+          ? `  - requested seed ${u.seed}, but vitest printed no seed line at all`
+          : `  - requested seed ${u.seed}, vitest reported seed ${u.echoed}`,
+      );
+    }
+    console.log('  Ordering was never varied, so this sweep cannot speak to order');
+    console.log('  dependence. Likely cause: a literal `--` in the argv is forwarded');
+    console.log('  to vitest, turning the flags into positional arguments.');
+    console.log(`  Verify manually: ${suite ? `pnpm --filter @learninghub/${suite.replace(/^packages\//, '')} test --sequence.seed=2` : 'pnpm exec turbo run test --force --continue -- --sequence.seed=2'}`);
+    process.exit(2);
+  }
 }
 
 console.log('');
