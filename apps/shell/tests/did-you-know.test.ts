@@ -76,4 +76,79 @@ describe('<did-you-know>', () => {
     const after = el.querySelector('[data-name]')!.textContent;
     expect(after).not.toBe(before);
   });
+
+  it('falls back to minimized when localStorage throws', () => {
+    // Private-browsing modes throw on access rather than returning null; the
+    // widget must still mount instead of letting the error escape.
+    globalThis.localStorage = {
+      getItem: () => {
+        throw new Error('SecurityError: storage disabled');
+      },
+      setItem: () => {},
+      removeItem: () => {},
+      clear: () => {},
+      key: () => null,
+      length: 0,
+    } as unknown as Storage;
+
+    const el = mount();
+
+    expect(el.querySelector('.dyk-widget')!.classList.contains('minimized')).toBe(true);
+    const toggle = el.querySelector('.dyk-toggle') as HTMLButtonElement;
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('does not rotate on the interval while minimized', () => {
+    // Rotation is gated on the expanded state by design: a collapsed widget
+    // must not burn a timer tick cycling content nobody can see.
+    vi.useFakeTimers();
+    const el = mount();
+    expect(el.querySelector('.dyk-widget')!.classList.contains('minimized')).toBe(true);
+
+    const before = el.querySelector('[data-name]')!.textContent;
+    vi.advanceTimersByTime(28_000);
+
+    expect(el.querySelector('[data-name]')!.textContent).toBe(before);
+  });
+
+  it('resumes rotation after being re-expanded', () => {
+    vi.useFakeTimers();
+    const el = mount();
+    const toggle = el.querySelector('.dyk-toggle') as HTMLButtonElement;
+
+    toggle.click(); // expand
+    toggle.click(); // collapse again
+    expect(el.querySelector('.dyk-widget')!.classList.contains('minimized')).toBe(true);
+
+    const before = el.querySelector('[data-name]')!.textContent;
+    vi.advanceTimersByTime(28_000);
+    expect(el.querySelector('[data-name]')!.textContent).toBe(before);
+
+    toggle.click(); // expand once more
+    vi.advanceTimersByTime(28_000);
+    expect(el.querySelector('[data-name]')!.textContent).not.toBe(before);
+  });
+
+  it('stops the rotation timer when disconnected', () => {
+    vi.useFakeTimers();
+    const el = mount();
+    (el.querySelector('.dyk-toggle') as HTMLButtonElement).click();
+    const before = el.querySelector('[data-name]')!.textContent;
+
+    el.remove(); // triggers disconnectedCallback -> #stopRotation
+
+    expect(() => vi.advanceTimersByTime(28_000)).not.toThrow();
+    expect(el.querySelector('[data-name]')!.textContent).toBe(before);
+  });
+
+  it('rotates once expanded', () => {
+    vi.useFakeTimers();
+    const el = mount();
+    (el.querySelector('.dyk-toggle') as HTMLButtonElement).click();
+    const before = el.querySelector('[data-name]')!.textContent;
+
+    vi.advanceTimersByTime(28_000);
+
+    expect(el.querySelector('[data-name]')!.textContent).not.toBe(before);
+  });
 });

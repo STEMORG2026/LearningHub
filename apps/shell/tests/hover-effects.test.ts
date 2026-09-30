@@ -60,4 +60,73 @@ describe('initHoverEffects', () => {
     el.dispatchEvent(new MouseEvent('mouseenter'));
     expect(el.className).toBe('');
   });
+
+  it('is a no-op when the same element leaves twice', () => {
+    setFixture();
+    initHoverEffects();
+    const el = document.getElementById('c1')!;
+
+    el.dispatchEvent(new MouseEvent('mouseenter'));
+    el.dispatchEvent(new MouseEvent('mouseleave'));
+    // Second leave: `applied` no longer holds an entry, so the guard must skip
+    // the removal and leave the element's class list untouched.
+    const afterFirst = el.className;
+    el.dispatchEvent(new MouseEvent('mouseleave'));
+    expect(el.className).toBe(afterFirst);
+  });
+
+  it('leaves without hovering first does not throw', () => {
+    setFixture();
+    initHoverEffects();
+    const el = document.getElementById('c2')!;
+    // No preceding mouseenter, so there is no style to remove.
+    expect(() => el.dispatchEvent(new MouseEvent('mouseleave'))).not.toThrow();
+    expect(el.className).toBe('card');
+  });
+
+  it('replaces the previous style rather than stacking classes', () => {
+    setFixture();
+    initHoverEffects();
+    const el = document.getElementById('c1')!;
+
+    el.dispatchEvent(new MouseEvent('mouseenter'));
+    el.dispatchEvent(new MouseEvent('mouseenter'));
+
+    const hoverClasses = Array.from(el.classList).filter((c) =>
+      HOVER_STYLES.includes(c as (typeof HOVER_STYLES)[number]),
+    );
+    expect(hoverClasses).toHaveLength(1);
+  });
+
+  it('re-hover after a leave works and applies exactly one style', () => {
+    setFixture();
+    initHoverEffects();
+    const el = document.getElementById('c3')!;
+
+    el.dispatchEvent(new MouseEvent('mouseenter'));
+    el.dispatchEvent(new MouseEvent('mouseleave'));
+    el.dispatchEvent(new MouseEvent('mouseenter'));
+
+    const hoverClasses = Array.from(el.classList).filter((c) =>
+      HOVER_STYLES.includes(c as (typeof HOVER_STYLES)[number]),
+    );
+    expect(hoverClasses).toHaveLength(1);
+  });
+
+  it('handles several targets independently', () => {
+    setFixture();
+    initHoverEffects();
+
+    const c1 = document.getElementById('c1')!;
+    const c2 = document.getElementById('c2')!;
+    c1.dispatchEvent(new MouseEvent('mouseenter'));
+    c2.dispatchEvent(new MouseEvent('mouseenter'));
+    c1.dispatchEvent(new MouseEvent('mouseleave'));
+
+    const styleOf = (el: HTMLElement): string[] =>
+      Array.from(el.classList).filter((c) => HOVER_STYLES.includes(c as (typeof HOVER_STYLES)[number]));
+
+    expect(styleOf(c1)).toHaveLength(0);
+    expect(styleOf(c2)).toHaveLength(1);
+  });
 });

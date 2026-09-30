@@ -792,6 +792,7 @@ Examples of existing ADRs (all in `docs/adr/`):
 021-phase8-doc-governance.md
 022-ecosystem-architecture.md
 023-restore-verification-gate-and-stemma-seam.md
+024-advisory-scoped-dependency-overrides.md
 ```
 
 ADRs are never silently rewritten to erase history.

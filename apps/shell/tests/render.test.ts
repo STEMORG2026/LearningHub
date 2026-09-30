@@ -50,6 +50,74 @@ describe('render templates', () => {
     expect(document.querySelectorAll('[data-learning-modes] .soft-card')).toHaveLength(LEARNING_MODES.length);
   });
 
+  it('initLearningModes navigates to the mode href on click', () => {
+    document.body.insertAdjacentHTML('beforeend', '<div data-learning-modes></div>');
+    initLearningModes();
+
+    const nav = document.querySelector<HTMLElement>('[data-learning-modes] [data-nav]')!;
+    const href = nav.getAttribute('data-nav')!;
+
+    // jsdom forbids real navigation; capture the assignment instead.
+    const original = Object.getOwnPropertyDescriptor(window, 'location');
+    const assigned: string[] = [];
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: {
+        get href() {
+          return '';
+        },
+        set href(v: string) {
+          assigned.push(v);
+        },
+      },
+    });
+
+    try {
+      nav.click();
+    } finally {
+      if (original) Object.defineProperty(window, 'location', original);
+    }
+
+    expect(assigned).toEqual([href]);
+  });
+
+  it('initLearningModes falls back to videos.html when data-nav is empty', () => {
+    document.body.insertAdjacentHTML('beforeend', '<div data-learning-modes></div>');
+    initLearningModes();
+
+    // Simulate a malformed href, which is what the `?? 'videos.html'` guard
+    // exists for: getAttribute returns null for a present-but-empty attribute
+    // only when the attribute is truly absent, so remove it to force the null.
+    const nav = document.querySelector<HTMLElement>('[data-learning-modes] [data-nav]')!;
+    nav.removeAttribute('data-nav');
+
+    const original = Object.getOwnPropertyDescriptor(window, 'location');
+    const assigned: string[] = [];
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: {
+        get href() {
+          return '';
+        },
+        set href(v: string) {
+          assigned.push(v);
+        },
+      },
+    });
+
+    try {
+      nav.click();
+    } finally {
+      if (original) Object.defineProperty(window, 'location', original);
+    }
+
+    expect(assigned).toEqual(['videos.html']);
+  });
+
+  it('initLearningModes is a no-op when the container is absent', () => {
+    expect(() => initLearningModes()).not.toThrow();
+  });
+
   it('initPioneerWall renders all pioneers and filters by field', () => {
     filterPills('pioneers', ['all', 'physics', 'math', 'computing']);
     document.body.insertAdjacentHTML('beforeend', '<div id="pioneerGrid"></div>');

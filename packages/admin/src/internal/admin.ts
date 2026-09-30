@@ -39,6 +39,28 @@ export function listUsers(filters?: UserFilters, page = 1, pageSize = 20): Paged
   };
 }
 
+export function createUser(
+  input: Pick<AdminUser, 'email' | 'name'> & Partial<Pick<AdminUser, 'role' | 'isActive'>>,
+): AdminUser {
+  const user: AdminUser = {
+    id: crypto.randomUUID(),
+    email: input.email,
+    name: input.name,
+    role: input.role ?? 'student',
+    isActive: input.isActive ?? true,
+    createdAt: Date.now(),
+    lastLoginAt: null,
+    loginCount: 0,
+  };
+  adminUsers.set(user.id, user);
+  getDefaultEventBus().publish('admin:user-created', {
+    data: { userId: user.id },
+    timestamp: new Date().toISOString(),
+    schemaVersion: '1.0',
+  });
+  return user;
+}
+
 export function updateUser(userId: string, updates: Partial<AdminUser>): AdminUser | null {
   const user = adminUsers.get(userId);
   if (!user) return null;
