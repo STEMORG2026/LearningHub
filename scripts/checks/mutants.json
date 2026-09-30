@@ -87,6 +87,15 @@
         "--root",
         "packages/payments"
       ]
+    },
+    "pj-policy": {
+      "cmd": "npx",
+      "args": [
+        "vitest",
+        "run",
+        "--root",
+        "packages/pj-policy"
+      ]
     }
   },
   "mutants": [
@@ -499,6 +508,30 @@
       "why": "Completing a transaction must set status to completed, not leave it pending.",
       "find": "  tx.status = 'completed';",
       "replace": "  tx.status = 'pending';"
+    },
+    {
+      "id": "pj-policy:PJ1-shared-default-rules",
+      "file": "packages/pj-policy/src/policy.ts",
+      "suite": "pj-policy",
+      "why": "Assigning the shared module array by reference instead of copying it is the original aliasing bug: one engine mutating a rule corrupts defaultPolicy and every later instance.",
+      "find": "rules: cloneRules(config.rules ?? DEFAULT_RULES),",
+      "replace": "rules: config.rules ?? (DEFAULT_RULES as unknown as PolicyRule[]),"
+    },
+    {
+      "id": "pj-policy:PJ2-shallow-clone-rule-objects",
+      "file": "packages/pj-policy/src/policy.ts",
+      "suite": "pj-policy",
+      "why": "Copying only the array but not each rule record lets toggleRule mutate a shared rule object, so enabling/disabling leaks across engines.",
+      "find": "const cloneRules = (rules: readonly PolicyRule[]): PolicyRule[] => rules.map((rule) => ({ ...rule }));",
+      "replace": "const cloneRules = (rules: readonly PolicyRule[]): PolicyRule[] => [...rules];"
+    },
+    {
+      "id": "pj-policy:PJ3-add-rule-retains-caller-object",
+      "file": "packages/pj-policy/src/policy.ts",
+      "suite": "pj-policy",
+      "why": "Storing the caller-supplied rule by reference lets an external mutation silently reconfigure the engine policy.",
+      "find": "this.config.rules.push({ ...rule });",
+      "replace": "this.config.rules.push(rule);"
     }
   ]
 }

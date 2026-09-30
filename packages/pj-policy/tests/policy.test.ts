@@ -90,4 +90,63 @@ describe('pj-policy', () => {
       expect(result.allowed).toBe(true);
     });
   });
+
+  // Regression tests for a production aliasing bug. `DEFAULT_RULES` is a
+  // module-level array; assigning it by reference in the constructor and then
+  // mutating it in place let one engine's edit corrupt the exported
+  // `defaultPolicy` singleton AND every engine built afterwards, for the
+  // lifetime of the process. In a content-moderation engine that means one
+  // caller removing `no-pii` silently disables PII blocking for everyone else.
+  //
+  // These tests fail against the pre-fix source (verified by restoring it):
+  // rules 4 -> 3 and `check` returning allowed for a credit-card number.
+  describe('instance isolation (regression: shared DEFAULT_RULES)', () => {
+    it("one engine removing a rule does not affect the module singleton", () => {
+      const before = defaultPolicy.rules.length;
+      const victim = new ContentPolicyEngine();
+      victim.removeRule('no-pii');
+      expect(defaultPolicy.rules.length).toBe(before);
+      expect(defaultPolicy.rules.some((r) => r.id === 'no-pii')).toBe(true);
+    });
+
+    it('an engine created AFTER a mutation still gets the full default rule set', () => {
+      new ContentPolicyEngine().removeRule('no-pii');
+      const fresh = new ContentPolicyEngine();
+      expect(fresh.rules.map((r) => r.id)).toEqual(
+        expect.arrayContaining(['no-pii', 'no-harm', 'educational', 'flag-sensitive']),
+      );
+      expect(fresh.rules.length).toBe(4);
+    });
+
+    it('PII blocking survives another engine removing the no-pii rule', () => {
+      new ContentPolicyEngine().removeRule('no-pii');
+      const fresh = new ContentPolicyEngine();
+      const result = fresh.check('My card number is 4111 1111 1111 1111');
+      expect(result.allowed).toBe(false);
+      expect(result.violations[0].category).toBe('pii');
+    });
+
+    it('toggling a rule on one engine does not disable it on another', () => {
+      const a = new ContentPolicyEngine();
+      a.toggleRule('no-pii');
+      const b = new ContentPolicyEngine();
+      expect(b.rules.find((r) => r.id === 'no-pii')?.enabled).toBe(true);
+    });
+
+    it('the engine does not retain a caller-supplied rule object', () => {
+      const engine = new ContentPolicyEngine();
+      const external = {
+        id: 'external-rule',
+        name: 'External',
+        description: 'Supplied by a caller',
+        category: 'spam' as const,
+        action: 'flag' as const,
+        enabled: true,
+        priority: 10,
+      };
+      engine.addRule(external);
+      external.enabled = false;
+      expect(engine.rules.find((r) => r.id === 'external-rule')?.enabled).toBe(true);
+    });
+  });
 });

@@ -39,19 +39,40 @@ export interface ContentPolicyConfig {
   logViolations: boolean;
 }
 
-const DEFAULT_RULES: PolicyRule[] = [
+// Frozen so that no code path can mutate a default rule object in place.
+// `Object.freeze` is shallow, so each element is frozen too — a policy rule is
+// a flat record, so one level is sufficient.
+//
+// The explicit `PolicyRule[]` annotation on the source array is required: without
+// it TS widens `category`/`action` to `string` and the frozen result no longer
+// satisfies `readonly PolicyRule[]`.
+const DEFAULT_RULE_SOURCE: PolicyRule[] = [
   { id: 'no-pii', name: 'No PII', description: 'Block content containing personally identifiable information', category: 'pii', action: 'block', enabled: true, priority: 100 },
   { id: 'no-harm', name: 'No Harmful Content', description: 'Block harmful or dangerous content', category: 'harmful', action: 'block', enabled: true, priority: 90 },
   { id: 'educational', name: 'Educational Priority', description: 'Allow educational content through', category: 'educational', action: 'allow', enabled: true, priority: 80 },
   { id: 'flag-sensitive', name: 'Flag Sensitive', description: 'Flag sensitive content for review', category: 'sensitive', action: 'flag', enabled: true, priority: 50 },
 ];
 
+const DEFAULT_RULES: readonly PolicyRule[] = DEFAULT_RULE_SOURCE.map((rule) =>
+  Object.freeze(rule),
+);
+
+// Every engine gets its OWN copy of the rule records. `DEFAULT_RULES` is
+// module-level and shared by every instance, so assigning it by reference (and
+// then mutating it via addRule/removeRule/toggleRule) leaks one caller's edits
+// into the exported `defaultPolicy` singleton and into every engine created
+// afterwards — for the lifetime of the process. In a content-moderation engine
+// that means one tenant removing a `no-pii` rule silently disables PII blocking
+// for everyone else. Callers that supply their own rules get them cloned too,
+// so the engine never mutates an object it does not own.
+const cloneRules = (rules: readonly PolicyRule[]): PolicyRule[] => rules.map((rule) => ({ ...rule }));
+
 export class ContentPolicyEngine {
   private config: ContentPolicyConfig;
 
   constructor(config: Partial<ContentPolicyConfig> = {}) {
     this.config = {
-      rules: config.rules ?? DEFAULT_RULES,
+      rules: cloneRules(config.rules ?? DEFAULT_RULES),
       strictMode: config.strictMode ?? false,
       logViolations: config.logViolations ?? true,
     };
@@ -91,7 +112,9 @@ export class ContentPolicyEngine {
   }
 
   addRule(rule: PolicyRule): void {
-    this.config.rules.push(rule);
+    // Store a copy, not the caller's object. Otherwise a caller that keeps a
+    // reference and later mutates it silently reconfigures this engine's policy.
+    this.config.rules.push({ ...rule });
   }
 
   removeRule(ruleId: string): boolean {

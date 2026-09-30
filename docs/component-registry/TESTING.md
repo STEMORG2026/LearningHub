@@ -32,7 +32,7 @@
 | `packages/pj-types/` | `tests/*.test.ts` | Unit | — | 🟢 Written (4 tests) |
 | `packages/pj-auth/` | `tests/*.test.ts` | Unit | — | 🟢 Written (11 tests) |
 | `packages/pj-audit/` | `tests/*.test.ts` | Unit | — | 🟢 Written (8 tests) |
-| `packages/pj-policy/` | `tests/*.test.ts` | Unit | — | 🟢 Written (11 tests) |
+| `packages/pj-policy/` | `tests/*.test.ts` | Unit | — | 🟢 Written (16 tests) |
 | `packages/ecosystem-dashboard/` | `tests/*.test.ts` | Unit | — | 🟢 Written (13 tests) |
 | `packages/cross-repo-visibility/` | `tests/*.test.ts` | Unit | — | 🟢 Written (10 tests) |
 <!-- END AUTO:testing-table -->
