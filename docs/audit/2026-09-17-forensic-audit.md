@@ -9,6 +9,7 @@ branch: fix/phase0-correctness
 
 # LearningHub — Forensic Audit Report
 
+**Version:** 3.0.0
 **Date:** 2026-09-17
 **Auditor:** Hermes (deepseek-ai/DeepSeek-V4.1-Flash)
 **Scope:** LearningHub + ecosystem layers (STEMMA, PROFESSOR-J, JARVIS, Universal_Software_Auditor)

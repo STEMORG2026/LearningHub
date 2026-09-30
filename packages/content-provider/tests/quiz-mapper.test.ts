@@ -93,6 +93,47 @@ describe('mapQuizQuestionsToLessons', () => {
     expect(chemistry!.sections[1]!.kind).toBe('callout');
   });
 
+  // Added 2026-09-30 (mutation gap C7). The pre-existing assertion above checks
+  // only `kind`, so mutating the section *id* template went undetected. Section
+  // ids are the anchor contract used for deep-linking and analytics, so they are
+  // pinned explicitly here.
+  it('derives section IDs from the question id', () => {
+    const lessons = mapQuizQuestionsToLessons(quizQuestions);
+    const chemistry = lessons.find((l) => l.metadata.subject === 'chemistry');
+    expect(chemistry!.sections[0]!.id).toBe('chemistry-1-question');
+    expect(chemistry!.sections[1]!.id).toBe('chemistry-1-explanation');
+  });
+
+  // Added 2026-09-30 (mutation gap C1). Nothing previously asserted `difficulty`
+  // at all, so collapsing the easy/medium/hard ladder was invisible.
+  it('assigns a progressive difficulty ladder by position', () => {
+    const questions: QuizQuestionLike[] = [
+      { ...quizQuestions[0]!, id: 'q-a' },
+      { ...quizQuestions[0]!, id: 'q-b' },
+      { ...quizQuestions[0]!, id: 'q-c' },
+      { ...quizQuestions[0]!, id: 'q-d' },
+    ];
+    const [lesson] = mapQuizQuestionsToLessons(questions);
+    expect(lesson!.questions.map((q) => q.difficulty)).toEqual([
+      'easy',
+      'medium',
+      'hard',
+      'hard',
+    ]);
+  });
+
+  // Added 2026-09-30 (mutation gap C5). `toContain` passes with duplicates
+  // present, so dropping the Set de-duplication was invisible. This asserts the
+  // count, which only holds when duplicates are collapsed.
+  it('de-duplicates merged tags across questions in a subject', () => {
+    const a: QuizQuestionLike = { ...quizQuestions[0]!, id: 'a', subject: 'physics', tags: ['shared', 'alpha'] };
+    const b: QuizQuestionLike = { ...quizQuestions[0]!, id: 'b', subject: 'physics', tags: ['shared', 'beta'] };
+    const [lesson] = mapQuizQuestionsToLessons([a, b]);
+
+    expect(lesson!.metadata.tags).toHaveLength(3);
+    expect(lesson!.metadata.tags).toEqual(['shared', 'alpha', 'beta']);
+  });
+
   it('produces stable lesson IDs', () => {
     const lessons = mapQuizQuestionsToLessons(quizQuestions);
     const ids = lessons.map((l) => l.id);

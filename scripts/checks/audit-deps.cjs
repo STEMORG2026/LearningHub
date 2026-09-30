@@ -5,12 +5,26 @@
 // EXCEPT a documented allowlist of advisories that have no published fix at the
 // time of writing. Remove entries as fixes are published.
 //
-// Allowlist (re-evaluate weekly via the scheduled run):
-// - GHSA-jmr9-qjv8-65gv (extract-zip unvalidated symlink path traversal, high):
-//   the latest published version is 2.0.1; the advisory's patched 2.0.2 is not
-//   yet published. Dev-only transitive dependency via @lhci/cli → lighthouse →
-//   puppeteer-core → @puppeteer/browsers. Never shipped to production.
-const ALLOWLIST = new Set(['GHSA-jmr9-qjv8-65gv']);
+// Allowlist (re-evaluate weekly via the local CI run):
+//
+// - GHSA-jmr9-qjv8-65gv (extract-zip unvalidated symlink path traversal, high)
+// - GHSA-7pqw-9j4j-h8q3 (extract-zip arbitrary file write via symlink archive, high)
+//
+//   BOTH extract-zip advisories are allowlisted because NO FIX IS PUBLISHABLE.
+//   Verified 2026-09-30: the package's complete version list ends at 2.0.1
+//   (`npm view extract-zip versions`), 2.0.1 is the `latest` dist-tag, and the
+//   package was last published 2023-03-04. Both advisories claim a patch in
+//   ">=2.0.2", but 2.0.2 does not exist on the registry — so this is not a
+//   matter of upgrading, and no override can resolve it.
+//
+//   Reachability: dev-only, transitive via
+//   @lhci/cli -> lighthouse -> puppeteer-core -> @puppeteer/browsers -> extract-zip.
+//   Never shipped to production (`pnpm audit --prod` reports zero advisories).
+//
+//   Compensating controls: Lighthouse runs only in the local CI gate, against
+//   local builds, on trusted archives. The attack requires a maliciously crafted
+//   zip; we never extract untrusted archives with it.
+const ALLOWLIST = new Set(['GHSA-jmr9-qjv8-65gv', 'GHSA-7pqw-9j4j-h8q3']);
 
 const { spawnSync } = require('node:child_process');
 

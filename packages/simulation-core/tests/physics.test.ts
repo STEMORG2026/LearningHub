@@ -212,6 +212,50 @@ describe('interactPair', () => {
     expect(result.collision).toBeNull();
   });
 
+  // Added 2026-09-30 (mutation gap P5). The pre-existing "resolves elastic
+  // collision" test only asserts the bodies separate (toBeLessThan/toBeGreaterThan).
+  // That assertion still holds when the impulse formula divides by `mass * mass`
+  // instead of `mass + mass`, so the suite could not tell a correct momentum
+  // exchange from a broken one. These tests pin the *exchange* itself.
+  it('exchanges momentum in the correct direction (head-on, unequal mass)', () => {
+    const b1 = makeBody({ id: 'a', x: 490, y: 500, vx: 9, vy: 0, radius: 20, mass: 400 });
+    const b2 = makeBody({ id: 'b', x: 510, y: 500, vx: -1, vy: 0, radius: 20, mass: 300 });
+    const result = interactPair(b1, b2, 1.0);
+
+    // A heavier body hitting a lighter one must transfer most of its momentum.
+    // With a correct impulse (denominator mass1 + mass2) the heavy body is
+    // nearly stopped and the light one is thrown forward hard. A wrong
+    // denominator (mass1 * mass2) collapses the impulse, so the heavy body
+    // barely slows — the single most consequential difference in this function.
+    expect(result.b1.vx).toBeCloseTo(0.4286, 3); // 3/7
+    expect(result.b2.vx).toBeCloseTo(10.4286, 3); // 73/7
+  });
+
+  it('gives the lighter body the larger velocity change', () => {
+    const heavy = makeBody({ id: 'heavy', x: 490, y: 500, vx: 9, vy: 0, radius: 20, mass: 4000 });
+    const light = makeBody({ id: 'light', x: 510, y: 500, vx: -1, vy: 0, radius: 20, mass: 100 });
+    const result = interactPair(heavy, light, 1.0);
+
+    const heavyDelta = Math.abs(result.b1.vx - heavy.vx);
+    const lightDelta = Math.abs(result.b2.vx - light.vx);
+    expect(lightDelta).toBeGreaterThan(heavyDelta);
+  });
+
+  it('conserves total momentum for a head-on pair', () => {
+    // NOTE: `interactPair` applies the Coulomb force AND the collision impulse in
+    // the same call, so momentum is conserved only to within the Coulomb
+    // contribution (a residual of ~0.03 for these masses), not to machine
+    // precision. The tolerance below is chosen to sit above that residual while
+    // remaining far below any wrong-denominator deviation (which is ~11 in
+    // velocity terms, i.e. thousands in momentum terms).
+    const b1 = makeBody({ id: 'a', x: 490, y: 500, vx: 9, vy: 0, radius: 20, mass: 400 });
+    const b2 = makeBody({ id: 'b', x: 510, y: 500, vx: -1, vy: 0, radius: 20, mass: 300 });
+    const before = b1.mass * b1.vx + b2.mass * b2.vx;
+    const result = interactPair(b1, b2, 1.0);
+    const after = result.b1.mass * result.b1.vx + result.b2.mass * result.b2.vx;
+    expect(Math.abs(after - before)).toBeLessThan(0.05);
+  });
+
   it('marks collision giant when either radius > 35', () => {
     const b1 = makeBody({ id: 'a', x: 490, y: 500, radius: 40 });
     const b2 = makeBody({ id: 'b', x: 510, y: 500, radius: 20 });
@@ -426,6 +470,36 @@ describe('applyBlackholeDevour', () => {
     expect(result.devoured).toBe(true);
     expect(result.body.isExploded).toBe(true);
     expect(result.exploded).toBe(true);
+  });
+
+  // Added 2026-09-30 (mutation gap P6). Every pre-existing growth test used a
+  // large body (radius 100 / 50 / 150), where Math.max(radius * 0.3, 6) is
+  // always driven by the *radius* term. The `6` floor was therefore never
+  // exercised: changing it to 0 left the suite green. This test uses a body
+  // small enough that radius * 0.3 < 6, so only the floor can be responsible
+  // for the growth.
+  it('grows by the minimum amount of 6 when devouring a very small body', () => {
+    const bh = makeBody({ id: 'bh', type: 'super_blackhole', x: 500, y: 500, radius: 100 });
+    // radius 10 => radius * 0.3 = 3, which is below the floor of 6.
+    // Body must sit INSIDE devourDist (100 + 10 = 110) to be devoured at all.
+    const tiny = makeBody({ id: 'tiny', x: 550, y: 500, radius: 10 });
+    const result = applyBlackholeDevour(tiny, bh, W, H, 10_000);
+
+    expect(result.devoured).toBe(true);
+    // 100 + max(3, 6) === 106, NOT 103.
+    expect(result.radiusDelta).toBe(6);
+    expect(result.blackhole.radius).toBe(106);
+  });
+
+  it('uses radius * 0.3 when that exceeds the floor', () => {
+    const bh = makeBody({ id: 'bh', type: 'super_blackhole', x: 500, y: 500, radius: 100 });
+    // radius 100 => 30 > 6, so the radius term must win. devourDist = 200.
+    const big = makeBody({ id: 'big', x: 550, y: 500, radius: 100 });
+    const result = applyBlackholeDevour(big, bh, W, H, 10_000);
+
+    expect(result.devoured).toBe(true);
+    expect(result.radiusDelta).toBe(30);
+    expect(result.blackhole.radius).toBe(130);
   });
 });
 

@@ -69,10 +69,24 @@ export class EventBus {
     this.debugMode = enabled;
   }
 
+  protected onSubscriberError(type: string, pattern: string, error: unknown): void {
+    // Overridable seam for observability. Default: surface the failure without
+    // letting it propagate into `publish()` (which would abort delivery to the
+    // remaining subscribers).
+    console.error(`[EVENT BUS] subscriber for '${pattern}' threw on '${type}':`, error);
+  }
+
   private dispatchToLocal(type: string, payload: EventPayload): void {
     for (const entry of this.subscribers) {
       if (entry.regex.test(type)) {
-        entry.handler(payload);
+        // Error isolation: one misbehaving subscriber must never prevent delivery
+        // to the others. Without this, a single throwing handler silently mutes
+        // every subsequent subscriber on the same topic.
+        try {
+          entry.handler(payload);
+        } catch (error) {
+          this.onSubscriberError(type, entry.pattern, error);
+        }
       }
     }
   }

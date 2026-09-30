@@ -1,0 +1,322 @@
+{
+  "$comment": [
+    "Mutation catalogue for `node scripts/checks/mutate.mjs`.",
+    "",
+    "Each mutant is a real behaviour change to source that a test SHOULD detect.",
+    "A SURVIVED mutant means the suite cannot tell correct code from broken code.",
+    "",
+    "This catalogue deliberately seeds the mutants that were found SURVIVING during",
+    "the 2026-09-30 adversarial test audit, so they can never silently regress:",
+    "  • event-bus:B3 / B6  — regex anchoring and metachar escaping (both were gaps,",
+    "                         now killed by 3 added tests in event-bus.test.ts).",
+    "",
+    "When adding a mutant, prefer semantically meaningful changes (inverted",
+    "comparisons, removed guards, wrong constants) over cosmetic ones.",
+    "`find` must appear verbatim in the source file and `replace` must differ."
+  ],
+
+  "suites": {
+    "core": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/core"] },
+    "shell-lhs": { "cmd": "npx", "args": ["vitest", "run", "--root", "apps/shell", "tests/lhs-adapter.test.ts"] },
+    "lesson-renderer": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/lesson-renderer"] },
+    "content-provider": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/content-provider"] },
+    "simulation-core": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/simulation-core"] },
+    "quiz-engine": { "cmd": "npx", "args": ["vitest", "run", "--root", "packages/quiz-engine"] }
+  },
+
+  "mutants": [
+    {
+      "id": "event-bus:B1-no-error-isolation",
+      "file": "packages/core/src/event-bus.ts",
+      "suite": "core",
+      "why": "Removing try/catch around handler dispatch regresses REL-004: one throwing subscriber silences every later one.",
+      "find": "        try {\n          entry.handler(payload);\n        } catch (error) {\n          this.onSubscriberError(type, entry.pattern, error);\n        }",
+      "replace": "        entry.handler(payload);"
+    },
+    {
+      "id": "event-bus:B2-silent-swallow",
+      "file": "packages/core/src/event-bus.ts",
+      "suite": "core",
+      "why": "Errors isolated but never reported: failures become invisible to observability.",
+      "find": "        } catch (error) {\n          this.onSubscriberError(type, entry.pattern, error);\n        }",
+      "replace": "        } catch {\n          /* silently ignore */\n        }"
+    },
+    {
+      "id": "event-bus:B3-ungrounded-regex",
+      "file": "packages/core/src/event-bus.ts",
+      "suite": "core",
+      "why": "WAS A SURVIVOR. Removing ^...$ anchors lets an exact pattern match prefix/suffix variants.",
+      "find": "  return new RegExp(`^${regexStr}$`);",
+      "replace": "  return new RegExp(`${regexStr}`);"
+    },
+    {
+      "id": "event-bus:B4-invert-match",
+      "file": "packages/core/src/event-bus.ts",
+      "suite": "core",
+      "why": "Inverting the match predicate should fail essentially every dispatch test.",
+      "find": "      if (entry.regex.test(type)) {",
+      "replace": "      if (!entry.regex.test(type)) {"
+    },
+    {
+      "id": "event-bus:B5-broken-unsubscribe",
+      "file": "packages/core/src/event-bus.ts",
+      "suite": "core",
+      "why": "A no-op unsubscribe leaks subscriptions and double-delivers events.",
+      "find": "    this.subscribers = this.subscribers.filter(\n      (s) => !(s.pattern === pattern && s.handler === handler),\n    );",
+      "replace": "    /* mutated: unsubscribe is a no-op */"
+    },
+    {
+      "id": "event-bus:B6-no-metachar-escape",
+      "file": "packages/core/src/event-bus.ts",
+      "suite": "core",
+      "why": "WAS A SURVIVOR. Without escaping, '.' in a pattern becomes 'any char' and '+' becomes a quantifier.",
+      "find": "  const escaped = pattern.replace(/[.+?^${}()|[\\]\\\\]/g, '\\\\$&');",
+      "replace": "  const escaped = pattern;"
+    },
+
+    {
+      "id": "lhs-adapter:A1-floor-to-zero",
+      "file": "apps/shell/src/lib/lhs-adapter.ts",
+      "suite": "shell-lhs",
+      "why": "A zero version floor accepts a genuinely-too-old corpus, reintroducing the original incident class.",
+      "find": "export const MIN_SUPPORTED_EXPORT_VERSION = '2.0.0';",
+      "replace": "export const MIN_SUPPORTED_EXPORT_VERSION = '0.0.0';"
+    },
+    {
+      "id": "lhs-adapter:A2-invert-floor",
+      "file": "apps/shell/src/lib/lhs-adapter.ts",
+      "suite": "shell-lhs",
+      "why": "Inverting the floor comparison rejects modern corpora and accepts ancient ones.",
+      "find": "  if (compareExportVersions(parsed.export_version, MIN_SUPPORTED_EXPORT_VERSION) < 0) {",
+      "replace": "  if (compareExportVersions(parsed.export_version, MIN_SUPPORTED_EXPORT_VERSION) > 0) {"
+    },
+    {
+      "id": "lhs-adapter:A4-no-entity-validation",
+      "file": "apps/shell/src/lib/lhs-adapter.ts",
+      "suite": "shell-lhs",
+      "why": "Dropping structural validation accepts malformed entities via an unchecked path.",
+      "find": "  const entities = source.entities.filter(isEntity);",
+      "replace": "  const entities = source.entities;"
+    },
+    {
+      "id": "lhs-adapter:A7-offbyone-compare",
+      "file": "apps/shell/src/lib/lhs-adapter.ts",
+      "suite": "shell-lhs",
+      "why": "An off-by-one in version comparison misorders every version pair.",
+      "find": "    const diff = (pa[i] ?? 0) - (pb[i] ?? 0);",
+      "replace": "    const diff = (pa[i] ?? 0) - (pb[i] ?? 0) - 1;"
+    },
+
+    {
+      "id": "lesson-renderer:M1-equation-class",
+      "file": "packages/lesson-renderer/src/stem-lesson.ts",
+      "suite": "lesson-renderer",
+      "why": "Losing the equation-display class breaks every styled equation.",
+      "find": "<div class=\"equation-display\">${section.body}</div>",
+      "replace": "<div class=\"MUTATED-eq\">${section.body}</div>"
+    },
+    {
+      "id": "lesson-renderer:M4-section-class",
+      "file": "packages/lesson-renderer/src/stem-lesson.ts",
+      "suite": "lesson-renderer",
+      "why": "Breaking the section kind class breaks the whole structural DOM contract.",
+      "find": "const kindClass = `section-${section.kind} reveal`;",
+      "replace": "const kindClass = `MUTATED-${section.kind} reveal`;"
+    },
+    {
+      "id": "lesson-renderer:S1-story-intro-text",
+      "file": "packages/lesson-renderer/src/stem-lesson.ts",
+      "suite": "lesson-renderer",
+      "why": "Text-only change: proves the assertions check rendered copy, not just element presence.",
+      "find": "The Setup",
+      "replace": "Setup"
+    },
+    {
+      "id": "lesson-renderer:S5-loading-text",
+      "file": "packages/lesson-renderer/src/stem-lesson.ts",
+      "suite": "lesson-renderer",
+      "why": "Loading-state copy is user-visible; a weakened test would miss it.",
+      "find": "Loading lesson",
+      "replace": "Loading"
+    },
+
+    {
+      "id": "simulation-core:P1-boundary-flip",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Flipping a boundary comparison breaks collision containment.",
+      "find": "  if (x - body.radius < 0) {",
+      "replace": "  if (x - body.radius >= 0) {"
+    },
+    {
+      "id": "simulation-core:P2-no-bounce-damping",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Removing damping makes walls perfectly elastic: bodies gain energy forever and never settle. A suite that only asserts 'vx flipped sign' cannot tell damping from no damping.",
+      "find": "  if (x - body.radius < 0) {\n    x = body.radius;\n    vx *= -BOUNCE_DAMPING;\n  }",
+      "replace": "  if (x - body.radius < 0) {\n    x = body.radius;\n    vx *= -1;\n  }"
+    },
+    {
+      "id": "simulation-core:P3-sun-gravity-drops-type-guard",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Dropping the giant_planet guard makes the sun tug on every body, changing the trajectory of the sun and of all non-planets. Only a test that asserts a NON-planet is unaffected will catch it.",
+      "find": "  if (body.type !== 'giant_planet' || body.isExploded || body.id === sun.id) return body;",
+      "replace": "  if (body.isExploded || body.id === sun.id) return body;"
+    },
+    {
+      "id": "simulation-core:P4-coulomb-sign-inverted",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Inverting the like/opposite-charge sign makes opposite charges repel and like charges attract — the single most consequential physics sign in the module.",
+      "find": "    const force = (b1.charge * b2.charge < 0 ? -1 : 1) * (COULOMB_CONSTANT / (dist * dist)) * forceMult;",
+      "replace": "    const force = (b1.charge * b2.charge < 0 ? 1 : -1) * (COULOMB_CONSTANT / (dist * dist)) * forceMult;"
+    },
+    {
+      "id": "simulation-core:P5-collision-impulse-mass-swap",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Swapping the masses in the impulse formula breaks momentum exchange: the heavier body takes the lighter body's kick. A test asserting only 'velocities changed' will not notice.",
+      "find": "    const p = (2 * (nx * kx + ny * ky)) / (out1.mass + out2.mass);",
+      "replace": "    const p = (2 * (nx * kx + ny * ky)) / (out1.mass * out2.mass || 1);"
+    },
+    {
+      "id": "simulation-core:P6-devour-growth-floor",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Changing the minimum growth from 6 to 0 lets tiny bodies be devoured for effectively no growth, breaking the blackhole accretion model.",
+      "find": "  let newRadius = blackhole.radius + Math.max(body.radius * 0.3, 6);",
+      "replace": "  let newRadius = blackhole.radius + Math.max(body.radius * 0.3, 0);"
+    },
+    {
+      "id": "simulation-core:P7-force-mult-normal-view",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Changing the cosmic-view multiplier changes every force in the simulation. Caught only if a test asserts the exact multiplier rather than mere non-zero motion.",
+      "find": "  return (halfIntensity ? 0.5 : 1.0) * (cosmicViewActive ? 1.35 : 1.0);",
+      "replace": "  return (halfIntensity ? 0.5 : 1.0) * (cosmicViewActive ? 1.0 : 1.0);"
+    },
+    {
+      "id": "simulation-core:P8-blackhole-skip-guard-removed",
+      "file": "packages/simulation-core/src/physics.ts",
+      "suite": "simulation-core",
+      "why": "Removing the blackholeDisabled gate means a disabled blackhole still pulls and devours everything.",
+      "find": "  if (!input.blackholeDisabled) {",
+      "replace": "  if (true) {"
+    },
+
+    {
+      "id": "quiz-engine:Q1-score-per-question",
+      "file": "packages/quiz-engine/src/internal/quiz-engine.ts",
+      "suite": "quiz-engine",
+      "why": "Changing the per-question award from 10 changes every score and every percentage. High blast radius: results, completion, and the emitted event all shift.",
+      "find": "  const newScore = isCorrect ? state.score + 10 : state.score;",
+      "replace": "  const newScore = isCorrect ? state.score + 1 : state.score;"
+    },
+    {
+      "id": "quiz-engine:Q2-answered-guard-removed",
+      "file": "packages/quiz-engine/src/internal/quiz-engine.ts",
+      "suite": "quiz-engine",
+      "why": "Removing the double-answer guard lets a learner re-answer the same question to farm score. This is a real integrity defect, not a cosmetic one.",
+      "find": "  if (state.answered) {\n    return { updatedState: state, answer: createEmptyAnswer(state, selectedIndex) };\n  }",
+      "replace": "  if (false) {\n    return { updatedState: state, answer: createEmptyAnswer(state, selectedIndex) };\n  }"
+    },
+    {
+      "id": "quiz-engine:Q3-correct-comparison-inverted",
+      "file": "packages/quiz-engine/src/internal/quiz-engine.ts",
+      "suite": "quiz-engine",
+      "why": "Inverting correctness inverts the entire quiz. Should be trivially caught — its survival would indicate the suite is not exercising validateAnswer at all.",
+      "find": "  const isCorrect = selectedIndex === question.correct;",
+      "replace": "  const isCorrect = selectedIndex !== question.correct;"
+    },
+    {
+      "id": "quiz-engine:Q4-advance-off-by-one",
+      "file": "packages/quiz-engine/src/internal/quiz-engine.ts",
+      "suite": "quiz-engine",
+      "why": "Off-by-one in completion detection either ends the quiz early or never ends it.",
+      "find": "  const nextIndex = state.currentIndex + 1;",
+      "replace": "  const nextIndex = state.currentIndex + 2;"
+    },
+    {
+      "id": "quiz-engine:Q5-percentage-truncates",
+      "file": "packages/quiz-engine/src/internal/quiz-engine.ts",
+      "suite": "quiz-engine",
+      "why": "Math.floor instead of Math.round biases every percentage downward, which can push a learner below a grade boundary (see Q6).",
+      "find": "    const percentage = Math.round((state.score / maxScore) * 100);",
+      "replace": "    const percentage = Math.floor((state.score / maxScore) * 100);"
+    },
+    {
+      "id": "quiz-engine:Q6-scholar-threshold-shifted",
+      "file": "packages/quiz-engine/src/types.ts",
+      "suite": "quiz-engine",
+      "why": "Raising the Scholar boundary from 70 to 90 silently re-labels a genuinely proficient learner as a mere 'Great Attempt'. A boundary test at exactly 70 must exist to catch it.",
+      "find": "  } else if (percentage >= 70) {",
+      "replace": "  } else if (percentage >= 90) {"
+    },
+    {
+      "id": "quiz-engine:Q7-total-questions-derivation",
+      "file": "packages/quiz-engine/src/types.ts",
+      "suite": "quiz-engine",
+      "why": "Changing how totalQuestions is derived from maxScore reports the wrong question count on the results screen.",
+      "find": "  const totalQuestions = maxScore / 10;",
+      "replace": "  const totalQuestions = maxScore;"
+    },
+
+    {
+      "id": "content-provider:C1-difficulty-collapse",
+      "file": "packages/content-provider/src/quiz-mapper.ts",
+      "suite": "content-provider",
+      "why": "Collapsing the easy/medium/hard ladder by index removes progressive difficulty from every mapped lesson. Caught only if a test asserts the per-index difficulty, not just that questions exist.",
+      "find": "    difficulty: idx === 0 ? 'easy' : idx === 1 ? 'medium' : 'hard',",
+      "replace": "    difficulty: 'medium',"
+    },
+    {
+      "id": "content-provider:C2-subject-grouping-lost",
+      "file": "packages/content-provider/src/quiz-mapper.ts",
+      "suite": "content-provider",
+      "why": "Bypassing the subject map produces one lesson per question instead of one per subject — the core grouping contract of the mapper.",
+      "find": "    const existing = bySubject.get(q.subject) ?? [];",
+      "replace": "    const existing = bySubject.get(q.id) ?? [];"
+    },
+    {
+      "id": "content-provider:C3-time-not-summed",
+      "file": "packages/content-provider/src/quiz-mapper.ts",
+      "suite": "content-provider",
+      "why": "Using only the first question's time instead of the sum under-reports lesson length, which feeds scheduling and progress estimates.",
+      "find": "    const totalTime = qs.reduce((sum, q) => sum + q.estimatedTimeMinutes, 0);",
+      "replace": "    const totalTime = qs[0]?.estimatedTimeMinutes ?? 0;"
+    },
+    {
+      "id": "content-provider:C4-grade-levels-unsorted",
+      "file": "packages/content-provider/src/quiz-mapper.ts",
+      "suite": "content-provider",
+      "why": "Dropping the numeric sort leaves grade levels in first-seen order, so [11, 9, 10] renders as such. The existing test asserts toEqual([9,10,11]) and should kill it.",
+      "find": "    const gradeLevels = [...new Set(qs.flatMap((q) => q.gradeLevels))].sort((a, b) => a - b);",
+      "replace": "    const gradeLevels = [...new Set(qs.flatMap((q) => q.gradeLevels))].sort((a, b) => b - a);"
+    },
+    {
+      "id": "content-provider:C5-tags-not-deduped",
+      "file": "packages/content-provider/src/quiz-mapper.ts",
+      "suite": "content-provider",
+      "why": "Dropping the Set means duplicate tags accumulate across questions in a subject, inflating tag counts used for filtering.",
+      "find": "    const allTags = [...new Set(qs.flatMap((q) => q.tags))];",
+      "replace": "    const allTags = qs.flatMap((q) => q.tags);"
+    },
+    {
+      "id": "content-provider:C6-unnamed-lesson-id",
+      "file": "packages/content-provider/src/quiz-mapper.ts",
+      "suite": "content-provider",
+      "why": "Hardcoding the lesson id breaks the stable-identifier contract that deep-links and progress tracking depend on.",
+      "find": "      id: `lesson-${subject}`,",
+      "replace": "      id: 'lesson-fixed',"
+    },
+    {
+      "id": "content-provider:C7-explanation-section-dropped",
+      "file": "packages/content-provider/src/quiz-mapper.ts",
+      "suite": "content-provider",
+      "why": "Dropping the explanation callout strips the pedagogical content from every mapped lesson while still looking structurally valid. The existing kind assertion should kill it.",
+      "find": "      id: `${q.id}-explanation`,",
+      "replace": "      id: `${q.id}-MUTATED-explanation`,"
+    }
+  ]
+}

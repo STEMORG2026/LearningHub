@@ -39,7 +39,9 @@ function sectionHeader(label: string): string {
 }
 
 function lawCard(law: LhsEntity): string {
-  const equation = law.equation ? `<div class="lhs-equation">${law.equation}</div>` : '';
+  // Modern (2.x) exports express the relationship in `symbol` rather than `equation`.
+  const expression = law.equation ?? law.symbol ?? null;
+  const equation = expression ? `<div class="lhs-equation">${expression}</div>` : '';
   const misconceptions = (law.common_misconceptions ?? [])
     .map((m) => `<li class="lhs-misconception">${m}</li>`)
     .join('');
@@ -62,7 +64,8 @@ function lawCard(law: LhsEntity): string {
 function relatedEntities(related: LhsRelatedEntity[]): string {
   const cards = related
     .map(({ entity, relationship }) => {
-      const eq = entity.equation ? `<div class="lhs-equation">${entity.equation}</div>` : '';
+      const expr = entity.equation ?? entity.symbol ?? null;
+      const eq = expr ? `<div class="lhs-equation">${expr}</div>` : '';
       const unit = entity.unit ? `<span class="subject-pill">unit: ${entity.unit}</span>` : '';
       const symbol = entity.symbol ? `<span class="subject-pill">symbol: ${entity.symbol}</span>` : '';
       return `

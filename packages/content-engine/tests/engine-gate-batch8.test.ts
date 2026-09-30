@@ -1,27 +1,76 @@
 /**
- * Engine-gate verification for the authored narrative batches (batch-8 and later).
+ * Engine-gate verification for the narrative-lesson format.
  *
- * Proves the narration work actually "runs under the engine": every authored narrative
- * artifact in `NARRATIVES_BATCH8` is routed through the production pipeline runner
- * `produce()` (ContentRequest → Blueprint → generate → deterministic schema + coverage
- * hard gates → semantic verifier → publication decision) and asserted to PUBLISH.
+ * Proves that authored narrative artifacts "run under the engine": each one is routed
+ * through the production pipeline runner `produce()` (ContentRequest → Blueprint →
+ * generate → deterministic schema + coverage hard gates → semantic verifier →
+ * publication decision) and asserted to PUBLISH.
  *
- * This is a test-only seam: it imports the shell's authored data module so the engine's
- * own hard gates are the gatekeeper for content authorship — not a side-channel manual
- * loop. The narrative-lesson format's `validate` and `coverage` hooks encode the
- * deterministic contract, so a narrative that loses a required section, or is registered
- * under a concept it does not cover, is caught here.
+ * The narrative-lesson format's `validate` and `coverage` hooks encode the
+ * deterministic contract, so a narrative that loses a required section, or is
+ * registered under a concept it does not cover, is caught here.
+ *
+ * NOTE ON FIXTURES (2026-09-30)
+ *
+ * This file previously imported `NARRATIVES_BATCH8` from
+ * `apps/shell/src/data/narratives-batch8`. Commit `518615f` deliberately retired the
+ * authored narrative corpus and deleted that module, which broke collection of this
+ * file (the engine never ran). Rather than delete the coverage, the batch is now an
+ * inline fixture — the engine contract is what is under test here, not the authored
+ * content. When the corpus is re-authored, swap the fixture for the real content.
  */
 import { describe, expect, it } from 'vitest';
 import { FormatRegistry, produce } from '../src/index';
-import { NARRATIVES_BATCH8 } from '../../../apps/shell/src/data/narratives-batch8';
+import type { NarrativeContent } from '../src/index';
 
-describe('engine-gate — batch-8 narratives publish through produce()', () => {
-  it('every batch-8 artifact is a publishable narrative-lesson artifact', async () => {
+/** A minimal narrative-lesson payload satisfying the deterministic schema gate. */
+function makeNarrative(conceptId: string): NarrativeContent {
+  return {
+    conceptId,
+    hook: `A story hook for ${conceptId}.`,
+    history: `How ${conceptId} came to be understood.`,
+    figures: [{ name: 'A Scientist', contribution: 'Shaped the idea.', role: 'Researcher' }],
+    timeline: [{ year: 1900, event: 'A pivotal moment.' }],
+    perspectives: [{ view: 'A respected differing view.', heldBy: 'Some schools' }],
+    deepDive: {
+      phenomenon: conceptId,
+      intro: 'A plain-language opener.',
+      rungs: [
+        { level: 'Curious', text: 'Simple explanation.' },
+        { level: 'Enthusiast', text: 'Deeper explanation.' },
+      ],
+    },
+    whatCameBefore: 'Earlier ideas.',
+    connections: [],
+    applications: ['Where this shows up.'],
+    workedExamples: ['Worked example.'],
+    analogies: ['An analogy.'],
+    misconceptions: ['A common wrong idea.'],
+    tryThis: 'Try this.',
+    funFacts: ['A delightful fact.'],
+  } as NarrativeContent;
+}
+
+// Eight authored batches is the historical set size; the count still exercises the loop.
+const NARRATIVES_BATCH: Record<string, NarrativeContent> = Object.fromEntries(
+  [
+    'lhs:phys.force',
+    'lhs:phys.mass',
+    'lhs:phys.acceleration',
+    'lhs:phys.momentum',
+    'lhs:phys.energy',
+    'lhs:phys.work',
+    'lhs:phys.power',
+    'lhs:phys.friction',
+  ].map((id) => [id, makeNarrative(id)]),
+);
+
+describe('engine-gate — narrative-lesson artifacts publish through produce()', () => {
+  it('every narrative artifact is a publishable narrative-lesson artifact', async () => {
     const registry = new FormatRegistry(); // narrative-lesson + quiz registered by default
-    const entries = Object.entries(NARRATIVES_BATCH8);
+    const entries = Object.entries(NARRATIVES_BATCH);
     expect(entries.length).toBeGreaterThan(0);
-    expect(entries.length).toBe(8); // the authored batch-8 set
+    expect(entries.length).toBe(8); // the authored batch-8 set size
 
     for (const [conceptId, narrative] of entries) {
       // The registry-key conceptId must match the artifact's own conceptId (coverage gate).

@@ -51,6 +51,10 @@ apps/*/src/**/*.d.ts.map
 # Temp
 tmp/
 temp/
+# Ephemeral temp files/dirs created by test runners and sandboxed tooling at the
+# repo root (e.g. `_tmp_<pid>_<hash>`). The directory patterns above do not match
+# root-level files, so these were leaking into `git status` as untracked.
+_tmp_*
 
 # Release pipeline
 .release-token.json

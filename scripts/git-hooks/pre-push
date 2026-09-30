@@ -1,0 +1,21 @@
+#!/bin/sh
+# pre-push — the last local barrier before code leaves this machine.
+#
+# GitHub Actions is deliberately disabled (commit 2d4b209, "run CI locally
+# only"), so this hook is the enforcement point that a CI server would normally
+# provide. It runs the FAST tier of `scripts/ci-local.mjs`: every lint, build,
+# typecheck, test, and audit stage, but NOT the slow coverage/E2E/mutation runs
+# (those belong in the full `pnpm ci:local`).
+#
+# Bypass deliberately, never routinely:
+#   git push --no-verify
+set -e
+
+echo "[pre-push] running local CI (fast tier)…"
+if ! pnpm ci:local:fast; then
+  echo ""
+  echo "[pre-push] ❌ local CI failed — push blocked."
+  echo "[pre-push]    Fix the failure above, or 'git push --no-verify' to override."
+  exit 1
+fi
+echo "[pre-push] ✅ local CI green"

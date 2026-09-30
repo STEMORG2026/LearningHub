@@ -39,6 +39,60 @@ import {
 } from '@learninghub/content-provider';
 ```
 
+### Provider contract
+
+- **`ContentProvider`** — the interface every provider implements. Consumers depend on this, never
+  on a concrete provider.
+- **`LocalContentProvider`** — the default implementation, backed by the vendored content corpus.
+
+### Lesson model
+
+| Symbol | Description |
+| --- | --- |
+| `LessonContent` | A complete lesson: metadata, ordered sections, and associated questions/simulations. |
+| `LessonMetadata` | Identity and classification for a lesson (id, title, subject, grade band, tags). |
+| `LessonSection` | One ordered block of lesson body content. |
+| `Question` | A single assessable item attached to a lesson. |
+
+### Simulation / challenge configuration
+
+| Symbol | Description |
+| --- | --- |
+| `SimulationConfig` | Declarative description of an interactive simulation attachment — which simulation type and its initial parameters. Rendered by `@learninghub/interactive-simulations`; this package only carries the data. |
+| `ChallengeConfig` | Declarative description of a challenge/problem set attachment, including its expected outcome and grading hints. |
+
+### Query / filtering
+
+| Symbol | Description |
+| --- | --- |
+| `ContentFilter` | Criteria for narrowing a content query — used by provider `getLessons`-style calls to select a subset by subject, grade, tag, or id. |
+
+### STEMMA/LHS bridge types
+
+These two interfaces describe the *inbound* shape of the canonical STEMMA knowledge export. They
+are declared in `src/lhs-adapter.ts` and intentionally **mirror the external schema** so the
+adapter can be validated against it.
+
+| Symbol | Description |
+| --- | --- |
+| `LhsEntity` | One knowledge-graph entity as it arrives from the STEMMA export: `id`, `type`, `name`, `domain`, `status`, `definition`, optional `symbol`/`unit`/`equation`, optional list fields (`examples`, `key_experiments`, `common_misconceptions`, `learning_objectives`, `real_world_applications`), and `provenance`. |
+| `LhsRelationship` | A directed edge in the knowledge graph: `{ type: string; target: string; note?: string }`. |
+
+> **Note on schema drift.** The modern STEMMA export (≥ 2.x) publishes relationships as a
+> **top-level `connections[]` array** with `{ source, relation, value }` rather than as a nested
+> `relationships[]` per entity, and carries the expression in `symbol` rather than `equation`.
+> `LhsRelationship` above still models the **legacy nested shape**. Treat the bridge types as a
+> known-incomplete mapping of the current external contract; see the STEMMA seam notes in
+> `docs/adr/023-restore-verification-gate-and-stemma-seam.md`.
+
+### Mappers
+
+- **`mapQuizQuestionsToLessons`** — folds flat quiz questions into their parent lessons.
+- **`mapLhsEntitiesToLessons`** — converts LHS/STEMMA entities into the provider-agnostic
+  `LessonContent` model, per `CONSTITUTION.md §11` (downstream layers must not expose STEMMA's
+  internal schema).
+
+
 ## Dependencies
 
 - `@learninghub/core` — EventBus

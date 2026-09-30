@@ -47,6 +47,59 @@ describe('EventBus', () => {
     expect(handler).toHaveBeenCalledTimes(2);
   });
 
+  // ─────────────────────────────────────────────────────────
+  // patternToRegex — anchoring & escaping
+  //
+  // These two properties were previously untested: removing the regex
+  // anchors, or removing the escape of regex metacharacters, left the
+  // entire suite green (verified by mutation testing, 2026-09-30).
+  // ─────────────────────────────────────────────────────────
+
+  it('anchors an exact pattern so suffix variants do not match', () => {
+    const bus = new EventBus();
+    const handler = vi.fn();
+    bus.subscribe('lesson:quiz', handler);
+
+    bus.publish('lesson:quiz', makePayload({ ok: true }));
+    bus.publish('lesson:quiz:extra', makePayload({ ok: false }));
+    bus.publish('lesson:quiz-suffix', makePayload({ ok: false }));
+    bus.publish('prefix:lesson:quiz', makePayload({ ok: false }));
+
+    // Only the exact event is delivered — no prefix/suffix leakage.
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it('treats regex metacharacters in a pattern as literals', () => {
+    const bus = new EventBus();
+    const dot = vi.fn();
+    const plus = vi.fn();
+    bus.subscribe('a.b', dot);
+    bus.subscribe('a+b', plus);
+
+    // With correct escaping these must NOT match: `.` is not "any char",
+    // and `+` is not a quantifier.
+    bus.publish('axb', makePayload({}));
+    bus.publish('aab', makePayload({}));
+    expect(dot).not.toHaveBeenCalled();
+    expect(plus).not.toHaveBeenCalled();
+
+    // But the literal forms do match.
+    bus.publish('a.b', makePayload({}));
+    bus.publish('a+b', makePayload({}));
+    expect(dot).toHaveBeenCalledTimes(1);
+    expect(plus).toHaveBeenCalledTimes(1);
+  });
+
+  it('still matches a trailing wildcard across suffixes', () => {
+    const bus = new EventBus();
+    const handler = vi.fn();
+    bus.subscribe('lesson:*', handler);
+    bus.publish('lesson:start', makePayload({}));
+    bus.publish('lesson:end:detail', makePayload({}));
+    bus.publish('other:start', makePayload({}));
+    expect(handler).toHaveBeenCalledTimes(2);
+  });
+
   it('unsubscribe removes specific handler', () => {
     const bus = new EventBus();
     const handler = vi.fn();
@@ -137,5 +190,61 @@ describe('EventBus', () => {
     expect(consoleSpy).toHaveBeenCalledWith('[EVENT BUS] test:event', expect.any(Object));
     consoleSpy.mockRestore();
     (globalThis as Record<string, unknown>).location = originalLocation;
+  });
+
+  describe('error isolation (REL-004 regression)', () => {
+    it('delivers to later subscribers even when an earlier one throws', () => {
+      // Guards against the defect where one throwing subscriber aborted dispatch
+      // and silently muted every subscriber registered after it.
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const bus = new EventBus();
+      const reached: string[] = [];
+
+      bus.subscribe('a:*', () => {
+        reached.push('first');
+        throw new Error('subscriber 1 boom');
+      });
+      bus.subscribe('a:*', () => {
+        reached.push('second');
+      });
+
+      expect(() => bus.publish('a:test', makePayload({}))).not.toThrow();
+      expect(reached).toEqual(['first', 'second']);
+      errorSpy.mockRestore();
+    });
+
+    it('keeps delivering to remaining subscribers across multiple failures', () => {
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const bus = new EventBus();
+      const reached: string[] = [];
+
+      bus.subscribe('a:*', () => { reached.push('one'); throw new Error('boom 1'); });
+      bus.subscribe('a:*', () => { reached.push('two'); throw new Error('boom 2'); });
+      bus.subscribe('a:*', () => { reached.push('three'); });
+
+      bus.publish('a:test', makePayload({}));
+      expect(reached).toEqual(['one', 'two', 'three']);
+      errorSpy.mockRestore();
+    });
+
+    it('does not throw out of publish() when a subscriber fails', () => {
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const bus = new EventBus();
+      bus.subscribe('b:*', () => { throw new Error('boom'); });
+      expect(() => bus.publish('b:test', makePayload({}))).not.toThrow();
+      errorSpy.mockRestore();
+    });
+
+    it('reports the failing pattern via onSubscriberError', () => {
+      const bus = new EventBus();
+      const seen: { type: string; pattern: string }[] = [];
+      (bus as unknown as {
+        onSubscriberError: (type: string, pattern: string, error: unknown) => void;
+      }).onSubscriberError = (type, pattern) => { seen.push({ type, pattern }); };
+
+      bus.subscribe('c:*', () => { throw new Error('boom'); });
+      bus.publish('c:test', makePayload({}));
+      expect(seen).toEqual([{ type: 'c:test', pattern: 'c:*' }]);
+    });
   });
 });

@@ -8,9 +8,23 @@ overrides:
   "nanoid@<3.3.18": ^3.3.18
   "tmp@<0.2.6": ^0.2.6
   "fast-uri@<4.1.4": ^4.1.4
-  "brace-expansion@<1.1.18": ^1.1.18
-  "js-yaml@3": ^3.15.1
-  "js-yaml@4": ^4.3.1
+  # brace-expansion: three separate major lines are in the tree (1.x via minimatch@3
+  # in @lhci/cli; 2.x via minimatch@9 in test-exclude/glob@10; 5.x via glob@11), and
+  # each carries its own recursion-DoS advisory. Pin all three to their latest patch.
+  "brace-expansion@<1.1.21": ^1.1.21
+  "brace-expansion@>=2.0.0 <2.1.6": ^2.1.6
+  "brace-expansion@>=4.0.0 <5.0.11": ^5.0.11
+  # js-yaml 3.15.2 fixes GHSA-2883-xcg3-v3hh on the legacy 3.x line.
+  "js-yaml@3": ^3.15.2
+  # 4.3.2 fixes GHSA-2883-xcg3-v3hh (maxTotalMergeKeys CPU exhaustion).
+  "js-yaml@4": ^4.3.2
+  # undici: two major lines are in the tree — 7.x via wrangler/miniflare and 8.x via
+  # jsdom (used by every vitest suite). Both need their patched release:
+  # 7.29.1 (GHSA-rfgv-xxqx-mfg5, GHSA-w293-vg96-wgc3) and 8.10.2.
+  "undici@>=7.0.0 <7.29.1": ^7.29.1
+  "undici@>=8.0.0 <8.10.2": ^8.10.2
+  # sharp: GHSA-rgj7-g3m4-5g8c (libheif). Dev-only, via wrangler/miniflare.
+  "sharp@<0.35.4": ^0.35.4
 allowBuilds:
   esbuild: true
   iltorb: false

@@ -1,4 +1,23 @@
-STEM-TUITION/  4904c3f
+STEM-TUITION/  2d4b209
+├── .agent/
+│   └── audit/
+│       ├── 00_AUDIT_STATE.md
+│       ├── 01_REPOSITORY_COVERAGE.csv
+│       ├── 02_EXECUTIVE_SUMMARY.md
+│       ├── 03_PROJECT_BIBLE.md
+│       ├── 04_ARCHITECTURE_AND_DATA_FLOW.md
+│       ├── 05_REGISTRIES.md
+│       ├── 06_REQUIREMENTS_AND_GAP_ANALYSIS.md
+│       ├── 07_FINDINGS_AND_RISKS.md
+│       ├── 08_VALIDATION_RESULTS.md
+│       ├── 09_NEXT_STEP_DECISION.md
+│       ├── 10_IMPLEMENTATION_PLAN.md
+│       ├── 12_QUALITY_GATES.md
+│       ├── 13_ADDENDUM_518615f_recharacterization.md
+│       ├── 14_EXTERNAL_AUDITOR_CROSSCHECK.md
+│       ├── 15_ADVERSARIAL_TEST_AUDIT.md
+│       ├── AGENT_BOOTSTRAP.md
+│       └── repo_manifest.json
 ├── .changeset/
 │   ├── brave-stories-tell-lessons.md
 │   ├── bright-concepts-float.md
@@ -10,7 +29,7 @@ STEM-TUITION/  4904c3f
 │   ├── running-quizzes-publish.md
 │   └── scope-rename-to-learninghub.md
 ├── .github/
-│   ├── workflows/
+│   ├── workflows-disabled/
 │   │   ├── ci.yml
 │   │   ├── deploy.yml
 │   │   ├── jules-conflict-resolver.yml
@@ -51,14 +70,6 @@ STEM-TUITION/  4904c3f
 │       │   │   ├── curriculum-mappings.ts
 │       │   │   ├── faqs.ts
 │       │   │   ├── knowledge.json
-│       │   │   ├── narratives-batch1.ts
-│       │   │   ├── narratives-batch2.ts
-│       │   │   ├── narratives-batch3.ts
-│       │   │   ├── narratives-batch4.ts
-│       │   │   ├── narratives-batch5.ts
-│       │   │   ├── narratives-batch6.ts
-│       │   │   ├── narratives-batch7.ts
-│       │   │   ├── narratives-batch8.ts
 │       │   │   ├── narratives.ts
 │       │   │   ├── pioneers.ts
 │       │   │   ├── site.ts
@@ -113,6 +124,7 @@ STEM-TUITION/  4904c3f
 │       │   ├── inquiry.test.ts  [test]
 │       │   ├── learning-path.test.ts  [test]
 │       │   ├── lesson-builder.test.ts  [test]
+│       │   ├── lhs-adapter.property.test.ts  [test]
 │       │   ├── lhs-adapter.test.ts  [test]
 │       │   ├── lhs-demo.test.ts  [test]
 │       │   ├── narrative-integration.test.ts  [test]
@@ -161,6 +173,7 @@ STEM-TUITION/  4904c3f
 │   │   ├── 020-phase7-features.md
 │   │   ├── 021-phase8-doc-governance.md
 │   │   ├── 022-ecosystem-architecture.md
+│   │   ├── 023-restore-verification-gate-and-stemma-seam.md
 │   │   └── README.md
 │   ├── ARCHITECTURE/
 │   │   ├── components.md
@@ -356,6 +369,7 @@ STEM-TUITION/  4904c3f
 │   │   │   ├── index.ts  [entry]
 │   │   │   └── types.ts  [schema]
 │   │   ├── tests/
+│   │   │   ├── event-bus.property.test.ts  [test]
 │   │   │   ├── event-bus.test.ts  [test]
 │   │   │   └── foundation.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
@@ -372,6 +386,7 @@ STEM-TUITION/  4904c3f
 │   │   │   └── metrics.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── ecosystem-dashboard/
@@ -382,6 +397,7 @@ STEM-TUITION/  4904c3f
 │   │   │   └── dashboard.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── hover-engine/
@@ -444,6 +460,7 @@ STEM-TUITION/  4904c3f
 │   │   │   └── audit.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── pj-auth/
@@ -454,6 +471,7 @@ STEM-TUITION/  4904c3f
 │   │   │   └── token.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── pj-client/
@@ -464,6 +482,7 @@ STEM-TUITION/  4904c3f
 │   │   │   └── client.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── pj-policy/
@@ -474,6 +493,7 @@ STEM-TUITION/  4904c3f
 │   │   │   └── policy.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── pj-types/
@@ -484,6 +504,7 @@ STEM-TUITION/  4904c3f
 │   │   │   └── types.test.ts  [test]
 │   │   ├── ARCHITECTURE.toml
 │   │   ├── package.json
+│   │   ├── README.md
 │   │   ├── tsconfig.json
 │   │   └── vitest.config.ts
 │   ├── progress/
@@ -566,9 +587,15 @@ STEM-TUITION/  4904c3f
 ├── scripts/
 │   ├── checks/
 │   │   ├── audit-deps.cjs
+│   │   ├── mutants.json
+│   │   ├── mutate.mjs
+│   │   ├── prove-properties-lhs.mjs
+│   │   ├── prove-properties.mjs
 │   │   ├── size-check.cjs
 │   │   ├── strict-doc-governance.mjs
+│   │   ├── validate-catalogue.mjs
 │   │   ├── validate-educational-metadata.js
+│   │   ├── verify-doc-coverage.mjs
 │   │   ├── verify-doc-governance.mjs
 │   │   └── verify-registry.js
 │   ├── generate/
@@ -579,7 +606,8 @@ STEM-TUITION/  4904c3f
 │   │   └── sync-versions.mjs
 │   ├── git-hooks/
 │   │   ├── commit-msg
-│   │   └── pre-commit
+│   │   ├── pre-commit
+│   │   └── pre-push
 │   ├── narrate/
 │   │   ├── prompts/
 │   │   │   ├── role-master-reviewer.txt
@@ -594,6 +622,7 @@ STEM-TUITION/  4904c3f
 │   │   ├── release-validate.mjs
 │   │   ├── release-version.mjs
 │   │   └── rollback.mjs
+│   ├── ci-local.mjs
 │   ├── eslint-config.mjs
 │   ├── verify_export_contract.py
 │   ├── verify_git_safety.py

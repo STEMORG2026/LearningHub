@@ -16,11 +16,43 @@ function makeEntity(id: string, type = 'concept'): LhsEntity {
   };
 }
 
+/**
+ * NOTE ON THE AUTHORED CORPUS (2026-09-30)
+ *
+ * `518615f` deliberately retired the authored narrative corpus, so `getNarratives()`
+ * returns `{}`. The narrated-lesson test below therefore uses a synthetic fixture so the
+ * composition contract stays covered. The non-narrated fallback tests still use the real
+ * (empty) corpus.
+ */
+const NARRATIVE_FIXTURE: NarrativeContent = {
+  conceptId: 'lhs:phys.force',
+  hook: 'It began with a push.',
+  history: 'What was known before.',
+  figures: [{ name: 'Isaac Newton', contribution: 'Formulated the laws of motion.', role: 'Physicist' }],
+  timeline: [{ year: 1687, event: 'Principia published.' }],
+  perspectives: [{ view: 'A differing view.', heldBy: 'Historians' }],
+  deepDive: {
+    phenomenon: 'Motion',
+    intro: 'Simple.',
+    rungs: [
+      { level: 'Curious', text: 'Simple.' },
+      { level: 'Enthusiast', text: 'Deeper.' },
+    ],
+  },
+  whatCameBefore: 'Earlier ideas.',
+  connections: ['lhs:phys.mass'],
+  applications: ['Real world.'],
+  workedExamples: ['Worked example.'],
+  analogies: ['Like a trolley.'],
+  misconceptions: ['A wrong idea.'],
+  tryThis: 'Try this.',
+  funFacts: ['A fact.'],
+};
+
 describe('lesson-builder (consumer narrative seam)', () => {
-  it('composes a narrated lesson for a concept that has a narrative', async () => {
-    const narratives: Record<string, NarrativeContent> = await getNarratives();
+  it('composes a narrated lesson for a concept that has a narrative', () => {
     const narrated = makeEntity('lhs:phys.force');
-    const lessons = buildLessons([narrated], narratives);
+    const lessons = buildLessons([narrated], { 'lhs:phys.force': NARRATIVE_FIXTURE });
     expect(lessons).toHaveLength(1);
     const lesson = lessons[0]!;
     expect(lesson.metadata.conceptId).toBe('lhs:phys.force');
