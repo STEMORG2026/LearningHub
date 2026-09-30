@@ -106,6 +106,28 @@ Full protocol: [`docs/RULES.md` → Test Integrity](docs/RULES.md). Summary:
 - Full policy: [`docs/RULES.md` → Git Workflow](docs/RULES.md). This is enforced by
   `pnpm test:branch:rule` inside `pnpm verify-governance`.
 
+### Git Workflow — Branching Is Mandatory for All New Work (MANDATORY)
+
+> **Every unit of new work starts on a branch. Always. No exceptions.**
+
+- **Branch before you edit.** Create the branch before the first file change. Do
+  not accumulate uncommitted work on `main` to "see if it works."
+- **One coherent unit of work per branch.** An unrelated second concern means a
+  second branch.
+- **Sub-branches are expected.** When work splits, branch from the parent
+  (`feat/<parent>-api`, `feat/<parent>-ui`), merge the sub-branch into its
+  **parent**, then the parent into `main`. If a sub-branch turns out to be
+  independent, re-base it onto `main` and promote it — and say so in the record.
+- **Document the branch in `main` immediately.** Add a row to
+  `docs/WORK-IN-PROGRESS.md` when you create the branch — not when you finish.
+  `main` must be able to answer "what work is in flight, and why?" without
+  waiting for a merge. Update the row as status changes; flush it 30 days after
+  merge.
+- **Never leave a stale row.** A row claiming work is happening after it stopped
+  is worse than no row.
+- Full policy: [`docs/RULES.md` → Git Workflow](docs/RULES.md). Enforced by
+  `pnpm test:work-record` inside `pnpm verify-governance`.
+
 ---
 
 ## Orchestration & Agent Protocol

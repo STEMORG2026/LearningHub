@@ -1010,6 +1010,94 @@ puts a second, human-visible review surface in front of that gate, and keeps
 policy is present and substantive in both this file and `AGENTS.md`. The check is
 itself falsifiable, per the protocol above: remove a clause and it fails.
 
+### Git Workflow — Branching Is Mandatory for All New Work (MANDATORY)
+
+> **Every unit of new work starts on a branch. Always. No exceptions.**
+
+This is stricter than the push rule above. The push rule says *where work lands*
+(a branch, not `main`). This rule says *where work begins*: never on `main`.
+
+#### The Rule
+
+1. **Branch before you edit.** Before the first file change of any new task,
+   create a branch. Do not accumulate uncommitted work on `main` "just to see if
+   it works" — that is how a working tree becomes unreviewable.
+2. **One coherent unit of work per branch.** A branch carries a single logical
+   change with a single reason to exist. If a second, unrelated concern appears,
+   branch again from the appropriate base.
+3. **Sub-branches are expected when work demands them.** Some work naturally
+   splits. When it does, branch from the parent branch rather than widening the
+   parent:
+
+   ```
+   main
+     └── feat/<parent-feature>          ← parent branch
+           ├── feat/<parent-feature>-api     ← sub-branch merges into the parent
+           └── feat/<parent-feature>-ui      ← sub-branch merges into the parent
+   ```
+
+   Merge the sub-branch into its **parent**, then the parent into `main`. If a
+   sub-branch turns out to be independent of the parent, re-base it onto `main`
+   and promote it to a top-level branch — but say so in its work record.
+
+4. **Branch naming** — `<type>/<short-description>`, where `<type>` is one of
+   `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`, `perf`.
+5. **Never delete a branch until its work is merged** *and* the record below says
+   where it went. If a branch is abandoned, say so and say why.
+
+#### Work Is Documented in `main`, Even Before It Merges
+
+Branching keeps `main` stable; it must not make `main` ignorant. **`main` must
+always be able to answer: what work is in flight, and why?**
+
+Maintain a single work record at `docs/WORK-IN-PROGRESS.md`, and update it **on
+`main`** (a small `docs/` commit on its own branch, merged promptly — the record
+itself is not a feature and must not be blocked behind the feature it describes).
+
+Every branch — parent or sub-branch — gets one row:
+
+| Field | Meaning |
+|---|---|
+| **Branch** | Exact branch name |
+| **Status** | `in-progress`, `blocked`, `review`, `merged`, `abandoned` |
+| **Parent** | Parent branch, or `main` for a top-level branch |
+| **Owner** | Who or which agent is carrying it |
+| **Intent** | One sentence: what this branch will change and why |
+| **Touches** | Packages/apps/doc areas it will modify |
+| **Last updated** | `YYYY-MM-DD` |
+
+**Rules for the record:**
+
+1. **Add the row when the branch is created** — not when it is finished. An
+   in-flight branch that is invisible to `main` is the failure this prevents.
+2. **Update the row when status changes**, and re-stamp `Last updated`.
+3. **Flush before merging.** When a branch merges, set its status to `merged`
+   and clear rows older than 30 days; `main`'s history is then the record.
+4. **Never let the record drift.** A stale row is worse than no row — it asserts
+   work is happening that has stopped.
+5. **`pnpm test:work-record` enforces the required fields** on every row, so a
+   malformed entry fails the gate rather than accumulating silently.
+
+#### Why This Matters Here
+
+GitHub Actions is **deliberately disabled** in this repository (see
+`scripts/git-hooks/pre-push`), so the local pre-push hook — `pnpm ci:local:fast` —
+is the only automated gate. Two consequences follow:
+
+- A branch is the **only** review surface. Without one there is nothing to
+  inspect before `main` accepts a change.
+- With no CI watching branches, `main` has no ambient signal about in-flight
+  work. A withdrawn or stalled branch is invisible unless it is **written down**.
+  That is what `docs/WORK-IN-PROGRESS.md` is for.
+
+#### Enforcement
+
+`pnpm verify-governance` runs `pnpm test:branch:rule` (this policy is present and
+substantive in `docs/RULES.md` and `AGENTS.md`) and `pnpm test:work-record` (every
+row in `docs/WORK-IN-PROGRESS.md` carries the required fields, and the file's own
+governance header is intact). Both checks are falsifiable: remove a clause or a
+column and they fail.
+
 ### Automated Checks (CI/CD Pipeline)
 
 The repository ships committed GitHub Actions workflows that enforce the same gate

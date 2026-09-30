@@ -1,4 +1,4 @@
-STEM-TUITION/  b0f5bd2
+STEM-TUITION/  ddea6a9
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
@@ -259,7 +259,8 @@ STEM-TUITION/  b0f5bd2
 │   ├── REPOSITORY_HEALTH.md
 │   ├── ROADMAP.md
 │   ├── RULES.md
-│   └── VISION.md
+│   ├── VISION.md
+│   └── WORK-IN-PROGRESS.md
 ├── e2e/
 │   ├── visual-regression.spec.ts-snapshots/
 │   │   ├── about-chromium-linux.png
@@ -604,6 +605,7 @@ STEM-TUITION/  b0f5bd2
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs
 │   │   ├── prove-test-integrity-rule.mjs
+│   │   ├── prove-work-record.mjs
 │   │   ├── size-check.cjs
 │   │   ├── strict-doc-governance.mjs
 │   │   ├── validate-catalogue.mjs
