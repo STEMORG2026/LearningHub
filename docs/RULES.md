@@ -883,6 +883,7 @@ run). `pnpm verify-governance` fails on the first failing stage:
 | Test integrity rule | `pnpm test:integrity:rule` | The Falsifiability Protocol is present and substantive in `docs/RULES.md` + `AGENTS.md` (see Test Integrity below) |
 | Mutation catalogue | `pnpm test:mutation:validate` | Every mutant has live anchors, a valid suite, and a justified `equivalent` field where used |
 | Flake detector proof | `pnpm test:flakes:prove` | The flake detector detects a planted defect, certifies a clean suite, and refuses an untested scope |
+| Branch-push rule | `pnpm test:branch:rule` | The "always push to a branch, never directly to `main`" policy is present in `docs/RULES.md` + `AGENTS.md` (see Git Workflow below) |
 
 **Coverage ratchet.** Coverage thresholds are defined per package in
 `vitest.config.*.ts` (`thresholds.lines`). They only ever move upward: a PR that
@@ -966,6 +967,48 @@ leaves the regression test unfalsifiable. Do **all** of the following:
 protocol on itself: the flake detector is proven to detect a planted defect, to
 certify a clean suite, and to refuse to certify a scope it never actually tested.
 A guard that has not been shown to fail is not a guard.
+
+### Git Workflow — Always Push to a Branch (MANDATORY)
+
+> **Push to a branch. Every time. No exceptions.**
+
+`main` is a protected integration branch. All agent work arrives there through a
+pull request — never through a direct push.
+
+#### The Rule
+
+1. **Never push directly to `main`.** Create a feature branch
+   (`fix/…`, `feat/…`, `chore/…`, `docs/…`) and push that instead.
+2. **Open a pull request** for the branch and let it merge. Do not
+   `git push origin main`.
+3. **Never force-push `main`** under any circumstance.
+4. **If you find yourself on `main` with local commits**, move them before pushing:
+
+   ```bash
+   git branch <type>/<short-description>     # capture the work
+   git reset --hard origin/main              # return main to the remote state
+   git switch <type>/<short-description>     # continue on the branch
+   ```
+
+#### Grandfather Clause
+
+Direct-to-`main` pushes that **already happened** before this rule was adopted are
+**grandfathered** — do not rewrite history to "fix" them. There is no finding to
+report and no remediation required. The rule applies to pushes made from now on.
+
+#### Why This Matters Here
+
+GitHub Actions is **deliberately disabled** in this repository (see
+`scripts/git-hooks/pre-push`), so the local pre-push hook — `pnpm ci:local:fast` —
+is the only thing standing between an agent and `main`. A branch push plus a PR
+puts a second, human-visible review surface in front of that gate, and keeps
+`main`'s history linear and revertable when a regression does slip through.
+
+#### Enforcement
+
+`pnpm verify-governance` runs `pnpm test:branch:rule`, which asserts that this
+policy is present and substantive in both this file and `AGENTS.md`. The check is
+itself falsifiable, per the protocol above: remove a clause and it fails.
 
 ### Automated Checks (CI/CD Pipeline)
 

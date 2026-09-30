@@ -1,4 +1,4 @@
-STEM-TUITION/  065a17d
+STEM-TUITION/  ecbcf9f
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
@@ -594,6 +594,7 @@ STEM-TUITION/  065a17d
 │   │   ├── detect-flakes.mjs
 │   │   ├── mutants.json
 │   │   ├── mutate.mjs
+│   │   ├── prove-branch-push-rule.mjs
 │   │   ├── prove-flakes.mjs
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs

@@ -91,6 +91,21 @@ Full protocol: [`docs/RULES.md` → Test Integrity](docs/RULES.md). Summary:
 - A guard or detector you add must itself be shown to fail on a planted defect
   (`scripts/checks/prove-*.mjs` is the pattern).
 
+### Git Workflow — Always Push to a Branch (MANDATORY)
+
+> **Push to a branch. Every time. No exceptions.**
+
+- **Never push directly to `main`.** Create a branch (`fix/…`, `feat/…`, `chore/…`,
+  `docs/…`) and push that, then open a pull request.
+- **Never force-push `main`.** `main` only advances by merging a PR.
+- **Already on `main` with local commits?** Capture them on a branch
+  (`git branch <type>/<desc>` → `git reset --hard origin/main` → `git switch <type>/<desc>`)
+  *before* pushing. Never push `main` to unblock yourself.
+- **Grandfather clause:** direct-to-`main` pushes made before this rule existed are
+  acceptable. Do not rewrite history over them and do not report them as findings.
+- Full policy: [`docs/RULES.md` → Git Workflow](docs/RULES.md). This is enforced by
+  `pnpm test:branch:rule` inside `pnpm verify-governance`.
+
 ---
 
 ## Orchestration & Agent Protocol
