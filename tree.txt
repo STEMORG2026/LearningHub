@@ -46,10 +46,6 @@ LearningHub/
 │   ├── dependabot.yml
 │   ├── PULL_REQUEST_TEMPLATE.md
 │   └── SECURITY.md
-├── .workbuddy-ai/
-│   └── memory/
-│       ├── 2026-10-03.md
-│       └── MEMORY.md
 ├── apps/
 │   └── shell/
 │       ├── public/
