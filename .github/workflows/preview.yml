@@ -12,8 +12,43 @@ jobs:
   preview-url:
     name: Post preview URL
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Raised from 10: this job now builds and deploys, not just resolves a URL.
+    timeout-minutes: 25
     steps:
+      # ── Deploy the preview ──────────────────────────────────────────────────
+      #
+      # Nothing in this repository used to deploy previews. The workflow only
+      # *looked one up* in the Cloudflare API, found nothing (because the Pages
+      # git integration was producing no deployments), and then fabricated a URL
+      # that returned 404.
+      #
+      # Production deploys from CI work fine — the token has Pages:Edit and
+      # `deploy.yml` succeeds — so CI can deploy previews the same way, with
+      # `--branch=<head_ref>` instead of `--branch=main`. That creates exactly
+      # the deployment the resolve step below looks for.
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11.18.0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build shell
+        run: pnpm turbo build --filter=@learninghub/shell
+
+      - name: Deploy preview to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: pnpm exec wrangler pages deploy apps/shell/dist --project-name=learning-hub-2026 --branch="$HEAD_REF"
+
       - name: Resolve preview URL from Cloudflare Pages API
         id: url
         env:
