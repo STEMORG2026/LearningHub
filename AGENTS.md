@@ -395,8 +395,14 @@ Before writing any code, verify:
 Production deploys are **gated**: nothing ships until CI is green.
 
 - Cloudflare Pages git-integration **automatic production deployments are
-  disabled** (dashboard: Builds & deployments → Branch control). The repo's
-  GitHub integration is used for **preview (PR/branch) deployments only**.
+  disabled** (dashboard: Builds & deployments → Branch control).
+- **Previews are deployed by CI, not by the Cloudflare git integration.**
+  `.github/workflows/preview.yml` builds the shell and runs
+  `wrangler pages deploy --branch=<head_ref>`, which creates the per-branch
+  deployment that the same workflow then resolves and posts on the PR.
+  The git integration was expected to do this and was producing no deployments
+  at all — so the workflow "found" nothing and fabricated a URL that 404'd.
+  Deploying from CI removes that dependency entirely.
 - `Deploy to Cloudflare Pages (gated)` (`.github/workflows/deploy.yml`) is
   triggered by `workflow_run` on the **CI** workflow and deploys only when:
   1. CI completes with `conclusion == 'success'`, and
