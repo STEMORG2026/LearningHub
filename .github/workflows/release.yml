@@ -269,5 +269,5 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: |
-            🚀 STEM-TUITION ${{ github.ref_name }} released
+            🚀 LearningHub ${{ github.ref_name }} released
             🔗 https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}

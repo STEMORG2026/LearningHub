@@ -46,11 +46,11 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-        run: pnpm exec wrangler pages deploy apps/shell/dist --project-name=learninghubstem --branch=main
+        run: pnpm exec wrangler pages deploy apps/shell/dist --project-name=learning-hub-2026 --branch=main
 
       - name: Verify production deployment
         run: |
-          URL="https://learninghubstem.pages.dev/"
+          URL="https://learning-hub-2026.pages.dev/"
           for i in $(seq 1 12); do
             CODE="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$URL")"
             if [ "$CODE" = "200" ]; then

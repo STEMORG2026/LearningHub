@@ -25,7 +25,7 @@ jobs:
       - name: Check production site
         id: health
         run: |
-          SITE_URL="${{ secrets.SITE_URL || 'https://learninghubstem.pages.dev' }}"
+          SITE_URL="${{ secrets.SITE_URL || 'https://learning-hub-2026.pages.dev' }}"
           CONSECUTIVE_FAILURES=0
           FAILURE_REASON=""
 
@@ -72,7 +72,7 @@ jobs:
       - name: Check for existing open downtime issues
         id: existing
         run: |
-          SITE_URL="${{ secrets.SITE_URL || 'https://learninghubstem.pages.dev' }}"
+          SITE_URL="${{ secrets.SITE_URL || 'https://learning-hub-2026.pages.dev' }}"
           gh issue list \
             --label "downtime" \
             --state open \
@@ -86,7 +86,7 @@ jobs:
       - name: Create downtime issue
         if: steps.existing.outputs.count == '0'
         run: |
-          SITE_URL="${{ secrets.SITE_URL || 'https://learninghubstem.pages.dev' }}"
+          SITE_URL="${{ secrets.SITE_URL || 'https://learning-hub-2026.pages.dev' }}"
           REASON="${{ needs.check.outputs.reason }}"
 
           cat > /tmp/downtime-body.md << 'EOF'
