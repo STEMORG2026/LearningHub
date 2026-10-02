@@ -2,6 +2,7 @@ LearningHub/
 ├── .agent/
 │   └── audit/
 │       ├── verification-architecture/
+│       │   ├── FINDINGS-RESOLUTION.md
 │       │   ├── PENDING-DECISIONS-EVIDENCE.md
 │       │   ├── PROMPT.md
 │       │   └── REPORT.md

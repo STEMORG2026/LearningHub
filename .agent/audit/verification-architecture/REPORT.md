@@ -158,6 +158,27 @@ observed runs for `97e6cf5`; `merge-gate` from `gh api …/branches/main/protect
 
 ## 4. Findings, ranked by assurance gained ÷ (risk + effort)
 
+> ### Follow-up: four of these findings are no longer "unknown"
+>
+> A read-only follow-up resolved the findings this report left open, and surfaced **one new
+> systemic finding the audit missed**. See
+> **[`FINDINGS-RESOLUTION.md`](./FINDINGS-RESOLUTION.md)** — in particular:
+>
+> - **S1 (new, most consequential):** **every scheduled run failed and none has fired since
+>   2026-09-20** — Nightly, Uptime Monitor and the Jules resolver all stopped together. The
+>   cause is a **billing / spending-limit failure** (jobs recorded 0 steps), not anything in
+>   the repo. The repository currently has **no working scheduled automation**.
+> - **F7 corrected:** Nightly's red state was **billing**, not the `pnpm audit` allowlist
+>   disagreement. That disagreement was never exercised and remains **unverified**.
+> - **F9 corrected:** monitoring **broke first, then was parked** — re-enabling `monitor.yml`
+>   achieves nothing until billing is fixed.
+> - **F11 resolved:** the three Python scripts have real purposes. `verify_git_safety.py`
+>   **works** and enforces `AGENTS.md`'s destructive-git rules, yet nothing calls it — the
+>   same failure class as F2. `verify.py` is redundant; `verify_export_contract.py` needs a
+>   one-time `--record`.
+> - **F12 confirmed:** both hazards are real (matrix-derived required names, conditional
+>   required check).
+
 ### F1 — A declared entry point that cannot execute — **FIXED**
 `ci:local:list` invoked `scripts/ci-local.mjs`, deleted when the gate ladder replaced
 the old local-CI runner. `pnpm ci:local:list` → `MODULE_NOT_FOUND`. Nothing detected
