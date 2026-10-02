@@ -26,12 +26,18 @@ Every claim below is tied to a commit SHA and a reproducible command.
 | Base commit | `97e6cf5` (`main`) |
 | Branch | `ci/verification-architecture` — **pushed**; PR **#88** (https://github.com/STEMORG2026/LearningHub/pull/88) |
 | Commits | `a57c9fb`, `0fb9538`, `c5959c6`, `60c1276`, `45b5f79`, `85a5f78`, `3f542a3` |
-| Evidence rung, `ci.yml` | **4** — PR #88 run for SHA `3f542a3`, 2026-10-02T21:17Z: **15/15 checks `success`** |
-| Evidence rung, `security.yml` | **4** — `success` for `3f542a3` (gitleaks 13 s, Trivy 15 s, dep audit) |
-| Evidence rung, `smoke.yml` | **4** — `success` for `3f542a3` (E2E core ×2, visual regression) |
-| Evidence rung, **the two new stages** | **4** — observed running *and passing* inside the PR #88 "Verify governance" job |
+| Evidence rung, `ci.yml` | **4** — PR #88, SHA `3f542a3` **and** the docs-only HEAD `3a37fba`: **15/15 checks `success`** |
+| Evidence rung, `security.yml` | **4** — `success` on both (gitleaks, Trivy, dep audit) |
+| Evidence rung, `smoke.yml` | **4** — `success` on both (E2E core ×2, visual regression) |
+| Evidence rung, **the two new stages** | **4** — observed running *and passing* inside the PR #88 "Verify governance" job, on both SHAs |
 | Evidence rung, `nightly.yml` | **4 (stale)** — last observed run 2026-09-20, `failure`; no run since the workflow set was restored |
 | Evidence rung, `release.yml` | **1** — static only (tag-triggered; cannot be exercised without authorizing a release) |
+
+> **Evidence stability.** The evidence applies to the **code under test** (all commits up to
+> `3f542a3`). The remaining commits in this PR are documentation-only — they touch no script,
+> workflow, or package manifest — so a green run at any of them certifies the same code.
+> That is why this table may name a SHA one commit behind the branch HEAD without weakening
+> the claim.
 
 **Why `COMPLETE` now.** PR #88 supplied the observation this audit was missing. The
 **Verify governance** job ran `pnpm verify-governance` — the full 30-stage chain — and passed
@@ -566,7 +572,8 @@ metadata). Partial coverage is reported as partial; nothing is inferred.
 Baseline: `gh run list` for base SHA `97e6cf5` — CI `success`, Security Scan `success`,
 E2E Smoke Tests `success` (2026-10-02T17:55Z).
 
-**PR #88 (SHA `3f542a3`, 2026-10-02T21:17Z) — 15/15 checks `success`:**
+**PR #88 — 15/15 checks `success` on both SHA `3f542a3` (2026-10-02T21:17Z) and the
+docs-only HEAD `3a37fba` (2026-10-02T21:24Z):**
 
 | Workflow | Run | Result |
 |---|---|---|
