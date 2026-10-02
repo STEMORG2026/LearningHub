@@ -642,3 +642,85 @@ The added cost is ~2 s per push and per CI run, against two newly detected defec
 7. `docs/RULES.md` and `docs/CONSTITUTION.md` reference verification commands; there is no
    single verification-contract table (see §8). Closing that would make drift detection
    cheaper to reason about, though the Level-3 mechanism already makes drift unlikely.
+
+---
+
+## Appendix — applying the pending Class-2 decisions
+
+**Nothing below has been applied.** Each is an owner decision; the commands are given so
+the change is one copy-paste rather than a re-derivation. Ordered by recommendation.
+
+> Run the branch-protection commands **last**, and only after the corresponding file
+> change has merged — removing a required context before the job is gone leaves the
+> requirement satisfied by a check that no longer reports.
+
+**P7 — drop the inert turbo `lint` task** (no protection involved)
+```bash
+node -e 'const f="turbo.json",t=require("./"+f);delete t.tasks.lint;
+require("fs").writeFileSync(f,JSON.stringify(t,null,2)+"\n")'
+pnpm test:gate-ladder && pnpm verify-governance
+```
+
+**P3 — remove unused `issues: write` from `security.yml`**
+```yaml
+# .github/workflows/security.yml
+permissions:
+  contents: read
+  # issues: write   ← unused: no job writes issues
+```
+Then `pnpm lint:workflows`.
+
+**P6 — remove the vacuous `signed-tags` job from `ci.yml`**
+Delete the `signed-tags:` job (its trigger can never be a tag — `ci.yml` listens on
+`pull_request` and `push: branches [main]`). `release.yml` already performs the real
+check. Then `pnpm lint:workflows`. It is **not** a required context, so no API call.
+
+**P5 — restore production uptime monitoring**
+```bash
+git mv .github/workflows-disabled/monitor.yml .github/workflows/monitor.yml
+pnpm lint:workflows          # it was never covered while parked
+gh secret list | grep -i site_url   # confirm the secret the workflow reads
+```
+
+**P2 — stop running the non-visual Playwright suite twice** (keeps required names intact)
+```bash
+# package.json
+#   "verify-governance": drop the "pnpm test:a11y &&" term
+#   "test:a11y": rename to "test:e2e" (it runs the whole non-visual suite, not just a11y)
+pnpm test:gate-ladder && pnpm verify-governance
+```
+`E2E core (shard 1/2)`, `E2E core (shard 2/2)` and `E2E visual regression` remain the
+required E2E contexts; only the redundant unsharded run is dropped.
+
+**P1 — collapse the 3× dependency audit to one** (requires a branch-protection edit)
+```bash
+# 1. remove the `audit` job from .github/workflows/ci.yml (the `verify` job still runs
+#    audit:deps via verify-governance, and security.yml groups the security scans)
+# 2. only AFTER that merge, drop the now-dangling required context:
+gh api -X DELETE \
+  repos/STEMORG2026/LearningHub/branches/main/protection/required_status_checks/contexts \
+  -f 'contexts[]=Dependency audit'
+```
+
+**P4 — enforce review / CODEOWNERS**
+```bash
+gh api -X PATCH \
+  repos/STEMORG2026/LearningHub/branches/main/protection/required_pull_request_reviews \
+  -F required_approving_review_count=1 \
+  -F require_code_owner_reviews=true \
+  -F dismiss_stale_reviews=true
+```
+Note: `enforce_admins: true` is already set, so this applies to admins too. If the
+maintainer is currently solo, pair this with a written exception rather than leaving
+`CODEOWNERS` advisory-by-accident.
+
+**Verification after any of the above**
+```bash
+gh api repos/STEMORG2026/LearningHub/branches/main/protection \
+  --jq '.required_status_checks.contexts'
+pnpm ci:local:list          # ladder composition, from the single source of truth
+pnpm verify-governance      # local full tier
+```
+Every one of these changes the **set** of gates, so each needs its own protection-ledger
+entry (§10b) in the PR that lands it — the same discipline this audit applied to its own
+three changes.
