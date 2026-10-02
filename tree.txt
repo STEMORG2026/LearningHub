@@ -598,7 +598,9 @@ LearningHub/
 ├── scripts/
 │   ├── checks/
 │   │   ├── audit-deps.cjs
+│   │   ├── audit-docs-sync.mjs
 │   │   ├── detect-flakes.mjs
+│   │   ├── gate-stages.mjs
 │   │   ├── lint-workflows.mjs
 │   │   ├── mutants.json
 │   │   ├── mutate.mjs
@@ -607,6 +609,7 @@ LearningHub/
 │   │   ├── prove-deps-drift.mjs
 │   │   ├── prove-flakes.mjs
 │   │   ├── prove-gate-integrity.mjs
+│   │   ├── prove-gate-ladder.mjs
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs
 │   │   ├── prove-test-integrity-rule.mjs
@@ -642,7 +645,6 @@ LearningHub/
 │   │   ├── release-validate.mjs
 │   │   ├── release-version.mjs
 │   │   └── rollback.mjs
-│   ├── ci-local.mjs
 │   ├── eslint-config.mjs
 │   ├── verify_export_contract.py
 │   ├── verify_git_safety.py

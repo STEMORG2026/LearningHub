@@ -1,23 +1,28 @@
 #!/bin/sh
-# pre-push — the last local barrier before code leaves this machine.
+# pre-push — the middle tier of the governance ladder.
 #
-# This is the LOCAL tier of a ladder that ends in GitHub Actions. It runs the
-# FAST tier of `scripts/ci-local.mjs`: every lint, build, typecheck, test, and
-# audit stage, but NOT the slow coverage/E2E/mutation runs.
+# The ladder is strictly nested, cheapest first:
 #
-# It is a fast pre-flight, not the authority. CI (`.github/workflows/ci.yml`) is
-# the authority and runs the full set — a green push here does not guarantee a
-# green CI, only that the cheap defects are already gone.
+#   gate:precommit  ⊆  gate:prepush  ⊆  verify-governance (CI)
+#
+# `pnpm gate:prepush` includes every `gate:precommit` stage, plus build, the
+# unit suite, the structural guards (branch rule, gate integrity, work record,
+# coverage ratchet), the docs-sync and dependency audits, and the workflow lint.
+# What it does NOT include is the expensive end: coverage thresholds, Playwright
+# accessibility, the mutation run, and the flake proof. Those are CI's job.
+#
+# This is a pre-flight, not the authority. CI runs the full tier; passing here
+# means the cheap defects are already gone, not that the change is good.
 #
 # Bypass deliberately, never routinely:
 #   git push --no-verify
 set -e
 
-echo "[pre-push] running local CI (fast tier)…"
-if ! pnpm ci:local:fast; then
+echo "[pre-push] running the gate:prepush tier…"
+if ! pnpm gate:prepush; then
   echo ""
-  echo "[pre-push] ❌ local CI failed — push blocked."
+  echo "[pre-push] ❌ gate:prepush failed — push blocked."
   echo "[pre-push]    Fix the failure above, or 'git push --no-verify' to override."
   exit 1
 fi
-echo "[pre-push] ✅ local CI green"
+echo "[pre-push] ✅ gate:prepush green"

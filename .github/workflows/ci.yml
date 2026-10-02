@@ -42,6 +42,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-playwright-
       - run: pnpm exec playwright install chromium
+      # `lint:workflows` is part of the full gate tier, so actionlint must be on
+      # PATH here — not only in the separate `Workflow lint` job. The gate fails
+      # closed when the tool is missing in CI, by design.
+      - name: Install actionlint
+        env:
+          ACTIONLINT_VERSION: 1.7.7
+        run: |
+          # Install OUTSIDE the working tree. The download script writes the
+          # binary into $PWD, and a stray `actionlint` at the repo root is picked
+          # up by generate-tree.mjs — which then fails the strict tree.txt check
+          # in the very job that installed it. $RUNNER_TEMP is the right home.
+          mkdir -p "$RUNNER_TEMP/actionlint-bin"
+          cd "$RUNNER_TEMP/actionlint-bin"
+          bash <(curl -sSf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) "$ACTIONLINT_VERSION"
+          echo "$RUNNER_TEMP/actionlint-bin" >> "$GITHUB_PATH"
       - name: Run governance gate
         run: pnpm verify-governance
 
@@ -179,8 +194,12 @@ jobs:
           # and a developer machine agree. Bump deliberately, not implicitly.
           ACTIONLINT_VERSION: 1.7.7
         run: |
+          # Outside the working tree — see the note in the `verify` job. A stray
+          # binary at the repo root leaks into tree.txt.
+          mkdir -p "$RUNNER_TEMP/actionlint-bin"
+          cd "$RUNNER_TEMP/actionlint-bin"
           bash <(curl -sSf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) "$ACTIONLINT_VERSION"
-          echo "$PWD" >> "$GITHUB_PATH"
+          echo "$RUNNER_TEMP/actionlint-bin" >> "$GITHUB_PATH"
       - name: Lint workflow files
         run: node scripts/checks/lint-workflows.mjs
 

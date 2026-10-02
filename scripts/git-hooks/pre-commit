@@ -1,5 +1,23 @@
 #!/bin/sh
+# pre-commit — the cheapest tier of the governance ladder.
+#
+# The ladder is strictly nested, cheapest first:
+#
+#   gate:precommit  ⊆  gate:prepush  ⊆  verify-governance (CI)
+#
+# This hook must stay fast enough that nobody is tempted to reach for
+# `--no-verify`. It runs only the structural lints and a typecheck; anything
+# slower belongs in the pre-push tier.
+#
+# `docs:sync` runs here because generated docs must be committed *with* the
+# change that invalidated them — a separate sync commit is always a mistake
+# waiting to be forgotten.
+#
+# `test:gate-ladder` is deliberately NOT run here: if this hook is broken,
+# running the guard that validates it from inside it is circular. The pre-push
+# tier and CI both check it.
 set -e
-pnpm quick
+
+pnpm gate:precommit
 pnpm docs:sync
 git add -u
