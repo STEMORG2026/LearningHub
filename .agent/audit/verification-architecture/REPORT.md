@@ -317,14 +317,14 @@ config, not a protection — recorded as a deferred cleanup (§5 P7).
 | # | Decision | Options | Recommendation | Info needed |
 |---|---|---|---|---|
 | **P1** | Collapse the 3× dependency audit to 1 (F3) | (a) drop the `ci.yml` `audit` job; (b) drop the `security.yml` `audit` job; (c) leave as-is | (a) — `security.yml` groups the security scans; `verify-governance` already runs the same script | Confirm which context names branch protection must keep |
-| **P2** | De-duplicate the E2E core suite (F4) | (a) drop `test:a11y` from `verify-governance`; (b) drop `smoke.yml` `e2e-core`; (c) leave as-is | (a) — keeps the sharded, faster, required `E2E core` checks; rename `test:a11y` to `test:e2e` for honesty | Confirm nothing consumes the `Verify governance` job for E2E specifically |
+| **P2** | De-duplicate the E2E core suite (F4) | (a) drop `test:a11y` from `verify-governance`; (b) drop `smoke.yml` `e2e-core`; (c) leave as-is | ⚠ **(c), or (a) only if `deploy.yml` also watches `E2E Smoke Tests`** | **RESOLVED** — something *does* consume it; see §5a |
 | **P3** | Remove unused `issues: write` from `security.yml` (F6) | (a) remove; (b) keep | (a) | Confirm no planned issue-creating step |
-| **P4** | Enforce review / CODEOWNERS (F10) | (a) set `required_approving_review_count: 1` + `require_code_owner_reviews: true`; (b) require signed commits; (c) leave | (a) — CODEOWNERS is declared but unenforced today | Solo-maintainer workflow tolerance |
+| **P4** | Enforce review / CODEOWNERS (F10) | (a) set `required_approving_review_count: 1` + `require_code_owner_reviews: true`; (b) require signed commits; (c) leave | ⚠ **(c) or (b); do NOT apply (a)** — it deadlocks a 1-collaborator repo | **RESOLVED** — 1 collaborator, all CODEOWNERS him; see §5a |
 | **P5** | Restore production monitoring (F9) | (a) re-enable `monitor.yml`; (b) replace with an external monitor; (c) accept the gap | (a) or (b) | `SITE_URL` secret; whether the alerting path still exists |
 | **P6** | Remove the vacuous `signed-tags` job (F5) | (a) remove from `ci.yml`; (b) leave | (a) | No external consumer of the `Verify signed tags` context |
 | **P7** | Remove the inert `turbo.json` `lint` task (F14) | (a) remove; (b) leave | (a) | None |
 
-> ### ⚠ The "Info needed" column has been resolved — and two recommendations changed
+> ### §5a — The "Info needed" column is resolved; two recommendations changed
 >
 > A follow-up read-only investigation resolved every open question above. See
 > **[`PENDING-DECISIONS-EVIDENCE.md`](./PENDING-DECISIONS-EVIDENCE.md)**.
@@ -746,37 +746,67 @@ pnpm lint:workflows          # it was never covered while parked
 gh secret list | grep -i site_url   # confirm the secret the workflow reads
 ```
 
-**P2 — stop running the non-visual Playwright suite twice** (keeps required names intact)
+**P2 — stop running the non-visual Playwright suite twice** — ⚠ the `deploy.yml` edit is mandatory
 ```bash
 # package.json
 #   "verify-governance": drop the "pnpm test:a11y &&" term
 #   "test:a11y": rename to "test:e2e" (it runs the whole non-visual suite, not just a11y)
+
+# .github/workflows/deploy.yml — REQUIRED, in the same change:
+#   on.workflow_run.workflows: [CI]   ->   [CI, E2E Smoke Tests]
+#
+# `smoke.yml` is a separate workflow that nothing watches, and `test:a11y` was the only
+# E2E inside the `CI` workflow that deploy.yml gates on. Without this edit, production
+# deploys would run with no E2E having passed.
+
 pnpm test:gate-ladder && pnpm verify-governance
 ```
 `E2E core (shard 1/2)`, `E2E core (shard 2/2)` and `E2E visual regression` remain the
-required E2E contexts; only the redundant unsharded run is dropped.
+required E2E contexts; only the redundant unsharded run is dropped. **If you are not
+willing to change `deploy.yml`, take option (c) and leave this as-is** — see
+[`PENDING-DECISIONS-EVIDENCE.md`](./PENDING-DECISIONS-EVIDENCE.md) §P2.
 
 **P1 — collapse the 3× dependency audit to one** (requires a branch-protection edit)
 ```bash
 # 1. remove the `audit` job from .github/workflows/ci.yml (the `verify` job still runs
 #    audit:deps via verify-governance, and security.yml groups the security scans)
-# 2. only AFTER that merge, drop the now-dangling required context:
+# 2. ONLY AFTER that merge has landed, drop the now-dangling required context.
+#    Order matters: running this FIRST leaves `Dependency audit` required but unreported,
+#    which blocks every PR until step 1 lands.
 gh api -X DELETE \
   repos/STEMORG2026/LearningHub/branches/main/protection/required_status_checks/contexts \
   -f 'contexts[]=Dependency audit'
 ```
 
-**P4 — enforce review / CODEOWNERS**
+**P4 — enforce review / CODEOWNERS** — ⚠ **DO NOT RUN THE COMMAND BELOW ON THIS REPOSITORY**
+
+There is exactly **one** collaborator and every one of the 25 `CODEOWNERS` entries is that
+same user. GitHub never counts the PR author's own approval, so this makes **every PR
+permanently unmergeable** — and `enforce_admins: true` means the owner cannot bypass their
+own rule to recover. A "written exception" does not help: the platform blocks the merge.
+
 ```bash
-gh api -X PATCH \
-  repos/STEMORG2026/LearningHub/branches/main/protection/required_pull_request_reviews \
-  -F required_approving_review_count=1 \
-  -F require_code_owner_reviews=true \
-  -F dismiss_stale_reviews=true
+# KEPT FOR COMPLETENESS ONLY — deliberately commented out.
+# This is what recommendation (a) implied, and it is unsafe on a solo-maintainer repo.
+#
+# gh api -X PATCH \
+#   repos/STEMORG2026/LearningHub/branches/main/protection/required_pull_request_reviews \
+#   -F required_approving_review_count=1 \
+#   -F require_code_owner_reviews=true \
+#   -F dismiss_stale_reviews=true
 ```
-Note: `enforce_admins: true` is already set, so this applies to admins too. If the
-maintainer is currently solo, pair this with a written exception rather than leaving
-`CODEOWNERS` advisory-by-accident.
+
+Safe alternatives, in order of preference:
+
+```bash
+# 1. Add a second trusted collaborator FIRST; only then does the PATCH above become safe.
+#
+# 2. Or require signed commits — independent of reviewer count, and viable solo:
+#    gh api -X POST repos/STEMORG2026/LearningHub/signatures/protection/main
+#
+# 3. Or leave review enforcement at 0. `strict: true` + `enforce_admins: true` + the 13
+#    required contexts are what actually gate `main` today.
+```
 
 **Verification after any of the above**
 ```bash
