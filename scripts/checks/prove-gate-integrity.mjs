@@ -23,6 +23,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { expandTier } from './gate-stages.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -43,6 +44,13 @@ const MANDATORY_STAGES = [
   { stage: 'test:integrity:rule', why: 'the Falsifiability Protocol stays intact' },
   { stage: 'test:mutation:validate', why: 'the mutant catalogue stays live' },
   { stage: 'test:flakes:prove', why: 'the flake detector is proven to detect' },
+  { stage: 'test:branch:rule', why: 'the branching and owner-only-merge policy stays intact' },
+  { stage: 'test:gate-integrity', why: 'the gate cannot be gutted without failing itself' },
+  { stage: 'test:gate-ladder', why: 'the tiers stay strictly nested' },
+  { stage: 'test:work-record', why: 'every branch is recorded' },
+  { stage: 'lint:workflows', why: 'workflow files stay valid' },
+  { stage: 'audit:deps', why: 'no unpatched high/critical advisory' },
+  { stage: 'audit:docs-sync', why: 'generated docs are committed in sync' },
 ];
 
 const fail = [];
@@ -65,12 +73,9 @@ if (typeof chain !== 'string' || chain.trim() === '') {
   process.exit(1);
 }
 
-const stages = chain
-  .split('&&')
-  .map((s) => s.trim().replace(/^pnpm\s+/, ''))
-  .filter(Boolean);
+const stages = expandTier('verify-governance');
 
-pass.push(`verify-governance contains ${stages.length} stage(s)`);
+pass.push(`verify-governance expands to ${stages.length} stage(s)`);
 
 for (const { stage, why } of MANDATORY_STAGES) {
   if (stages.includes(stage)) {
