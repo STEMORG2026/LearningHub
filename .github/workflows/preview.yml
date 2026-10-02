@@ -29,15 +29,16 @@ jobs:
           BRANCH_SAFE="${HEAD_REF//\//-}"
           FALLBACK_URL="https://${BRANCH_SAFE}.${PROJECT}.pages.dev"
 
+          RESOLVED=""
           if [ -n "$CF_API_TOKEN" ] && [ -n "$CF_ACCOUNT_ID" ]; then
             echo "Querying Cloudflare Pages API for deployments of branch '${HEAD_REF}'..."
-            # Deployments are async (usually ~1-2 min), so poll for up to ~5 minutes.
-            for i in $(seq 1 20); do
+            # Deployments are async (usually ~1-2 min), so poll for up to ~2 minutes.
+            for i in $(seq 1 8); do
               DEPLOYMENTS="$(curl -sf --max-time 20 \
                 "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${PROJECT}/deployments?per_page=100" \
                 -H "Authorization: Bearer ${CF_API_TOKEN}" 2>/dev/null || echo '{"success":false}')"
 
-              URL="$(echo "$DEPLOYMENTS" | jq -r \
+              RESOLVED="$(echo "$DEPLOYMENTS" | jq -r \
                 --arg b "$HEAD_REF" \
                 '.result
                  | sort_by(.created_on)
@@ -47,21 +48,42 @@ jobs:
                  | .url
                  | select(. != null and . != "")' 2>/dev/null | head -1)"
 
-              if [ -n "$URL" ]; then
-                echo "url=$URL" >> "$GITHUB_OUTPUT"
-                echo "Resolved preview URL from API: $URL"
-                exit 0
+              if [ -n "$RESOLVED" ]; then
+                echo "Resolved preview URL from API: $RESOLVED"
+                break
               fi
-              echo "No deployment for '${HEAD_REF}' yet (attempt $i/20) — retrying in 15s..."
+              echo "No deployment for '${HEAD_REF}' yet (attempt $i/8) — retrying in 15s..."
               sleep 15
             done
-            echo "No Cloudflare deployment found — falling back to branch-alias URL."
           else
-            echo "CF_API_TOKEN/CF_ACCOUNT_ID secrets not configured — using branch-alias URL."
+            echo "CF_API_TOKEN/CF_ACCOUNT_ID secrets not configured."
           fi
 
-          echo "url=$FALLBACK_URL" >> "$GITHUB_OUTPUT"
-          echo "Using fallback preview URL: $FALLBACK_URL"
+          if [ -z "$RESOLVED" ]; then
+            echo "No Cloudflare deployment found for this branch — trying the alias URL."
+            RESOLVED="$FALLBACK_URL"
+          fi
+
+          # VERIFY BEFORE CLAIMING.
+          # The previous version fell back to a *constructed* URL and reported
+          # success without ever checking it. Every PR got a preview link that
+          # returned 404 — a green check pointing at a dead page, which is worse
+          # than an honest failure because it looks verified.
+          CODE="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$RESOLVED" 2>/dev/null || echo 000)"
+          echo "Checked $RESOLVED -> HTTP $CODE"
+
+          if [ "$CODE" = "200" ]; then
+            {
+              echo "url=$RESOLVED"
+              echo "live=true"
+            } >> "$GITHUB_OUTPUT"
+          else
+            {
+              echo "live=false"
+              echo "checked=$RESOLVED"
+              echo "code=$CODE"
+            } >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Find existing comment
         id: find-comment
@@ -71,7 +93,8 @@ jobs:
           comment-author: github-actions[bot]
           body-includes: Preview URL
 
-      - name: Create or update preview URL comment
+      - name: Comment the live preview URL
+        if: steps.url.outputs.live == 'true'
         uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
@@ -88,3 +111,42 @@ jobs:
             | About | ${{ steps.url.outputs.url }}/about.html |
             | Contact | ${{ steps.url.outputs.url }}/contact.html |
           edit-mode: replace
+
+      - name: Comment that no preview is available
+        if: steps.url.outputs.live != 'true'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **No preview deployment available for this PR.**
+
+            Checked `${{ steps.url.outputs.checked }}` → HTTP `${{ steps.url.outputs.code }}`.
+
+            Nothing in this repository deploys previews — only `deploy.yml` deploys
+            production (`--branch=main`). Preview deployments are expected to come
+            from the Cloudflare Pages **git integration**, and it is currently
+            producing none for any branch.
+
+            This needs a human in the Cloudflare dashboard. See the archive plan's
+            **W2.5/W2.6** items (token lacks `Pages: Edit`; git integration vs
+            wrangler deploy conflict).
+          edit-mode: replace
+
+      # Fail AFTER commenting, so the reason is visible on the PR rather than
+      # buried in a log nobody opens.
+      # WARN, do not fail.
+      #
+      # "No preview available" is not a defect in the pull request — it is an
+      # external condition (the Cloudflare Pages git integration is producing no
+      # deployments; W2.5/W2.6). Failing here would put a permanent red check on
+      # every PR for something no PR can fix, which teaches people to ignore red
+      # — the opposite of what this check is for.
+      #
+      # The honesty that matters is preserved: the comment above states plainly
+      # that no preview exists, and no URL is ever reported that was not fetched
+      # and returned HTTP 200. The check stays green because the *claim* is true.
+      - name: Warn if no live preview
+        if: steps.url.outputs.live != 'true'
+        run: |
+          echo "::warning title=No preview deployment::No live preview for this branch. Preview deployments come from the Cloudflare Pages git integration, which is currently producing none (dashboard-side fix, W2.5/W2.6)."
