@@ -1,11 +1,13 @@
 #!/bin/sh
 # pre-push — the last local barrier before code leaves this machine.
 #
-# GitHub Actions is deliberately disabled (commit 2d4b209, "run CI locally
-# only"), so this hook is the enforcement point that a CI server would normally
-# provide. It runs the FAST tier of `scripts/ci-local.mjs`: every lint, build,
-# typecheck, test, and audit stage, but NOT the slow coverage/E2E/mutation runs
-# (those belong in the full `pnpm ci:local`).
+# This is the LOCAL tier of a ladder that ends in GitHub Actions. It runs the
+# FAST tier of `scripts/ci-local.mjs`: every lint, build, typecheck, test, and
+# audit stage, but NOT the slow coverage/E2E/mutation runs.
+#
+# It is a fast pre-flight, not the authority. CI (`.github/workflows/ci.yml`) is
+# the authority and runs the full set — a green push here does not guarantee a
+# green CI, only that the cheap defects are already gone.
 #
 # Bypass deliberately, never routinely:
 #   git push --no-verify

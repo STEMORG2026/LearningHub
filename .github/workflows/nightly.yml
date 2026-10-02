@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 11.18.0
       - uses: actions/setup-node@v7
@@ -52,7 +52,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 11.18.0
       - uses: actions/setup-node@v7
@@ -72,7 +72,9 @@ jobs:
       - name: Build shell and workspace deps
         run: pnpm turbo build --filter=@learninghub/shell
       - name: Resolve Chrome path
-        run: echo "CHROME_PATH=$(node -e \"console.log(require('@playwright/test').chromium.executablePath())\")" >> "$GITHUB_ENV"
+        run: |
+          CHROME_PATH=$(node -e "console.log(require('@playwright/test').chromium.executablePath())")
+          echo "CHROME_PATH=${CHROME_PATH}" >> "$GITHUB_ENV"
       - name: Start preview server
         run: |
           (cd apps/shell && pnpm exec vite preview --port 4173 --strictPort >/tmp/preview.log 2>&1 &)
@@ -93,11 +95,11 @@ jobs:
           if-no-files-found: ignore
 
   audit:
-    name: Dependency audit
+    name: Dependency audit (nightly)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 11.18.0
       - uses: actions/setup-node@v7

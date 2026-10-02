@@ -82,6 +82,7 @@ const STAGES = [
   // ── mirrors ci.yml "audit" job ───────────────────────────────────────────
   { id: 'audit:docs-sync', ...node('scripts/ci-local.mjs'), tier: 'ci', special: 'docs-sync', note: 'generated docs are in sync' },
   { id: 'audit:deps', ...node('scripts/checks/audit-deps.cjs'), tier: 'fast', note: 'dependency vulnerability audit' },
+  { id: 'lint:workflows', ...pnpm('lint:workflows'), tier: 'fast', note: 'GitHub Actions workflow lint (actionlint)' },
 
   // ── new gates introduced after the workflow was disabled ─────────────────
   { id: 'test:mutation', ...pnpm('test:mutation'), tier: 'full', note: 'mutation score must be 100%' },

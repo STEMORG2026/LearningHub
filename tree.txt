@@ -1,4 +1,4 @@
-STEM-TUITION/  ddea6a9
+STEM-TUITION/  a8f2e56
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
@@ -30,17 +30,18 @@ STEM-TUITION/  ddea6a9
 │   ├── running-quizzes-publish.md
 │   └── scope-rename-to-learninghub.md
 ├── .github/
-│   ├── workflows-disabled/
+│   ├── workflows/
 │   │   ├── ci.yml
 │   │   ├── deploy.yml
-│   │   ├── jules-conflict-resolver.yml
-│   │   ├── monitor.yml
 │   │   ├── nightly.yml
 │   │   ├── preview.yml
 │   │   ├── release.yml
 │   │   ├── security.yml
 │   │   ├── smoke.yml
 │   │   └── update-visual-baselines.yml
+│   ├── workflows-disabled/
+│   │   ├── jules-conflict-resolver.yml
+│   │   └── monitor.yml
 │   ├── CODEOWNERS
 │   ├── dependabot.yml
 │   ├── PULL_REQUEST_TEMPLATE.md
@@ -596,11 +597,14 @@ STEM-TUITION/  ddea6a9
 │   ├── checks/
 │   │   ├── audit-deps.cjs
 │   │   ├── detect-flakes.mjs
+│   │   ├── lint-workflows.mjs
 │   │   ├── mutants.json
 │   │   ├── mutate.mjs
 │   │   ├── prove-branch-push-rule.mjs
+│   │   ├── prove-coverage-ratchet.mjs
 │   │   ├── prove-deps-drift.mjs
 │   │   ├── prove-flakes.mjs
+│   │   ├── prove-gate-integrity.mjs
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs
 │   │   ├── prove-test-integrity-rule.mjs
