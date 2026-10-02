@@ -18,25 +18,35 @@ Every claim below is tied to a commit SHA and a reproducible command.
 
 ## 0. Terminal state, mode, evidence ladder
 
-**Terminal state: `COMPLETE-REMOTE-UNVERIFIED`.**
+**Terminal state: `COMPLETE`.**
 
 | Field | Value |
 |---|---|
 | Mode | `IMPLEMENT` (default), additive Class-1 changes only |
 | Base commit | `97e6cf5` (`main`) |
 | Branch | `ci/verification-architecture` — **pushed**; PR **#88** (https://github.com/STEMORG2026/LearningHub/pull/88) |
-| Commits | `a57c9fb`, `0fb9538`, `c5959c6`, `60c1276`, `45b5f79`, `85a5f78` |
-| Evidence rung, `ci.yml` | **4** — real PR/push runs with required checks observed (run for SHA `97e6cf5`, 2026-10-02T17:55Z, `success`) |
-| Evidence rung, `security.yml` | **4** — observed `success` for `97e6cf5` |
-| Evidence rung, `smoke.yml` | **4** — observed `success` for `97e6cf5` |
-| Evidence rung, **the two new stages** | **2** — executed locally end-to-end; not yet executed on a runner |
+| Commits | `a57c9fb`, `0fb9538`, `c5959c6`, `60c1276`, `45b5f79`, `85a5f78`, `3f542a3` |
+| Evidence rung, `ci.yml` | **4** — PR #88 run for SHA `3f542a3`, 2026-10-02T21:17Z: **15/15 checks `success`** |
+| Evidence rung, `security.yml` | **4** — `success` for `3f542a3` (gitleaks 13 s, Trivy 15 s, dep audit) |
+| Evidence rung, `smoke.yml` | **4** — `success` for `3f542a3` (E2E core ×2, visual regression) |
+| Evidence rung, **the two new stages** | **4** — observed running *and passing* inside the PR #88 "Verify governance" job |
 | Evidence rung, `nightly.yml` | **4 (stale)** — last observed run 2026-09-20, `failure`; no run since the workflow set was restored |
 | Evidence rung, `release.yml` | **1** — static only (tag-triggered; cannot be exercised without authorizing a release) |
 
-Why not `COMPLETE`: the new stages have not been *observed* to pass on a GitHub
-runner (PR #88 exists precisely to produce that observation), and `test:flakes:prove`
-cannot execute in this sandbox (§2). The push and PR were authorized and performed;
-handoff checklist in §12.
+**Why `COMPLETE` now.** PR #88 supplied the observation this audit was missing. The
+**Verify governance** job ran `pnpm verify-governance` — the full 30-stage chain — and passed
+in 5 m 11 s, including:
+
+- `test:script-targets` → `✓ every referenced script target exists.`
+- `test:script-targets:prove` → `✓ all 3 scenario(s) passed` (planted dangling reference
+  detected, valid references pass, real tree passes)
+- `prove-gate-integrity` → `✓ mandatory stage present: test:script-targets` and
+  `✓ mandatory stage present: test:script-targets:prove`
+- `test:flakes:prove` → `✓ Detector is falsifiable … Probe removed; suite restored.` — the one
+  stage the local sandbox could not execute (§2), now observed green on a real runner.
+
+All **15/15** checks passed, including **Documentation freshness** (the check the `85a5f78`
+fix repairs) and **Changeset requirement check**. The PR was **not merged** — the owner merges.
 
 ---
 
@@ -553,10 +563,23 @@ time-varying advisory DB), `SECRET_SCAN` / `VULN_SCAN` (Docker, CI-only), `E2E_V
 metadata). Partial coverage is reported as partial; nothing is inferred.
 
 ### Remote
-`gh run list` for base SHA `97e6cf5`: CI `success`, Security Scan `success`,
-E2E Smoke Tests `success` (2026-10-02T17:55Z). **The two new stages have not run on a
-runner** — they ride inside the already-proven `pnpm verify-governance` command, but that
-is an argument, not an observation.
+Baseline: `gh run list` for base SHA `97e6cf5` — CI `success`, Security Scan `success`,
+E2E Smoke Tests `success` (2026-10-02T17:55Z).
+
+**PR #88 (SHA `3f542a3`, 2026-10-02T21:17Z) — 15/15 checks `success`:**
+
+| Workflow | Run | Result |
+|---|---|---|
+| CI | `37065293214` | `success` — incl. **Verify governance** (5 m 11 s) and **Documentation freshness** |
+| E2E Smoke Tests | `37065293091` | `success` — E2E core shard 1/2, shard 2/2, visual regression |
+| Security Scan | `37065293128` | `success` — gitleaks, Trivy, dep audit (security) |
+| PR Preview URL | `37065293109` | `success` — Post preview URL |
+
+The two new stages were **observed running and passing** inside "Verify governance"
+(`test:script-targets` → *every referenced script target exists*;
+`test:script-targets:prove` → *all 3 scenario(s) passed*), and `prove-gate-integrity`
+confirmed both are registered as mandatory stages. `test:flakes:prove` also passed on the
+runner. This is rung **4** for the new stages.
 
 ---
 
@@ -572,6 +595,7 @@ Branch `ci/verification-architecture`, base `97e6cf5`:
 | `60c1276` | `docs(docs): add verification-architecture audit report` | **+** `.agent/audit/verification-architecture/REPORT.md`; **M** `docs/WORK-IN-PROGRESS.md`, `tree.txt` |
 | `45b5f79` | `docs(docs): add actionable appendix for the pending Class-2 decisions` | **M** `.agent/audit/verification-architecture/REPORT.md` |
 | `85a5f78` | `fix(ci): keep local agent data out of the generated tree` | **M** `.gitignore`, `tree.txt` |
+| `3f542a3` | `docs(docs): record PR #88 and the pushed branch in the audit report` | **M** `.agent/audit/verification-architecture/REPORT.md` |
 
 **Deleted: none. Application code touched: none.** No lockfile, dependency, toolchain, or
 workflow-file change. Diff audited for secrets, debug code, temp files, and unrelated
@@ -582,25 +606,27 @@ formatting — none found.
 ## 14. Known limitations and first-run handoff checklist
 
 ### Limitations
-1. `test:flakes:prove` could not execute here (sandbox bulk-delete guard). It is
-   unaffected by my changes.
-2. The two new stages have not run on a GitHub runner → rung 2.
+1. ~~`test:flakes:prove` could not execute here (sandbox bulk-delete guard).~~ **RESOLVED by
+   PR #88** — it ran and passed on the CI runner (see §0). It remains unrunnable in *this*
+   sandbox only.
+2. ~~The two new stages have not run on a GitHub runner → rung 2.~~ **RESOLVED by PR #88** —
+   both observed running and passing inside "Verify governance" → rung **4**.
 3. Branch protection was read via `gh api` (rung: authoritative) but **not modified**.
 4. Cloudflare Pages dashboard settings, org-level Actions policy, and the enabled/disabled
    state of `nightly`/`preview` are not visible from the repo → **not audited**.
 5. `nightly.yml`'s current health is unknown (last run 2026-09-20, failed).
 6. Local node is 24; CI pins 22 → a local pass is not a byte-for-byte CI prediction.
+   (Moot for this change: the CI run above is the authoritative pass.)
 7. `deploy` / `release` / `preview` were not exercised (would require authorization and
    would write to production or publish artifacts).
 
-### First-run handoff checklist (branch pushed — PR #88)
-1. Watch the **Verify governance** job: confirm `test:script-targets` and
-   `test:script-targets:prove` appear and pass. Expected: ~+1–2 s, no new failure.
-2. Confirm no other required context changes name or conclusion.
-3. If `test:script-targets` fails on a runner but passed locally → the runner sees a file
-   the local tree does not (or vice-versa): diff the two trees for `scripts/**`.
-4. Roll back with `git revert 85a5f78 c5959c6 0fb9538` (each commit is independently
-   revertible), or drop the branch.
+### First-run handoff checklist — **executed; PR #88 all green**
+1. ✅ **Verify governance** confirmed `test:script-targets` and `test:script-targets:prove`
+   present and passing (5 m 11 s, no new failure).
+2. ✅ No other required context changed name or conclusion — all 15 checks `success`.
+3. N/A — the guard did not fail on the runner.
+4. Rollback remains available: `git revert 85a5f78 c5959c6 0fb9538` (each commit is
+   independently revertible), or drop the branch.
 5. Watch the next **nightly** run (02:00 UTC) — it is the first since the workflow set was
    restored, and its audit job is expected to disagree with the gate (F7).
 
