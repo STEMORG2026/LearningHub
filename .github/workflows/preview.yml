@@ -21,7 +21,10 @@ jobs:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          PROJECT="stem-tution"
+          # Must match deploy.yml's `--project-name`. This was `stem-tution` —
+          # the pre-rebrand project, which no longer exists, so every preview URL
+          # this posted pointed at a dead deployment.
+          PROJECT="learninghubstem"
           # Cloudflare sanitizes branch names in the alias URL (e.g. / -> -).
           BRANCH_SAFE="${HEAD_REF//\//-}"
           FALLBACK_URL="https://${BRANCH_SAFE}.${PROJECT}.pages.dev"
