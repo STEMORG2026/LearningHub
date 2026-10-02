@@ -35,6 +35,16 @@ overrides:
   "undici@>=8.0.0 <8.10.2": ^8.10.2
   # sharp: GHSA-rgj7-g3m4-5g8c (libheif). Dev-only, via wrangler/miniflare.
   "sharp@<0.35.4": ^0.35.4
+  # basic-ftp: GHSA-c475-qrg2-pj4r (quadratic-time CPU DoS in Client.list()'s
+  # Unix directory-listing parser). Dev-only, reached via lighthouse → puppeteer-core
+  # → @puppeteer/browsers → proxy-agent → pac-proxy-agent → get-uri.
+  # This is a MAJOR bump (5.3.1 → 6.2.1) because no patched 5.x exists and the
+  # advisory covers "<= 6.2.0". Safe here: get-uri@6.0.5 declares ^5.0.2 and uses
+  # only `Client`, `access()`, `lastMod()`, `list()`, `FileInfo.modifiedAt`, and the
+  # `AccessOptions` type — all unchanged in 6.2.1 (verified against its dist types).
+  # Note get-uri's newest release (8.0.1) still declares ^5.3.1, so there is no
+  # upstream path to the fix.
+  "basic-ftp@<6.2.1": ^6.2.1
 allowBuilds:
   esbuild: true
   iltorb: false
