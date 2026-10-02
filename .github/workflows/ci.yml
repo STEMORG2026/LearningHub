@@ -172,6 +172,23 @@ jobs:
       - name: Audit dependencies
         run: node scripts/checks/audit-deps.cjs
 
+  workflows:
+    name: Workflow lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install actionlint
+        env:
+          # Pinned to the version the check was verified against locally, so CI
+          # and a developer machine agree. Bump deliberately, not implicitly.
+          ACTIONLINT_VERSION: 1.7.7
+        run: |
+          bash <(curl -sSf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) "$ACTIONLINT_VERSION"
+          echo "$PWD" >> "$GITHUB_PATH"
+      - name: Lint workflow files
+        run: node scripts/checks/lint-workflows.mjs
+
   lighthouse:
     name: Lighthouse CI
     runs-on: ubuntu-latest

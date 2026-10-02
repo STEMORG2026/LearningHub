@@ -247,9 +247,23 @@ jobs:
     name: Notify release
     needs: [github-release]
     runs-on: ubuntu-latest
-    if: ${{ secrets.DISCORD_WEBHOOK != '' }}
     steps:
+      # `secrets` is not an available context in a job-level `if:` (only github,
+      # inputs, needs, vars are). Probe the secret inside a step, where `env`
+      # IS available, and gate the notification on its output.
+      - name: Probe for a configured webhook
+        id: probe
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [ -n "$DISCORD_WEBHOOK" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "No DISCORD_WEBHOOK secret configured — skipping notification."
+          fi
       - name: Send notification
+        if: steps.probe.outputs.enabled == 'true'
         uses: Ilshidur/action-discord@0.4.0
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
