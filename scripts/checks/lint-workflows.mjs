@@ -63,6 +63,23 @@ try {
   actionlint = null;
 }
 
+/**
+ * actionlint delegates `run:` script analysis to shellcheck when it is on PATH.
+ * Without shellcheck, an entire class of defect goes unchecked — parse errors
+ * and unquoted expansions inside workflow scripts.
+ *
+ * This bit for real: a local run passed clean while CI failed, purely because
+ * the runner has shellcheck and this machine did not. A pass that silently
+ * means less than you think is worse than a failure, so say so loudly.
+ */
+let shellcheck = false;
+try {
+  execFileSync('shellcheck', ['--version'], { stdio: 'ignore' });
+  shellcheck = true;
+} catch {
+  shellcheck = false;
+}
+
 if (!actionlint) {
   if (inCI) {
     console.error('\n✗ actionlint is not installed, and this is CI.');
@@ -84,6 +101,14 @@ try {
   if (out.trim()) console.log(out.trim());
   console.log('-'.repeat(64));
   console.log(`✓ all ${files.length} workflow file(s) pass actionlint.`);
+  if (shellcheck) {
+    console.log('  shellcheck integration: ON — `run:` scripts were analysed too.');
+  } else {
+    console.log('  ⚠ shellcheck integration: OFF — `run:` script bodies were NOT analysed.');
+    console.log('    CI runners have shellcheck, so CI can still fail on a script defect');
+    console.log('    this run cannot see. Install shellcheck for parity:');
+    console.log('      https://github.com/koalaman/shellcheck#installing');
+  }
 } catch (err) {
   const detail = `${err.stdout ?? ''}${err.stderr ?? ''}`.trim();
   console.error(detail || '✗ actionlint reported errors.');

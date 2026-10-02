@@ -23,7 +23,7 @@ jobs:
         run: |
           PROJECT="stem-tution"
           # Cloudflare sanitizes branch names in the alias URL (e.g. / -> -).
-          BRANCH_SAFE="$(echo "${HEAD_REF}" | sed 's#/#-#g')"
+          BRANCH_SAFE="${HEAD_REF//\//-}"
           FALLBACK_URL="https://${BRANCH_SAFE}.${PROJECT}.pages.dev"
 
           if [ -n "$CF_API_TOKEN" ] && [ -n "$CF_ACCOUNT_ID" ]; then
