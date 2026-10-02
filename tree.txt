@@ -1,4 +1,4 @@
-STEM-TUITION/  b3902ca
+LearningHub/
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
