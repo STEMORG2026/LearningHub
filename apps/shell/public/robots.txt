@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://learninghubstem.pages.dev/sitemap.xml
+Sitemap: https://learning-hub-2026.pages.dev/sitemap.xml

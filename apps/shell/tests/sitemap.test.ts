@@ -8,7 +8,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const shellRoot = resolve(here, '..');
 const publicDir = join(shellRoot, 'public');
 
-const SITE_BASE = 'https://learninghubstem.pages.dev';
+const SITE_BASE = 'https://learning-hub-2026.pages.dev';
 
 function listedSitemapPaths(): string[] {
   const xml = readFileSync(join(publicDir, 'sitemap.xml'), 'utf8');
@@ -34,12 +34,12 @@ describe('sitemap.xml ↔ pages on disk', () => {
     expect(listed).toEqual(onDisk);
   });
 
-  it('uses the canonical learninghubstem.pages.dev origin', () => {
+  it('uses the canonical learning-hub-2026.pages.dev origin', () => {
     const xml = readFileSync(join(publicDir, 'sitemap.xml'), 'utf8');
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1] ?? '');
     expect(locs.length).toBeGreaterThan(0);
     for (const loc of locs) {
-      expect(loc).toMatch(/^https:\/\/learninghubstem\.pages\.dev\//);
+      expect(loc).toMatch(/^https:\/\/learning-hub-2026\.pages\.dev\//);
     }
   });
 
