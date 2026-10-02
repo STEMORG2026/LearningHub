@@ -324,6 +324,23 @@ config, not a protection — recorded as a deferred cleanup (§5 P7).
 | **P6** | Remove the vacuous `signed-tags` job (F5) | (a) remove from `ci.yml`; (b) leave | (a) | No external consumer of the `Verify signed tags` context |
 | **P7** | Remove the inert `turbo.json` `lint` task (F14) | (a) remove; (b) leave | (a) | None |
 
+> ### ⚠ The "Info needed" column has been resolved — and two recommendations changed
+>
+> A follow-up read-only investigation resolved every open question above. See
+> **[`PENDING-DECISIONS-EVIDENCE.md`](./PENDING-DECISIONS-EVIDENCE.md)**.
+>
+> - **P2 — recommendation overturned.** `deploy.yml` watches `workflows: [CI]` and nothing
+>   watches `E2E Smoke Tests`. Dropping `test:a11y` from `verify-governance` therefore removes
+>   the *only* E2E coverage inside the deploy gate. Safe **only** if `deploy.yml` is changed in
+>   the same commit to `[CI, E2E Smoke Tests]`; otherwise take (c).
+> - **P4 — recommendation overturned.** There is exactly **one** collaborator and every
+>   CODEOWNERS entry is that same user. Setting `required_approving_review_count: 1` would make
+>   every PR permanently unmergeable. **Do not apply.**
+> - **P1** stays (a) but must be executed **atomically** with the branch-protection edit, or
+>   merges block forever. **P5** stays (a) but needs the `downtime` label created first — it
+>   does not exist, so the alert currently cannot be filed. **P3, P6, P7** are confirmed as
+>   recommended.
+
 ---
 
 ## 6. Final architecture (stages actually used)
@@ -603,6 +620,13 @@ Branch `ci/verification-architecture`, base `97e6cf5`:
 | `45b5f79` | `docs(docs): add actionable appendix for the pending Class-2 decisions` | **M** `.agent/audit/verification-architecture/REPORT.md` |
 | `85a5f78` | `fix(ci): keep local agent data out of the generated tree` | **M** `.gitignore`, `tree.txt` |
 | `3f542a3` | `docs(docs): record PR #88 and the pushed branch in the audit report` | **M** `.agent/audit/verification-architecture/REPORT.md` |
+| `3a37fba` | `docs(docs): upgrade audit terminal state to COMPLETE on PR #88 evidence` | **M** `.agent/audit/verification-architecture/REPORT.md` |
+| `92944fb` | `docs(docs): state the evidence-stability rule in the audit report` | **M** `.agent/audit/verification-architecture/REPORT.md` |
+| *(follow-up)* | `docs(docs): resolve the pending-decision info gaps` | **+** `.agent/audit/verification-architecture/PENDING-DECISIONS-EVIDENCE.md`; **M** `REPORT.md`, `tree.txt` |
+
+The final row is the read-only follow-up pass that resolved the §5 "info needed" column
+(see [`PENDING-DECISIONS-EVIDENCE.md`](./PENDING-DECISIONS-EVIDENCE.md)). It changed no
+workflow, permission, label, or branch-protection setting.
 
 **Deleted: none. Application code touched: none.** No lockfile, dependency, toolchain, or
 workflow-file change. Diff audited for secrets, debug code, temp files, and unrelated

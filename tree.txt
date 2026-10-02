@@ -2,6 +2,7 @@ LearningHub/
 ├── .agent/
 │   └── audit/
 │       ├── verification-architecture/
+│       │   ├── PENDING-DECISIONS-EVIDENCE.md
 │       │   ├── PROMPT.md
 │       │   └── REPORT.md
 │       ├── 00_AUDIT_STATE.md
