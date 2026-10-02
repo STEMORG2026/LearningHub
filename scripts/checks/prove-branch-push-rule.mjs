@@ -189,6 +189,53 @@ const REQUIREMENTS = [
     anchor: 'pnpm test:work-record',
     why: 'the agent-facing work-record enforcement pointer is missing',
   },
+
+  // ── The "only the owner merges" policy ────────────────────────────────────
+  {
+    file: 'docs/RULES.md',
+    anchor: "#### Merging Is the Owner's Decision — Agents Do Not Merge (MANDATORY)",
+    why: 'the owner-only-merge section is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'An agent may open a pull request. An agent may not merge one. Ever.',
+    why: 'the core owner-only-merge statement is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Never run `gh pr merge`',
+    why: 'the explicit merge prohibition is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'A green board is not authority.',
+    why: 'the green-is-not-approval clause is missing',
+  },
+  {
+    file: 'docs/RULES.md',
+    anchor: 'Merging is not a way to unblock yourself.',
+    why: 'the do-not-self-unblock clause is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: '### Git Workflow — Only the Owner Merges (MANDATORY)',
+    why: 'the agent-facing owner-only-merge section is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'An agent may open a pull request. An agent may not merge one. Ever.',
+    why: 'the agent-facing owner-only-merge statement is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'Never run `gh pr merge`',
+    why: 'the agent-facing merge prohibition is missing',
+  },
+  {
+    file: 'AGENTS.md',
+    anchor: 'A green board is not authority.',
+    why: 'the agent-facing green-is-not-approval clause is missing',
+  },
 ];
 
 for (const { file, anchor, why } of REQUIREMENTS) {

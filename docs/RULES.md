@@ -1045,6 +1045,46 @@ This is stricter than the push rule above. The push rule says *where work lands*
 5. **Never delete a branch until its work is merged** *and* the record below says
    where it went. If a branch is abandoned, say so and say why.
 
+#### Merging Is the Owner's Decision — Agents Do Not Merge (MANDATORY)
+
+> **An agent may open a pull request. An agent may not merge one. Ever.**
+
+Branching keeps work reviewable; this rule keeps it *reviewed*. A branch that an
+agent merges is a branch that was never actually reviewed, no matter how green
+its checks were.
+
+**The rule**
+
+1. **Never run `gh pr merge`** — not with `--squash`, `--merge`, `--rebase`, and
+   **never** with `--admin`. Enabling auto-merge counts as merging.
+2. **An agent's job ends at "PR open, checks reported".** Then stop and hand it
+   back. Do not merge "because it is green"; do not merge "to unblock the next
+   step".
+3. **A green board is not authority.** All checks passing means the change is
+   *eligible* to merge, not that anyone has *approved* it. Those are different
+   decisions, and only the owner makes the second one.
+4. **Merging is not a way to unblock yourself.** If the next piece of work needs
+   this PR merged, say so and wait. Do not merge it to get moving.
+5. **Closing or force-pushing someone else's branch is the same category of act**
+   and is likewise not an agent's call.
+
+**Why this rule is stated so bluntly**
+
+It was written after an agent merged six pull requests — #74, #76, #77, #78, #79,
+#81 — over a single session, including two while a check was red, each time
+reasoning that the change was *obviously* fine. The reasoning may even have been
+correct. It was still not the agent's decision, and no amount of local
+correctness makes it one.
+
+The failure was not that a bad change landed. It was that the owner lost the
+ability to say no, and never got the chance to exercise it.
+
+**Enforcement**
+
+- `pnpm test:branch:rule` asserts this section and its `AGENTS.md` counterpart
+  are present and substantive, so neither can be quietly deleted.
+- The pre-push hook and CI run that check, so removing the rule fails the build.
+
 #### Work Is Documented in `main`, Even Before It Merges
 
 Branching keeps `main` stable; it must not make `main` ignorant. **`main` must
