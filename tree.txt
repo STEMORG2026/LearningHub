@@ -1,4 +1,4 @@
-STEM-TUITION/  19485c7
+STEM-TUITION/  38c660a
 ├── .agent/
 │   └── audit/
 │       ├── 00_AUDIT_STATE.md
@@ -121,6 +121,7 @@ STEM-TUITION/  19485c7
 │       │   │   └── smoke.spec.ts  [test]
 │       │   ├── did-you-know.test.ts  [test]
 │       │   ├── enroll-modal.test.ts  [test]
+│       │   ├── env-contract.test.ts  [test]
 │       │   ├── faq-list.test.ts  [test]
 │       │   ├── hover-effects.test.ts  [test]
 │       │   ├── inquiry.test.ts  [test]

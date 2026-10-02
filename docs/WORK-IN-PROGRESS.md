@@ -44,8 +44,7 @@ even when that work lives on a branch and has not merged.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
-| `docs/mandatory-branching-and-work-record` | review | main | agent | Make branching mandatory for all new work and require every branch to be recorded in `main` via this file; add sub-branch policy and a falsifiable work-record guard | `docs/RULES.md`, `AGENTS.md`, `docs/WORK-IN-PROGRESS.md`, `package.json`, `scripts/checks` | 2026-09-30 |
-| `docs/audit/phase5-completion` | review | `docs/mandatory-branching-and-work-record` | agent | Execute the audit plan's remaining unblocked tickets: T8 (`.phase.json` phases 9–11 → completed), T11 (README tree + registry labels), T9 (`.env.example` ↔ source parity + falsifiable guard), and record the Phase 0→4 reconciliation | `.phase.json`, `README.md`, `.env.example`, `apps/shell/src/vite-env.d.ts`, `apps/shell/tests/env-contract.test.ts`, `docs/ROADMAP.md`, `docs/component-registry/TESTING.md`, `.agent/audit/00_AUDIT_STATE.md` | 2026-09-30 |
+| `docs/audit/phase5-completion` | review | main | agent | Execute the audit plan's remaining unblocked tickets: T8 (`.phase.json` phases 9–11 → completed), T11 (README tree + registry labels), T9 (`.env.example` ↔ source parity + falsifiable guard), and record the Phase 0→4 reconciliation | `.phase.json`, `README.md`, `.env.example`, `apps/shell/src/vite-env.d.ts`, `apps/shell/tests/env-contract.test.ts`, `docs/ROADMAP.md`, `docs/component-registry/TESTING.md`, `.agent/audit/00_AUDIT_STATE.md` | 2026-10-02 |
 
 ## Recently Merged
 
@@ -53,6 +52,7 @@ Rows here are cleared 30 days after merge; git history is the permanent record.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
+| `docs/mandatory-branching-and-work-record` | merged | main | agent | Make branching mandatory for all new work and require every branch to be recorded in `main` via this file; add sub-branch policy and a falsifiable work-record guard (PR #74) | `docs/RULES.md`, `AGENTS.md`, `docs/WORK-IN-PROGRESS.md`, `package.json`, `scripts/checks` | 2026-10-02 |
 | `chore/remove-redundant-overrides` | merged | main | agent | Remove the 3 bare pnpm overrides so manifests match what installs; add the drift guard; repair coverage by adding real tests (PR #73) | `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `packages/admin`, `packages/tracer`, `packages/lesson-renderer`, `packages/quiz-engine`, `packages/audio-synth`, `packages/progress`, `apps/shell`, `scripts/checks`, `docs/adr` | 2026-09-30 |
 
 ## Abandoned
