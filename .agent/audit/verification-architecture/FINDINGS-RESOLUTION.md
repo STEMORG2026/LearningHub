@@ -166,11 +166,60 @@ unsatisfiable required check. **Confirmed standing hazard**, as originally descr
 
 ---
 
+## S2 — `lint:registry`: falsifiable ✅, but with a latent blind spot ⚠
+
+The audit never checked whether `verify-registry` can fail. It was tested here using the
+controlled-failure protocol in a throwaway worktree (`/tmp/reg-test`, removed afterwards; main
+tree verified unchanged).
+
+**Positive result — the gate is genuinely falsifiable.** Planting a missing reference written
+repo-relative in a non-Planned section:
+
+```
+[verify-registry] ❌ 1 error(s):
+  packages/core/tests/__planted_missing.test.ts — referenced but missing from the codebase
+exit 1
+```
+
+So `lint:registry` is **not** a vacuous gate — it detects phantom entries when the reference is
+in a form it can resolve.
+
+**Latent blind spot.** `scripts/checks/verify-registry.js:87-95` resolves a token only if:
+
+- it starts with `packages/`, `apps/` or `legacy/` (repo-relative), **or**
+- it starts with `src/` (relative to the row's package), **or**
+- it starts with `js/`, `css/` or `tests/` **and the package root ends with `legacy`**.
+
+Anything else hits `return; // not resolvable deterministically — skip rather than guess`. So a
+reference written as bare `tests/foo.test.ts` in a **non-legacy** package row is **silently
+skipped**. Verified: planting `tests/__planted_missing.test.ts` in a `packages/core/` row produced
+no error and left the report at "✅ 39 file reference(s) verified" — unchanged.
+
+**Currently dormant, not a live false-green.** A scan of all registry files found **0** entries in
+that form today: the main table uses `tests/*.test.ts`, which is filtered out earlier as a glob
+(line 80) before reaching the resolve logic. So nothing is silently wrong right now.
+
+**Why it is still worth recording.** The gate reports a reassuring count — "N file reference(s)
+verified" — that does not represent every reference in the registry. Anyone who adds a concrete
+`tests/foo.ts` row for a normal package gets **silently unverified coverage**, and the count will
+not move. That is the same shape as F1: a declared thing that nothing actually checks.
+
+**The `PLANNED` escape hatch is deliberate, not accidental.** `TESTING.md` documents it: *"these
+specs are documented intent, not committed files … `verify-registry` reports them as warnings
+rather than errors precisely because this section is marked Planned."* So the three missing e2e
+specs are honestly labelled, and this is not a false-green. Two caveats remain: the trigger is the
+substring `/future|planned/i` **anywhere** in the section heading or row text, so an unrelated
+mention of the word downgrades an error to a warning; and three core packages (quiz-engine,
+audio-synth, simulation-core) genuinely have **no e2e coverage** — only unit tests.
+
+---
+
 ## Summary of corrections to REPORT.md
 
 | Finding | Original | Corrected |
 |---|---|---|
 | **S1** *(new)* | not reported | All scheduled automation failed on billing and has not run since 2026-09-20 |
+| **S2** *(new)* | not reported | `lint:registry` **is** falsifiable (✅ proven), but silently skips bare `tests/…` refs in non-legacy packages — **latent**, 0 affected today |
 | F7 | Nightly red due to allowlist disagreement | Red due to **billing**; allowlist disagreement is **unverified** (never exercised) |
 | F9 | Monitoring "off" because parked | It **broke first (billing), then was parked** |
 | F11 | "Purpose unknown" — wire in or retire | Purposes identified: retire `verify.py`, **wire in `verify_git_safety.py`** (works, enforces AGENTS.md), `--record` once for `verify_export_contract.py` |
