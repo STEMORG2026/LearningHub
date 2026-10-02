@@ -1,6 +1,8 @@
 LearningHub/
 ├── .agent/
 │   └── audit/
+│       ├── verification-architecture/
+│       │   └── PROMPT.md
 │       ├── 00_AUDIT_STATE.md
 │       ├── 01_REPOSITORY_COVERAGE.csv
 │       ├── 02_EXECUTIVE_SUMMARY.md
