@@ -883,7 +883,8 @@ run). `pnpm verify-governance` fails on the first failing stage:
 | Test integrity rule | `pnpm test:integrity:rule` | The Falsifiability Protocol is present and substantive in `docs/RULES.md` + `AGENTS.md` (see Test Integrity below) |
 | Mutation catalogue | `pnpm test:mutation:validate` | Every mutant has live anchors, a valid suite, and a justified `equivalent` field where used |
 | Flake detector proof | `pnpm test:flakes:prove` | The flake detector detects a planted defect, certifies a clean suite, and refuses an untested scope |
-| Branch-push rule | `pnpm test:branch:rule` | The "always push to a branch, never directly to `main`" policy is present in `docs/RULES.md` + `AGENTS.md` (see Git Workflow below) |
+| Branch-push rule | `pnpm test:branch:rule` | The "always push to a branch, never directly to `main`" policy, the owner-only-merge rule, and the mandatory-branching rule are present and substantive in `docs/RULES.md` + `AGENTS.md` (see Git Workflow below) |
+| Gate ladder | `pnpm test:gate-ladder` | The three tiers are **strictly nested** (`gate:precommit ⊆ gate:prepush ⊆ verify-governance`) and the hooks and CI are wired to the right ones |
 
 **Coverage ratchet.** Coverage thresholds are defined per package in
 `vitest.config.*.ts` (`thresholds.lines`). They only ever move upward: a PR that
@@ -998,11 +999,27 @@ report and no remediation required. The rule applies to pushes made from now on.
 
 #### Why This Matters Here
 
-GitHub Actions is **deliberately disabled** in this repository (see
-`scripts/git-hooks/pre-push`), so the local pre-push hook — `pnpm ci:local:fast` —
-is the only thing standing between an agent and `main`. A branch push plus a PR
-puts a second, human-visible review surface in front of that gate, and keeps
-`main`'s history linear and revertable when a regression does slip through.
+The gate runs as a **strictly nested ladder**, cheapest first:
+
+```
+gate:precommit  ⊆  gate:prepush  ⊆  verify-governance (CI)
+```
+
+`pnpm gate:prepush` runs on every push (via `scripts/git-hooks/pre-push`) and
+includes everything the pre-commit tier runs, plus the build, the unit suite, the
+structural guards, and the audits. CI runs the full tier — `pnpm verify-governance`
+— which adds the expensive end: coverage thresholds, Playwright accessibility, the
+mutation run, and the flake proof.
+
+Nesting is enforced by `pnpm test:gate-ladder`, which expands the tiers and fails
+if any one stops being a superset of the one before it. That matters because the
+tiers once drifted badly: 8 guards ran in CI but not on push, and `audit:deps`
+ran on push but not in `verify-governance` — which is how a HIGH advisory sat
+undetected in the tree.
+
+A branch push plus a PR puts a second, human-visible review surface in front of
+that gate, and keeps `main`'s history linear and revertable when a regression does
+slip through.
 
 #### Enforcement
 
@@ -1120,15 +1137,14 @@ Every branch — parent or sub-branch — gets one row:
 
 #### Why This Matters Here
 
-GitHub Actions is **deliberately disabled** in this repository (see
-`scripts/git-hooks/pre-push`), so the local pre-push hook — `pnpm ci:local:fast` —
-is the only automated gate. Two consequences follow:
+A branch is the review surface, and the gate runs on it in three places — the
+pre-commit tier, the pre-push tier, and CI. Two consequences follow:
 
-- A branch is the **only** review surface. Without one there is nothing to
-  inspect before `main` accepts a change.
-- With no CI watching branches, `main` has no ambient signal about in-flight
-  work. A withdrawn or stalled branch is invisible unless it is **written down**.
-  That is what `docs/WORK-IN-PROGRESS.md` is for.
+- Without a branch there is nothing to inspect before `main` accepts a change,
+  and nothing for the gate to attach to.
+- With work scattered across branches, `main` has no ambient signal about what is
+  in flight. A withdrawn or stalled branch is invisible unless it is **written
+  down**. That is what `docs/WORK-IN-PROGRESS.md` is for.
 
 #### Enforcement
 
