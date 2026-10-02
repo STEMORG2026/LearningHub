@@ -42,6 +42,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-playwright-
       - run: pnpm exec playwright install chromium
+      # `lint:workflows` is part of the full gate tier, so actionlint must be on
+      # PATH here — not only in the separate `Workflow lint` job. The gate fails
+      # closed when the tool is missing in CI, by design.
+      - name: Install actionlint
+        env:
+          ACTIONLINT_VERSION: 1.7.7
+        run: |
+          bash <(curl -sSf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) "$ACTIONLINT_VERSION"
+          echo "$PWD" >> "$GITHUB_PATH"
       - name: Run governance gate
         run: pnpm verify-governance
 
