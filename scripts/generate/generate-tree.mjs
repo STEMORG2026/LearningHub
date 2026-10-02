@@ -213,12 +213,20 @@ function render(node, prefix, isRootNode) {
   });
 }
 
-let sha = 'no-commit';
-const r = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8' });
-if (r.status === 0) sha = (r.stdout || '').trim();
-
+// The header is deliberately a CONSTANT.
+//
+// It used to be `STEM-TUITION/  <git-short-sha>` — stale branding plus a commit
+// stamp. The stamp made this file conflict between any two branches, always:
+// regenerate it on branch A and branch B, and line 1 differs because the HEADs
+// differ. That produced a permanent, meaningless merge conflict on every branch
+// and forced a carve-out in CI and in `audit-docs-sync.mjs` to tolerate "one
+// line of drift".
+//
+// Nothing consumes the sha. Removing it makes the file a pure function of the
+// working tree, so it only conflicts when the tree genuinely differs — which is
+// a real conflict worth seeing.
 const body = [];
-body.push(`STEM-TUITION/  ${sha}`);
+body.push('LearningHub/');
 render(root, '', true);
 body.push(...lines);
 body.push('');
