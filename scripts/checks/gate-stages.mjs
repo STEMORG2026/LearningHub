@@ -88,3 +88,31 @@ export function expandAll(scripts = readScripts()) {
   for (const tier of TIERS) map[tier] = expandTier(tier, scripts);
   return map;
 }
+
+/**
+ * CLI: `--list` prints the expanded tiers.
+ *
+ * `pnpm ci:local:list` used to shell out to `scripts/ci-local.mjs`, which was
+ * deleted when this module replaced the old local-CI runner — the entry point
+ * stayed behind and failed with MODULE_NOT_FOUND. It now prints the ladder from
+ * the single source of truth, so the tiers can be inspected without reading
+ * `package.json` by hand.
+ *
+ * Guarded on direct invocation so importing this module (as the ladder and
+ * integrity guards do) stays silent.
+ */
+const invokedDirectly =
+  process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (invokedDirectly) {
+  if (!process.argv.includes('--list')) {
+    console.error('usage: node scripts/checks/gate-stages.mjs --list');
+    process.exit(1);
+  }
+  const expanded = expandAll(readScripts());
+  for (const tier of TIERS) {
+    const stages = expanded[tier];
+    console.log(`${tier}  (${stages.length} stage${stages.length === 1 ? '' : 's'})`);
+    for (const stage of stages) console.log(`  - ${stage}`);
+  }
+}

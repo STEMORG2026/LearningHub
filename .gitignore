@@ -56,6 +56,11 @@ temp/
 # root-level files, so these were leaking into `git status` as untracked.
 _tmp_*
 
+# Local agent/session data. Not repository content: it exists only on a developer's
+# machine, so it must not appear in the generated `tree.txt`, which CI compares
+# against a fresh checkout that has no such directory.
+.workbuddy-ai/
+
 # Release pipeline
 .release-token.json
 

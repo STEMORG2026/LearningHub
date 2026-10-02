@@ -1,6 +1,11 @@
 LearningHub/
 ├── .agent/
 │   └── audit/
+│       ├── verification-architecture/
+│       │   ├── FINDINGS-RESOLUTION.md
+│       │   ├── PENDING-DECISIONS-EVIDENCE.md
+│       │   ├── PROMPT.md
+│       │   └── REPORT.md
 │       ├── 00_AUDIT_STATE.md
 │       ├── 01_REPOSITORY_COVERAGE.csv
 │       ├── 02_EXECUTIVE_SUMMARY.md
@@ -612,6 +617,7 @@ LearningHub/
 │   │   ├── prove-gate-ladder.mjs
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs
+│   │   ├── prove-script-targets.mjs
 │   │   ├── prove-test-integrity-rule.mjs
 │   │   ├── prove-work-record.mjs
 │   │   ├── size-check.cjs
@@ -620,7 +626,8 @@ LearningHub/
 │   │   ├── validate-educational-metadata.js
 │   │   ├── verify-doc-coverage.mjs
 │   │   ├── verify-doc-governance.mjs
-│   │   └── verify-registry.js
+│   │   ├── verify-registry.js
+│   │   └── verify-script-targets.mjs
 │   ├── generate/
 │   │   ├── docs-sync.mjs
 │   │   ├── generate-health.mjs
