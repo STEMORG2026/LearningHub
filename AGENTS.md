@@ -108,6 +108,108 @@ Full protocol: [`docs/RULES.md` → Test Integrity](docs/RULES.md). Summary:
 
 ---
 
+## Multi-Agent Coordination (MACP)
+
+This repository adopts the **Multi-Agent Coordination Protocol (MACP)**, ported from the
+STEMMA repository where it is at **v1.2** (the owner-supplied v1.0 text, plus **Amendment 1**
+and the settled revision in **Amendment 2**).
+
+> ### ⚠️ PORT STATUS — read before relying on this section
+>
+> The rules below are the protocol. **The infrastructure it refers to does not exist in
+> LearningHub yet.** There is no `state/` tree, no canonical `state/PROTOCOL.md`, and no
+> validator. Until that is built, these conventions are **binding on agent behaviour but
+> NOT mechanically enforced** — nothing will fail if you skip them.
+>
+> Every reference to a file that does not yet exist is marked **`[ABSENT]`**. Do not treat
+> an `[ABSENT]` path as real, and do not cite it as evidence.
+
+**What MACP is for:** an agent whose context was compacted, or a second agent joining
+mid-stream, must be able to recover the project's coordination state **from the repository**
+rather than from chat history. Chat history is not a durable store; the repo is.
+
+**Amendment 1** added the stop-work-first rule, a terminal verification loop, the re-open
+transition, an event-driven state-file ownership table, the reproducible-claims principle,
+and a required session-file header schema.
+
+**Amendment 2** carries the settled revision. Four things matter day to day:
+
+- **Verify state against reality before working.** State files are *claims, not facts*.
+  Check the PR, CI, the chain, the test suite, and spot-check one DASHBOARD claim.
+- **Scope discipline.** A quick fix that uncovers a deeper issue → log `[BUG FOUND]` and
+  stay focused. Never silently refactor unrelated code or fix unrelated bugs.
+- **Session Close is FINAL.** When the owner says "close the session", it is closed. A later
+  bare **"continue" is a question, not an instruction** — ask for a paraphrase before
+  reopening.
+- **Agent communication.** When asking what to do next, **present concrete options**. Never
+  ask an open "What would you like me to do?" without them.
+
+Session status vocabulary is **`IN-PROGRESS` → `COMPLETED`**, and the session header carries
+a **`Model`** field.
+
+### What `state/` is — and is not
+
+**What `state/` is:** coordination memory — current state, who owns what, coordination
+decisions, debt, blockers. It is the recovery surface described above.
+
+**What `state/` is NOT:** a source of specification truth. The boundary is binding:
+
+| Tier | Files | Authority |
+|---|---|---|
+| **1 — coordination** | everything under `state/` `[ABSENT]` | Agents may write freely. |
+| **2 — specification** | `docs/VISION.md`, `docs/ECOSYSTEM.md`, `docs/CONSTITUTION.md`, `docs/RULES.md`, `docs/adr/`, and **every requirement or ADR status** | **Owner only.** |
+
+`state/DECISIONS.md` `[ABSENT]` records *coordination* decisions and must never restate,
+replace, or paraphrase a specification ruling — where a ruling motivates a coordination
+decision, **link** to it. An ADR status change or a requirement-status change is recorded
+**only** in the Tier-2 documents, by the owner. `state/` is never cited as evidence in
+Tier 2.
+
+The tier-2 list above is this repository's existing **Canonical Precedence Hierarchy** (see
+*AI Agent Context Hygiene* at the top of this file); MACP does not create a second one.
+
+### Conventions you must follow
+
+- Agent id: **4 alphanumeric characters** (e.g. `A7F3`). Register in `state/REGISTRY.md`
+  `[ABSENT]`.
+- Session file: `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md` `[ABSENT]`, **append-only**.
+  It MUST open with the **header schema** — Agent, Session ID, Started, Status, Branch,
+  **Base commit** — and those fields must match your `REGISTRY.md` row.
+- **Sessions are closed by the owner, not the agent.** Finish a work unit by logging it and
+  reconciling `DASHBOARD.md`, then keep `status: active` and keep appending. Never write
+  `[END]` on your own initiative.
+- Plan file: `state/plans/agent-<AGENT-ID>-<slug>.md` `[ABSENT]` — **deleted** when complete.
+- **Write isolation:** while working, write only to your own session file. `DASHBOARD.md`,
+  `REGISTRY.md`, and `INDEX.md` `[ABSENT]` are written at registration and at shutdown, not
+  during work.
+- Log with **event tags** (`[START]`, `[DISCOVERY]`, `[DECISION]`, `[DEBT]`, `[BLOCKER]`, …)
+  so sessions stay greppable.
+- Check `DASHBOARD.md`'s **Last Reconciled** stamp: `< 24 h` trust it · `24–48 h` verify ·
+  `> 48 h` reconcile before working.
+
+**Always end clean.** At shutdown: finish the session log, update `DASHBOARD.md` (including
+its Last Reconciled stamp), add your row to `state/INDEX.md` `[ABSENT]`, release
+`files_owned` in `state/REGISTRY.md` `[ABSENT]`, delete your plan if complete, and commit the
+state changes. **Never leave uncommitted changes.**
+
+### Enforcement — and the gap
+
+In STEMMA this is enforced mechanically by `tests/repo/test_state_tree.py`, which also
+asserts that `DASHBOARD.md`'s counts still equal the live registries — *a dashboard that
+disagrees with the spec is worse than no dashboard*.
+
+**LearningHub has no equivalent yet.** `[ABSENT]` The closest existing checks are
+`pnpm verify-governance` (the gate) and `pnpm docs:sync` (documentation synchronization);
+neither knows about MACP. Building the validator is follow-up work.
+
+> **Naming collision — read this.** In LearningHub, "state" already carries two unrelated
+> meanings: `pnpm lint:state` is an **eslint** config for TypeScript state-management
+> patterns (`eslint.config.state.mjs`), and `docs/component-registry/STATE.md` is the
+> **State Registry** of stateful modules and caches. MACP's `state/` is a **third**,
+> unrelated meaning. They are distinguishable by form, but do not conflate them.
+
+---
+
 ## Orchestration & Agent Protocol
 
 LearningHub operates within an ecosystem of SOTA agent harnesses. The orchestration plane coordinates these agents via the **Agent Client Protocol (ACP)**.
