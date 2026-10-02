@@ -51,6 +51,19 @@ const MANDATORY_STAGES = [
   { stage: 'lint:workflows', why: 'workflow files stay valid' },
   { stage: 'audit:deps', why: 'no unpatched high/critical advisory' },
   { stage: 'audit:docs-sync', why: 'generated docs are committed in sync' },
+  // Added so that no existing gate can be dropped from the ladder silently.
+  // Before this, the ten below ran in `gate:prepush` but were absent from this
+  // list, so removing any one of them from package.json produced no failure.
+  { stage: 'lint:state', why: 'no module-level mutable state' },
+  { stage: 'lint:dom', why: 'no DOM access outside Web Components / ACL adapters' },
+  { stage: 'test', why: 'the unit test suites pass' },
+  { stage: 'lint:size', why: 'bundle size budgets hold' },
+  { stage: 'validate:edu', why: 'educational metadata validates' },
+  { stage: 'lint:registry', why: 'the component registry has no phantom entries' },
+  { stage: 'lint:docs', why: 'documentation governance structure holds' },
+  { stage: 'lint:doc-governance', why: 'strict doc-governance rules hold' },
+  { stage: 'lint:doc-coverage', why: 'documented modules actually exist' },
+  { stage: 'test:deps:drift', why: 'the dependency-drift guard is proven to detect' },
 ];
 
 const fail = [];
