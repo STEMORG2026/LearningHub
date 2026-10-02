@@ -24,8 +24,8 @@ Every claim below is tied to a commit SHA and a reproducible command.
 |---|---|
 | Mode | `IMPLEMENT` (default), additive Class-1 changes only |
 | Base commit | `97e6cf5` (`main`) |
-| Branch | `ci/verification-architecture` — **not pushed** (pushing requires explicit authorization; see §12) |
-| Commits | `a57c9fb`, `0fb9538`, `c5959c6` |
+| Branch | `ci/verification-architecture` — **pushed**; PR **#88** (https://github.com/STEMORG2026/LearningHub/pull/88) |
+| Commits | `a57c9fb`, `0fb9538`, `c5959c6`, `60c1276`, `45b5f79`, `85a5f78` |
 | Evidence rung, `ci.yml` | **4** — real PR/push runs with required checks observed (run for SHA `97e6cf5`, 2026-10-02T17:55Z, `success`) |
 | Evidence rung, `security.yml` | **4** — observed `success` for `97e6cf5` |
 | Evidence rung, `smoke.yml` | **4** — observed `success` for `97e6cf5` |
@@ -33,8 +33,10 @@ Every claim below is tied to a commit SHA and a reproducible command.
 | Evidence rung, `nightly.yml` | **4 (stale)** — last observed run 2026-09-20, `failure`; no run since the workflow set was restored |
 | Evidence rung, `release.yml` | **1** — static only (tag-triggered; cannot be exercised without authorizing a release) |
 
-Why not `COMPLETE`: the new stages have not run on a GitHub runner, `test:flakes:prove`
-cannot execute in this sandbox (§2), and no push was authorized. Handoff checklist in §12.
+Why not `COMPLETE`: the new stages have not been *observed* to pass on a GitHub
+runner (PR #88 exists precisely to produce that observation), and `test:flakes:prove`
+cannot execute in this sandbox (§2). The push and PR were authorized and performed;
+handoff checklist in §12.
 
 ---
 
@@ -567,7 +569,9 @@ Branch `ci/verification-architecture`, base `97e6cf5`:
 | `a57c9fb` | `docs(docs): add consolidated verification-architecture audit prompt` | **+** `.agent/audit/verification-architecture/PROMPT.md`; **M** `docs/WORK-IN-PROGRESS.md`, `tree.txt` |
 | `0fb9538` | `ci(ci): repair ci:local:list and guard script targets` | **+** `scripts/checks/verify-script-targets.mjs`, `scripts/checks/prove-script-targets.mjs`; **M** `scripts/checks/gate-stages.mjs`, `scripts/checks/prove-gate-integrity.mjs`, `package.json`, `tree.txt` |
 | `c5959c6` | `fix(ci): make \`pnpm lint\` run the linting it advertises` | **M** `package.json` |
-| *(pending)* | `docs(docs): verification-architecture audit report` | **+** `.agent/audit/verification-architecture/REPORT.md`; **M** `docs/WORK-IN-PROGRESS.md`, `tree.txt` |
+| `60c1276` | `docs(docs): add verification-architecture audit report` | **+** `.agent/audit/verification-architecture/REPORT.md`; **M** `docs/WORK-IN-PROGRESS.md`, `tree.txt` |
+| `45b5f79` | `docs(docs): add actionable appendix for the pending Class-2 decisions` | **M** `.agent/audit/verification-architecture/REPORT.md` |
+| `85a5f78` | `fix(ci): keep local agent data out of the generated tree` | **M** `.gitignore`, `tree.txt` |
 
 **Deleted: none. Application code touched: none.** No lockfile, dependency, toolchain, or
 workflow-file change. Diff audited for secrets, debug code, temp files, and unrelated
@@ -589,29 +593,32 @@ formatting — none found.
 7. `deploy` / `release` / `preview` were not exercised (would require authorization and
    would write to production or publish artifacts).
 
-### First-run handoff checklist (when the branch is pushed)
+### First-run handoff checklist (branch pushed — PR #88)
 1. Watch the **Verify governance** job: confirm `test:script-targets` and
    `test:script-targets:prove` appear and pass. Expected: ~+1–2 s, no new failure.
 2. Confirm no other required context changes name or conclusion.
 3. If `test:script-targets` fails on a runner but passed locally → the runner sees a file
    the local tree does not (or vice-versa): diff the two trees for `scripts/**`.
-4. Roll back with `git revert 0fb9538 c5959c6` (each commit is independently revertible),
-   or drop the branch.
+4. Roll back with `git revert 85a5f78 c5959c6 0fb9538` (each commit is independently
+   revertible), or drop the branch.
 5. Watch the next **nightly** run (02:00 UTC) — it is the first since the workflow set was
    restored, and its audit job is expected to disagree with the gate (F7).
 
-### Push and PR (not performed — see below)
+### Push and PR — **performed**
+
 ```bash
-git push -u origin ci/verification-architecture
+git push -u origin ci/verification-architecture   # pre-push hook: gate:prepush green
 gh pr create --base main --head ci/verification-architecture \
   --title "ci: repair ci:local:list, guard script targets, make pnpm lint real" \
-  --body-file .agent/audit/verification-architecture/REPORT.md
+  --body-file /tmp/pr-body.md
 ```
 
-**Authority note.** `AGENTS.md` mandates "push to a branch" and expects a PR, but the
+Result: PR **#88** → https://github.com/STEMORG2026/LearningHub/pull/88
+
+**Authority note.** `AGENTS.md` mandates "push to a branch" and expects a PR, and the
 executed prompt requires **explicit authorization for any push** and for network side
-effects. I did not push. The branch and all commits are local and ready. Say the word and
-I will push and open the PR; I will not merge it (`AGENTS.md`: only the owner merges).
+effects. The owner authorized the push and PR creation. **The PR was not merged** —
+`AGENTS.md`: only the owner merges; `gh pr merge` is never run by an agent.
 
 ---
 
