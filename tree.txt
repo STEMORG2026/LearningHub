@@ -614,6 +614,7 @@ LearningHub/
 │   │   ├── prove-gate-ladder.mjs
 │   │   ├── prove-properties-lhs.mjs
 │   │   ├── prove-properties.mjs
+│   │   ├── prove-script-targets.mjs
 │   │   ├── prove-test-integrity-rule.mjs
 │   │   ├── prove-work-record.mjs
 │   │   ├── size-check.cjs
@@ -622,7 +623,8 @@ LearningHub/
 │   │   ├── validate-educational-metadata.js
 │   │   ├── verify-doc-coverage.mjs
 │   │   ├── verify-doc-governance.mjs
-│   │   └── verify-registry.js
+│   │   ├── verify-registry.js
+│   │   └── verify-script-targets.mjs
 │   ├── generate/
 │   │   ├── docs-sync.mjs
 │   │   ├── generate-health.mjs
