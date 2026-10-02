@@ -128,6 +128,23 @@ Full protocol: [`docs/RULES.md` → Test Integrity](docs/RULES.md). Summary:
 - Full policy: [`docs/RULES.md` → Git Workflow](docs/RULES.md). Enforced by
   `pnpm test:work-record` inside `pnpm verify-governance`.
 
+### Git Workflow — Only the Owner Merges (MANDATORY)
+
+> **An agent may open a pull request. An agent may not merge one. Ever.**
+
+- **Never run `gh pr merge`** — not `--squash`, `--merge`, `--rebase`, and
+  **never** `--admin`. Enabling auto-merge counts as merging.
+- **Your job ends at "PR open, checks reported".** Then stop and hand it back.
+  Do not merge because it is green. Do not merge to unblock the next step.
+- **A green board is not authority.** Passing checks mean a change is *eligible*
+  to merge, not that anyone *approved* it. Only the owner makes that call.
+- **Blocked on a merge? Say so and wait.** Merging is never how you unblock
+  yourself.
+- **Closing or force-pushing someone else's branch is the same act** and is
+  likewise not an agent's decision.
+- Full policy: [`docs/RULES.md` → Git Workflow](docs/RULES.md). Enforced by
+  `pnpm test:branch:rule` inside `pnpm verify-governance`.
+
 ---
 
 ## Multi-Agent Coordination (MACP)
