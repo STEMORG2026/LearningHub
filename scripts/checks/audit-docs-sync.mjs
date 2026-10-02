@@ -13,9 +13,9 @@
  * If the working tree still differs afterwards, generated docs are stale — the
  * commit that changed `.phase.json`, a package, or a doc forgot to sync.
  *
- * tree.txt is special-cased: it stamps the HEAD sha it was generated at, so it
- * always differs by exactly one line between a commit and a re-generation. CI
- * allows that single-line drift; so does this.
+ * Every generated file is checked strictly, `tree.txt` included. It used to
+ * carry a HEAD sha that drifted by one line on every commit, which forced a
+ * tolerance here; the header is a constant now, so the tolerance is gone.
  *
  * Exit codes: 0 = in sync, 1 = stale (or untracked files appeared).
  */
@@ -50,6 +50,7 @@ const GENERATED = [
   'docs/component-registry/RENDERING.md',
   'docs/component-registry/STATE.md',
   'docs/component-registry/TESTING.md',
+  'tree.txt',
 ];
 
 console.log('Generated-docs sync check');
@@ -69,19 +70,6 @@ if (!diff.ok) {
   process.exit(1);
 }
 console.log(`  ✓ ${GENERATED.length} generated doc(s) match the tree`);
-
-// tree.txt may drift by exactly one line — the HEAD stamp.
-const numstat = run('git', ['diff', '--numstat', '--', 'tree.txt']).trim();
-if (numstat) {
-  const changed = numstat.split('\n').filter(Boolean).length;
-  if (changed > 1) {
-    console.error(`✗ tree.txt drifted beyond the sha stamp (${changed} entries)`);
-    process.exit(1);
-  }
-  console.log('  ✓ tree.txt drift is only the sha stamp');
-} else {
-  console.log('  ✓ tree.txt unchanged');
-}
 
 // Untracked files are only a problem if `docs:sync` created them, so scope this
 // to the paths it writes. A whole-tree check would flag files the author is
