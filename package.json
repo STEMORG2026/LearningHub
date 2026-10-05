@@ -81,7 +81,7 @@
     "madge": "^8.0.0",
     "turbo": "^2.11.4",
     "typescript": "^6.0.3",
-    "wrangler": "^4.141.0",
+    "wrangler": "^4.146.0",
     "vitest": "^4.1.11"
   },
   "engines": {
