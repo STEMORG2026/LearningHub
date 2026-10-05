@@ -79,7 +79,7 @@
     "dependency-cruiser": "^18.4.0",
     "eslint": "^10.11.0",
     "madge": "^8.0.0",
-    "turbo": "^2.11.4",
+    "turbo": "^2.11.6",
     "typescript": "^6.0.3",
     "wrangler": "^4.141.0",
     "vitest": "^4.1.11"
