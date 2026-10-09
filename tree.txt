@@ -31,6 +31,7 @@ LearningHub/
 │   └── scope-rename-to-learninghub.md
 ├── .github/
 │   ├── workflows/
+│   │   ├── action-pins.yml
 │   │   ├── ci.yml
 │   │   ├── deploy.yml
 │   │   ├── nightly.yml
