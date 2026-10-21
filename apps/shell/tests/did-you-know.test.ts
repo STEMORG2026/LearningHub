@@ -30,7 +30,16 @@ function mount(): DidYouKnowWidget {
 
 describe('<did-you-know>', () => {
   beforeEach(() => {
-    globalThis.localStorage = mockStorage();
+    // defineProperty (not assignment): vitest 5 / newer jsdom expose
+    // localStorage as a getter-only property, so plain assignment throws
+    // "Cannot set property localStorage of [object Window] which has only
+    // a getter". configurable:true lets beforeEach redefine it per test.
+    // learning-path.test.ts:14 already uses this pattern.
+    Object.defineProperty(globalThis, 'localStorage', {
+      value: mockStorage(),
+      configurable: true,
+      writable: true,
+    });
     if (!customElements.get('did-you-know')) {
       customElements.define('did-you-know', DidYouKnowWidget);
     }
@@ -80,16 +89,20 @@ describe('<did-you-know>', () => {
   it('falls back to minimized when localStorage throws', () => {
     // Private-browsing modes throw on access rather than returning null; the
     // widget must still mount instead of letting the error escape.
-    globalThis.localStorage = {
-      getItem: () => {
-        throw new Error('SecurityError: storage disabled');
-      },
-      setItem: () => {},
-      removeItem: () => {},
-      clear: () => {},
-      key: () => null,
-      length: 0,
-    } as unknown as Storage;
+    Object.defineProperty(globalThis, 'localStorage', {
+      value: {
+        getItem: () => {
+          throw new Error('SecurityError: storage disabled');
+        },
+        setItem: () => {},
+        removeItem: () => {},
+        clear: () => {},
+        key: () => null,
+        length: 0,
+      } as unknown as Storage,
+      configurable: true,
+      writable: true,
+    });
 
     const el = mount();
 
