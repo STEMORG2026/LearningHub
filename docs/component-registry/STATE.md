@@ -53,6 +53,22 @@
 | State (hover-engine) | — | `packages/hover-engine/src/hover-state.ts`, `packages/hover-engine/src/index.ts`, `packages/hover-engine/src/types.ts` | Extracted (Phase 5) |
 <!-- END AUTO:state-phase-5 -->
 
+## Phase 7: Features (Active)
+
+Module-level in-memory stores. All are private to their package's `internal/`
+module and mutated only through the exported service functions.
+
+| State | Type | Location | Notes |
+|-------|------|----------|-------|
+| Registered users | `Map<string, User>` | `packages/auth/src/internal/auth.ts:7` | Keyed by email |
+| Active sessions | `Map<string, Session>` | `packages/auth/src/internal/auth.ts:8` | Keyed by session token |
+| Lesson progress | `Map<string, LessonProgress>` | `packages/progress/src/internal/progress.ts:5` | Per user+lesson record |
+| Admin user store | `Map<string, AdminUser>` | `packages/admin/src/internal/admin.ts:6` | `createUser` added in the ADR-024 coverage repair |
+| Subscriptions | `Map<string, Subscription>` | `packages/payments/src/internal/payments.ts:5` | Keyed by subscription id |
+| Transactions | `Map<string, Transaction>` | `packages/payments/src/internal/payments.ts:6` | Keyed by transaction id |
+| Video sessions | `Map<string, VideoSession>` | `packages/video/src/internal/video.ts:6` | Keyed by session id |
+| Video participants | `Map<string, VideoParticipant[]>` | `packages/video/src/internal/video.ts:7` | Participants per session |
+
 ## Phase 8: Content & Lessons (Active)
 
 | State | Type | Location | Notes |

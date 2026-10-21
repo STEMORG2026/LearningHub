@@ -78,6 +78,48 @@ describe('mapLhsEntityToLesson', () => {
     const lesson = mapLhsEntityToLesson(forceEntity);
     expect(lesson.id).toBe('lesson-lhs-phys.force');
   });
+
+  it('maps real-world applications to application sections and metadata', () => {
+    const entityWithApps: LhsEntity = {
+      ...forceEntity,
+      real_world_applications: ['Seatbelts stretch to reduce the force on passengers.'],
+    };
+    const lesson = mapLhsEntityToLesson(entityWithApps);
+    const appSections = lesson.sections.filter((s) => s.kind === 'application');
+    expect(appSections).toHaveLength(1);
+    expect(appSections[0]!.heading).toBe('Where You Meet It');
+    expect(appSections[0]!.body).toBe('Seatbelts stretch to reduce the force on passengers.');
+    expect(lesson.metadata.realWorldApplications).toEqual([
+      'Seatbelts stretch to reduce the force on passengers.',
+    ]);
+  });
+
+  it('maps learning objectives to a callout section and metadata', () => {
+    const entityWithObjectives: LhsEntity = {
+      ...forceEntity,
+      learning_objectives: ['Identify the forces on a free-body diagram'],
+    };
+    const lesson = mapLhsEntityToLesson(entityWithObjectives);
+    const callout = lesson.sections.find((s) => s.kind === 'callout');
+    expect(callout).toBeDefined();
+    expect(callout!.heading).toBe("What You'll Be Able to Do");
+    expect(callout!.body).toBe('· Identify the forces on a free-body diagram');
+    expect(lesson.metadata.learningObjectives).toEqual([
+      'Identify the forces on a free-body diagram',
+    ]);
+  });
+
+  it('produces no simulations for an entity with no law type, equation, or unit', () => {
+    const bareEntity: LhsEntity = {
+      ...forceEntity,
+      equation: null,
+      unit: null,
+    };
+    const lesson = mapLhsEntityToLesson(bareEntity);
+    expect(lesson.simulations).toEqual([]);
+    expect(lesson.sections.some((s) => s.kind === 'equation')).toBe(false);
+    expect(lesson.sections.some((s) => s.kind === 'fun-fact')).toBe(false);
+  });
 });
 
 describe('mapLhsEntitiesToLessons', () => {

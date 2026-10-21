@@ -71,7 +71,55 @@ recovers, with an empty-commit nudge if the dropped events are not replayed.
 **Tests:** (this branch is documentation-only; the session's test evidence is
 in the referenced PRs — #106, #111, #112, #113 bodies all carry their
 falsifiability observations and command outputs)
+## 2026-10-21 — Phase 7/8 Completion (registry truth + coverage ratchet)
 
+**What happened:**
+- Verified the ROADMAP's Phase 8 "Remaining" list against reality before acting
+  on it (state files are claims, not facts). The list was partially stale:
+  ADR-014's "imports neither core nor tracer" finding had already been fixed in
+  code, ADR-015's was resolved and annotated in the ADR, and ADR-013/016 never
+  carried an unused-dep finding (their packages declare none). The genuinely
+  open items were: missing Phase 7 registry entries, a malformed + speculative
+  Phase 8 TRACE table, and a 0.23% coverage shortfall in content-provider.
+- Added the missing registry entries for the five Phase 7 packages: 14 EventBus
+  publishers with payload shapes (NETWORKING.md), 10 `traced()` spans
+  (TRACE.md), and 8 module-level stores (STATE.md) — all with file:line
+  references verified against source.
+- Replaced TRACE.md's Phase 8 table (whose 5-column header didn't match its
+  4-column rows, and whose function names — `getContent()`, `ingest()`,
+  `verify()`, `renderLesson()`, `initSim()` — never existed in code) with the
+  observed instrumentation: `stem-lesson:render`/`:answer-question` and the
+  three `stem-*-sim:run` spans. Documented the resolution split:
+  lesson-renderer + interactive-simulations added instrumentation;
+  content-provider + content-engine removed the unused deps instead.
+- Closed the content-provider coverage gap with three new tests
+  (real-world-applications sections/metadata, learning-objectives callout,
+  no-simulation path). Package moved from 94.77% to **100% lines / 100%
+  statements / 100% functions** (88.72% branches).
+- Ratcheted the coverage floors of all nine Phase 7/8 packages up to their
+  observed actuals (never down): e.g. auth 80→100 lines, admin 80→100,
+  interactive-simulations 70→98 lines / 65→77 branches, content-provider
+  80→100. All floors re-verified green with a full coverage run.
+- Annotated ADR-014's three follow-up items as resolved (ADR-015's
+  "→ Resolved" style), updated the ROADMAP's Phase 8 remaining list into a
+  resolution record, and marked Phases 7 and 8 complete in `.phase.json`
+  (owner directive: "Complete LearningHub completely").
+
+**Learnings:**
+- The ROADMAP's remaining-work list had drifted from the ADRs, which had
+  drifted from the code. Only grepping the source settled what was actually
+  unfinished — read the code before the tracker.
+- TRACE.md contained rows for functions that were never written. A registry
+  that documents *aspiration* instead of *observation* is worse than an empty
+  one: it makes the ledger unfalsifiable.
+
+**Tests:**
+- Falsifiability protocol, all three observations recorded: new tests pass
+  against real source (46/46) → planted defects (`if (true)` in
+  entityToSimulations, corrupted 'application' section kind) fail exactly the
+  two affected tests → restored source, 46/46 pass again.
+- `pnpm turbo test:coverage` (9 packages, 20 tasks): all green at the new,
+  higher floors.
 ---
 
 ## 2026-10-21 — Advisory-Scoped Security Floors (unblocking the gate)
