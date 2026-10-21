@@ -291,8 +291,8 @@ PHASE 3 ██████████  Event Bus + ACL
 PHASE 4 ██████████  Quiz Engine extraction
 PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
-PHASE 7 █████░░░░░  Features (auth, progress, admin, payments, video)   ← CURRENT
-PHASE 8 █████░░░░░  Content & Lessons
+PHASE 7 ██████████  Features (auth, progress, admin, payments, video)
+PHASE 8 █████░░░░░  Content & Lessons   ← CURRENT
 PHASE 9 ██████████  Agent Integration Foundation
 PHASE 10 ██████████  Governance Extensions
 PHASE 11 ██████████  Ecosystem Tooling

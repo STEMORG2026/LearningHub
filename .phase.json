@@ -76,7 +76,7 @@
   {
    "id": 7,
    "name": "Features (auth, progress, admin, payments, video)",
-   "status": "in-progress",
+   "status": "completed",
    "completedVersion": null,
    "completedDate": null,
    "packages": [
