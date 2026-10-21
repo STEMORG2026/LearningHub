@@ -33,8 +33,9 @@ overrides:
   # 7.29.1 (GHSA-rfgv-xxqx-mfg5, GHSA-w293-vg96-wgc3) and 8.10.2.
   "undici@>=7.0.0 <7.29.1": ^7.29.1
   "undici@>=8.0.0 <8.10.2": ^8.10.2
-  # sharp: GHSA-rgj7-g3m4-5g8c (libheif). Dev-only, via wrangler/miniflare.
-  "sharp@<0.35.4": ^0.35.4
+  # sharp: GHSA-rgj7-g3m4-5g8c (libheif, fixed 0.35.4) and GHSA-wq5f-xc86-pv6w
+  # (librsvg CVE-2026-96889, fixed 0.35.5). Dev-only, via wrangler/miniflare.
+  "sharp@<0.35.5": ^0.35.5
   # basic-ftp: GHSA-c475-qrg2-pj4r (quadratic-time CPU DoS in Client.list()'s
   # Unix directory-listing parser). Dev-only, reached via lighthouse → puppeteer-core
   # → @puppeteer/browsers → proxy-agent → pac-proxy-agent → get-uri.
@@ -45,10 +46,46 @@ overrides:
   # Note get-uri's newest release (8.0.1) still declares ^5.3.1, so there is no
   # upstream path to the fix.
   "basic-ftp@<6.2.1": ^6.2.1
+  # source-map-js: GHSA-68fv-2mgg-jv7q (event-loop DoS via indexed source-map
+  # section offsets, fixed 1.2.2). Dev-only, via madge → dependency-tree →
+  # precinct → detective-vue2 → @vue/compiler-sfc.
+  "source-map-js@<1.2.2": ^1.2.2
+  # proxy-addr: GHSA-jqcg-44mw-7w3h (CRITICAL — IP spoofing via IPv4-mapped
+  # IPv6 trust subnet, fixed 2.0.8). Dev-only, via @lhci/cli → express.
+  "proxy-addr@<2.0.8": ^2.0.8
+  # compression: GHSA-vc2v-76pw-4v95 (DoS via memory leak on premature response
+  # close, fixed 1.8.2). Dev-only, via @lhci/cli.
+  "compression@<1.8.2": ^1.8.2
+  # shell-quote: GHSA-pqg4-j6r4-53mv (CRITICAL — `quote()` command injection via
+  # a line terminator in a token after a `{ comment }` token, fixed 1.11.0).
+  # Dev-only, via launch-editor (→ @changesets/cli, vite dev server).
+  "shell-quote@<1.11.0": ^1.11.0
+  # launch-editor: GHSA-587h-7wmj-h5pm (`fs.existsSync()` existence check
+  # bypass on Windows, fixed 2.14.2). Dev-only, via @changesets/cli and vite.
+  # The same advisory's vite-side fix is the apps/shell manifest bump to
+  # ^8.3.3 — a direct dependency takes a manifest bump, not an override (ADR-024).
+  "launch-editor@<2.14.2": ^2.14.2
+# Audit configuration.
+#
+# extract-zip: GHSA-jmr9-qjv8-65gv and GHSA-7pqw-9j4j-h8q3 (both high) have NO
+# published fix — 2.0.2 was announced in the advisories but never shipped
+# (latest on the registry is 2.0.1, 2023-03-04), so no override can resolve
+# them. Dev-only, via @lhci/cli → lighthouse → puppeteer-core →
+# @puppeteer/browsers. The security-scan gate (scripts/checks/audit-deps.cjs)
+# carries the same two IDs in its documented allowlist; `pnpm audit --prod`
+# reports zero advisories. Remove both entries the day a fixed extract-zip
+# ships.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-jmr9-qjv8-65gv
+    - GHSA-7pqw-9j4j-h8q3
 allowBuilds:
   esbuild: true
   iltorb: false
-  libxmljs2: set this to true or false
+  # Resolved the leftover "set this to true or false" placeholder: libxmljs2 is
+  # absent from the dependency tree, so `false` matches the other unused
+  # native-build entries.
+  libxmljs2: false
   sharp: false
   workerd: false
 minimumReleaseAgeExclude:
