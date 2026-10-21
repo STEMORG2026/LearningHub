@@ -1102,6 +1102,32 @@ ability to say no, and never got the chance to exercise it.
   are present and substantive, so neither can be quietly deleted.
 - The pre-push hook and CI run that check, so removing the rule fails the build.
 
+### Git Workflow — Session Hygiene (Owner Directive 2026-10-21)
+
+The owner issued the following standing directives on 2026-10-21. They extend
+the three Git Workflow rules above; they do not replace any of them.
+
+1. **Pull before push.** Before every push, fetch and integrate `origin/main`
+   (merge or rebase) so the branch is never behind the remote it will be
+   reviewed against.
+2. **A new work unit means a new branch — or a consciously continued one.**
+   This restates the mandatory-branching rule above.
+3. **Reconcile git after every work unit.** Merged PR branches are deleted
+   (remote and local), their rows move to the work record's Recently Merged
+   section, and no row is left claiming work that has stopped.
+4. **Resolve pending PRs before starting new work.** Every open pull request is
+   merged or consciously closed with the reason recorded in
+   `docs/DEVLOG.md` — never silently abandoned.
+
+**On merge authorization.** The standing rule above — agents do not merge — is
+unchanged. On 2026-10-21 the owner explicitly authorized the agent to merge the
+then-pending pull requests and to resolve them (including the documented
+typescript-7 ignore on PR #91, which is blocked on upstream
+`typescript-eslint` support for TS 7: its peer range caps at `<6.1.0` even in
+the latest release). That authorization was session-scoped, is recorded in
+`docs/DEVLOG.md`, and does not transfer to future sessions. Absent a fresh,
+explicit owner authorization, the standing rule governs.
+
 #### Work Is Documented in `main`, Even Before It Merges
 
 Branching keeps `main` stable; it must not make `main` ignorant. **`main` must

@@ -43,6 +43,14 @@ jobs:
         run: pnpm turbo build --filter=@learninghub/shell
 
       - name: Deploy preview to Cloudflare Pages
+        # GitHub does not expose repo secrets to pull_request workflows
+        # authored by dependabot[bot], so wrangler cannot authenticate there
+        # ("In a non-interactive environment, it's necessary to set a
+        # CLOUDFLARE_API_TOKEN environment variable"). Skip the deploy for
+        # those PRs; the resolve step's existing no-secrets path then posts
+        # the honest "no preview available" comment and this job ends
+        # green-with-warning instead of red on every dependabot PR.
+        if: github.actor != 'dependabot[bot]'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
@@ -158,25 +166,25 @@ jobs:
 
             Checked `${{ steps.url.outputs.checked }}` → HTTP `${{ steps.url.outputs.code }}`.
 
-            Nothing in this repository deploys previews — only `deploy.yml` deploys
-            production (`--branch=main`). Preview deployments are expected to come
-            from the Cloudflare Pages **git integration**, and it is currently
-            producing none for any branch.
+            A preview is deployed by this workflow for PRs opened by human
+            identities. For dependabot-authored PRs GitHub does not expose the
+            Cloudflare secrets to this workflow, so no preview is deployed —
+            and none is needed for a lockfile-only change. If this PR was
+            authored by a human and still shows this message, the deployment
+            step failed upstream; check the *Deploy preview to Cloudflare
+            Pages* step log above.
 
-            This needs a human in the Cloudflare dashboard. See the archive plan's
-            **W2.5/W2.6** items (token lacks `Pages: Edit`; git integration vs
-            wrangler deploy conflict).
+            No URL is ever reported here that was not fetched and did not
+            return HTTP 200.
           edit-mode: replace
 
-      # Fail AFTER commenting, so the reason is visible on the PR rather than
-      # buried in a log nobody opens.
       # WARN, do not fail.
       #
       # "No preview available" is not a defect in the pull request — it is an
-      # external condition (the Cloudflare Pages git integration is producing no
-      # deployments; W2.5/W2.6). Failing here would put a permanent red check on
-      # every PR for something no PR can fix, which teaches people to ignore red
-      # — the opposite of what this check is for.
+      # external condition (secrets unavailable to bot-authored PRs, or the
+      # deploy step failed). Failing here would put a permanent red check on
+      # every dependabot PR for something no PR can fix, which teaches people
+      # to ignore red — the opposite of what this check is for.
       #
       # The honesty that matters is preserved: the comment above states plainly
       # that no preview exists, and no URL is ever reported that was not fetched
@@ -184,4 +192,4 @@ jobs:
       - name: Warn if no live preview
         if: steps.url.outputs.live != 'true'
         run: |
-          echo "::warning title=No preview deployment::No live preview for this branch. Preview deployments come from the Cloudflare Pages git integration, which is currently producing none (dashboard-side fix, W2.5/W2.6)."
+          echo "::warning title=No preview deployment::No live preview for this branch. For dependabot PRs the Cloudflare secrets are unavailable to pull_request workflows, so the deploy step is skipped; for human PRs, check the deploy step log above."

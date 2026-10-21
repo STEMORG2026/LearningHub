@@ -145,6 +145,21 @@ Full protocol: [`docs/RULES.md` → Test Integrity](docs/RULES.md). Summary:
 - Full policy: [`docs/RULES.md` → Git Workflow](docs/RULES.md). Enforced by
   `pnpm test:branch:rule` inside `pnpm verify-governance`.
 
+### Git Workflow — Session Hygiene (Owner Directive 2026-10-21)
+
+> **Pull before push · new work on a new (or consciously continued) branch ·
+> reconcile git after every work unit · resolve pending PRs before new work.**
+
+- Before every push: fetch and integrate `origin/main`.
+- After every work unit: delete merged branches, move their work-record rows
+  to Recently Merged, leave no stale row.
+- Before starting new work: pending PRs are merged or consciously closed with
+  the reason recorded in `docs/DEVLOG.md`.
+- The owner may explicitly authorize an agent to execute merges in a session;
+  such authorization is session-scoped and must be recorded in the DEVLOG.
+  Absent it, the owner-only-merge rule above governs.
+- Full policy: [`docs/RULES.md` → Git Workflow — Session Hygiene](docs/RULES.md).
+
 ---
 
 ## Multi-Agent Coordination (MACP)
