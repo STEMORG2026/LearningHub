@@ -2,7 +2,7 @@
 title: "Work In Progress"
 status: CANONICAL
 owner: Architecture / Governance
-last_updated: 2026-09-30
+last_updated: 2026-10-21
 canonical: true
 ---
 
@@ -44,8 +44,8 @@ even when that work lives on a branch and has not merged.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
-| `docs/audit/phase5-completion` | review | main | agent | Execute the audit plan's remaining unblocked tickets: T8 (`.phase.json` phases 9–11 → completed), T11 (README tree + registry labels), T9 (`.env.example` ↔ source parity + falsifiable guard), and record the Phase 0→4 reconciliation | `.phase.json`, `README.md`, `.env.example`, `apps/shell/src/vite-env.d.ts`, `apps/shell/tests/env-contract.test.ts`, `docs/ROADMAP.md`, `docs/component-registry/TESTING.md`, `.agent/audit/00_AUDIT_STATE.md` | 2026-10-02 |
-| `ci/verification-architecture` | review | main | agent | Audit the verification architecture (local gate ladder ↔ remote CI ↔ merge gate), consolidate the three supplied audit prompts into one, and apply additive, revertible Class-1 fixes: repair the dangling `ci:local:list` script, add a falsifiable guard against package.json/workflow scripts referencing non-existent files, and make the governance-documented `pnpm lint` actually lint instead of executing zero tasks | `package.json`, `scripts/checks/`, `.agent/audit/verification-architecture/`, `docs/WORK-IN-PROGRESS.md` | 2026-10-03 |
+| `ci/mandatory-stages` | review | main | agent | Register the ten unprotected gate stages as mandatory required status checks so a stage cannot be deleted silently; keep local agent data out of the generated tree (open PR #89, all checks green) | `.github/workflows/ci.yml`, `scripts/checks/prove-gate-integrity.mjs`, `.gitignore`, `tree.txt` | 2026-10-21 |
+| `fix/deps-advisory-floors` | in-progress | main | agent | Land advisory-scoped security floors for the seven unpatched high/critical dev-only advisories (source-map-js, proxy-addr, compression, sharp, shell-quote, vite, launch-editor) plus an `auditConfig.ignoreGhsas` entry for the two documented-unfixable extract-zip advisories, unblocking the pre-push gate, nightly audit, and security scan | `pnpm-workspace.yaml`, `apps/shell/package.json`, `pnpm-lock.yaml`, `docs/WORK-IN-PROGRESS.md`, `docs/DEVLOG.md` | 2026-10-21 |
 
 ## Recently Merged
 
@@ -53,6 +53,8 @@ Rows here are cleared 30 days after merge; git history is the permanent record.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
+| `ci/verification-architecture` | merged | main | agent | Audit the verification architecture (local gate ladder ↔ remote CI ↔ merge gate), consolidate the three supplied audit prompts into one, and apply additive, revertible Class-1 fixes: repair the dangling `ci:local:list` script, add a falsifiable guard against package.json/workflow scripts referencing non-existent files, and make the governance-documented `pnpm lint` actually lint instead of executing zero tasks (PR #88) | `package.json`, `scripts/checks/`, `.agent/audit/verification-architecture/`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
+| `docs/audit/phase5-completion` | merged | main | agent | Execute the audit plan's remaining unblocked tickets: T8 (`.phase.json` phases 9–11 → completed), T11 (README tree + registry labels), T9 (`.env.example` ↔ source parity + falsifiable guard), and record the Phase 0→4 reconciliation (PR #79) | `.phase.json`, `README.md`, `.env.example`, `apps/shell/src/vite-env.d.ts`, `apps/shell/tests/env-contract.test.ts`, `docs/ROADMAP.md`, `docs/component-registry/TESTING.md`, `.agent/audit/00_AUDIT_STATE.md` | 2026-10-21 |
 | `docs/mandatory-branching-and-work-record` | merged | main | agent | Make branching mandatory for all new work and require every branch to be recorded in `main` via this file; add sub-branch policy and a falsifiable work-record guard (PR #74) | `docs/RULES.md`, `AGENTS.md`, `docs/WORK-IN-PROGRESS.md`, `package.json`, `scripts/checks` | 2026-10-02 |
 | `chore/remove-redundant-overrides` | merged | main | agent | Remove the 3 bare pnpm overrides so manifests match what installs; add the drift guard; repair coverage by adding real tests (PR #73) | `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `packages/admin`, `packages/tracer`, `packages/lesson-renderer`, `packages/quiz-engine`, `packages/audio-synth`, `packages/progress`, `apps/shell`, `scripts/checks`, `docs/adr` | 2026-09-30 |
 
