@@ -47,6 +47,8 @@ const MANDATORY_STAGES = [
   { stage: 'test:branch:rule', why: 'the branching and owner-only-merge policy stays intact' },
   { stage: 'test:gate-integrity', why: 'the gate cannot be gutted without failing itself' },
   { stage: 'test:gate-ladder', why: 'the tiers stay strictly nested' },
+  { stage: 'test:script-targets', why: 'every declared script target exists on disk' },
+  { stage: 'test:script-targets:prove', why: 'the script-target guard is proven to detect' },
   { stage: 'test:work-record', why: 'every branch is recorded' },
   { stage: 'lint:workflows', why: 'workflow files stay valid' },
   { stage: 'audit:deps', why: 'no unpatched high/critical advisory' },
