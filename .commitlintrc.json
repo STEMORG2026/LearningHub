@@ -37,6 +37,7 @@
         "release",
         "docs",
         "deps",
+        "deps-dev",
         "ci",
         "security",
         "a11y",
