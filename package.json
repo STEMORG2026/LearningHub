@@ -9,7 +9,7 @@
     "build": "turbo build",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
-    "lint": "turbo lint",
+    "lint": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom",
     "lint:arch": "dependency-cruise packages/ apps/",
     "lint:circular": "madge --circular --extensions ts --exclude 'dist|coverage|node_modules' packages apps",
     "lint:size": "node scripts/checks/size-check.cjs",
@@ -31,7 +31,7 @@
     "quick": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm typecheck",
     "ci:local": "pnpm verify-governance",
     "ci:local:fast": "pnpm gate:prepush",
-    "ci:local:list": "node scripts/ci-local.mjs --list",
+    "ci:local:list": "node scripts/checks/gate-stages.mjs --list",
     "check": "pnpm quick && pnpm test",
     "size": "pnpm build && pnpm lint:size",
     "generate:graph": "dependency-cruise --output-type dot packages/ apps/ | dot -T svg -o docs/dependency-graph.svg",
@@ -63,8 +63,10 @@
     "lint:workflows": "node scripts/checks/lint-workflows.mjs",
     "audit:docs-sync": "node scripts/checks/audit-docs-sync.mjs",
     "test:gate-ladder": "node scripts/checks/prove-gate-ladder.mjs",
+    "test:script-targets": "node scripts/checks/verify-script-targets.mjs",
+    "test:script-targets:prove": "node scripts/checks/prove-script-targets.mjs",
     "gate:precommit": "pnpm lint:arch && pnpm lint:circular && pnpm lint:state && pnpm lint:dom && pnpm typecheck",
-    "gate:prepush": "pnpm gate:precommit && pnpm build && pnpm test && pnpm lint:size && pnpm validate:edu && pnpm lint:registry && pnpm lint:docs && pnpm lint:doc-governance && pnpm lint:doc-coverage && pnpm lint:workflows && pnpm audit:docs-sync && pnpm audit:deps && pnpm test:deps:drift && pnpm test:integrity:rule && pnpm test:branch:rule && pnpm test:gate-integrity && pnpm test:gate-ladder && pnpm test:work-record && pnpm test:coverage:ratchet && pnpm test:mutation:validate"
+    "gate:prepush": "pnpm gate:precommit && pnpm build && pnpm test && pnpm lint:size && pnpm validate:edu && pnpm lint:registry && pnpm lint:docs && pnpm lint:doc-governance && pnpm lint:doc-coverage && pnpm lint:workflows && pnpm audit:docs-sync && pnpm audit:deps && pnpm test:deps:drift && pnpm test:integrity:rule && pnpm test:branch:rule && pnpm test:gate-integrity && pnpm test:gate-ladder && pnpm test:script-targets && pnpm test:script-targets:prove && pnpm test:work-record && pnpm test:coverage:ratchet && pnpm test:mutation:validate"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
