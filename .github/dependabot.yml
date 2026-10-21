@@ -11,6 +11,11 @@ updates:
       - "deps"
     commit-message:
       prefix: "chore(deps)"
+      # Without prefix-development, dependabot composes dev-only bumps as
+      # "chore(deps)(deps-dev): …", whose scope "(deps)(deps-dev)" fails the
+      # commitlint scope-enum gate on every dev-dependency PR. Setting it makes
+      # dev-only bumps "chore(deps-dev): …" — a real conventional scope.
+      prefix-development: "chore(deps-dev)"
       include: "scope"
     groups:
       eslint:
