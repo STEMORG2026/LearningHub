@@ -44,9 +44,7 @@ even when that work lives on a branch and has not merged.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
-| `ci/dependabot-commit-suffix` | in-progress | main | agent | Remove `include: "scope"` from dependabot.yml — the option that appends the `(deps-dev)` suffix after the configured prefix (observed producing `chore(deps-dev)(deps-dev):` after PR #108), so rebased dependabot PRs finally pass the Commit messages gate | `.github/dependabot.yml`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
-| `ci/mandatory-stages` | review | main | agent | Register the ten unprotected gate stages as mandatory required status checks so a stage cannot be deleted silently; keep local agent data out of the generated tree (open PR #89, all checks green) | `.github/workflows/ci.yml`, `scripts/checks/prove-gate-integrity.mjs`, `.gitignore`, `tree.txt` | 2026-10-21 |
-| `ci/dependabot-commit-message` | in-progress | main | agent | Make dependabot's commit messages pass the Commit messages gate: add `deps-dev` to the commitlint scope-enum and set `prefix-development: "chore(deps-dev)"` in dependabot.yml so dev-dep bumps stop producing the non-conventional `chore(deps)(deps-dev)` scope | `.commitlintrc.json`, `.github/dependabot.yml`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
+| `docs/owner-git-hygiene-directive` | in-progress | main | agent | Record the owner's 2026-10-21 session-hygiene directives as a Git Workflow section in RULES.md + AGENTS.md (pull-before-push, branch discipline, post-unit git reconciliation, pending-PRs-first, session-scoped merge authorization), and write the full production-readiness sweep DEVLOG entry (PR reconciliation, #91 upstream block with evidence, fleet roll, vitest-5 fix, platform incident) | `docs/RULES.md`, `AGENTS.md`, `docs/DEVLOG.md`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
 
 ## Recently Merged
 
