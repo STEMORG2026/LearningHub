@@ -44,6 +44,7 @@ even when that work lives on a branch and has not merged.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
+| `ci/dependabot-commit-suffix` | in-progress | main | agent | Remove `include: "scope"` from dependabot.yml — the option that appends the `(deps-dev)` suffix after the configured prefix (observed producing `chore(deps-dev)(deps-dev):` after PR #108), so rebased dependabot PRs finally pass the Commit messages gate | `.github/dependabot.yml`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
 | `ci/mandatory-stages` | review | main | agent | Register the ten unprotected gate stages as mandatory required status checks so a stage cannot be deleted silently; keep local agent data out of the generated tree (open PR #89, all checks green) | `.github/workflows/ci.yml`, `scripts/checks/prove-gate-integrity.mjs`, `.gitignore`, `tree.txt` | 2026-10-21 |
 | `ci/dependabot-commit-message` | in-progress | main | agent | Make dependabot's commit messages pass the Commit messages gate: add `deps-dev` to the commitlint scope-enum and set `prefix-development: "chore(deps-dev)"` in dependabot.yml so dev-dep bumps stop producing the non-conventional `chore(deps)(deps-dev)` scope | `.commitlintrc.json`, `.github/dependabot.yml`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
 
