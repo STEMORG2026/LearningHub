@@ -20,7 +20,7 @@ PHASE 4 ██████████  Quiz Engine extraction
 PHASE 5 ██████████  Hover Engine extraction
 PHASE 6 ██████████  Physics Core extraction
 PHASE 7 ██████████  Features (auth, progress, admin, payments, video)
-PHASE 8 █████░░░░░  Content & Lessons
+PHASE 8 ██████████  Content & Lessons
 PHASE 9 ██████████  Agent Integration Foundation
 PHASE 10 ██████████  Governance Extensions
 PHASE 11 ██████████  Ecosystem Tooling
@@ -273,7 +273,7 @@ Each feature gets:
 
 ## Phase 8: Content & Lessons
 
-<!-- AUTO:phase-8-status -->🟡 In progress<!-- END AUTO:phase-8-status -->
+<!-- AUTO:phase-8-status -->🟢 Completed<!-- END AUTO:phase-8-status -->
 
 Lesson delivery: content sourcing, rendering, and interactive simulations. These
 packages were built ahead of Phase 7's feature work — the roadmap originally

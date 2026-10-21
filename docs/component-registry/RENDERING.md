@@ -67,10 +67,8 @@
 <!-- AUTO:rendering-phase-8 -->
 | Component | Package | Definition | Template | Styles | Status |
 |-----------|---------|-----------|----------|--------|--------|
-| Content provider | `packages/content-provider/` | `src/content-provider.ts` | — | — | Active (Phase 8) |
-| Content engine pipeline | `packages/content-engine/` | `src/pipeline.ts` | — | — | Active (Phase 8) |
-| Lesson renderer | `packages/lesson-renderer/` | `src/stem-lesson.ts` | — | — | Active (Phase 8) |
-| Circuit simulation | `packages/interactive-simulations/` | `src/stem-circuit-sim.ts` | — | — | Active (Phase 8) |
-| Mechanics simulation | `packages/interactive-simulations/` | `src/stem-mechanics-sim.ts` | — | — | Active (Phase 8) |
-| Optics simulation | `packages/interactive-simulations/` | `src/stem-optics-sim.ts`, `src/optics-physics.ts` | — | — | Active (Phase 8) |
+| content-provider | `packages/content-provider/` | `src/content-provider.ts, src/lhs-adapter.ts, src/local-content-provider.ts, src/narrative.ts, src/quiz-mapper.ts, src/types.ts` | — | — | Extracted (Phase 8) |
+| interactive-simulations | `packages/interactive-simulations/` | `src/optics-physics.ts, src/stem-circuit-sim.ts, src/stem-mechanics-sim.ts, src/stem-optics-sim.ts` | — | — | Extracted (Phase 8) |
+| lesson-renderer | `packages/lesson-renderer/` | `src/stem-lesson.ts` | — | — | Extracted (Phase 8) |
+| content-engine | `packages/content-engine/` | `src/blueprint.ts, src/formats.ts, src/pipeline.ts, src/request.ts, src/verification.ts` | — | — | Extracted (Phase 8) |
 <!-- END AUTO:rendering-phase-8 -->
