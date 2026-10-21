@@ -105,9 +105,21 @@ immediate DOM parent. Revisit if a non-adjacent module needs to observe answers.
 
 1. Remove the unused `core` / `tracer` dependencies, **or** add the tracer
    instrumentation they imply. Current state satisfies neither.
+   → **Resolved (2026-10-21).** The instrumentation path was taken:
+   `stem-lesson.ts` imports `getDefaultEventBus` (`@learninghub/core`) and
+   `Tracer` (`@learninghub/tracer`); both declared dependencies are genuinely
+   used (spans `stem-lesson:render` at :199 and `stem-lesson:answer-question`
+   at :519; events `lesson:rendered` at :227 and `lesson:question-answered`
+   at :520). The "imports neither" consequence above is historical.
 2. Decide whether `lesson:question-answered` should be an EventBus event; if so,
    supersede this ADR.
+   → **Resolved (2026-10-21).** It is one: published at
+   `stem-lesson.ts:520`, registered in
+   `docs/component-registry/NETWORKING.md` (Phase 8 publishers). The ADR
+   stands, with the CustomEvent deviation superseded by the EventBus route.
 3. Add component registry entries (`docs/component-registry/`) for `<stem-lesson>`.
+   → **Resolved (2026-10-21).** `<stem-lesson>` now has entries in RENDERING,
+   STATE, NETWORKING, EDUCATIONAL, TESTING, and TRACE (Phase 8 sections).
 
 ## Files
 

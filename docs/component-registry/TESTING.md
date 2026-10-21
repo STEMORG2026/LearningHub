@@ -24,7 +24,7 @@
 | `packages/admin/` | `tests/*.test.ts` | Unit | — | 🟢 Written (39 tests) |
 | `packages/payments/` | `tests/*.test.ts` | Unit | — | 🟢 Written (10 tests) |
 | `packages/video/` | `tests/*.test.ts` | Unit | — | 🟢 Written (12 tests) |
-| `packages/content-provider/` | `tests/*.test.ts` | Unit | — | 🟢 Written (43 tests) |
+| `packages/content-provider/` | `tests/*.test.ts` | Unit | — | 🟢 Written (46 tests) |
 | `packages/interactive-simulations/` | `tests/*.test.ts` | Unit | — | 🟢 Written (76 tests) |
 | `packages/lesson-renderer/` | `tests/*.test.ts` | Unit | — | 🟢 Written (58 tests) |
 | `packages/content-engine/` | `tests/*.test.ts` | Unit | — | 🟢 Written (49 tests) |

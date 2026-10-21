@@ -289,11 +289,30 @@ retroactively rewriting Phase 7.
 | `packages/interactive-simulations/` | Interactive simulation components | `docs/adr/015-interactive-simulations.md` |
 
 **Remaining before this phase can be marked complete:**
-- Component registry entries for all four packages
-- Coverage verified against the ≥95% core-logic threshold
-- Resolve the unused-dependency findings in ADR-013, ADR-014, ADR-015, and ADR-016: packages
-  declare `core` / `tracer` (and `simulation-core`) but import none of them, so
-  they don't carry the tracer instrumentation the roadmap expects
+
+All three items were resolved on 2026-10-21 (recorded here for traceability):
+
+- **Component registry entries for all four packages** — resolved: every
+  registry file (RENDERING, STATE, NETWORKING, EDUCATIONAL, TESTING, TRACE)
+  carries a Phase 8 section. TRACE's speculative "Planned" rows (function names
+  that never existed in code) were replaced with the observed instrumentation,
+  and its malformed table was repaired. Phase 7's previously missing registry
+  entries (NETWORKING publishers, TRACE spans, STATE stores) were added in the
+  same pass.
+- **Coverage verified against the ≥95% core-logic threshold** — resolved: all
+  four packages sit at 96.9–100% lines. `content-provider` was lifted from
+  94.77% to 100% lines / 100% statements / 100% functions with three new
+  mutation-verified tests, and the per-package ratchets for all nine
+  Phase 7/8 packages were raised to the observed actuals
+  (e.g. interactive-simulations lines 70 → 98, admin 80 → 100).
+- **Unused-dependency findings in ADR-013, ADR-014, ADR-015, ADR-016** —
+  resolved: `lesson-renderer` (ADR-014) and `interactive-simulations` (ADR-015)
+  took the *add-the-instrumentation* path — both now import and use their
+  declared `core`/`tracer` (spans and events verified in
+  `docs/component-registry/{TRACE,NETWORKING}.md`); `content-provider` and
+  `content-engine` took the *remove-the-unused-deps* path — neither declares
+  `core`/`tracer` today, and that resolution is stated in TRACE.md. ADR-014's
+  follow-up is annotated with the resolution (ADR-015's already was).
 
 Phase completion is a human decision — see *How to Update This Document* below.
 
