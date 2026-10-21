@@ -6,6 +6,68 @@
 
 ---
 
+## 2026-10-21 — Advisory-Scoped Security Floors (unblocking the gate)
+
+**What happened:**
+- Diagnosed why the Nightly and Security Scan workflows on `main` went red
+  (2026-10-19/20): `pnpm audit --audit-level high` found 17 advisories
+  (10 moderate, 5 high, 2 critical), all in **dev-only** dependencies —
+  `pnpm audit --prod` reports zero. The seven high/critical ones outside the
+  documented allowlist were source-map-js, proxy-addr, compression, sharp,
+  shell-quote, vite, and launch-editor.
+- Discovered the same audit failure **blocks every `git push`** through the
+  pre-push hook (`gate:prepush` → `audit:deps`) — the ladder nesting worked
+  exactly as designed and caught the drift before it reached CI.
+- Landed advisory-scoped floors per ADR-024 (transitive deps take scoped pins;
+  direct deps take manifest bumps):
+  - `source-map-js@<1.2.2 → ^1.2.2` (GHSA-68fv-2mgg-jv7q; via madge →
+    dependency-tree → precinct → detective-vue2 → @vue/compiler-sfc)
+  - `proxy-addr@<2.0.8 → ^2.0.8` (GHSA-jqcg-44mw-7w3h, critical; via
+    @lhci/cli → express)
+  - `compression@<1.8.2 → ^1.8.2` (GHSA-vc2v-76pw-4v95; via @lhci/cli)
+  - `sharp@<0.35.4 → <0.35.5 → ^0.35.5` (GHSA-wq5f-xc86-pv6w joins the
+    existing GHSA-rgj7-g3m4-5g8c pin; via wrangler/miniflare)
+  - `shell-quote@<1.11.0 → ^1.11.0` (GHSA-pqg4-j6r4-53mv, critical; via
+    launch-editor → @changesets/cli and vite)
+  - `launch-editor@<2.14.2 → ^2.14.2` (GHSA-587h-7wmj-h5pm; via
+    @changesets/cli and vite)
+  - `vite ^8.3.1 → ^8.3.3` in `apps/shell` (direct dev-dep — manifest bump,
+    resolves 8.3.4; the same GHSA-587h-7wmj-h5pm from the vite side)
+- Added `auditConfig.ignoreGhsas` for the two extract-zip advisories
+  (GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3): **no fix exists** — 2.0.2 was
+  announced but never published (registry latest is 2.0.1, 2023-03-04) — so the
+  raw nightly audit was structurally unable to go green. The security gate's
+  allowlist in `scripts/checks/audit-deps.cjs` documents the same
+  justification; the config entry makes `pnpm audit` itself reflect it.
+- Resolved the leftover `libxmljs2: set this to true or false` placeholder in
+  `allowBuilds` — the package is absent from the tree, set to `false`.
+- Reconciled `docs/WORK-IN-PROGRESS.md`: moved two rows whose PRs had merged
+  (PR #79 `docs/audit/phase5-completion`, PR #88 `ci/verification-architecture`)
+  to Recently Merged, and recorded the previously-unrecorded open branch
+  `ci/mandatory-stages` (PR #89).
+
+**Learnings:**
+- The nested gate paid off concretely: a remote-only audit would have left
+  `main` pushing red for another cycle; the pre-push tier stopped the first
+  bad push on the workstation.
+- A raw `pnpm audit` in Nightly is stricter than the allowlisted gate by
+  design — when an advisory is unfixable, the *config-level* ignore
+  (`auditConfig.ignoreGhsas`) is the honest mechanism, because it makes both
+  surfaces (raw audit and the gate) agree instead of diverging.
+- Pre-existing peer warning observed and left alone: madge@8.0.0 wants
+  typescript `^5.4.4` while the tree has 6.0.3 — unrelated to this change.
+
+**Tests:**
+- `pnpm audit --audit-level high` → exit 0 (was: exit 1 with 7 unpatched
+  high/critical; now: 10 moderate + 2 ignored-high remain, below the gate level)
+- `node scripts/checks/audit-deps.cjs` → "Audit gate passed. high=0 critical=0"
+- `pnpm test:deps:drift` → 70 declarations match, every override advisory-scoped
+- Resolved versions verified: source-map-js 1.2.2, proxy-addr 2.0.8,
+  compression 1.8.2, shell-quote 1.12.0, launch-editor 2.14.2, sharp 0.35.5,
+  vite 8.3.4
+
+---
+
 ## 2026-08-01 — Docs Governance Hardening (WS1–WS5)
 
 **What happened:**
