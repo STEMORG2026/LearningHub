@@ -6,6 +6,74 @@
 
 ---
 
+## 2026-10-21 — Production-Readiness Sweep: Owner Directives, PR Reconciliation, Platform Incident
+
+**What happened:**
+
+The owner directed (2026-10-21, recorded as *Git Workflow — Session Hygiene* in
+`docs/RULES.md` + `AGENTS.md`): pull before every push; every new work unit on a
+new or consciously-continued branch; reconcile git after every work unit; merge
+or consciously resolve **all** pending PRs before starting new work; solve
+pre-existing issues as well; keep everything noted in the logs. The owner
+explicitly authorized executing merges for the then-pending PRs —
+session-scoped, recorded here, not transferred to future sessions.
+
+- **PR reconciliation** (executed under that authorization): merged #88
+  (verification-architecture audit), #89 (mandatory gate stages), #106
+  (advisory floors), #108 + #110 (dependabot commit-message gate), #111
+  (visual baselines), #112 (vitest-5 localStorage compat), #101 (eslint
+  group). **#91 (typescript 6 → 7)** resolved by documented ignore instead of
+  merge: `@typescript-eslint/parser` — including the latest 8.72.0 — declares
+  `typescript: >=4.8.4 <6.1.0`, so `lint:state`/`lint:dom` hard-crash under
+  TS 7; it is blocked upstream, and the ignore is lifted the day
+  typescript-eslint ships TS 7 support.
+- **Dependabot commit-message saga**: #108 added `prefix-development` but kept
+  `include: "scope"` — the rebases then produced `chore(deps-dev)(deps-dev):`,
+  proving `include` (not the prefix) was the suffix generator all along. #110
+  removed `include: "scope"`; all six rebased PRs regenerated clean
+  `chore(deps-dev):` subjects.
+- **ubuntu-latest fleet roll 24.04 → 26.04** (runner logs: yesterday
+  `ubuntu-24.04`, today `ubuntu26/20261012.163`) invalidated the committed home
+  baseline by a consistent 76-pixel diff; the `update-visual-baselines`
+  workflow regenerated it in CI (#111; the workflow's own PR-creation step
+  failed because Actions lacks PR-create permission in this repo — the PR was
+  opened manually with the workflow's intended title/body).
+- **vitest 5 incompatibility** found via #105's CI:
+  `globalThis.localStorage = …` throws under newer jsdom/vitest (getter-only
+  property); fixed with `Object.defineProperty` in #112 (falsifiability: all
+  three observations recorded in the PR).
+- **Preview workflow**: `secrets.CF_API_TOKEN` is empty on dependabot-authored
+  PR workflows (GitHub withholds repo secrets there), so the preview deploy
+  failed on every dependency PR; #115 gates the deploy step on
+  `github.actor != 'dependabot[bot]'` and refreshes the stale comment text.
+- **Phases 7 and 8 marked complete** in `.phase.json` (PR #113: registry
+  truth, coverage ratchets, ROADMAP resolution record) — all twelve phases
+  now complete.
+
+**External blocker at time of writing:** GitHub Actions reported
+`degraded_performance` from ~14:13 UTC (githubstatus.com; Pull Requests also
+degraded) — new push/PR events created **zero** workflow runs for ~1 h+.
+Local gates (pre-commit/pre-push) kept running, so all pushed branches are
+locally verified; CI for the open PRs (#113, #115, and the remaining
+dependabot PRs #94/#104/#105/#107/#109) will attach once the platform
+recovers, with an empty-commit nudge if the dropped events are not replayed.
+
+**Learnings:**
+- Piping a command through `tail` masks its exit code (`$?` becomes tail's);
+  this bit twice — a blocked push and a conflicted merge both reported
+  "success". Check `${PIPESTATUS[0]}` or avoid the pipe on gate commands.
+- commitlint's `body-max-line-length` applies to *physical* lines; prose
+  written as unwrapped paragraphs fails. Every commit message goes through a
+  wrapped file (`git commit -F`) now.
+- The ROADMAP's own suggested `feat(phase-N)` commit subject fails the
+  repository's scope-enum — the suggestion and the gate disagree.
+
+**Tests:** (this branch is documentation-only; the session's test evidence is
+in the referenced PRs — #106, #111, #112, #113 bodies all carry their
+falsifiability observations and command outputs)
+
+---
+
 ## 2026-10-21 — Advisory-Scoped Security Floors (unblocking the gate)
 
 **What happened:**

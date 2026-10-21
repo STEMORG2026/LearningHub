@@ -44,7 +44,7 @@ even when that work lives on a branch and has not merged.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
-| `ci/preview-dependabot-secrets` | in-progress | main | agent | Skip the preview deploy step for dependabot-authored PRs (GitHub does not expose repo secrets to those pull_request workflows, so wrangler fails with a missing CLOUDFLARE_API_TOKEN on every dependabot PR); refresh the stale "no preview" comment text (open PR #115) | `.github/workflows/preview.yml`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
+| `docs/owner-git-hygiene-directive` | in-progress | main | agent | Record the owner's 2026-10-21 session-hygiene directives as a Git Workflow section in RULES.md + AGENTS.md (pull-before-push, branch discipline, post-unit git reconciliation, pending-PRs-first, session-scoped merge authorization), and write the full production-readiness sweep DEVLOG entry (PR reconciliation, #91 upstream block with evidence, fleet roll, vitest-5 fix, platform incident) (open PR #116) | `docs/RULES.md`, `AGENTS.md`, `docs/DEVLOG.md`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
 
 ## Recently Merged
 
@@ -52,6 +52,7 @@ Rows here are cleared 30 days after merge; git history is the permanent record.
 
 | Branch | Status | Parent | Owner | Intent | Touches | Last updated |
 |---|---|---|---|---|---|---|
+| `ci/preview-dependabot-secrets` | merged | main | agent | Skip the preview deploy step for dependabot-authored PRs (GitHub does not expose repo secrets to those pull_request workflows, so wrangler fails with a missing CLOUDFLARE_API_TOKEN on every dependabot PR); refresh the stale "no preview" comment text (PR #115) | `.github/workflows/preview.yml`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
 | `fix/shell-localstorage-vitest5` | merged | main | agent | Make `did-you-know.test.ts` compatible with vitest 5 / newer jsdom, where `localStorage` is a getter-only property and plain assignment throws — the failure that was blocking the testing-group bump (PR #105) in Verify governance (PR #112) | `apps/shell/tests/did-you-know.test.ts`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
 | `ci/dependabot-commit-suffix` | merged | main | agent | Remove `include: "scope"` from dependabot.yml — the option that appends the `(deps-dev)` suffix after the configured prefix (observed producing `chore(deps-dev)(deps-dev):` after PR #108), so rebased dependabot PRs finally pass the Commit messages gate (PR #110) | `.github/dependabot.yml`, `docs/WORK-IN-PROGRESS.md` | 2026-10-21 |
 | `test/visual-baselines` | merged | main | github-actions + agent | Refresh the home-page visual baseline in the CI environment after the ubuntu-latest fleet rolled 24.04 → 26.04; the regenerated PNG differs by 6 bytes / 76 pixels, and every PR opened after the roll failed E2E visual regression (PR #111) | `e2e/visual-regression.spec.ts-snapshots/home-chromium-linux.png` | 2026-10-21 |
